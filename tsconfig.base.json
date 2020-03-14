@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationDir": "type-declarations",
+    "downlevelIteration": true,
+    "jsx": "react",
+    "lib": ["DOM", "ES2015", "ES6", "DOM.Iterable", "ScriptHost"],
+    "moduleResolution": "Node",
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES5"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/test/**"
+  ]
+}

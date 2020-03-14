@@ -1,0 +1,9 @@
+.idea
+.gradle
+.vscode
+node_modules
+lib
+es
+dist
+type-declarations
+dist-docs
