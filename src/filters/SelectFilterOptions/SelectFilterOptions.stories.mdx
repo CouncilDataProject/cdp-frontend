@@ -1,0 +1,189 @@
+import { action } from "@storybook/addon-actions";
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+import { text, withKnobs } from "@storybook/addon-knobs";
+
+import SelectFilterOptions from "./SelectFilterOptions";
+
+<Meta title="Filters|SelectFilterOptions" component={SelectFilterOptions} />
+
+# Select Filter Options
+
+### Display list of checkboxes to select different filter options
+
+The width of SelectFilterOptions takes on the width of its container.
+
+<Props of={SelectFilterOptions} />
+
+### The number of filter options is > 5
+
+#### Display a input search field to allow users to narrow the list of filter options
+
+<Story name="Enabled Option Query">
+  <SelectFilterOptions
+    name={"Committee"}
+    state={{}}
+    update={action("update-filter-options-state")}
+    options={[
+      {
+        name: "city-council",
+        text: "City Council",
+        disabled: false,
+      },
+      {
+        name: "council-briefing",
+        text: "Council Briefing",
+        disabled: false,
+      },
+      {
+        name: "finance-housing",
+        text: "Finance and Housing Committee",
+        disabled: false,
+      },
+      {
+        name: "finance-neighborhood",
+        text: "Finance and Neighborhoods Committee",
+        disabled: false,
+      },
+      {
+        name: "select-budget",
+        text: "Select Budget Committee",
+        disabled: false,
+      },
+      {
+        name: "transportation-utilities",
+        text: "Transportation and Utilities Committee",
+        disabled: false,
+      },
+    ]}
+    optionQuery={""}
+    setOptionQuery={action("set-option-query")}
+  />
+</Story>
+
+#### Unmatched filter options are disabled
+
+<Story name="Disabled unmatched filter options">
+  <SelectFilterOptions
+    name={"Committee"}
+    state={{}}
+    update={action("update-filter-options-state")}
+    options={[
+      {
+        name: "city-council",
+        text: "City Council",
+        disabled: false,
+      },
+      {
+        name: "council-briefing",
+        text: "Council Briefing",
+        disabled: false,
+      },
+      {
+        name: "finance-housing",
+        text: "Finance and Housing Committee",
+        disabled: false,
+      },
+      {
+        name: "finance-neighborhood",
+        text: "Finance and Neighborhoods Committee",
+        disabled: false,
+      },
+      {
+        name: "select-budget",
+        text: "Select Budget Committee",
+        disabled: false,
+      },
+      {
+        name: "transportation-utilities",
+        text: "Transportation and Utilities Committee",
+        disabled: false,
+      },
+    ]}
+    optionQuery={"city"}
+    setOptionQuery={action("set-option-query")}
+  />
+</Story>
+
+### The number of filter options is <= 5
+
+#### Remove the input search field.
+
+<Story name="Disabled Option Query">
+  <SelectFilterOptions
+    name={"Committee"}
+    state={{}}
+    update={action("update-filter-options-state")}
+    options={[
+      {
+        name: "city-council",
+        text: "City Council",
+        disabled: false,
+      },
+      {
+        name: "council-briefing",
+        text: "Council Briefing",
+        disabled: false,
+      },
+      {
+        name: "finance-housing",
+        text: "Finance and Housing Committee",
+        disabled: false,
+      },
+      {
+        name: "finance-neighborhood",
+        text: "Finance and Neighborhoods Committee",
+        disabled: false,
+      },
+    ]}
+    optionQuery={""}
+    setOptionQuery={action("set-option-query")}
+  />
+</Story>
+
+### Playground
+
+#### Experiment with these stories with Knobs addon in Canvas mode.
+
+Change the value of the search string state to change what filter options are disabled.
+
+<Story name="Set Option Query Playground" parameters={{ decorators: [withKnobs] }}>
+  <SelectFilterOptions
+    name={"Committee"}
+    state={{}}
+    update={action("update-filter-options-state")}
+    options={[
+      {
+        name: "city-council",
+        text: "City Council",
+        disabled: false,
+      },
+      {
+        name: "council-briefing",
+        text: "Council Briefing",
+        disabled: false,
+      },
+      {
+        name: "finance-housing",
+        text: "Finance and Housing Committee",
+        disabled: false,
+      },
+      {
+        name: "finance-neighborhood",
+        text: "Finance and Neighborhoods Committee",
+        disabled: false,
+      },
+      {
+        name: "select-budget",
+        text: "Select Budget Committee",
+        disabled: false,
+      },
+      {
+        name: "transportation-utilities",
+        text: "Transportation and Utilities Committee",
+        disabled: false,
+      },
+    ]}
+    optionQuery={text("Search Filter Options", "")}
+    setOptionQuery={action("set-option-query")}
+  />
+</Story>

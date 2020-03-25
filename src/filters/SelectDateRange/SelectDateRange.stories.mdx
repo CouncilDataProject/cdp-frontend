@@ -1,0 +1,24 @@
+import { action } from "@storybook/addon-actions";
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+
+import SelectDateRange from "./SelectDateRange";
+
+<Meta title="Filters|SelectDateRange" component={SelectDateRange} />
+
+# Select Date Range
+
+### Display two input fields to select start and end dates
+
+The width of SelectDateRange takes on the width of its container.
+
+<Props of={SelectDateRange} />
+
+<Story name="Standard">
+  <SelectDateRange
+    state={{
+      start: "",
+      end: "",
+    }}
+    update={action("update-date-range-state")}
+  />
+</Story>

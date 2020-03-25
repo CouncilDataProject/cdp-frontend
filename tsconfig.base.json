@@ -4,6 +4,7 @@
     "declaration": true,
     "declarationDir": "type-declarations",
     "downlevelIteration": true,
+    "esModuleInterop": true,
     "jsx": "react",
     "lib": ["DOM", "ES2015", "ES6", "DOM.Iterable", "ScriptHost"],
     "moduleResolution": "Node",

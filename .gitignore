@@ -7,3 +7,5 @@ es
 dist
 type-declarations
 dist-docs
+coverage
+storybook-static

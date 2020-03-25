@@ -1,0 +1,117 @@
+import { action  } from "@storybook/addon-actions";
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+import { boolean, withKnobs } from "@storybook/addon-knobs";
+
+import FilterPopup from "./FilterPopup";
+import SelectDateRange from "../SelectDateRange/SelectDateRange";
+import SelectFilterOptions from "../SelectFilterOptions/SelectFilterOptions";
+import SelectSorting from "../SelectSorting/SelectSorting";
+
+<Meta title="Filters|FilterPopup" component={FilterPopup} />
+
+# Filter Popup
+
+### A general container of filter components such as SelectDateRange, SelectFilterOptions, and SelectSorting.
+
+### Display additional clear and save buttons to clear and save the filter state.
+
+<Props of={FilterPopup} />
+
+### Select Date Range
+
+<Story name="Select Date Range" parameters={{ decorators: [withKnobs] }}>
+  <FilterPopup
+    clear={action("clear-filter")}
+    getTextRep={() => "Date"}
+    isActive={action("check-is-active")}
+    header={"Select Date Range"}
+    popupIsOpen={boolean("Popup is Open", false)}
+    setPopupIsOpen={action("set-popup-is-open")}
+    handlePopupClose={action("handle-popup-close")}
+  >
+    <SelectDateRange
+      state={{
+        start: "",
+        end: "",
+      }}
+      update={action("update-date-range-state")}
+    />
+  </FilterPopup>
+</Story>
+
+### Select Filter Options
+
+<Story name="Select Filter Options" parameters={{ decorators: [withKnobs] }}>
+  <FilterPopup
+    clear={action("clear-filter")}
+    getTextRep={() => "Committee"}
+    isActive={action("check-is-active")}
+    header={"Select Committees"}
+    popupIsOpen={boolean("Popup is Open", false)}
+    setPopupIsOpen={action("set-popup-is-open")}
+    handlePopupClose={action("handle-popup-close")}
+  >
+    <SelectFilterOptions
+      name={"Committee"}
+      state={{}}
+      update={action("update-filter-options-state")}
+      options={[
+        {
+          name: "city-council",
+          text: "City Council",
+          disabled: false,
+        },
+        {
+          name: "council-briefing",
+          text: "Council Briefing",
+          disabled: false,
+        },
+        {
+          name: "finance-housing",
+          text: "Finance and Housing Committee",
+          disabled: false,
+        },
+        {
+          name: "finance-neighborhood",
+          text: "Finance and Neighborhoods Committee",
+          disabled: false,
+        },
+        {
+          name: "select-budget",
+          text: "Select Budget Committee",
+          disabled: false,
+        },
+        {
+          name: "transportation-utilities",
+          text: "Transportation and Utilities Committee",
+          disabled: false,
+        },
+      ]}
+      optionQuery={""}
+      setOptionQuery={action("set-option-query")}
+    />
+  </FilterPopup>
+</Story>
+
+### Select Sorting
+
+<Story name="Select Sorting" parameters={{ decorators: [withKnobs] }}>
+  <FilterPopup
+    clear={action("clear-filter")}
+    getTextRep={() => "Sort By"}
+    isActive={action("check-is-active")}
+    header={"Select Sorting"}
+    popupIsOpen={boolean("Popup is Open", false)}
+    setPopupIsOpen={action("set-popup-is-open")}
+    handlePopupClose={action("handle-popup-close")}
+  >
+    <SelectSorting
+      state={{
+        by: "",
+        order: "",
+      }}
+      update={action("update-sorting-state")}
+      sortByOptions={["name", "date", "value"]}
+    />
+  </FilterPopup>
+</Story>
