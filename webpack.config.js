@@ -24,8 +24,9 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     externals: {
-        react: "React",
-        "react-dom": "ReactDOM",
-        jquery: "jQuery"
+        "@emotion/styled": "@emotion/styled",
+        moment: "moment",
+        react: "react",
+        "semantic-ui-react": "semantic-ui-react",
     }
 };

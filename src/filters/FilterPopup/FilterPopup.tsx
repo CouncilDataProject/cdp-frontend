@@ -91,8 +91,8 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
         flowing
         mountNode={mountNodeRef.current}
         on="click"
-        onClose={onPopupOpen}
-        onOpen={onPopupClose}
+        onClose={onPopupClose}
+        onOpen={onPopupOpen}
         open={popupIsOpen}
         pinned={true}
         offset="0, -5px"
