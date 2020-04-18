@@ -1,12 +1,12 @@
 import React, { ChangeEvent, Dispatch, FormEvent, FunctionComponent } from "react";
 
 import styled from "@emotion/styled";
-import { CheckboxProps, Form, InputOnChangeData } from "semantic-ui-react";
+import { Checkbox, CheckboxProps, Form, Input, InputOnChangeData } from "semantic-ui-react";
 
 import { FilterState } from "../reducer";
 import isSubstring from "../../utils/isSubstring";
 
-const OptionQueryInput = styled(Form.Input)({
+const OptionQueryInput = styled(Form.Field)({
   paddingRight: ".8em",
 });
 OptionQueryInput.displayName = "OptionQueryInput";
@@ -16,7 +16,7 @@ interface FilterOption {
   /**The name of the filter option. E.g. A Council Commitee's name is the id of the commitee. */
   name: string;
   /**The visible text of filter option. */
-  text: string;
+  label: string;
   /**Whether the filter option is disabled. */
   disabled: boolean;
 }
@@ -57,7 +57,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   let optionsInOrder = [...options];
   if (options.length > 5) {
     for (const option of options) {
-      option.disabled = !isSubstring(option.text, optionQuery);
+      option.disabled = !isSubstring(option.label, optionQuery);
     }
 
     optionsInOrder = [
@@ -70,18 +70,22 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
     <Form>
       {options.length > 5 && (
         <OptionQueryInput
-          placeholder={`Search ${name} Options`}
-          value={optionQuery}
+          control={Input}
+          id="form-input-control-search-filter"
+          label={`Search ${name} Options`}
           onChange={onOptionQueryChange}
+          value={optionQuery}
         />
       )}
       {optionsInOrder.map((option) => (
-        <Form.Checkbox
-          key={option.name}
-          disabled={option.disabled}
-          label={option.text}
-          name={option.name}
+        <Form.Field
           checked={state[option.name]}
+          control={Checkbox}
+          disabled={option.disabled}
+          id={`form-checkbox-control-${option.label}`}
+          key={option.name}
+          label={option.label}
+          name={option.name}
           onChange={onChange}
         />
       ))}

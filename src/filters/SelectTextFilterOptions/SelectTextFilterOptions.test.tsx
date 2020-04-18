@@ -15,12 +15,12 @@ describe("SelectTextFilterOptions", () => {
 
   describe("With the number of filter options > 5", () => {
     const options = [
-      { name: "c1", text: "c1", disabled: false },
-      { name: "c2", text: "c2", disabled: false },
-      { name: "c3", text: "c3", disabled: false },
-      { name: "c4", text: "c4", disabled: false },
-      { name: "c5", text: "c5", disabled: false },
-      { name: "d1", text: "d1", disabled: false },
+      { name: "c1", label: "c1", disabled: false },
+      { name: "c2", label: "c2", disabled: false },
+      { name: "c3", label: "c3", disabled: false },
+      { name: "c4", label: "c4", disabled: false },
+      { name: "c5", label: "c5", disabled: false },
+      { name: "d1", label: "d1", disabled: false },
     ];
 
     const optionQuery = "c";
@@ -43,17 +43,15 @@ describe("SelectTextFilterOptions", () => {
     });
 
     test(`Shows 5 Checkboxes matched by optionQuery: ${optionQuery}`, () => {
-      expect(selectTextFilterOptions.find("FormCheckbox[disabled=false]")).toHaveLength(5);
+      expect(selectTextFilterOptions.find("FormField[disabled=false]")).toHaveLength(5);
     });
 
     test(`Disables the unmatched d1 Checkbox for optionQuery: ${optionQuery}`, () => {
-      expect(selectTextFilterOptions.find("FormCheckbox[disabled=true][name='d1']")).toHaveLength(
-        1
-      );
+      expect(selectTextFilterOptions.find("FormField[disabled=true][name='d1']")).toHaveLength(1);
     });
 
     test(`The unmatched d1 Checkbox is the last option for optionQuery: ${optionQuery}`, () => {
-      expect(selectTextFilterOptions.find("FormCheckbox").at(5).prop("name")).toEqual("d1");
+      expect(selectTextFilterOptions.find("FormField").at(5).prop("name")).toEqual("d1");
     });
 
     test("Calls setOptionQuery with correct arg", () => {
@@ -67,9 +65,9 @@ describe("SelectTextFilterOptions", () => {
 
   describe("With the number of filter options <= 5", () => {
     const options = [
-      { name: "c1", text: "c1", disabled: false },
-      { name: "c2", text: "c2", disabled: false },
-      { name: "d1", text: "d1", disabled: false },
+      { name: "c1", label: "c1", disabled: false },
+      { name: "c2", label: "c2", disabled: false },
+      { name: "d1", label: "d1", disabled: false },
     ];
 
     beforeEach(() => {
@@ -90,17 +88,15 @@ describe("SelectTextFilterOptions", () => {
     });
 
     test("Renders 3 total Checkboxes", () => {
-      expect(selectTextFilterOptions.find("FormCheckbox[disabled=false]").length).toEqual(
+      expect(selectTextFilterOptions.find("FormField[disabled=false]").length).toEqual(
         options.length
       );
     });
 
     test("Calls update filter with correct args", () => {
+      const checkboxes = selectTextFilterOptions.find("FormField");
       for (let i = 0; i < options.length; i++) {
-        selectTextFilterOptions
-          .find("FormCheckbox")
-          .at(i)
-          .simulate("change", "", { name: options[i].name, checked: true });
+        checkboxes.at(i).simulate("change", "", { name: options[i].name, checked: true });
         expect(updateMock).toHaveBeenCalledWith(options[i].name, true);
       }
       expect(updateMock).toHaveBeenCalledTimes(options.length);
