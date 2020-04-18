@@ -1,6 +1,6 @@
 import React, { FormEvent, FunctionComponent } from "react";
 
-import { CheckboxProps, Form } from "semantic-ui-react";
+import { Checkbox, CheckboxProps, Form } from "semantic-ui-react";
 
 import { FilterState } from "../reducer";
 import { sortBy, SortByOption } from "./getSortingText";
@@ -29,14 +29,16 @@ const SelectSorting: FunctionComponent<SelectSortingProps> = ({
   return (
     <Form>
       {sortByOptions.map((byOption) => (
-        <Form.Checkbox
+        <Form.Field
+          checked={state.by === byOption}
+          control={Checkbox}
+          id={`form-checkbox-control-${byOption}`}
           key={byOption}
-          radio
           label={sortBy[byOption as SortByOption]}
           name="by"
-          value={byOption}
-          checked={state.by === byOption}
           onChange={onChange}
+          radio
+          value={byOption}
         />
       ))}
     </Form>

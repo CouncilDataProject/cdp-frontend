@@ -20,12 +20,12 @@ describe("SelectSorting", () => {
     jest.resetAllMocks();
   });
 
-  test("Renders 2 Checkboxes", () => {
-    expect(selectSorting.find("FormCheckbox")).toHaveLength(sortByOptions.length);
+  test("Renders 2 FormFields", () => {
+    expect(selectSorting.find("FormField")).toHaveLength(sortByOptions.length);
   });
 
   test("Calls update sort state with correct args", () => {
-    const checkboxes = selectSorting.find("FormCheckbox");
+    const checkboxes = selectSorting.find("FormField");
     for (let i = 0; i < sortByOptions.length; i++) {
       checkboxes.at(i).simulate("change", "", { name: "by", value: sortByOptions[i] });
       expect(updateMock).toHaveBeenCalledWith("by", sortByOptions[i]);
