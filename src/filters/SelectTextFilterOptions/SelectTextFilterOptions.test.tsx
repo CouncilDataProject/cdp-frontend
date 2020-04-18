@@ -2,10 +2,10 @@ import React from "react";
 
 import { shallow, ShallowWrapper } from "enzyme";
 
-import SelectFilterOptions, { SelectFilterOptionsProps } from "./SelectFilterOptions";
+import SelectTextFilterOptions, { SelectTextFilterOptionsProps } from "./SelectTextFilterOptions";
 
-describe("SelectFilterOptions", () => {
-  let selectFilterOptions: ShallowWrapper<SelectFilterOptionsProps>;
+describe("SelectTextFilterOptions", () => {
+  let selectTextFilterOptions: ShallowWrapper<SelectTextFilterOptionsProps>;
   const setOptionQueryMock = jest.fn();
   const updateMock = jest.fn();
 
@@ -26,8 +26,8 @@ describe("SelectFilterOptions", () => {
     const optionQuery = "c";
 
     beforeEach(() => {
-      selectFilterOptions = shallow(
-        <SelectFilterOptions
+      selectTextFilterOptions = shallow(
+        <SelectTextFilterOptions
           name={"test"}
           state={{}}
           update={updateMock}
@@ -39,23 +39,28 @@ describe("SelectFilterOptions", () => {
     });
 
     test("Renders OptionQueryInput for optionQuery", () => {
-      expect(selectFilterOptions.find("OptionQueryInput")).toHaveLength(1);
+      expect(selectTextFilterOptions.find("OptionQueryInput")).toHaveLength(1);
     });
 
     test(`Shows 5 Checkboxes matched by optionQuery: ${optionQuery}`, () => {
-      expect(selectFilterOptions.find("FormCheckbox[disabled=false]")).toHaveLength(5);
+      expect(selectTextFilterOptions.find("FormCheckbox[disabled=false]")).toHaveLength(5);
     });
 
     test(`Disables the unmatched d1 Checkbox for optionQuery: ${optionQuery}`, () => {
-      expect(selectFilterOptions.find("FormCheckbox[disabled=true][name='d1']")).toHaveLength(1);
+      expect(selectTextFilterOptions.find("FormCheckbox[disabled=true][name='d1']")).toHaveLength(
+        1
+      );
     });
 
     test(`The unmatched d1 Checkbox is the last option for optionQuery: ${optionQuery}`, () => {
-      expect(selectFilterOptions.find("FormCheckbox").at(5).prop("name")).toEqual("d1");
+      expect(selectTextFilterOptions.find("FormCheckbox").at(5).prop("name")).toEqual("d1");
     });
 
     test("Calls setOptionQuery with correct arg", () => {
-      selectFilterOptions.find("OptionQueryInput").at(0).simulate("change", "", { value: "c1" });
+      selectTextFilterOptions
+        .find("OptionQueryInput")
+        .at(0)
+        .simulate("change", "", { value: "c1" });
       expect(setOptionQueryMock).toHaveBeenCalledWith("c1");
     });
   });
@@ -68,8 +73,8 @@ describe("SelectFilterOptions", () => {
     ];
 
     beforeEach(() => {
-      selectFilterOptions = shallow(
-        <SelectFilterOptions
+      selectTextFilterOptions = shallow(
+        <SelectTextFilterOptions
           name={"test"}
           state={{}}
           update={updateMock}
@@ -81,18 +86,18 @@ describe("SelectFilterOptions", () => {
     });
 
     test("Does not render OptionQueryInput for optionQuery", () => {
-      expect(selectFilterOptions.find("OptionQueryInput")).toHaveLength(0);
+      expect(selectTextFilterOptions.find("OptionQueryInput")).toHaveLength(0);
     });
 
     test("Renders 3 total Checkboxes", () => {
-      expect(selectFilterOptions.find("FormCheckbox[disabled=false]").length).toEqual(
-        selectFilterOptions.find("FormCheckbox").length
+      expect(selectTextFilterOptions.find("FormCheckbox[disabled=false]").length).toEqual(
+        options.length
       );
     });
 
     test("Calls update filter with correct args", () => {
       for (let i = 0; i < options.length; i++) {
-        selectFilterOptions
+        selectTextFilterOptions
           .find("FormCheckbox")
           .at(i)
           .simulate("change", "", { name: options[i].name, checked: true });

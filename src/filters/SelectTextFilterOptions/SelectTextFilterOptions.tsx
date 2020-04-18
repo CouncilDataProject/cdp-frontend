@@ -11,7 +11,7 @@ const OptionQueryInput = styled(Form.Input)({
 });
 OptionQueryInput.displayName = "OptionQueryInput";
 
-/**The type of of a filter optin. */
+/**The type of of a filter option. */
 interface FilterOption {
   /**The name of the filter option. E.g. A Council Commitee's name is the id of the commitee. */
   name: string;
@@ -21,7 +21,7 @@ interface FilterOption {
   disabled: boolean;
 }
 
-export interface SelectFilterOptionsProps {
+export interface SelectTextFilterOptionsProps {
   /**The name of the filter state. E.g. `Committee` is the name of filtering by Council Committee names. */
   name: string;
   /**The filter state. The string `keyName` of filter state object is the filter option.
@@ -38,14 +38,14 @@ export interface SelectFilterOptionsProps {
   setOptionQuery: Dispatch<string>;
 }
 
-const SelectFilterOptions: FunctionComponent<SelectFilterOptionsProps> = ({
+const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> = ({
   name,
   state,
   update,
   options,
   optionQuery,
   setOptionQuery,
-}: SelectFilterOptionsProps) => {
+}: SelectTextFilterOptionsProps) => {
   const onChange = (e: FormEvent<HTMLInputElement>, data: CheckboxProps) => {
     update(data.name as string, data.checked as boolean);
   };
@@ -89,4 +89,4 @@ const SelectFilterOptions: FunctionComponent<SelectFilterOptionsProps> = ({
   );
 };
 
-export default SelectFilterOptions;
+export default SelectTextFilterOptions;
