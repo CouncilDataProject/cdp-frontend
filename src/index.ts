@@ -4,7 +4,7 @@ export { getDateText, SelectDateRange } from "./filters/SelectDateRange";
 export {
   getCheckboxText,
   getSelectedOptions,
-  SelectFilterOptions
-} from "./filters/SelectFilterOptions";
+  SelectTextFilterOptions,
+} from "./filters/SelectTextFilterOptions";
 export { getSortingText, SelectSorting } from "./filters/SelectSorting";
 export { default as useFilter } from "./filters/useFilter";
