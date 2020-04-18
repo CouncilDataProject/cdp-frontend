@@ -18,24 +18,20 @@ describe("SelectDateRange", () => {
     jest.resetAllMocks();
   });
 
-  test("Renders 2 Form Inputs", () => {
-    expect(selectDateRange.find("FormInput")).toHaveLength(2);
-  });
-
   test("Renders 2 Form Fields", () => {
     expect(selectDateRange.find("FormField")).toHaveLength(2);
   });
 
   test("Calls update date range state callback with correct args for start date field", () => {
     selectDateRange
-      .find("FormInput[name='start']")
+      .find("FormField[name='start']")
       .simulate("change", "", { name: "start", value: "01/01/2020" });
     expect(updateMock).toHaveBeenCalledWith("start", "01/01/2020");
   });
 
   test("Calls update date range state callback with correct args for end date field", () => {
     selectDateRange
-      .find("FormInput[name='end']")
+      .find("FormField[name='end']")
       .simulate("change", "", { name: "end", value: "01/01/2020" });
     expect(updateMock).toHaveBeenCalledWith("end", "01/01/2020");
   });

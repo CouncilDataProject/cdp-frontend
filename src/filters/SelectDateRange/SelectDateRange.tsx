@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FunctionComponent } from "react";
 
-import { Form, InputOnChangeData } from "semantic-ui-react";
+import { Form, Input, InputOnChangeData } from "semantic-ui-react";
 
 import { FilterState } from "../reducer";
 
@@ -22,10 +22,26 @@ const SelectDateRange: FunctionComponent<SelectDateRangeProps> = ({
 
   return (
     <Form>
-      <Form.Field>From</Form.Field>
-      <Form.Input fluid name="start" type="date" onChange={onChange} value={state.start} />
-      <Form.Field>To</Form.Field>
-      <Form.Input fluid name="end" type="date" onChange={onChange} value={state.end} />
+      <Form.Field
+        control={Input}
+        fluid
+        id="form-input-control-start-date"
+        label="From"
+        name="start"
+        type="date"
+        onChange={onChange}
+        value={state.start}
+      />
+      <Form.Field
+        control={Input}
+        fluid
+        id="form-input-control-end-date"
+        label="To"
+        name="end"
+        type="date"
+        onChange={onChange}
+        value={state.end}
+      />
     </Form>
   );
 };
