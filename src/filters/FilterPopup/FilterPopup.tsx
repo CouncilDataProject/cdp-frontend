@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { Button, Header, Icon, Popup } from "semantic-ui-react";
 
 const ButtonContainer = styled.div({
-  // evently space the clear and save buttons
+  // evenly space the clear and save buttons
   display: "flex",
   justifyContent: "space-between",
   padding: "1em 0",
@@ -52,12 +52,12 @@ export interface FilterPopupProps {
   setPopupIsOpen: Dispatch<boolean>;
   /**Callback to handle filter popup closing. */
   handlePopupClose(): void;
-  /**React Child Node. One of the filter components such as SelectDateRange, SelectFilterOptions, SelectSorting. */
+  /**React Child Node. One of the filter components such as SelectDateRange, SelectTextFilterOptions, SelectSorting. */
   children: ReactNode;
 }
 
 /**Display a button to trigger the opening of filter popup containing filtering React components such as
- * SelectDateRange, SelectFilterOptions, SelectSorting.
+ * SelectDateRange, SelectTextFilterOptions, SelectSorting.
  */
 const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   clear,

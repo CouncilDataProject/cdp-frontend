@@ -4,14 +4,14 @@ import { boolean, withKnobs } from "@storybook/addon-knobs";
 
 import FilterPopup from "./FilterPopup";
 import SelectDateRange from "../SelectDateRange/SelectDateRange";
-import SelectFilterOptions from "../SelectFilterOptions/SelectFilterOptions";
 import SelectSorting from "../SelectSorting/SelectSorting";
+import SelectTextFilterOptions from "../SelectTextFilterOptions/SelectTextFilterOptions";
 
 <Meta title="Filters|FilterPopup" component={FilterPopup} />
 
 # Filter Popup
 
-### A general container of filter components such as SelectDateRange, SelectFilterOptions, and SelectSorting.
+### A general container of filter components such as SelectDateRange, SelectTextFilterOptions, and SelectSorting.
 
 ### Display additional clear and save buttons to clear and save the filter state.
 
@@ -41,7 +41,7 @@ import SelectSorting from "../SelectSorting/SelectSorting";
 
 ### Select Filter Options
 
-<Story name="Select Filter Options" parameters={{ decorators: [withKnobs] }}>
+<Story name="Select Committees" parameters={{ decorators: [withKnobs] }}>
   <FilterPopup
     clear={action("clear-filter")}
     getTextRep={() => "Committee"}
@@ -51,7 +51,7 @@ import SelectSorting from "../SelectSorting/SelectSorting";
     setPopupIsOpen={action("set-popup-is-open")}
     handlePopupClose={action("handle-popup-close")}
   >
-    <SelectFilterOptions
+    <SelectTextFilterOptions
       name={"Committee"}
       state={{}}
       update={action("update-filter-options-state")}
@@ -98,20 +98,19 @@ import SelectSorting from "../SelectSorting/SelectSorting";
 <Story name="Select Sorting" parameters={{ decorators: [withKnobs] }}>
   <FilterPopup
     clear={action("clear-filter")}
-    getTextRep={() => "Sort By"}
-    isActive={action("check-is-active")}
-    header={"Select Sorting"}
+    getTextRep={() => "Most relevant"}
+    isActive={() => true}
+    header={"Sort Results By"}
     popupIsOpen={boolean("Popup is Open", false)}
     setPopupIsOpen={action("set-popup-is-open")}
     handlePopupClose={action("handle-popup-close")}
   >
     <SelectSorting
       state={{
-        by: "",
-        order: "",
+        by: "value",
       }}
       update={action("update-sorting-state")}
-      sortByOptions={["name", "date", "value"]}
+      sortByOptions={["date", "value"]}
     />
   </FilterPopup>
 </Story>
