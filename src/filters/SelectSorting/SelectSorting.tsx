@@ -2,13 +2,12 @@ import React, { FormEvent, FunctionComponent } from "react";
 
 import { CheckboxProps, Form } from "semantic-ui-react";
 
-import { ORDER_OPERATORS } from "../../api/database";
-import { sortBy, SortByOption, sortOrder, SortOrderOption } from "./getSortingText";
 import { FilterState } from "../reducer";
+import { sortBy, SortByOption } from "./getSortingText";
 
 export interface SelectSortingProps {
   /**The list of sort by options.
-   * `name` means sort by Council Commitee names. `date` means sort by event's datetime. `value` means sort by search result's relevance.
+   * `date` means sort by date in descending order. `value` means sort by search results' relevancy in descending order.
    * */
   sortByOptions: SortByOption[];
   /**The sorting state. */
@@ -27,11 +26,8 @@ const SelectSorting: FunctionComponent<SelectSortingProps> = ({
     update(data.name as string, data.value as string);
   };
 
-  const sortOrderOptions: SortOrderOption[] = [ORDER_OPERATORS.asc, ORDER_OPERATORS.desc];
-
   return (
     <Form>
-      <Form.Field>Sort By</Form.Field>
       {sortByOptions.map((byOption) => (
         <Form.Checkbox
           key={byOption}
@@ -40,19 +36,6 @@ const SelectSorting: FunctionComponent<SelectSortingProps> = ({
           name="by"
           value={byOption}
           checked={state.by === byOption}
-          onChange={onChange}
-        />
-      ))}
-      <Form.Field>Sort Order</Form.Field>
-      {sortOrderOptions.map((orderOption) => (
-        <Form.Checkbox
-          key={orderOption}
-          radio
-          disabled={!(state.by in sortBy)}
-          label={sortOrder[orderOption as SortOrderOption]}
-          name="order"
-          value={orderOption}
-          checked={state.order === orderOption}
           onChange={onChange}
         />
       ))}

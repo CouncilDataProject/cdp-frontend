@@ -14,29 +14,15 @@ The width of SelectSorting takes on the width of its container.
 
 <Props of={SelectSorting} />
 
-#### Sort Order is disabled because Sort By doesn't have a selected value.
+#### Sort By Most relevant is the default sorting.
 
-<Story name="Disabled Sort Order">
+<Story name="Default sort by: Most relevant">
   <SelectSorting
     state={{
-      by: "",
-      order: "",
+      by: "value",
     }}
     update={action("update-sorting-state")}
-    sortByOptions={["name", "date", "value"]}
-  />
-</Story>
-
-#### Sort Order is enabled because Sort By has a selected value.
-
-<Story name="Enabled Sort Order">
-  <SelectSorting
-    state={{
-      by: "name",
-      order: "",
-    }}
-    update={action("update-sorting-state")}
-    sortByOptions={["name", "date", "value"]}
+    sortByOptions={["date", "value"]}
   />
 </Story>
 
@@ -49,15 +35,13 @@ Change the values of the sort state to change what sort options are selected.
 <Story name="Sort State Playground" parameters={{ decorators: [withKnobs] }}>
   <SelectSorting
     state={{
-      by: select("Sort By", {
-        "Committee Name": "name",
-        "Event Date": "date",
-        "Search Relevance": "value",
+      by: select("Sort Results By", {
+        "Most recent": "date",
+        "Most relevant": "value",
       }),
-      order: select("Sort Order", { Ascending: "asc", Descending: "desc" }),
     }}
     update={action("update-sorting-state")}
-    sortByOptions={["name", "date", "value"]}
+    sortByOptions={["date", "value"]}
   />
 </Story>
 
@@ -67,9 +51,8 @@ Change the values of sort by options array to change what sort by options are vi
   <SelectSorting
     state={{
       by: "",
-      order: "",
     }}
     update={action("update-sorting-state")}
-    sortByOptions={array("Sort By Options", ["name", "date", "value"])}
+    sortByOptions={array("Sort Results By Options", ["date", "value"])}
   />
 </Story>

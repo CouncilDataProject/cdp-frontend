@@ -1,34 +1,24 @@
-import getSortingText from "./getSortingText";
+import getSortingText, { sortBy } from "./getSortingText";
 
 describe("getSortingText", () => {
-  const defaultText = "Sort";
+  const defaultText = "Sort By";
   test("Returns defaultText", () => {
-    const textRep = getSortingText({ by: "", order: "" }, defaultText);
-    expect(textRep).toEqual(`${defaultText} By`);
+    const textRep = getSortingText({ by: "" }, defaultText);
+    expect(textRep).toEqual(defaultText);
   });
 
   test("Returns defaultText with unknown sort by", () => {
-    const textRep = getSortingText({ by: "unknown", order: "" }, defaultText);
-    expect(textRep).toEqual(`${defaultText} By`);
+    const textRep = getSortingText({ by: "unknown" }, defaultText);
+    expect(textRep).toEqual(defaultText);
   });
 
-  test("Returns sort by date", () => {
-    const textRep = getSortingText({ by: "date", order: "" }, defaultText);
-    expect(textRep).toEqual(`${defaultText} by Event Date`);
+  test("Returns sort by Most recent", () => {
+    const textRep = getSortingText({ by: "date" }, defaultText);
+    expect(textRep).toEqual(sortBy.date);
   });
 
-  test("Returns sort by value", () => {
-    const textRep = getSortingText({ by: "value", order: "" }, defaultText);
-    expect(textRep).toEqual(`${defaultText} by Search Relevance`);
-  });
-
-  test("Returns sort order", () => {
-    const textRep = getSortingText({ by: "", order: "desc" }, defaultText);
-    expect(textRep).toEqual(`${defaultText} Descending`);
-  });
-
-  test("Returns sort by and order", () => {
-    const textRep = getSortingText({ by: "name", order: "asc" }, defaultText);
-    expect(textRep).toEqual(`${defaultText} by Committee Name: Ascending`);
+  test("Returns sort by Most relevant", () => {
+    const textRep = getSortingText({ by: "value" }, defaultText);
+    expect(textRep).toEqual(sortBy.value);
   });
 });
