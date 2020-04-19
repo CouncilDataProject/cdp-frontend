@@ -112,7 +112,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
             <Button size="mini" disabled={!isActive()} onClick={onClearFilter}>
               <Icon name="remove" /> Clear
             </Button>
-            <Button size="mini" primary onClick={onPopupClose}>
+            <Button color="facebook" size="mini" onClick={onPopupClose}>
               <Icon name="checkmark" /> Save
             </Button>
           </ButtonContainer>
