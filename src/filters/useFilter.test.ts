@@ -1,17 +1,52 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { act, renderHook } from "@testing-library/react-hooks";
 
 import useFilter from "./useFilter";
 
 describe("useFilter", () => {
+  const textRepFuncMock = jest.fn();
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  test("Sets boolean filter state to all false", () => {
+    const { result } = renderHook(() =>
+      useFilter<boolean>("test", { a: true, b: true }, false, textRepFuncMock)
+    );
+    act(() => {
+      result.current.clear();
+    });
+    const trueDataValues = Object.values(result.current.state).filter((dataValue) => dataValue);
+    expect(trueDataValues).toHaveLength(0);
+  });
+
+  test("Updates boolean filter state", () => {
+    const keyName = "a";
+    const newDataValue = false;
+    const { result } = renderHook(() =>
+      useFilter<boolean>("test", { a: true, b: true }, false, textRepFuncMock)
+    );
+    act(() => {
+      result.current.update(keyName, newDataValue);
+    });
+    expect(result.current.state[keyName]).toBe(newDataValue);
+  });
+
+  test("Calls textRepFunc callback", () => {
+    const { result } = renderHook(() =>
+      useFilter<boolean>("test", { a: false, b: false }, false, textRepFuncMock)
+    );
+    result.current.getTextRep();
+    expect(textRepFuncMock).toHaveBeenCalledTimes(1);
+  });
+
   describe("isActive for boolean filter", () => {
-    test("Returns false for unitialized state", () => {
-      const textRepFuncMock = jest.fn();
+    test("Returns false for uninitialized state", () => {
       const { result } = renderHook(() => useFilter<boolean>("test", {}, false, textRepFuncMock));
       expect(result.current.isActive()).toBe(false);
     });
 
     test("Returns false for no selected options", () => {
-      const textRepFuncMock = jest.fn();
       const { result } = renderHook(() =>
         useFilter<boolean>("test", { a: false, b: false }, false, textRepFuncMock)
       );
@@ -19,7 +54,6 @@ describe("useFilter", () => {
     });
 
     test("Returns true for one selected option", () => {
-      const textRepFuncMock = jest.fn();
       const { result } = renderHook(() =>
         useFilter<boolean>("test", { a: true, b: false }, false, textRepFuncMock)
       );
@@ -28,51 +62,58 @@ describe("useFilter", () => {
   });
 
   describe("isSameState for boolean filter", () => {
-    test("Returns true for uninitialized otherState and no selected options", () => {
-      const textRepFuncMock = jest.fn();
+    test("Returns true for uninitialized prevState and newState has no selected options", () => {
+      const prevState = {};
+      const newState = { a: false, b: false };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", { a: false, b: false }, false, textRepFuncMock)
+        useFilter<boolean>("test", newState, false, textRepFuncMock)
       );
-      expect(result.current.isSameState({})).toBe(true);
+      expect(result.current.isSameState(prevState)).toBe(true);
     });
 
-    test("Returns false for uninitialized otherState and one selected options", () => {
-      const textRepFuncMock = jest.fn();
+    test("Returns false for uninitialized prevState and newState has one selected option", () => {
+      const prevState = {};
+      const newState = { a: true, b: false };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", { a: true, b: false }, false, textRepFuncMock)
+        useFilter<boolean>("test", newState, false, textRepFuncMock)
       );
-      expect(result.current.isSameState({})).toBe(false);
+      expect(result.current.isSameState(prevState)).toBe(false);
     });
 
-    test("Returns false for otherState with new selected option", () => {
-      const textRepFuncMock = jest.fn();
+    test("Returns false for newState has a new selected option", () => {
+      const prevState = { a: false };
+      const newState = { a: false, b: true };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", { a: false, b: true }, false, textRepFuncMock)
+        useFilter<boolean>("test", newState, false, textRepFuncMock)
       );
-      expect(result.current.isSameState({ a: false })).toBe(false);
+      expect(result.current.isSameState(prevState)).toBe(false);
     });
 
     test("Returns false for changing one dataValue false to true", () => {
-      const textRepFuncMock = jest.fn();
+      const prevState = { a: false, b: false };
+      const newState = { a: true, b: false };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", { a: true, b: false }, false, textRepFuncMock)
+        useFilter<boolean>("test", newState, false, textRepFuncMock)
       );
-      expect(result.current.isSameState({ a: false, b: false })).toBe(false);
-    });
-    test("Returns false for changing one dataValue true to false", () => {
-      const textRepFuncMock = jest.fn();
-      const { result } = renderHook(() =>
-        useFilter<boolean>("test", { a: false, b: false }, false, textRepFuncMock)
-      );
-      expect(result.current.isSameState({ a: true, b: false })).toBe(false);
+      expect(result.current.isSameState(prevState)).toBe(false);
     });
 
-    test("Returns true for unchanged dataValue", () => {
-      const textRepFuncMock = jest.fn();
+    test("Returns false for changing one dataValue true to false", () => {
+      const prevState = { a: true, b: false };
+      const newState = { a: false, b: false };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", { a: true, b: true }, false, textRepFuncMock)
+        useFilter<boolean>("test", newState, false, textRepFuncMock)
       );
-      expect(result.current.isSameState({ a: true, b: true })).toBe(true);
+      expect(result.current.isSameState(prevState)).toBe(false);
+    });
+
+    test("Returns true for unchanged dataValues", () => {
+      const prevState = { a: true, b: true };
+      const newState = { a: true, b: true };
+      const { result } = renderHook(() =>
+        useFilter<boolean>("test", newState, false, textRepFuncMock)
+      );
+      expect(result.current.isSameState(prevState)).toBe(true);
     });
   });
 });
