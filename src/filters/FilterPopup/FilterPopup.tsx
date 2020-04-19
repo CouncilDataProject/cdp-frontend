@@ -26,6 +26,7 @@ const ContentContainer = styled(Popup.Content)({
   // add scrollbar if the content is too long
   flexGrow: 1,
   overflowY: "auto",
+  paddingRight: "10px",
 });
 ContentContainer.displayName = "ContentContainer";
 
