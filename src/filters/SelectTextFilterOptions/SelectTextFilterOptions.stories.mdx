@@ -1,6 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
-import { text, withKnobs } from "@storybook/addon-knobs";
+import { text } from "@storybook/addon-knobs";
 
 import SelectTextFilterOptions from "./SelectTextFilterOptions";
 
@@ -146,7 +146,7 @@ The width of SelectTextFilterOptions takes on the width of its container.
 
 Change the value of the search string state to change what filter options are disabled.
 
-<Story name="Set Option Query Playground" parameters={{ decorators: [withKnobs] }}>
+<Story name="Set Option Query Playground">
   <SelectTextFilterOptions
     name={"Committee"}
     state={{}}

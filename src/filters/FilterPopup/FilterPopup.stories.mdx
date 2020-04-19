@@ -1,6 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
-import { boolean, withKnobs } from "@storybook/addon-knobs";
+import { boolean } from "@storybook/addon-knobs";
 
 import FilterPopup from "./FilterPopup";
 import SelectDateRange from "../SelectDateRange/SelectDateRange";
@@ -19,7 +19,7 @@ import SelectTextFilterOptions from "../SelectTextFilterOptions/SelectTextFilter
 
 ### Select Date Range
 
-<Story name="Select Date Range" parameters={{ decorators: [withKnobs] }}>
+<Story name="Select Date Range">
   <FilterPopup
     clear={action("clear-filter")}
     getTextRep={() => "Date"}
@@ -41,7 +41,7 @@ import SelectTextFilterOptions from "../SelectTextFilterOptions/SelectTextFilter
 
 ### Select Filter Options
 
-<Story name="Select Committees" parameters={{ decorators: [withKnobs] }}>
+<Story name="Select Committees">
   <FilterPopup
     clear={action("clear-filter")}
     getTextRep={() => "Committee"}
@@ -95,7 +95,7 @@ import SelectTextFilterOptions from "../SelectTextFilterOptions/SelectTextFilter
 
 ### Select Sorting
 
-<Story name="Select Sorting" parameters={{ decorators: [withKnobs] }}>
+<Story name="Select Sorting">
   <FilterPopup
     clear={action("clear-filter")}
     getTextRep={() => "Most relevant"}
