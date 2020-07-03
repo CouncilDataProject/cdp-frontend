@@ -42,3 +42,6 @@ jobs:
     - name: Run Lint
       run: |
         npm run lint
+    - name: Run Format Check
+      run: |
+        prettier --check "src/**/*.tsx"
