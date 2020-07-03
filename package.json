@@ -15,6 +15,7 @@
     "bundle": "cross-env NODE_ENV=production webpack --config webpack.config.js --display-modules",
     "clean": "rimraf es lib dist type-declarations",
     "format": "prettier --write src/**/*",
+    "checkFormat": "prettier --check src/**/*.tsx",
     "generateTypes": "tsc -p tsconfig.base.json --emitDeclarationOnly",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "test": "jest --verbose --coverage",

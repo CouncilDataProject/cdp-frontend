@@ -36,7 +36,7 @@ jobs:
         npm run lint
     - name: Run Format Check
       run: |
-        prettier --check "src/**/*.tsx"
+        npm run checkFormat
 
   build:
     runs-on: ubuntu-latest
