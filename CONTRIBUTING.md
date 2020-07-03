@@ -95,7 +95,15 @@ repo clean, you can delete your branch.
 
 A reminder for the maintainers on how to deploy.
 Make sure all your changes are committed.
-Then run:
+
+The following commands should only ever be ran from the most up-to-date `master` branch.
+```bash
+git checkout master
+git fetch origin
+git pull origin master
+```
+
+Run:
 
 ```bash
 npm version {major | minor | patch}
