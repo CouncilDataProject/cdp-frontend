@@ -35,7 +35,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "To Huynh, Nic Weber, Jackson Maxfield Brown",
+  "author": "To Huynh, Trung Ngo, Nic Weber, Jackson Maxfield Brown",
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@babel/cli": "~7.7",
