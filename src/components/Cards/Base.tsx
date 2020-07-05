@@ -62,18 +62,16 @@ export const Card = (props: CardProps) => {
         boxShadow: "none",
       }}
     >
-      <CardImageContainer>
-        {props.imgSrc && props.imgOverlayText && (
-          <>
-            <CardImageOverlayText text={props.imgOverlayText} />
-            <SemanticUIImage
-              src={props.imgSrc}
-              /* this border radius is to match Semantic UI's bottom border radius for the content section */
-              style={{ borderRadius: "0.2857rem" }}
-            ></SemanticUIImage>
-          </>
-        )}
-      </CardImageContainer>
+      {props.imgSrc && props.imgOverlayText && (
+        <CardImageContainer>
+          <CardImageOverlayText text={props.imgOverlayText} />
+          <SemanticUIImage
+            src={props.imgSrc}
+            /* this border radius is to match Semantic UI's bottom border radius for the content section */
+            style={{ borderRadius: "0.2857rem" }}
+          ></SemanticUIImage>
+        </CardImageContainer>
+      )}
       <SemanticUICard.Content style={{ border: "2px solid #dcdcdc", borderTop: "none" }}>
         {props.children}
       </SemanticUICard.Content>

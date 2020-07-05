@@ -10,23 +10,39 @@ type MeetingCardProps = {
   actions: string;
 };
 
-const StyledLabel = styled.span`
-  font-weight: "bold";
+const Label = styled.span`
+  font-weight: bold;
+  margin-right: 0.6rem;
+`;
+
+const HeadingSection = styled.div`
+  margin: 0 0 2rem 0;
+`;
+
+const HeadingContent = styled.span`
+  font-size: 1.2rem;
+  display: block;
+`;
+
+const BodySection = styled.div`
+  margin: 0 0 1rem 0;
 `;
 
 export const MeetingCard = (props: MeetingCardProps) => {
   return (
     <Card imgSrc={props.imgSrc} imgOverlayText={props.imgOverlayText}>
-      <h3>COMMITTEE</h3>
-      <div>{props.committee}</div>
-      <div>
-        <StyledLabel style={{ fontWeight: "bold" }}>ACTIONS </StyledLabel>
+      <HeadingSection>
+        <HeadingContent style={{ fontWeight: "bold" }}>COMMITTEE</HeadingContent>
+        <HeadingContent>{props.committee}</HeadingContent>
+      </HeadingSection>
+      <BodySection>
+        <Label>ACTIONS </Label>
         {props.actions}
-      </div>
-      <div>
-        <StyledLabel style={{ fontWeight: "bold" }}>TAGS </StyledLabel>
+      </BodySection>
+      <BodySection>
+        <Label>TAGS </Label>
         {props.tags}
-      </div>
+      </BodySection>
     </Card>
   );
 };
