@@ -1,16 +1,22 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 
-import { Card } from "./";
+import { MeetingCard } from "./";
 
-<Meta title="Cards|Events" component={Card} />
+<Meta title="Cards|Events" component={MeetingCard} />
 
-# Card
+# MeetingCard
 
 ### Displays a card
 
-<Props of={Card} />
+<Props of={MeetingCard} />
 
-<Story name="Standard">
-  <Card/>
+<Story name="Meetings">
+  <MeetingCard 
+    imgSrc="https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg" 
+    imgOverlayText="06-09-20"
+    committee="Select Budget"
+    actions="1 bill and 1 appointment passed"
+    tags="bike | adu | accessories | rental"
+    />
 </Story>
