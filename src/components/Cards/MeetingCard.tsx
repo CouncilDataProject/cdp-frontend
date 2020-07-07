@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Image as SemanticUIImage } from "semantic-ui-react";
 import { Card } from "./";
 
 type MeetingCardProps = {
@@ -70,10 +69,10 @@ export const MeetingCard = (props: MeetingCardProps) => {
       image={
         <>
           <CardImageOverlayText text={props.imgOverlayText} />
-          <SemanticUIImage
+          <img
             src={props.imgSrc}
             /* this border radius is to match Semantic UI's bottom border radius for the content section */
-            style={{ borderRadius: "0.2857rem" }}
+            style={{ borderRadius: "0.2857rem", width: "100%" }}
           />
         </>
       }
