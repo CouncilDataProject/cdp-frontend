@@ -1,4 +1,5 @@
 import { action } from "@storybook/addon-actions";
+import { text } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 
 import { MeetingCard } from "./";
@@ -13,10 +14,10 @@ import { MeetingCard } from "./";
 
 <Story name="Meetings">
   <MeetingCard 
-    imgSrc="https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg" 
-    imgOverlayText="06-09-20"
-    committee="Select Budget"
-    actions="1 bill and 1 appointment passed"
-    tags="bike • adu • accessories • rental"
+    imgSrc={text("Image URL", "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg" )}
+    imgOverlayText={text("Image overlay text", "06-09-20")}
+    committee={text("Committee Name", "Select Budget")}
+    actions={text("Actions","1 bill and 1 appointment passed")}
+    tags={text("Tags", "bike • adu • accessories • rental")}
     />
 </Story>
