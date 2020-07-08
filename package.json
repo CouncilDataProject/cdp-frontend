@@ -1,5 +1,5 @@
 {
-  "name": "cdp-instance",
+  "name": "@councildataproject/cdp-instance",
   "engines": {
     "node": "12.x",
     "npm": "6.x"
@@ -15,6 +15,7 @@
     "bundle": "cross-env NODE_ENV=production webpack --config webpack.config.js --display-modules",
     "clean": "rimraf es lib dist type-declarations",
     "format": "prettier --write src/**/*",
+    "checkFormat": "prettier --check src/**/*.tsx",
     "generateTypes": "tsc -p tsconfig.base.json --emitDeclarationOnly",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "test": "jest --verbose --coverage",
@@ -35,8 +36,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "",
-  "license": "MIT",
+  "author": "To Huynh, Trung Ngo, Nic Weber, Jackson Maxfield Brown",
+  "license": "BSD-3-Clause",
   "devDependencies": {
     "@babel/cli": "~7.7",
     "@babel/core": "~7.7",
@@ -73,15 +74,15 @@
     "lint-staged": "~9.4",
     "moment": "^2.24.0",
     "npm-run-all": "~4.1",
-    "nyc": "~14.1",
-    "prettier": "^2.0.2",
+    "nyc": "^15.1.0",
+    "prettier": "^2.0.5",
     "react": "^16.13.0",
     "react-docgen-typescript-loader": "^3.7.1",
     "react-dom": "^16.13.0",
     "rimraf": "~3.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
-    "ts-jest": "^25.2.1",
+    "ts-jest": "^26.1.1",
     "ts-node": "~8.5",
     "typescript": "~3.7",
     "webpack": "~4.41",
@@ -93,5 +94,22 @@
     "moment": "^2.24.0",
     "react": "^16.0",
     "semantic-ui-react": "^0.88.2"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CouncilDataProject/cdp-instance.git"
+  },
+  "keywords": [
+    "civic technology",
+    "open government",
+    "data access"
+  ],
+  "bugs": {
+    "url": "https://github.com/CouncilDataProject/cdp-instance/issues"
+  },
+  "homepage": "https://github.com/CouncilDataProject/cdp-instance#readme"
 }
