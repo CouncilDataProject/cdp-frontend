@@ -53,6 +53,8 @@ export interface FilterPopupProps {
   setPopupIsOpen: Dispatch<boolean>;
   /**Callback to handle filter popup closing. */
   handlePopupClose(): void;
+  /**Whether or not the popup should close when a value is selected. */
+  closeOnChange: boolean;
   /**React Child Node. One of the filter components such as SelectDateRange, SelectTextFilterOptions, SelectSorting. */
   children: ReactNode;
 }
@@ -68,6 +70,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   popupIsOpen,
   setPopupIsOpen,
   handlePopupClose,
+  closeOnChange,
   children,
 }: FilterPopupProps) => {
   const mountNodeRef = useRef(null);
@@ -109,14 +112,16 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
         <PopupContainer>
           <Header content={header} />
           <ContentContainer>{children}</ContentContainer>
-          <ButtonContainer>
-            <Button size="mini" disabled={!isActive()} onClick={onClearFilter}>
-              <Icon name="remove" /> Clear
-            </Button>
-            <Button color="facebook" size="mini" onClick={onPopupClose}>
-              <Icon name="checkmark" /> Save
-            </Button>
-          </ButtonContainer>
+          {!closeOnChange && (
+            <ButtonContainer>
+              <Button size="mini" disabled={!isActive()} onClick={onClearFilter}>
+                <Icon name="remove" /> Clear
+              </Button>
+              <Button color="facebook" size="mini" onClick={onPopupClose}>
+                <Icon name="checkmark" /> Save
+              </Button>
+            </ButtonContainer>
+          )}
         </PopupContainer>
       </StyledPopup>
       <span ref={mountNodeRef} />
