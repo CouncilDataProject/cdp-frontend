@@ -2,17 +2,27 @@ import React from "react";
 
 import { shallow, ShallowWrapper } from "enzyme";
 
-import { SortByOption } from "./getSortingText";
+import { SortOption } from "./getSortingText";
 import SelectSorting, { SelectSortingProps } from "./SelectSorting";
 
 describe("SelectSorting", () => {
   let selectSorting: ShallowWrapper<SelectSortingProps>;
   const updateMock = jest.fn();
-  const sortByOptions: SortByOption[] = ["date", "value"];
+  const onPopupCloseMock = jest.fn();
+  const sortOptions: SortOption[] = [
+    { by: "value", order: "desc", label: "Most relevant" },
+    { by: "date", order: "desc", label: "Newest first" },
+    { by: "date", order: "asc", label: "Oldest first" },
+  ];
 
   beforeEach(() => {
     selectSorting = shallow(
-      <SelectSorting state={{ by: "" }} update={updateMock} sortByOptions={sortByOptions} />
+      <SelectSorting
+        state={{ by: "", order: "", label: "" }}
+        update={updateMock}
+        sortOptions={sortOptions}
+        onPopupClose={onPopupCloseMock}
+      />
     );
   });
 
@@ -20,16 +30,32 @@ describe("SelectSorting", () => {
     jest.resetAllMocks();
   });
 
-  test("Renders 2 FormFields", () => {
-    expect(selectSorting.find("FormField")).toHaveLength(sortByOptions.length);
+  test("Renders 3 FormFields", () => {
+    expect(selectSorting.find("FormField")).toHaveLength(sortOptions.length);
+  });
+
+  test("Calls onPopupClose when user select a sort option", () => {
+    const checkboxes = selectSorting.find("FormField");
+    for (let i = 0; i < sortOptions.length; i++) {
+      checkboxes.at(i).simulate("change", "", {
+        value: `${sortOptions[i].by}#${sortOptions[i].order}`,
+        label: sortOptions[i].label,
+      });
+    }
+    expect(onPopupCloseMock).toHaveBeenCalledTimes(sortOptions.length);
   });
 
   test("Calls update sort state with correct args", () => {
     const checkboxes = selectSorting.find("FormField");
-    for (let i = 0; i < sortByOptions.length; i++) {
-      checkboxes.at(i).simulate("change", "", { name: "by", value: sortByOptions[i] });
-      expect(updateMock).toHaveBeenCalledWith("by", sortByOptions[i]);
+    for (let i = 0; i < sortOptions.length; i++) {
+      checkboxes.at(i).simulate("change", "", {
+        value: `${sortOptions[i].by}#${sortOptions[i].order}`,
+        label: sortOptions[i].label,
+      });
+      expect(updateMock).toHaveBeenCalledWith("by", sortOptions[i].by);
+      expect(updateMock).toHaveBeenCalledWith("order", sortOptions[i].order);
+      expect(updateMock).toHaveBeenCalledWith("label", sortOptions[i].label);
     }
-    expect(updateMock).toHaveBeenCalledTimes(sortByOptions.length);
+    expect(updateMock).toHaveBeenCalledTimes(sortOptions.length * 3);
   });
 });
