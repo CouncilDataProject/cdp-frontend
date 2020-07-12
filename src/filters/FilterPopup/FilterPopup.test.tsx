@@ -27,6 +27,7 @@ describe("FilterPopup", () => {
         popupIsOpen={popupIsOpen}
         setPopupIsOpen={setPopupIsOpenMock}
         handlePopupClose={handlePopupCloseMock}
+        closeOnChange={false}
       >
         Test
       </FilterPopup>
@@ -49,6 +50,7 @@ describe("FilterPopup", () => {
           popupIsOpen={popupIsOpen}
           setPopupIsOpen={setPopupIsOpenMock}
           handlePopupClose={handlePopupCloseMock}
+          closeOnChange={false}
         >
           Test
         </FilterPopup>

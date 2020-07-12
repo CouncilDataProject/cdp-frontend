@@ -1,6 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
-import { array, select } from "@storybook/addon-knobs";
+import { array, object, select } from "@storybook/addon-knobs";
 
 import SelectSorting from "./SelectSorting";
 
@@ -20,9 +20,16 @@ The width of SelectSorting takes on the width of its container.
   <SelectSorting
     state={{
       by: "value",
+      order: "desc",
+      label: "Most relevant",
     }}
     update={action("update-sorting-state")}
-    sortByOptions={["date", "value"]}
+    sortOptions={[
+      { by: "value", order: "desc", label: "Most relevant" },
+      { by: "date", order: "desc", label: "Newest first" },
+      { by: "date", order: "asc", label: "Oldest first" },
+    ]}
+    onPopupClose={action("on-popup-close")}
   />
 </Story>
 
@@ -30,29 +37,44 @@ The width of SelectSorting takes on the width of its container.
 
 #### Experiment with these stories with Knobs addon in Canvas mode.
 
-Change the values of the sort state to change what sort options are selected.
+Change the values of the sort state to change what sort option is selected.
 
 <Story name="Sort State Playground">
   <SelectSorting
-    state={{
-      by: select("Sort Results By", {
-        "Most recent": "date",
-        "Most relevant": "value",
-      }),
-    }}
+    state={select(
+      "Sort Results By",
+      {
+        "Most relevant": { by: "value", order: "desc", label: "Most relevant" },
+        "Newest first": { by: "date", order: "desc", label: "Newest first" },
+        "Oldest first": { by: "date", order: "asc", label: "Oldest first" },
+      },
+      { by: "value", order: "desc", label: "Most relevant" }
+    )}
     update={action("update-sorting-state")}
-    sortByOptions={["date", "value"]}
+    sortOptions={[
+      { by: "value", order: "desc", label: "Most relevant" },
+      { by: "date", order: "desc", label: "Newest first" },
+      { by: "date", order: "asc", label: "Oldest first" },
+    ]}
+    onPopupClose={action("on-popup-close")}
   />
 </Story>
 
-Change the values of sort by options array to change what sort by options are visible.
+Change the values of sort options array to change what sort options are visible.
 
 <Story name="Sort By Options Playground">
   <SelectSorting
     state={{
-      by: "",
+      by: "value",
+      order: "desc",
+      label: "Most relevant",
     }}
     update={action("update-sorting-state")}
-    sortByOptions={array("Sort Results By Options", ["date", "value"])}
+    sortOptions={object("Sort Results By Options", [
+      { by: "value", order: "desc", label: "Most relevant" },
+      { by: "date", order: "desc", label: "Newest first" },
+      { by: "date", order: "asc", label: "Oldest first" },
+    ])}
+    onPopupClose={action("on-popup-close")}
   />
 </Story>

@@ -30,6 +30,7 @@ import SelectTextFilterOptions from "../SelectTextFilterOptions/SelectTextFilter
     popupIsOpen={boolean("Popup is Open", false)}
     setPopupIsOpen={action("set-popup-is-open")}
     handlePopupClose={action("handle-popup-close")}
+    closeOnChange={false}
   >
     <SelectDateRange
       state={{
@@ -52,6 +53,7 @@ import SelectTextFilterOptions from "../SelectTextFilterOptions/SelectTextFilter
     popupIsOpen={boolean("Popup is Open", false)}
     setPopupIsOpen={action("set-popup-is-open")}
     handlePopupClose={action("handle-popup-close")}
+    closeOnChange={false}
   >
     <SelectTextFilterOptions
       name={"Committee"}
@@ -106,13 +108,21 @@ import SelectTextFilterOptions from "../SelectTextFilterOptions/SelectTextFilter
     popupIsOpen={boolean("Popup is Open", false)}
     setPopupIsOpen={action("set-popup-is-open")}
     handlePopupClose={action("handle-popup-close")}
+    closeOnChange={true}
   >
     <SelectSorting
       state={{
         by: "value",
+        order: "desc",
+        label: "Most relevant",
       }}
       update={action("update-sorting-state")}
-      sortByOptions={["date", "value"]}
+      sortOptions={[
+        { by: "value", order: "desc", label: "Most relevant" },
+        { by: "date", order: "desc", label: "Newest first" },
+        { by: "date", order: "asc", label: "Oldest first" },
+      ]}
+      onPopupClose={action("on-popup-close")}
     />
   </FilterPopup>
 </Story>
