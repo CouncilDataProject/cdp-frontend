@@ -1,5 +1,5 @@
 import { action } from "@storybook/addon-actions";
-import { text } from "@storybook/addon-knobs";
+import { text, array } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 
 import { MeetingCard } from "./";
@@ -18,6 +18,6 @@ import { MeetingCard } from "./";
     imgOverlayText={text("Image overlay text", "06-09-20")}
     committee={text("Committee Name", "Select Budget")}
     actions={text("Actions","1 bill and 1 appointment passed")}
-    tags={text("Tags", "bike • adu • accessories • rental")}
+    tags={array("Tags",["bike","adu","accessories","rental"])}
     />
 </Story>

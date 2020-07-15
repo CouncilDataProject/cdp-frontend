@@ -6,26 +6,34 @@ type MeetingCardProps = {
   imgSrc: string;
   imgOverlayText: string;
   committee: string;
-  tags: string;
+  tags: [string];
   actions: string;
 };
-
-const Label = styled.span`
-  font-weight: bold;
-  margin-right: 0.6rem;
-`;
 
 const HeadingSection = styled.div`
   margin: 0 0 2rem 0;
 `;
 
-const HeadingContent = styled.span`
+// TODO: centralize color values
+const SectionTitle = styled.div`
+  padding-bottom: 0.4rem;
   font-size: 1.2rem;
+  color: grey;
+`;
+
+const HeadingContent = styled.div`
+  font-size: 1.6rem;
   display: block;
+  font-weight: bold;
 `;
 
 const BodySection = styled.div`
   margin: 0 0 1rem 0;
+`;
+
+const SectionContent = styled.div`
+  font-size: 1.4rem;
+  font-weight: bold;
 `;
 
 const CardImageOverlayText = (props: { text: string }) => {
@@ -53,7 +61,7 @@ const CardImageOverlayText = (props: { text: string }) => {
           left: "0px",
           margin: "1rem",
           color: "white",
-          fontSize: "1.5rem",
+          fontSize: "2rem",
           fontWeight: "bold",
         }}
       >
@@ -64,31 +72,25 @@ const CardImageOverlayText = (props: { text: string }) => {
 };
 
 export const MeetingCard = (props: MeetingCardProps) => {
+  const tagString = props.tags.join(` • `);
+
   return (
     <Card
       image={
         <>
           <CardImageOverlayText text={props.imgOverlayText} />
-          <img
-            src={props.imgSrc}
-            /* this border radius is to match Semantic UI's bottom border radius for the content section */
-            style={{ borderRadius: "0.2857rem", width: "100%" }}
-          />
+          <img src={props.imgSrc} style={{ borderRadius: "0.3rem", width: "100%" }} />
         </>
       }
       content={
         <>
           <HeadingSection>
-            <HeadingContent style={{ fontWeight: "bold" }}>COMMITTEE</HeadingContent>
+            <SectionTitle>Committee</SectionTitle>
             <HeadingContent>{props.committee}</HeadingContent>
           </HeadingSection>
           <BodySection>
-            <Label>ACTIONS </Label>
-            {props.actions}
-          </BodySection>
-          <BodySection>
-            <Label>TAGS </Label>
-            {props.tags}
+            <SectionTitle>Tags</SectionTitle>
+            <SectionContent>{tagString}</SectionContent>
           </BodySection>
         </>
       }
