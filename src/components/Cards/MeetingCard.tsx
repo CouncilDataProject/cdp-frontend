@@ -36,51 +36,26 @@ const SectionContent = styled.div`
   font-weight: bold;
 `;
 
-const CardImageOverlayText = (props: { text: string }) => {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        border: "none",
-        background: `linear-gradient(
-          transparent 50%,
-          rgba(51, 51, 51, 0.1) 60%,
-          rgba(51, 51, 51, 0.3) 70%,
-          rgba(51, 51, 51, 0.5) 80%,
-          rgba(51, 51, 51, 0.8) 100%
-        )`,
-        zIndex: 1000,
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <span
-        style={{
-          position: "absolute",
-          bottom: "0px",
-          left: "0px",
-          margin: "1rem",
-          color: "white",
-          fontSize: "2rem",
-          fontWeight: "bold",
-        }}
-      >
-        {props.text}
-      </span>
-    </div>
-  );
-};
-
 export const MeetingCard = (props: MeetingCardProps) => {
   const tagString = props.tags.join(` • `);
 
   return (
     <Card
-      image={
-        <>
-          <CardImageOverlayText text={props.imgOverlayText} />
-          <img src={props.imgSrc} style={{ borderRadius: "0.3rem", width: "100%" }} />
-        </>
+      imgSrc={props.imgSrc}
+      imageOverlayContent={
+        <span
+          style={{
+            position: "absolute",
+            bottom: "0",
+            left: "0",
+            margin: "1rem",
+            color: "white",
+            fontSize: "2rem",
+            fontWeight: "bold",
+          }}
+        >
+          {props.imgOverlayText}
+        </span>
       }
       content={
         <>
