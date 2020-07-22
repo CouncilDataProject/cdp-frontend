@@ -23,7 +23,6 @@ const SectionTitle = styled.div`
 `;
 
 const HeadingContent = styled.div`
-  display: block;
   font-size: ${fontSizes.font_size_5};
   font-weight: bold;
   color: ${colors.black};

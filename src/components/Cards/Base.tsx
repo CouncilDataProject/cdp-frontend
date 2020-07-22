@@ -11,6 +11,7 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   max-width: ${CARD_MAX_WIDTH};
+
   /* desktop styles */
   @media (min-width: ${SMALL_SCREEN_BREAKPOINT}) {
     flex-direction: row;
@@ -44,6 +45,13 @@ const CardContentContainer = styled.div`
   border-top: none;
   border-radius: 0 0 ${CARD_BORDER_RADIUS} ${CARD_BORDER_RADIUS};
   padding: 1rem;
+
+  /* desktop styles */
+  @media (min-width: ${SMALL_SCREEN_BREAKPOINT}) {
+    border-left: none;
+    border-top: 2px solid ${CARD_BORDER_COLOR};
+    border-radius: 0 ${CARD_BORDER_RADIUS} ${CARD_BORDER_RADIUS} 0;
+  }
 `;
 
 type CardProps = {
