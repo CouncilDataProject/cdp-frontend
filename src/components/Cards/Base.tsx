@@ -28,6 +28,7 @@ const CardImageContainer = styled.div`
   position: relative;
   /* set min-height for image to prevent div collapsing in small screens */
   min-height: ${IMAGE_CONTAINER_MIN_HEIGHT};
+  border-radius: ${CARD_BORDER_RADIUS} ${CARD_BORDER_RADIUS} 0 0;
   background-image: linear-gradient(
       transparent 50%,
       rgba(51, 51, 51, 0.1) 60%,
@@ -40,6 +41,7 @@ const CardImageContainer = styled.div`
   /* desktop styles */
   @media (min-width: ${SMALL_SCREEN_BREAKPOINT}) {
     width: 40%;
+    border-radius: ${CARD_BORDER_RADIUS} 0 0 ${CARD_BORDER_RADIUS};
   }
 `;
 
