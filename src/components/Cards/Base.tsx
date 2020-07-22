@@ -5,8 +5,8 @@ import colors from "../../styles/colors";
 const CARD_MAX_WIDTH = "544px";
 const CARD_BORDER_RADIUS = "5px";
 const CARD_BORDER_COLOR = colors.lightgrey;
-const SMALL_SCREEN_BREAKPOINT = "768px";
-const IMAGE_CONTAINER_MIN_HEIGHT = "200px";
+const SMALL_SCREEN_BREAKPOINT = "576px";
+const IMAGE_CONTAINER_MIN_HEIGHT = "135px";
 
 const CardContainer = styled.div`
   display: flex;
@@ -36,7 +36,6 @@ const CardImageContainer = styled.div`
       rgba(51, 51, 51, 0.8) 100%
     ),
     url(${(props: CardImageContainerProps) => props.imgSrc});
-  object-fit: cover;
 
   /* desktop styles */
   @media (min-width: ${SMALL_SCREEN_BREAKPOINT}) {
