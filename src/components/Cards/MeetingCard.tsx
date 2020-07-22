@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { Card } from "./";
+import colors from "../../styles/colors";
+import { fontSizes } from "../../styles/fonts";
 
 type MeetingCardProps = {
   imgSrc: string;
@@ -14,17 +16,17 @@ const HeadingSection = styled.div`
   margin: 0 0 2rem 0;
 `;
 
-// TODO: centralize color values
 const SectionTitle = styled.div`
   padding-bottom: 0.4rem;
-  font-size: 1.2rem;
-  color: grey;
+  font-size: ${fontSizes.font_size_3};
+  color: ${colors.grey};
 `;
 
 const HeadingContent = styled.div`
-  font-size: 1.6rem;
   display: block;
+  font-size: ${fontSizes.font_size_5};
   font-weight: bold;
+  color: ${colors.black};
 `;
 
 const BodySection = styled.div`
@@ -32,8 +34,9 @@ const BodySection = styled.div`
 `;
 
 const SectionContent = styled.div`
-  font-size: 1.4rem;
+  font-size: ${fontSizes.font_size_3};
   font-weight: bold;
+  color: ${colors.black};
 `;
 
 export const MeetingCard = (props: MeetingCardProps) => {
@@ -49,9 +52,9 @@ export const MeetingCard = (props: MeetingCardProps) => {
             bottom: "0",
             left: "0",
             margin: "1rem",
-            color: "white",
-            fontSize: "2rem",
+            fontSize: fontSizes.font_size_8,
             fontWeight: "bold",
+            color: colors.white,
           }}
         >
           {props.imgOverlayText}
