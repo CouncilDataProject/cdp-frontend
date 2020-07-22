@@ -1,15 +1,16 @@
 import React, { ReactNode } from "react";
 import styled from "@emotion/styled";
+import colors from "../../styles/colors";
 
-const CARD_MAX_WIDTH = "50vw";
+const CARD_MAX_WIDTH = "554px";
 const CARD_BORDER_RADIUS = "0.3rem";
-const CARD_BORDER_COLOR = "#dcdcdc";
+const CARD_BORDER_COLOR = colors.lightgrey;
 const SMALL_SCREEN_BREAKPOINT = "768px";
 
 const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 50vw;
+  max-width: ${CARD_MAX_WIDTH};
   /* desktop styles */
   @media (min-width: ${SMALL_SCREEN_BREAKPOINT}) {
     flex-direction: row;
@@ -34,7 +35,7 @@ const CardImageContainer = styled.div`
   height: 100%;
   /* TODO: adjust min dimensions */
   min-height: 200px;
-  min-width: 200px;
+  max-width: 220px;
   object-fit: cover;
 `;
 
