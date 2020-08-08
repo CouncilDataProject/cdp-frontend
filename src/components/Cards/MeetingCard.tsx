@@ -77,7 +77,7 @@ export const MeetingCard = (props: MeetingCardProps) => {
           </BodySection>
           {props.excerpt && (
             <BodySection>
-              <SearchExcerpt>"{props.excerpt}"</SearchExcerpt>
+              <SearchExcerpt>{`"${props.excerpt}"`}</SearchExcerpt>
             </BodySection>
           )}
         </>
