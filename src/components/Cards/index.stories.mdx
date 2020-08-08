@@ -12,12 +12,23 @@ import { MeetingCard } from "./";
 
 <Props of={MeetingCard} />
 
-<Story name="Meetings">
+<Story name="Meeting">
   <MeetingCard 
     imgSrc={text("Image URL", "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg" )}
     imgOverlayText={text("Image overlay text", "06-09-20")}
     committee={text("Committee Name", "Select Budget")}
     actions={text("Actions","1 bill and 1 appointment passed")}
     tags={array("Tags",["bike","adu","accessories","rental"])}
+    />
+</Story>
+
+<Story name="Meeting Search Result">
+  <MeetingCard 
+    imgSrc={text("Image URL", "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg" )}
+    imgOverlayText={text("Image overlay text", "06-09-20")}
+    committee={text("Committee Name", "Select Budget")}
+    actions={text("Actions","1 bill and 1 appointment passed")}
+    tags={array("Tags",["bike","adu","accessories","rental"])}
+    excerpt={text("Search Excerpt", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce interdum, lorem eget vestibulum tincidunt, augue eros gravida lectus, ut efficitur neque nisi eu metus.")}
     />
 </Story>

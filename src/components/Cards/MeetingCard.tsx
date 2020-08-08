@@ -10,6 +10,7 @@ type MeetingCardProps = {
   committee: string;
   tags: [string];
   actions: string;
+  excerpt?: string;
 };
 
 const HeadingSection = styled.div`
@@ -33,9 +34,14 @@ const BodySection = styled.div`
 `;
 
 const SectionContent = styled.div`
-  font-size: ${fontSizes.font_size_3};
+  font-size: ${fontSizes.font_size_4};
   font-weight: bold;
   color: ${colors.black};
+`;
+
+const SearchExcerpt = styled.div`
+  font-size: ${fontSizes.font_size_3};
+  color: ${colors.grey};
 `;
 
 export const MeetingCard = (props: MeetingCardProps) => {
@@ -69,6 +75,11 @@ export const MeetingCard = (props: MeetingCardProps) => {
             <SectionTitle>Tags</SectionTitle>
             <SectionContent>{tagString}</SectionContent>
           </BodySection>
+          {props.excerpt && (
+            <BodySection>
+              <SearchExcerpt>"{props.excerpt}"</SearchExcerpt>
+            </BodySection>
+          )}
         </>
       }
     />
