@@ -37,7 +37,7 @@ const CardImageContainer = styled.div`
       rgba(51, 51, 51, 0.8) 100%
     ),
     url(${(props: CardImageContainerProps) => props.imgSrc});
-
+  background-size: cover;
   /* desktop styles */
   @media (min-width: ${SMALL_SCREEN_BREAKPOINT}) {
     width: 40%;
