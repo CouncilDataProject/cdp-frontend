@@ -9,7 +9,6 @@ type MeetingCardProps = {
   imgOverlayText: string;
   committee: string;
   tags: [string];
-  actions: string;
   excerpt?: string;
 };
 
