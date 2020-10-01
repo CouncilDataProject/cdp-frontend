@@ -8,3 +8,4 @@ export {
 } from "./filters/SelectTextFilterOptions";
 export { getSortingText, SelectSorting } from "./filters/SelectSorting";
 export { default as useFilter } from "./filters/useFilter";
+export { MeetingCard } from "./components/Cards";
