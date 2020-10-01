@@ -23,7 +23,7 @@ type CardImageContainerProps = {
   imgSrc: string;
 };
 
-const CardImageContainer = styled.div`
+const CardImageContainer = styled.div<CardImageContainerProps>`
   /* position relative so that the overlay text can be absolutely positioned */
   position: relative;
   /* set min-height for image to prevent div collapsing in small screens */
