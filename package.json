@@ -37,7 +37,7 @@
     "access": "public"
   },
   "author": "To Huynh, Trung Ngo, Nic Weber, Jackson Maxfield Brown",
-  "license": "BSD-3-Clause",
+  "license": "MIT License",
   "devDependencies": {
     "@babel/cli": "~7.7",
     "@babel/core": "~7.7",
@@ -111,5 +111,5 @@
   "bugs": {
     "url": "https://github.com/CouncilDataProject/cdp-instance/issues"
   },
-  "homepage": "https://github.com/CouncilDataProject/cdp-instance#readme"
+  "homepage": "https://github.com/CouncilDataProject/cdp-instance"
 }
