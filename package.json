@@ -98,7 +98,9 @@
   "directories": {
     "lib": "lib"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@mozilla-protocol/core": "^13.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CouncilDataProject/cdp-instance.git"
