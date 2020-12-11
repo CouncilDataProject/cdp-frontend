@@ -3,7 +3,6 @@ import { text, array } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 
 import { MeetingCard } from "./MeetingCard";
-import { MozillaCard } from "./MozillaCard";
 
 <Meta title="Library/Cards/Events" component={MeetingCard} />
 
@@ -32,31 +31,5 @@ import { MozillaCard } from "./MozillaCard";
       "Search Excerpt",
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce interdum, lorem eget vestibulum tincidunt, augue eros gravida lectus, ut efficitur neque nisi eu metus."
     )}
-  />
-</Story>
-
-<Story name="Mozilla Card">
-  <MozillaCard
-    cardLink={text("Card Link", "#")}
-    imgSrc={text("Image URL", "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg")}
-    imgAlt={text("Image Alt Text", "Select budget committee meeting screenshot.")}
-    imgOverlayText={text("Image overlay text", "06-09-20")}
-    committee={text("Committee Name", "Select Budget")}
-    tags={array("Tags", ["bike", "adu", "accessories", "rental"])}
-  />
-</Story>
-
-<Story name="Mozilla Search Result">
-  <MozillaCard
-    cardLink={text("Card Link", "#")}
-    imgSrc={text("Image URL", "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg")}
-    imgAlt={text("Image Alt Text", "Select budget committee meeting screenshot.")}
-    imgOverlayText={text("Image overlay text", "06-09-20")}
-    committee={text("Committee Name", "Select Budget")}
-    excerpt={text(
-      "Search Excerpt",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce interdum, lorem eget vestibulum tincidunt, augue eros gravida lectus, ut efficitur neque nisi eu metus."
-    )}
-    tags={array("Tags", ["bike", "adu", "accessories", "rental"])}
   />
 </Story>
