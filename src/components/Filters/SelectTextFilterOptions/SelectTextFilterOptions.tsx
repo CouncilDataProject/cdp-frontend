@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { Checkbox, CheckboxProps, Form, Input, InputOnChangeData } from "semantic-ui-react";
 
 import { FilterState } from "../reducer";
-import isSubstring from "../../utils/isSubstring";
+import isSubstring from "../../../utils/isSubstring";
 
 const OptionQueryInput = styled(Form.Field)({
   paddingRight: ".8em",
