@@ -6,13 +6,7 @@ import "semantic-ui-css/semantic.min.css";
 
 addDecorator(withInfo);
 
-export const decorators = [
-  (Story) => (
-    <div style={{ margin: "1rem" }}>
-      <Story />
-    </div>
-  ),
-];
+export const decorators = [(story) => <div style={{ margin: "1rem" }}>{story()}</div>];
 
 export const parameters = {
   options: {
