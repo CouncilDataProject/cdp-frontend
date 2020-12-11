@@ -23,7 +23,8 @@
     "transpile:es": "cross-env TS_NODE_PROJECT=tsconfig.es.json babel src --out-dir es --extensions .ts,.tsx,.js,.jsx --ignore src/**/*.test.ts",
     "typeCheck": "tsc --noEmit",
     "storybook": "start-storybook -p 6006",
-    "build-storybook-docs": "build-storybook"
+    "build-storybook-docs": "build-storybook",
+    "deploy-storybook-docs": "gh-pages -d storybook-static"
   },
   "files": [
     "es",
@@ -69,6 +70,7 @@
     "eslint": "~6.6",
     "eslint-config-prettier": "~6.7",
     "eslint-plugin-react": "^7.19.0",
+    "gh-pages": "^3.1.0",
     "husky": "~3.1",
     "jest": "^25.1.0",
     "lint-staged": "~9.4",
