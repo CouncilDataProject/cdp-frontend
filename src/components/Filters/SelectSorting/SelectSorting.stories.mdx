@@ -3,8 +3,9 @@ import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 import { array, object, select } from "@storybook/addon-knobs";
 
 import SelectSorting from "./SelectSorting";
+import MozillaSelectSorting from "./MozillaSelectSorting.tsx";
 
-<Meta title="Filters|SelectSorting" component={SelectSorting} />
+<Meta title="Library/Filters/SelectSorting" component={SelectSorting} />
 
 # Select Sorting
 
@@ -75,6 +76,23 @@ Change the values of sort options array to change what sort options are visible.
       { by: "date", order: "desc", label: "Newest first" },
       { by: "date", order: "asc", label: "Oldest first" },
     ])}
+    onPopupClose={action("on-popup-close")}
+  />
+</Story>
+
+<Story name="Mozilla Select Sorting: Most relevant">
+  <MozillaSelectSorting
+    state={{
+      by: "value",
+      order: "desc",
+      label: "Most relevant",
+    }}
+    update={action("update-sorting-state")}
+    sortOptions={[
+      { by: "value", order: "desc", label: "Most relevant" },
+      { by: "date", order: "desc", label: "Newest first" },
+      { by: "date", order: "asc", label: "Oldest first" },
+    ]}
     onPopupClose={action("on-popup-close")}
   />
 </Story>
