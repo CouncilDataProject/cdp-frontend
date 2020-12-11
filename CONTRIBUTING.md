@@ -74,6 +74,11 @@ tests, and that the package builds:
     $ git push origin {your_development_type}/{short-description}
     ```
 
+* Build and deploy the Storybook docs to your forked repo's GitHub page for a live preview of your changes
+    ```
+    $ npm run build-storybook-docs
+    $ npm run deploy-storybook-docs    
+    ```
 
 * Submit a pull request through the GitHub website.
 
