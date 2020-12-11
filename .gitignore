@@ -9,3 +9,4 @@ type-declarations
 dist-docs
 coverage
 storybook-static
+.DS_Store
