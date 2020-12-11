@@ -4,6 +4,7 @@ import { withA11y } from "@storybook/addon-a11y";
 import { withInfo } from "@storybook/addon-info";
 import { withKnobs } from "@storybook/addon-knobs";
 import { themes } from "@storybook/theming";
+import "semantic-ui-css/semantic.min.css";
 
 addDecorator(withInfo);
 addDecorator(withA11y);
