@@ -40,7 +40,7 @@
   "author": "To Huynh, Trung Ngo, Nic Weber, Jackson Maxfield Brown",
   "license": "MIT License",
   "devDependencies": {
-    "@babel/cli": "~7.7",
+    "@babel/cli": "^7.12.10",
     "@babel/core": "~7.7",
     "@babel/preset-env": "~7.7",
     "@babel/preset-react": "~7.7",
