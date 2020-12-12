@@ -1,5 +1,5 @@
 {
-  "name": "@councildataproject/cdp-instance",
+  "name": "@councildataproject/cdp-frontend",
   "engines": {
     "node": "12.x",
     "npm": "6.x"
@@ -40,7 +40,7 @@
   "author": "To Huynh, Trung Ngo, Nic Weber, Jackson Maxfield Brown",
   "license": "MIT License",
   "devDependencies": {
-    "@babel/cli": "~7.7",
+    "@babel/cli": "^7.12.10",
     "@babel/core": "~7.7",
     "@babel/preset-env": "~7.7",
     "@babel/preset-react": "~7.7",
@@ -107,7 +107,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CouncilDataProject/cdp-instance.git"
+    "url": "git+https://github.com/CouncilDataProject/cdp-frontend.git"
   },
   "keywords": [
     "civic technology",
@@ -115,7 +115,7 @@
     "data access"
   ],
   "bugs": {
-    "url": "https://github.com/CouncilDataProject/cdp-instance/issues"
+    "url": "https://github.com/CouncilDataProject/cdp-frontend/issues"
   },
-  "homepage": "https://github.com/CouncilDataProject/cdp-instance"
+  "homepage": "https://github.com/CouncilDataProject/cdp-frontend"
 }

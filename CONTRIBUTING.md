@@ -4,19 +4,19 @@ Contributions are welcome, and they are greatly appreciated! Every little bit
 helps, and credit will always be given.
 
 ## Get Started!
-Ready to contribute? Here's how to set up `cdp-instance` for local development.
+Ready to contribute? Here's how to set up `cdp-frontend` for local development.
 
-* Fork the `cdp-instance` repo on GitHub.
+* Fork the `cdp-frontend` repo on GitHub.
 
 * Clone your fork locally:
     ```
-    $ git clone --recurse-submodules git@github.com:{your_name_here}/cdp-instance.git
+    $ git clone --recurse-submodules git@github.com:{your_name_here}/cdp-frontend.git
     ```
 
 * Add upstream remote:
     ```
-    $ cd cdp-instance/
-    $ git remote add upstream https://github.com/CouncilDataProject/cdp-instance.git
+    $ cd cdp-frontend/
+    $ git remote add upstream https://github.com/CouncilDataProject/cdp-frontend.git
     $ git fetch upstream master
     ```
 
