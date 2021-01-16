@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import styled from "@emotion/styled";
-import colors from "../../styles/colors";
+import colors from "../../../styles/colors";
 
 const CARD_MAX_WIDTH = "544px";
 const CARD_BORDER_RADIUS = "5px";
@@ -66,7 +66,7 @@ type CardProps = {
   content: ReactNode;
 };
 
-export const Card = (props: CardProps) => {
+const Card = (props: CardProps) => {
   return (
     <CardContainer>
       <CardImageContainer imgSrc={props.imgSrc}>{props.imageOverlayContent}</CardImageContainer>
@@ -74,3 +74,5 @@ export const Card = (props: CardProps) => {
     </CardContainer>
   );
 };
+
+export default Card;
