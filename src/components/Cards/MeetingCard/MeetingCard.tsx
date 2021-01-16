@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
-import Card from "./Base";
-import colors from "../../styles/colors";
-import { fontSizes } from "../../styles/fonts";
+import Card from "../Base/Base";
+import colors from "../../../styles/colors";
+import { fontSizes } from "../../../styles/fonts";
 
 type MeetingCardProps = {
   imgSrc: string;
