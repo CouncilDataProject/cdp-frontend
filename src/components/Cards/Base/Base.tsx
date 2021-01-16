@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import styled from "@emotion/styled";
-import colors from "../../styles/colors";
+import colors from "../../../styles/colors";
 
 const CARD_MAX_WIDTH = "544px";
 const CARD_BORDER_RADIUS = "5px";
