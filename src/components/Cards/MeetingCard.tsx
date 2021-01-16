@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Card } from "./";
+import Card from "./Base";
 import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
 
@@ -43,7 +43,7 @@ const SearchExcerpt = styled.div`
   color: ${colors.grey};
 `;
 
-export const MeetingCard = (props: MeetingCardProps) => {
+const MeetingCard = (props: MeetingCardProps) => {
   const tagString = props.tags.join(` • `);
 
   return (
@@ -84,3 +84,5 @@ export const MeetingCard = (props: MeetingCardProps) => {
     />
   );
 };
+
+export default MeetingCard;
