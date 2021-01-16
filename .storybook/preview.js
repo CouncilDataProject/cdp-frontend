@@ -13,6 +13,7 @@ export const parameters = {
     storySort: {
       order: ["Getting Started", "Library"],
     },
+    isToolshown: true,
   },
   docs: {
     theme: themes.dark,
