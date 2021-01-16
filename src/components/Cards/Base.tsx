@@ -66,7 +66,7 @@ type CardProps = {
   content: ReactNode;
 };
 
-export const Card = (props: CardProps) => {
+const Card = (props: CardProps) => {
   return (
     <CardContainer>
       <CardImageContainer imgSrc={props.imgSrc}>{props.imageOverlayContent}</CardImageContainer>
@@ -74,3 +74,5 @@ export const Card = (props: CardProps) => {
     </CardContainer>
   );
 };
+
+export default Card;
