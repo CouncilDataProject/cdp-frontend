@@ -103,7 +103,7 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@mozilla-protocol/core": "^13.0.0"
+    "@mozilla-protocol/core": "^13.0.1"
   },
   "repository": {
     "type": "git",
