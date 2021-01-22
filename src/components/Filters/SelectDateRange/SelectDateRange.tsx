@@ -23,7 +23,7 @@ const SelectDateRange: FunctionComponent<SelectDateRangeProps> = ({
   return (
     <form className="mzp-c-form">
       <div className="mzp-c-field">
-        <label className="mzp-c-field-label" htmlFor="date">
+        <label className="mzp-c-field-label" htmlFor="form-input-control-start-date">
           From
         </label>
         <input
@@ -36,7 +36,7 @@ const SelectDateRange: FunctionComponent<SelectDateRangeProps> = ({
         ></input>
       </div>
       <div className="mzp-c-field">
-        <label className="mzp-c-field-label" htmlFor="date">
+        <label className="mzp-c-field-label" htmlFor="form-input-control-end-date">
           To
         </label>
         <input
