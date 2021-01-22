@@ -30,7 +30,7 @@ export interface SelectTextFilterOptionsProps {
   setOptionQuery: Dispatch<string>;
 }
 
-const SelectTextFilterOptionsMozilla: FunctionComponent<SelectTextFilterOptionsProps> = ({
+const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> = ({
   name,
   state,
   update,
@@ -100,4 +100,4 @@ const SelectTextFilterOptionsMozilla: FunctionComponent<SelectTextFilterOptionsP
   );
 };
 
-export default SelectTextFilterOptionsMozilla;
+export default SelectTextFilterOptions;
