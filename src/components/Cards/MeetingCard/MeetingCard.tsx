@@ -1,87 +1,53 @@
 import React from "react";
 import styled from "@emotion/styled";
-import Card from "../Base/Base";
-import colors from "../../../styles/colors";
-import { fontSizes } from "../../../styles/fonts";
+import "@mozilla-protocol/core/protocol/css/protocol.css";
+
+const DateOverlay = styled.p`
+  position: absolute;
+  z-index: 1;
+  color: white;
+  font-size: 30px;
+  font-weight: bolder;
+  top: 75%;
+  left: 2%;
+`;
 
 type MeetingCardProps = {
+  cardLink: string;
   imgSrc: string;
+  imgAlt: string;
   imgOverlayText: string;
   committee: string;
-  tags: [string];
+  tags: string[];
   excerpt?: string;
 };
 
-const HeadingSection = styled.div`
-  margin: 0 0 2rem 0;
-`;
-
-const SectionTitle = styled.div`
-  padding-bottom: 0.4rem;
-  font-size: ${fontSizes.font_size_3};
-  color: ${colors.grey};
-`;
-
-const HeadingContent = styled.div`
-  font-size: ${fontSizes.font_size_5};
-  font-weight: bold;
-  color: ${colors.black};
-`;
-
-const BodySection = styled.div`
-  margin: 0 0 1rem 0;
-`;
-
-const SectionContent = styled.div`
-  font-size: ${fontSizes.font_size_4};
-  font-weight: bold;
-  color: ${colors.black};
-`;
-
-const SearchExcerpt = styled.div`
-  font-size: ${fontSizes.font_size_3};
-  color: ${colors.grey};
-`;
-
-const MeetingCard = (props: MeetingCardProps) => {
-  const tagString = props.tags.join(` • `);
+const MeetingCard = ({
+  cardLink,
+  imgSrc,
+  imgAlt,
+  imgOverlayText,
+  committee,
+  tags,
+  excerpt,
+}: MeetingCardProps) => {
+  const tagString = tags.join(` • `);
 
   return (
-    <Card
-      imgSrc={props.imgSrc}
-      imageOverlayContent={
-        <span
-          style={{
-            position: "absolute",
-            bottom: "0",
-            left: "0",
-            margin: "1rem",
-            fontSize: fontSizes.font_size_8,
-            fontWeight: "bold",
-            color: colors.white,
-          }}
-        >
-          {props.imgOverlayText}
-        </span>
-      }
-      content={
-        <>
-          <HeadingSection>
-            <SectionTitle>Committee</SectionTitle>
-            <HeadingContent>{props.committee}</HeadingContent>
-          </HeadingSection>
-          <BodySection>
-            <SectionTitle>Tags</SectionTitle>
-            <SectionContent>{tagString}</SectionContent>
-          </BodySection>
-          {props.excerpt && (
-            <BodySection>
-              <SearchExcerpt>{`"${props.excerpt}"`}</SearchExcerpt>
-            </BodySection>
-          )}
-        </>
-      }
-    />
+    <section className="mzp-c-card mzp-has-aspect-16-9">
+      <a className="mzp-c-card-block-link" href={cardLink}>
+        <div className="mzp-c-card-media-wrapper">
+          <DateOverlay>{imgOverlayText}</DateOverlay>
+          <img className="mzp-c-card-image" src={imgSrc} alt={imgAlt} />
+        </div>
+        <div className="mzp-c-card-content">
+          <div className="mzp-c-card-tag">Committee</div>
+          <h2 className="mzp-c-card-title">{committee}</h2>
+          {excerpt ? <p className="mzp-c-card-desc">{`"${excerpt}"`}</p> : null}
+          <p className="mzp-c-card-meta">Tags: {tagString}</p>
+        </div>
+      </a>
+    </section>
   );
 };
 
