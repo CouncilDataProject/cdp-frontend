@@ -10,7 +10,7 @@ export interface SelectDateRangeProps {
 }
 
 /**Two input fields to select start and end dates.  */
-const SelectDateRangeMozilla: FunctionComponent<SelectDateRangeProps> = ({
+const SelectDateRange: FunctionComponent<SelectDateRangeProps> = ({
   state,
   update,
 }: SelectDateRangeProps) => {
@@ -52,4 +52,4 @@ const SelectDateRangeMozilla: FunctionComponent<SelectDateRangeProps> = ({
   );
 };
 
-export default SelectDateRangeMozilla;
+export default SelectDateRange;
