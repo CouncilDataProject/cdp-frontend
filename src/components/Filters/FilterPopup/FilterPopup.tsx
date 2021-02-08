@@ -1,6 +1,6 @@
 import React, { Dispatch, FunctionComponent, Fragment, ReactNode, useRef } from "react";
 import styled from "@emotion/styled";
-import { Button, Header, Icon, Popup } from "semantic-ui-react";
+import { Icon, Popup } from "semantic-ui-react";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 // Matching the styles of a Mozilla Protocol select element
@@ -84,8 +84,6 @@ export interface FilterPopupProps {
   getTextRep(): string;
   /**Whether the filter state is active. */
   isActive(): boolean;
-  /**The header of filter. */
-  header: string;
   /**Whether the filter popup is open. */
   popupIsOpen: boolean;
   /**React Dispatch callback to update the popupIsOpen state. */
@@ -106,7 +104,6 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   clear,
   getTextRep,
   isActive,
-  header,
   popupIsOpen,
   setPopupIsOpen,
   handlePopupClose,
@@ -145,7 +142,6 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
         trigger={<StyledSelect>{getTextRep()}</StyledSelect>}
       >
         <PopupContainer>
-          {/* <Header content={header} /> */}
           <ContentContainer>{children}</ContentContainer>
           {!closeOnChange && (
             <ButtonContainer>
