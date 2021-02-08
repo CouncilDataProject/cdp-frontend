@@ -36,7 +36,7 @@ const SelectSorting: FunctionComponent<SelectSortingProps> = ({
 
   return (
     <form className="mzp-c-form">
-      <fieldset>
+      <fieldset style={{ marginBottom: "0" }}>
         <div className="mzp-c-choices">
           {sortOptions.map((sortOption) => (
             <div key={sortOption.label} className="mzp-c-choice">

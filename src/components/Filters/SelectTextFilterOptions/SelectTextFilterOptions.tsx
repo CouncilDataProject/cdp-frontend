@@ -76,7 +76,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
           />
         </div>
       )}
-      <fieldset>
+      <fieldset style={{ marginBottom: "0" }}>
         <div className="mzp-c-choices">
           {optionsInOrder.map((option) => (
             <div key={option.name} className="mzp-c-choice">
