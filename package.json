@@ -103,7 +103,8 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@mozilla-protocol/core": "^13.0.0"
+    "@councildataproject/cdp-design": "^1.0.2",
+    "@mozilla-protocol/core": "^13.0.1"
   },
   "repository": {
     "type": "git",
