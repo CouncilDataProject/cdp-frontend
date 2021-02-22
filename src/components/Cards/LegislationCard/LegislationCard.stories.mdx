@@ -1,0 +1,45 @@
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+
+import LegislationCard from "./LegislationCard";
+
+<Meta title="Library/Cards/Legislation" component={LegislationCard} />
+
+# Legislation Card
+
+<Props of={LegislationCard} />
+
+## Adopted Legislation
+
+<Story name="Adopted">
+  <LegislationCard
+    name="Council Budget Action SPD-4-A-1"
+    status="Adopted"
+    date="January 22nd, 2020"
+    tags={["barbara bailey boulevard", "ADU", "single-family", "cottage"]}
+    link="#"
+  />
+</Story>
+
+## Rejected Legislation
+
+<Story name="Rejected">
+  <LegislationCard
+    name="Council Budget Action SPD-4-A-1"
+    status="Rejected"
+    date="January 22nd, 2020"
+    tags={["barbara bailey boulevard", "ADU", "single-family", "cottage"]}
+    link="#"
+  />
+</Story>
+
+## In Progress Legislation
+
+<Story name="In Progress">
+  <LegislationCard
+    name="Council Budget Action SPD-4-A-1"
+    status="Next Meeting"
+    date="January 22nd, 2022"
+    tags={["barbara bailey boulevard", "ADU", "single-family", "cottage"]}
+    link="#"
+  />
+</Story>
