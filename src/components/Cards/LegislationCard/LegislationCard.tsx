@@ -44,7 +44,6 @@ const LegislationCard: FC<LegislationCardProps> = ({ name, status, date, tags })
         <div className="mzp-c-card-content">
           <h2 className="mzp-c-card-title">{name}</h2>
           <p className="mzp-c-card-meta">{status}</p>
-          &bull;
           <StatusIconContainer>{statusIcon}</StatusIconContainer>
           <p className="mzp-c-card-desc">{date}</p>
           <p className="mzp-c-card-meta">Tags</p>
