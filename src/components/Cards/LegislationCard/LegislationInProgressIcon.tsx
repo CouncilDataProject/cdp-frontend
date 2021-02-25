@@ -1,5 +1,7 @@
 import React from "react";
 
+import "@councildataproject/cdp-design/dist/colors.css";
+
 const LegislationInProgressIcon = () => {
   return (
     <svg
