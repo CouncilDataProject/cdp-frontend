@@ -1,10 +1,11 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: './src/index.ts',
     output: {
         filename: 'index.js',
-        library: 'CDPInstance',  // TODO CHANGEME
+        library: 'CDPFrontend',  // TODO CHANGEME
         libraryTarget: 'umd',
         path: path.resolve(__dirname, 'dist'),
     },
@@ -18,6 +19,19 @@ module.exports = {
                     { loader: 'babel-loader' },
                 ],
             },
+            {
+                test: /\.(gif|png|jpe?g|svg|woff(2)?)$/i,
+                use: [
+                    "file-loader",
+                    {
+                        loader: "image-webpack-loader",
+                    },
+                ],
+            },
+            {
+                test: /\.css$/i,
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
+            },
         ],
     },
     resolve: {
@@ -28,5 +42,6 @@ module.exports = {
         moment: "moment",
         react: "react",
         "semantic-ui-react": "semantic-ui-react",
-    }
+    },
+    plugins: [new MiniCssExtractPlugin()],
 };
