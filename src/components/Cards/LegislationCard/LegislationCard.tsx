@@ -25,7 +25,12 @@ export interface LegislationCardProps {
   tags: string[];
 }
 
-const LegislationCard: FC<LegislationCardProps> = ({ name, status, date, tags }) => {
+const LegislationCard: FC<LegislationCardProps> = ({
+  name,
+  status,
+  date,
+  tags,
+}: LegislationCardProps) => {
   const tagString = tags.join(` • `);
 
   let statusIcon;
