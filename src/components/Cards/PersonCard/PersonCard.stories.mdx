@@ -8,7 +8,9 @@ import PersonCard from "./PersonCard";
 
 <Props of={PersonCard} />
 
-<Story name="Default">
+## With Seat Picture
+
+<Story name="With Seat Picture">
   <PersonCard
     person={{
       name: "Lisa Herbold",
@@ -19,6 +21,25 @@ import PersonCard from "./PersonCard";
       name: "District 1",
       electoralArea: "West Seattle / South Park",
       pictureSrc: "https://uploads.visitseattle.org/2018/06/20095301/VSMap_Puget-Sound-e1529519202971-450x300.jpg",
+    }}
+    chairedBodyName="Civil Rights, Utilities, Economic Development, and Arts Committee"
+    tenureStatus="2nd term"
+    billsSponsored={15}
+  />
+</Story>
+
+## Without Seat Picture
+
+<Story name="Without Seat Picture">
+  <PersonCard
+    person={{
+      name: "Lisa Herbold",
+      pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
+      isActive: true,
+    }}
+    seat={{
+      name: "District 1",
+      electoralArea: "West Seattle / South Park",
     }}
     chairedBodyName="Civil Rights, Utilities, Economic Development, and Arts Committee"
     tenureStatus="2nd term"

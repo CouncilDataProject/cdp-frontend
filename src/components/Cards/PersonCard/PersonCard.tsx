@@ -37,10 +37,10 @@ interface PersonCardProps {
     /** The seat's electoral area */
     electoralArea: string;
     /** The picture of the seat's electoral area */
-    pictureSrc: string;
+    pictureSrc?: string;
   };
-  /** The body that the person chairs */
-  chairedBodyName: string;
+  /** The bodies that the person chairs */
+  chairedBodyNames: string;
   /** The person's tenure status */
   tenureStatus: string;
   /** The number of bills sponsored by the person */
@@ -50,10 +50,12 @@ interface PersonCardProps {
 const PersonCard: FC<PersonCardProps> = ({
   person,
   seat,
-  chairedBodyName,
+  chairedBodyNames,
   tenureStatus,
   billsSponsored,
 }: PersonCardProps) => {
+  const seatHasPicture = seat.pictureSrc !== undefined;
+
   return (
     <section className="mzp-c-card mzp-has-aspect-16-9">
       <div className="mzp-c-card-block-link">
@@ -61,17 +63,19 @@ const PersonCard: FC<PersonCardProps> = ({
           <Img
             className="mzp-c-card-image"
             src={person.pictureSrc}
-            width="40%"
+            width={seatHasPicture ? "40%" : "100%"}
             left="0"
             alt={person.name}
           />
-          <Img
-            className="mzp-c-card-image"
-            src={seat.pictureSrc}
-            width="60%"
-            left="40%"
-            alt={`${seat.name} - ${seat.electoralArea}`}
-          />
+          {seatHasPicture && (
+            <Img
+              className="mzp-c-card-image"
+              src={seat.pictureSrc}
+              width="60%"
+              left="40%"
+              alt={`${seat.name} - ${seat.electoralArea}`}
+            />
+          )}
         </div>
         <div className="mzp-c-card-content">
           <h2 className="mzp-c-card-title">{person.name}</h2>
@@ -79,7 +83,7 @@ const PersonCard: FC<PersonCardProps> = ({
             {seat.name} &bull; {seat.electoralArea}
           </p>
           <p className="mzp-c-card-meta">Chair</p>
-          <p className="mzp-c-card-desc">{chairedBodyName}</p>
+          <p className="mzp-c-card-desc">{chairedBodyNames}</p>
           <TenureP className="mzp-c-card-meta">Tenure</TenureP>
           <p className="mzp-c-card-desc">
             {tenureStatus} &bull; {billsSponsored} bill(s) sponsored
