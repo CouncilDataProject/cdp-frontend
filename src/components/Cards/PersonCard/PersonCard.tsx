@@ -21,24 +21,18 @@ const TenureP = styled.p({
 });
 
 interface PersonCardProps {
-  /** The person */
-  person: {
-    /** The person's name */
-    name: string;
-    /** The person's picture */
-    pictureSrc: string;
-    /** Whether the person is a current councilmember */
-    isActive: boolean;
-  };
-  /** The person's seat on the council */
-  seat: {
-    /** The seat's name */
-    name: string;
-    /** The seat's electoral area */
-    electoralArea: string;
-    /** The picture of the seat's electoral area */
-    pictureSrc?: string;
-  };
+  /** The person's name */
+  personName: string;
+  /** The person's picture */
+  personPictureSrc: string;
+  /** Is the person a current councilmember? */
+  personIsActive: boolean;
+  /** The seat's name */
+  seatName: string;
+  /** The seat's electoral area */
+  seatElectoralArea: string;
+  /** The picture of the seat's electoral area */
+  seatPictureSrc?: string;
   /** The bodies that the person chairs */
   chairedBodyNames: string;
   /** The person's tenure status */
@@ -48,13 +42,17 @@ interface PersonCardProps {
 }
 
 const PersonCard: FC<PersonCardProps> = ({
-  person,
-  seat,
+  personName,
+  personPictureSrc,
+  personIsActive,
+  seatName,
+  seatElectoralArea,
+  seatPictureSrc,
   chairedBodyNames,
   tenureStatus,
   billsSponsored,
 }: PersonCardProps) => {
-  const seatHasPicture = seat.pictureSrc !== undefined;
+  const seatHasPicture = seatPictureSrc !== undefined;
 
   return (
     <section className="mzp-c-card mzp-has-aspect-16-9">
@@ -62,25 +60,25 @@ const PersonCard: FC<PersonCardProps> = ({
         <div className="mzp-c-card-media-wrapper">
           <Img
             className="mzp-c-card-image"
-            src={person.pictureSrc}
+            src={personPictureSrc}
             width={seatHasPicture ? "40%" : "100%"}
             left="0"
-            alt={person.name}
+            alt={personName}
           />
           {seatHasPicture && (
             <Img
               className="mzp-c-card-image"
-              src={seat.pictureSrc}
+              src={seatPictureSrc}
               width="60%"
               left="40%"
-              alt={`${seat.name} - ${seat.electoralArea}`}
+              alt={`${seatName} - ${seatElectoralArea}`}
             />
           )}
         </div>
         <div className="mzp-c-card-content">
-          <h2 className="mzp-c-card-title">{person.name}</h2>
+          <h2 className="mzp-c-card-title">{personName}</h2>
           <p className="mzp-c-card-desc">
-            {seat.name} &bull; {seat.electoralArea}
+            {seatName} &bull; {seatElectoralArea}
           </p>
           <p className="mzp-c-card-meta">Chair</p>
           <p className="mzp-c-card-desc">{chairedBodyNames}</p>
