@@ -7,7 +7,6 @@ const PersonStatus = styled.div({
   float: "right",
   marginRight: 8,
   marginBottom: 8,
-  fontSize: "1rem",
   borderRadius: "10%",
   padding: "0 4px",
 });
