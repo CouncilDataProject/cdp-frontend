@@ -31,7 +31,7 @@ describe("FilterPopup", () => {
       </FilterPopup>
     );
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(0);
-    filterPopupMount.find("Button").simulate("click");
+    filterPopupMount.find("StyledSelect").simulate("click");
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(1);
   });
 
@@ -54,16 +54,16 @@ describe("FilterPopup", () => {
       );
     });
 
-    test("Calls clear filter callback", () => {
+    test("Calls onClearFilter callback", () => {
       expect(clearMock).toHaveBeenCalledTimes(0);
-      filterPopup.find("Button[size='mini']").at(0).simulate("click");
+      filterPopup.find("MozillaNeutralButton").simulate("click");
       expect(clearMock).toHaveBeenCalledTimes(1);
     });
 
-    test("Calls handPopupClose callback", () => {
+    test("Calls handlePopupClose callback", () => {
       expect(setPopupIsOpenMock).toHaveBeenCalledTimes(0);
       expect(handlePopupCloseMock).toHaveBeenCalledTimes(0);
-      filterPopup.find("Button[size='mini']").at(1).simulate("click");
+      filterPopup.find("MozillaProductButton").simulate("click");
       expect(setPopupIsOpenMock).toHaveBeenCalledTimes(1);
       expect(handlePopupCloseMock).toHaveBeenCalledTimes(1);
     });

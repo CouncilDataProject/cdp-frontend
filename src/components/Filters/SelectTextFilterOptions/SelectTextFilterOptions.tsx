@@ -45,7 +45,8 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   };
 
   const onOptionQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setOptionQuery(e.currentTarget.value);
+    const currentValue = e.currentTarget.value;
+    setOptionQuery(currentValue);
   };
 
   let optionsInOrder = [...options];
