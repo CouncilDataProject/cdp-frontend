@@ -1,4 +1,4 @@
-import { Meta, Props, Story, ArgsTable  } from "@storybook/addon-docs/blocks";
+import { Meta, Story, ArgsTable } from "@storybook/addon-docs/blocks";
 
 import PersonCard from "./PersonCard";
 
@@ -8,19 +8,20 @@ import PersonCard from "./PersonCard";
 
 <ArgsTable of={PersonCard} />
 
-export const Template = (args) => <PersonCard {...args} />
+export const Template = (args) => <PersonCard {...args} />;
 
 ## With Seat Picture
 
 <Story
-  name="With Seat Picture" 
+  name="With Seat Picture"
   args={{
     personName: "Lisa Herbold",
     personPictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
     personIsActive: true,
     seatName: "District 1",
     seatElectoralArea: "West Seattle / South Park",
-    seatPictureSrc: "https://uploads.visitseattle.org/2018/06/20095301/VSMap_Puget-Sound-e1529519202971-450x300.jpg",
+    seatPictureSrc:
+      "https://uploads.visitseattle.org/2018/06/20095301/VSMap_Puget-Sound-e1529519202971-450x300.jpg",
     chairedBodyNames: "Civil Rights, Utilities, Economic Development, and Arts Committee",
     tenureStatus: "2nd term",
     billsSponsored: 15,

@@ -3,6 +3,15 @@ import styled from "@emotion/styled";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
+const PersonStatus = styled.div({
+  float: "right",
+  marginRight: 8,
+  marginBottom: 8,
+  fontSize: "1rem",
+  borderRadius: "10%",
+  padding: "0 4px",
+});
+
 interface ImgProps {
   left: string;
   width: string;
@@ -77,6 +86,9 @@ const PersonCard: FC<PersonCardProps> = ({
         </div>
         <div className="mzp-c-card-content">
           <h2 className="mzp-c-card-title">{personName}</h2>
+          <PersonStatus className={personIsActive ? "cdp-bg-neon-green" : "cdp-bg-dark-grey"}>
+            {personIsActive ? "active" : "inactive"}
+          </PersonStatus>
           <p className="mzp-c-card-desc">
             {seatName} &bull; {seatElectoralArea}
           </p>
