@@ -30,27 +30,35 @@ describe("SelectSorting", () => {
     jest.resetAllMocks();
   });
 
-  test("Renders 3 FormFields", () => {
-    expect(selectSorting.find("FormField")).toHaveLength(sortOptions.length);
+  test("Renders 3 sort options", () => {
+    expect(selectSorting.find(".mzp-c-choice")).toHaveLength(sortOptions.length);
   });
 
   test("Calls onPopupClose when user select a sort option", () => {
-    const checkboxes = selectSorting.find("FormField");
+    const checkboxes = selectSorting.find(".mzp-c-choice-control");
     for (let i = 0; i < sortOptions.length; i++) {
-      checkboxes.at(i).simulate("change", "", {
-        value: `${sortOptions[i].by}#${sortOptions[i].order}`,
-        label: sortOptions[i].label,
+      checkboxes.at(i).simulate("change", {
+        currentTarget: {
+          value: `${sortOptions[i].by}#${sortOptions[i].order}`,
+          parentNode: {
+            textContent: sortOptions[i].label,
+          },
+        },
       });
     }
     expect(onPopupCloseMock).toHaveBeenCalledTimes(sortOptions.length);
   });
 
   test("Calls update sort state with correct args", () => {
-    const checkboxes = selectSorting.find("FormField");
+    const checkboxes = selectSorting.find(".mzp-c-choice-control");
     for (let i = 0; i < sortOptions.length; i++) {
-      checkboxes.at(i).simulate("change", "", {
-        value: `${sortOptions[i].by}#${sortOptions[i].order}`,
-        label: sortOptions[i].label,
+      checkboxes.at(i).simulate("change", {
+        currentTarget: {
+          value: `${sortOptions[i].by}#${sortOptions[i].order}`,
+          parentNode: {
+            textContent: sortOptions[i].label,
+          },
+        },
       });
       expect(updateMock).toHaveBeenCalledWith("by", sortOptions[i].by);
       expect(updateMock).toHaveBeenCalledWith("order", sortOptions[i].order);

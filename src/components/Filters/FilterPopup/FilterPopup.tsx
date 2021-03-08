@@ -1,24 +1,33 @@
 import React, { Dispatch, FunctionComponent, Fragment, ReactNode, useRef } from "react";
-
 import styled from "@emotion/styled";
-import { Button, Header, Icon, Popup } from "semantic-ui-react";
+import { Icon, Popup } from "semantic-ui-react";
+import "@mozilla-protocol/core/protocol/css/protocol.css";
 
-const ButtonContainer = styled.div({
-  // evenly space the clear and save buttons
-  display: "flex",
-  justifyContent: "space-between",
-  padding: "1em 0",
+// Matching the styles of a Mozilla Protocol select element
+// https://protocol.mozilla.org/patterns/atoms/forms.html#select
+const StyledSelect = styled.div({
+  color: "rgba(0, 0, 0, 1) !important",
+  boxShadow: "none !important",
+  padding: "8px calc(1.5em + 16px) 8px 8px !important",
+  borderRadius: "4px !important",
+  border: "2px solid #9595a2 !important",
+  backgroundImage: `url("data:image/svg+xml,%3Csvg width='24px' height='24px' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline stroke='%239595a3' stroke-width='2' points='5 9 12 16 19 9'%3E%3C/polyline%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #ffffff 0%, #ffffff 100%)`,
+  backgroundPosition: "right 8px top 50% !important",
+  backgroundRepeat: "no-repeat, repeat !important",
+  display: "block !important",
+  minWidth: "300px !important",
+  maxWidth: "100% !important",
+  textOverflow: "ellipsis !important",
+  lineHeight: "1.25 !important",
 });
-ButtonContainer.displayName = "ButtonContainer";
+StyledSelect.displayName = "StyledSelect";
 
 const StyledPopup = styled(Popup)({
   // limit the width of the popup
   minWidth: "300px !important",
-  maxWidth: "90% !important",
+  maxWidth: "100% !important",
   boxShadow: "none !important",
-  "@media(max-width:500px)": {
-    width: "86% !important",
-  },
+  border: "2px solid #9595a2 !important",
 });
 StyledPopup.displayName = "StyledPopup";
 
@@ -31,12 +40,42 @@ const ContentContainer = styled(Popup.Content)({
 ContentContainer.displayName = "ContentContainer";
 
 const PopupContainer = styled.div({
-  //limit the height of the popup
+  // limit the height of the popup
   maxHeight: "45vh",
   display: "flex",
   flexDirection: "column",
 });
 PopupContainer.displayName = "PopupContainer";
+
+const ButtonContainer = styled.div({
+  // evenly space the clear and save buttons
+  display: "flex",
+  justifyContent: "space-between",
+  padding: ".833em 0 0",
+});
+ButtonContainer.displayName = "ButtonContainer";
+
+const MozillaProductButton = styled.button({
+  color: "#ffffff",
+  backgroundColor: "#0060df",
+  border: "2px solid #000000",
+  borderColor: "transparent",
+  borderRadius: "4px",
+  padding: "6px 24px",
+  fontSize: "0.875rem",
+});
+MozillaProductButton.displayName = "MozillaProductButton";
+
+const MozillaNeutralButton = styled.button({
+  color: "#5e5e72",
+  backgroundColor: "transparent",
+  border: "2px solid #000000",
+  borderColor: "#cdcdd4",
+  borderRadius: "4px",
+  padding: "6px 24px",
+  fontSize: "0.875rem",
+});
+MozillaNeutralButton.displayName = "MozillaNeutralButton";
 
 export interface FilterPopupProps {
   /**Callback to reset the filter state. */
@@ -45,8 +84,6 @@ export interface FilterPopupProps {
   getTextRep(): string;
   /**Whether the filter state is active. */
   isActive(): boolean;
-  /**The header of filter. */
-  header: string;
   /**Whether the filter popup is open. */
   popupIsOpen: boolean;
   /**React Dispatch callback to update the popupIsOpen state. */
@@ -59,14 +96,14 @@ export interface FilterPopupProps {
   children: ReactNode;
 }
 
-/**Display a button to trigger the opening of filter popup containing filtering React components such as
+/**
+ * Display a button to trigger the opening of filter popup containing filtering React components such as
  * SelectDateRange, SelectTextFilterOptions, SelectSorting.
  */
 const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   clear,
   getTextRep,
   isActive,
-  header,
   popupIsOpen,
   setPopupIsOpen,
   handlePopupClose,
@@ -102,24 +139,18 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
         offset="0, -5px"
         position="bottom left"
         positionFixed={true}
-        trigger={
-          <Button icon labelPosition="right" basic={!isActive()}>
-            <Icon name="angle down" />
-            {getTextRep()}
-          </Button>
-        }
+        trigger={<StyledSelect>{getTextRep()}</StyledSelect>}
       >
         <PopupContainer>
-          <Header content={header} />
           <ContentContainer>{children}</ContentContainer>
           {!closeOnChange && (
             <ButtonContainer>
-              <Button size="mini" disabled={!isActive()} onClick={onClearFilter}>
+              <MozillaNeutralButton disabled={!isActive()} onClick={onClearFilter}>
                 <Icon name="remove" /> Clear
-              </Button>
-              <Button color="facebook" size="mini" onClick={onPopupClose}>
+              </MozillaNeutralButton>
+              <MozillaProductButton onClick={onPopupClose}>
                 <Icon name="checkmark" /> Save
-              </Button>
+              </MozillaProductButton>
             </ButtonContainer>
           )}
         </PopupContainer>

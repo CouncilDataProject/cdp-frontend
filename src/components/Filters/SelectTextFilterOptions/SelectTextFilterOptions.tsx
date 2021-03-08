@@ -1,15 +1,7 @@
 import React, { ChangeEvent, Dispatch, FormEvent, FunctionComponent } from "react";
-
-import styled from "@emotion/styled";
-import { Checkbox, CheckboxProps, Form, Input, InputOnChangeData } from "semantic-ui-react";
-
+import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { FilterState } from "../reducer";
 import isSubstring from "../../../utils/isSubstring";
-
-const OptionQueryInput = styled(Form.Field)({
-  paddingRight: ".8em",
-});
-OptionQueryInput.displayName = "OptionQueryInput";
 
 /**The type of of a filter option. */
 interface FilterOption {
@@ -46,12 +38,15 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   optionQuery,
   setOptionQuery,
 }: SelectTextFilterOptionsProps) => {
-  const onChange = (e: FormEvent<HTMLInputElement>, data: CheckboxProps) => {
-    update(data.name as string, data.checked as boolean);
+  const onChange = (e: FormEvent<HTMLInputElement>) => {
+    const filterOptionName = e.currentTarget.name;
+    const isFilterOptionChecked = e.currentTarget.checked;
+    update(filterOptionName, isFilterOptionChecked);
   };
 
-  const onOptionQueryChange = (e: ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-    setOptionQuery(data.value);
+  const onOptionQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const currentValue = e.currentTarget.value;
+    setOptionQuery(currentValue);
   };
 
   let optionsInOrder = [...options];
@@ -67,29 +62,42 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   }
 
   return (
-    <Form>
+    <form className="mzp-c-form">
       {options.length > 5 && (
-        <OptionQueryInput
-          control={Input}
-          id="form-input-control-search-filter"
-          label={`Search ${name} Options`}
-          onChange={onOptionQueryChange}
-          value={optionQuery}
-        />
+        <div className="mzp-c-field">
+          <label className="mzp-c-field-label" htmlFor="form-input-control-search-filter">
+            {`Search ${name} Options`}
+          </label>
+          <input
+            className="mzp-c-field-control"
+            type="text"
+            id="form-input-control-search-filter"
+            value={optionQuery}
+            onChange={onOptionQueryChange}
+          />
+        </div>
       )}
-      {optionsInOrder.map((option) => (
-        <Form.Field
-          checked={state[option.name]}
-          control={Checkbox}
-          disabled={option.disabled}
-          id={`form-checkbox-control-${option.label}`}
-          key={option.name}
-          label={option.label}
-          name={option.name}
-          onChange={onChange}
-        />
-      ))}
-    </Form>
+      <fieldset style={{ marginBottom: "0" }}>
+        <div className="mzp-c-choices">
+          {optionsInOrder.map((option) => (
+            <div key={option.name} className="mzp-c-choice">
+              <label className="mzp-c-choice-label">
+                <input
+                  className="mzp-c-choice-control"
+                  type="checkbox"
+                  name={option.name}
+                  id={`form-checkbox-control-${option.label}`}
+                  checked={state[option.name]}
+                  disabled={option.disabled}
+                  onChange={onChange}
+                />{" "}
+                {option.label}
+              </label>
+            </div>
+          ))}
+        </div>
+      </fieldset>
+    </form>
   );
 };
 

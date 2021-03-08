@@ -1,7 +1,5 @@
 import React, { FormEvent, FunctionComponent } from "react";
-
-import { Checkbox, CheckboxProps, Form } from "semantic-ui-react";
-
+import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { FilterState } from "../reducer";
 import { SortOption } from "./getSortingText";
 
@@ -23,29 +21,41 @@ const SelectSorting: FunctionComponent<SelectSortingProps> = ({
   update,
   onPopupClose,
 }: SelectSortingProps) => {
-  const onChange = (e: FormEvent<HTMLInputElement>, data: CheckboxProps) => {
-    const [by, order] = (data.value as string).split("#");
+  const onChange = (e: FormEvent<HTMLInputElement>) => {
+    const [by, order] = (e.currentTarget.value as string).split("#");
     update("by", by);
     update("order", order);
-    update("label", data.label as string);
+    if (e.currentTarget.parentNode) {
+      const radioLabel = e.currentTarget.parentNode.textContent;
+      if (radioLabel) {
+        update("label", radioLabel);
+      }
+    }
     onPopupClose();
   };
 
   return (
-    <Form>
-      {sortOptions.map((sortOption) => (
-        <Form.Field
-          checked={state.label === sortOption.label}
-          control={Checkbox}
-          id={`form-checkbox-control-${sortOption.label}`}
-          key={sortOption.label}
-          label={sortOption.label}
-          onChange={onChange}
-          radio
-          value={`${sortOption.by}#${sortOption.order}`}
-        />
-      ))}
-    </Form>
+    <form className="mzp-c-form">
+      <fieldset style={{ marginBottom: "0" }}>
+        <div className="mzp-c-choices">
+          {sortOptions.map((sortOption) => (
+            <div key={sortOption.label} className="mzp-c-choice">
+              <label className="mzp-c-choice-label">
+                <input
+                  className="mzp-c-choice-control"
+                  type="radio"
+                  id={`form-checkbox-control-${sortOption.label}`}
+                  value={`${sortOption.by}#${sortOption.order}`}
+                  checked={state.label === sortOption.label}
+                  onChange={onChange}
+                />{" "}
+                {sortOption.label}
+              </label>
+            </div>
+          ))}
+        </div>
+      </fieldset>
+    </form>
   );
 };
 

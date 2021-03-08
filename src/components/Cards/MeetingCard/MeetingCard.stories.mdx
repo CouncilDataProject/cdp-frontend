@@ -15,7 +15,8 @@ import MeetingCard from "./MeetingCard";
 <Story name="Meeting">
   <MeetingCard
     imgSrc={text("Image URL", "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg")}
-    imgOverlayText={text("Image overlay text", "06-09-20")}
+    imgAlt={text("Image Alt Text", "Citizen presenting at a select budget committee meeting.")}
+    meetingDate={text("Meeting Date", "June 9th, 2020")}
     committee={text("Committee Name", "Select Budget")}
     tags={array("Tags", ["bike", "adu", "accessories", "rental"])}
   />
@@ -24,7 +25,8 @@ import MeetingCard from "./MeetingCard";
 <Story name="Meeting Search Result">
   <MeetingCard
     imgSrc={text("Image URL", "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg")}
-    imgOverlayText={text("Image overlay text", "06-09-20")}
+    imgAlt={text("Image Alt Text", "Citizen presenting at a select budget committee meeting.")}
+    meetingDate={text("Meeting Date", "June 9th, 2020")}
     committee={text("Committee Name", "Select Budget")}
     tags={array("Tags", ["bike", "adu", "accessories", "rental"])}
     excerpt={text(

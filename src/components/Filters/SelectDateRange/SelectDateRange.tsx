@@ -1,7 +1,5 @@
 import React, { ChangeEvent, FunctionComponent } from "react";
-
-import { Form, Input, InputOnChangeData } from "semantic-ui-react";
-
+import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { FilterState } from "../reducer";
 
 export interface SelectDateRangeProps {
@@ -16,33 +14,41 @@ const SelectDateRange: FunctionComponent<SelectDateRangeProps> = ({
   state,
   update,
 }: SelectDateRangeProps) => {
-  const onChange = (e: ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-    update(data.name as string, data.value);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const dateInputName = e.currentTarget.name;
+    const dateInputValue = e.currentTarget.value;
+    update(dateInputName, dateInputValue);
   };
 
   return (
-    <Form>
-      <Form.Field
-        control={Input}
-        fluid
-        id="form-input-control-start-date"
-        label="From"
-        name="start"
-        type="date"
-        onChange={onChange}
-        value={state.start}
-      />
-      <Form.Field
-        control={Input}
-        fluid
-        id="form-input-control-end-date"
-        label="To"
-        name="end"
-        type="date"
-        onChange={onChange}
-        value={state.end}
-      />
-    </Form>
+    <form className="mzp-c-form">
+      <div className="mzp-c-field">
+        <label className="mzp-c-field-label" htmlFor="form-input-control-start-date">
+          From
+        </label>
+        <input
+          className="mzp-c-field-control"
+          type="date"
+          name="start"
+          id="form-input-control-start-date"
+          value={state.start}
+          onChange={onChange}
+        ></input>
+      </div>
+      <div className="mzp-c-field">
+        <label className="mzp-c-field-label" htmlFor="form-input-control-end-date">
+          To
+        </label>
+        <input
+          className="mzp-c-field-control"
+          type="date"
+          name="end"
+          id="form-input-control-end-date"
+          value={state.end}
+          onChange={onChange}
+        ></input>
+      </div>
+    </form>
   );
 };
 

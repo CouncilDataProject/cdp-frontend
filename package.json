@@ -76,6 +76,7 @@
     "file-loader": "^6.2.0",
     "gh-pages": "^3.1.0",
     "husky": "~3.1",
+    "identity-obj-proxy": "^3.0.0",
     "image-webpack-loader": "^7.0.1",
     "jest": "^25.1.0",
     "lint-staged": "~9.4",

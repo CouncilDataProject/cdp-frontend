@@ -38,27 +38,31 @@ describe("SelectTextFilterOptions", () => {
       );
     });
 
-    test("Renders OptionQueryInput for optionQuery", () => {
-      expect(selectTextFilterOptions.find("OptionQueryInput")).toHaveLength(1);
+    test("Renders .mzp-c-field for optionQuery", () => {
+      expect(selectTextFilterOptions.find(".mzp-c-field")).toHaveLength(1);
     });
 
     test(`Shows 5 Checkboxes matched by optionQuery: ${optionQuery}`, () => {
-      expect(selectTextFilterOptions.find("FormField[disabled=false]")).toHaveLength(5);
+      expect(selectTextFilterOptions.find(".mzp-c-choice-control[disabled=false]")).toHaveLength(5);
     });
 
     test(`Disables the unmatched d1 Checkbox for optionQuery: ${optionQuery}`, () => {
-      expect(selectTextFilterOptions.find("FormField[disabled=true][name='d1']")).toHaveLength(1);
+      expect(
+        selectTextFilterOptions.find(".mzp-c-choice-control[disabled=true][name='d1']")
+      ).toHaveLength(1);
     });
 
     test(`The unmatched d1 Checkbox is the last option for optionQuery: ${optionQuery}`, () => {
-      expect(selectTextFilterOptions.find("FormField").at(5).prop("name")).toEqual("d1");
+      expect(selectTextFilterOptions.find(".mzp-c-choice-control").at(5).prop("name")).toEqual(
+        "d1"
+      );
     });
 
     test("Calls setOptionQuery with correct arg", () => {
       selectTextFilterOptions
-        .find("OptionQueryInput")
+        .find(".mzp-c-field-control")
         .at(0)
-        .simulate("change", "", { value: "c1" });
+        .simulate("change", { currentTarget: { value: "c1" } });
       expect(setOptionQueryMock).toHaveBeenCalledWith("c1");
     });
   });
@@ -83,20 +87,22 @@ describe("SelectTextFilterOptions", () => {
       );
     });
 
-    test("Does not render OptionQueryInput for optionQuery", () => {
-      expect(selectTextFilterOptions.find("OptionQueryInput")).toHaveLength(0);
+    test("Does not render .mzp-c-field for optionQuery", () => {
+      expect(selectTextFilterOptions.find(".mzp-c-field")).toHaveLength(0);
     });
 
     test("Renders 3 total Checkboxes", () => {
-      expect(selectTextFilterOptions.find("FormField[disabled=false]").length).toEqual(
+      expect(selectTextFilterOptions.find(".mzp-c-choice-control[disabled=false]").length).toEqual(
         options.length
       );
     });
 
     test("Calls update filter with correct args", () => {
-      const checkboxes = selectTextFilterOptions.find("FormField");
+      const checkboxes = selectTextFilterOptions.find(".mzp-c-choice-control");
       for (let i = 0; i < options.length; i++) {
-        checkboxes.at(i).simulate("change", "", { name: options[i].name, checked: true });
+        checkboxes
+          .at(i)
+          .simulate("change", { currentTarget: { name: options[i].name, checked: true } });
         expect(updateMock).toHaveBeenCalledWith(options[i].name, true);
       }
       expect(updateMock).toHaveBeenCalledTimes(options.length);

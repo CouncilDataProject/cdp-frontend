@@ -8,7 +8,6 @@ describe("FilterPopup", () => {
   const clearMock = jest.fn();
   const getTextRepMock = jest.fn();
   const isActiveMock = jest.fn();
-  const header = "test";
   const popupIsOpen = false;
   const setPopupIsOpenMock = jest.fn();
   const handlePopupCloseMock = jest.fn();
@@ -23,7 +22,6 @@ describe("FilterPopup", () => {
         clear={clearMock}
         getTextRep={getTextRepMock}
         isActive={isActiveMock}
-        header={header}
         popupIsOpen={popupIsOpen}
         setPopupIsOpen={setPopupIsOpenMock}
         handlePopupClose={handlePopupCloseMock}
@@ -33,7 +31,7 @@ describe("FilterPopup", () => {
       </FilterPopup>
     );
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(0);
-    filterPopupMount.find("Button").simulate("click");
+    filterPopupMount.find("StyledSelect").simulate("click");
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(1);
   });
 
@@ -46,7 +44,6 @@ describe("FilterPopup", () => {
           clear={clearMock}
           getTextRep={getTextRepMock}
           isActive={isActiveMock}
-          header={header}
           popupIsOpen={popupIsOpen}
           setPopupIsOpen={setPopupIsOpenMock}
           handlePopupClose={handlePopupCloseMock}
@@ -57,16 +54,16 @@ describe("FilterPopup", () => {
       );
     });
 
-    test("Calls clear filter callback", () => {
+    test("Calls onClearFilter callback", () => {
       expect(clearMock).toHaveBeenCalledTimes(0);
-      filterPopup.find("Button[size='mini']").at(0).simulate("click");
+      filterPopup.find("MozillaNeutralButton").simulate("click");
       expect(clearMock).toHaveBeenCalledTimes(1);
     });
 
-    test("Calls handPopupClose callback", () => {
+    test("Calls handlePopupClose callback", () => {
       expect(setPopupIsOpenMock).toHaveBeenCalledTimes(0);
       expect(handlePopupCloseMock).toHaveBeenCalledTimes(0);
-      filterPopup.find("Button[size='mini']").at(1).simulate("click");
+      filterPopup.find("MozillaProductButton").simulate("click");
       expect(setPopupIsOpenMock).toHaveBeenCalledTimes(1);
       expect(handlePopupCloseMock).toHaveBeenCalledTimes(1);
     });
