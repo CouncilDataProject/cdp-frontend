@@ -86,7 +86,6 @@
     "nyc": "^15.1.0",
     "prettier": "^2.0.5",
     "react": "^16.14.0",
-    "react-docgen-typescript": "^1.21.0",
     "react-dom": "^16.13.0",
     "rimraf": "~3.0",
     "semantic-ui-css": "^2.4.1",
