@@ -1,42 +1,64 @@
-import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+import { Meta, Story, ArgsTable } from "@storybook/addon-docs/blocks";
 
 import LegislationCard from "./LegislationCard";
 
-<Meta title="Library/Cards/Legislation" component={LegislationCard} />
+<Meta
+  title="Library/Cards/Legislation"
+  component={LegislationCard}
+  argTypes={{
+    status: {
+      control: {
+        type: "select",
+        options: ["Adopted", "Rejected", "Next Meeting"]
+      }
+    }
+  }}
+/>
 
 # Legislation Card
 
-<Props of={LegislationCard} />
+<ArgsTable of={LegislationCard} />
+
+export const Template = (args) => <LegislationCard {...args} />;
 
 ## Adopted Legislation
 
-<Story name="Adopted">
-  <LegislationCard
-    name="Council Budget Action SPD-4-A-1"
-    status="Adopted"
-    date="January 22nd, 2020"
-    tags={["barbara bailey boulevard", "ADU", "single-family", "cottage"]}
-  />
+<Story 
+  name="Adopted"
+  args={{
+    name: "Council Budget Action SPD-4-A-1",
+    status: "Adopted",
+    date: "January 22nd, 2020",
+    tags: ["barbara bailey boulevard", "ADU", "single-family", "cottage"],
+  }}
+>
+  {Template.bind({})}
 </Story>
 
 ## Rejected Legislation
 
-<Story name="Rejected">
-  <LegislationCard
-    name="Council Budget Action SPD-4-A-1"
-    status="Rejected"
-    date="January 22nd, 2020"
-    tags={["barbara bailey boulevard", "ADU", "single-family", "cottage"]}
-  />
+<Story 
+  name="Rejected"
+  args={{
+    name: "Council Budget Action SPD-4-A-1",
+    status: "Rejected",
+    date: "January 22nd, 2020",
+    tags: ["barbara bailey boulevard", "ADU", "single-family", "cottage"],
+  }}
+>
+  {Template.bind({})}
 </Story>
 
 ## In Progress Legislation
 
-<Story name="In Progress">
-  <LegislationCard
-    name="Council Budget Action SPD-4-A-1"
-    status="Next Meeting"
-    date="January 22nd, 2022"
-    tags={["barbara bailey boulevard", "ADU", "single-family", "cottage"]}
-  />
+<Story 
+  name="In Progress"
+  args={{
+    name: "Council Budget Action SPD-4-A-1",
+    status: "Next Meeting",
+    date: "January 22nd, 2020",
+    tags: ["barbara bailey boulevard", "ADU", "single-family", "cottage"],
+  }}
+>
+  {Template.bind({})}
 </Story>
