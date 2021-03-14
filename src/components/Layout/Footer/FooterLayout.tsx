@@ -32,11 +32,11 @@ export interface FooterLayoutProps {
 function renderHeader(header: Header) {
   return (
     <section className="mzp-c-footer-section">
-      <h5 className="mzp-c-footer-heading">{header.headerName}</h5>
+      <h2 className="mzp-c-footer-heading">{header.headerName}</h2>
       <ul style={{ fontSize: "12px" }}>
         {header.links.map((link) => {
           return (
-            <li>
+            <li key={link.label}>
               <a href={link.url}>{link.label}</a>
             </li>
           );
@@ -76,7 +76,7 @@ const FooterLayout: FC<FooterLayoutProps> = ({
           </form>
         </section>
         <section className="mzp-c-footer-section">
-          <h5 className="mzp-c-footer-heading">CDP Information</h5>
+          <h1 className="mzp-c-footer-heading">CDP Information</h1>
           <ul style={{ fontSize: "12px" }}>
             <li>
               <a href="https://github.com/CouncilDataProject/cdp-frontend/issues/councildataproject.github.io">
@@ -88,9 +88,6 @@ const FooterLayout: FC<FooterLayoutProps> = ({
                 CouncilDataProject GitHub
               </a>
             </li>
-            <li>
-              <a href=""></a>
-            </li>
           </ul>
         </section>
         <section className="mzp-c-footer-section">
@@ -99,7 +96,7 @@ const FooterLayout: FC<FooterLayoutProps> = ({
           })}
         </section>
         <section className="mzp-c-footer-section">
-          <h4 className="mzp-c-footer-heading">DISCLAIMER</h4>
+          <h1 className="mzp-c-footer-heading">DISCLAIMER</h1>
           <p>
             This web application is not funded by, nor associated with the Seattle City Council.
             Meeting transcripts are 100% accurate, and may not represent what was actually said.
