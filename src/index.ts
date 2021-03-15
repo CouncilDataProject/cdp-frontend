@@ -13,6 +13,4 @@ export { default as useFilter } from "./components/Filters/useFilter";
 export { MeetingCard } from "./components/Cards/MeetingCard";
 export { LegislationCard } from "./components/Cards/LegislationCard";
 export { PersonCard } from "./components/Cards/PersonCard";
-
-//Layouts
-export { FooterLayout } from "./components/Layout/Footer";
+export { MinutesItemCard } from "./components/Cards/MinutesItemCard";
