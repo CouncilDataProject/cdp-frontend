@@ -9,9 +9,9 @@ import LegislationCard from "./LegislationCard";
     status: {
       control: {
         type: "select",
-        options: ["Adopted", "Rejected", "Next Meeting"]
-      }
-    }
+        options: ["Adopted", "Rejected", "Next Meeting"],
+      },
+    },
   }}
 />
 
@@ -23,7 +23,7 @@ export const Template = (args) => <LegislationCard {...args} />;
 
 ## Adopted Legislation
 
-<Story 
+<Story
   name="Adopted"
   args={{
     name: "Council Budget Action SPD-4-A-1",
@@ -37,7 +37,7 @@ export const Template = (args) => <LegislationCard {...args} />;
 
 ## Rejected Legislation
 
-<Story 
+<Story
   name="Rejected"
   args={{
     name: "Council Budget Action SPD-4-A-1",
@@ -51,7 +51,7 @@ export const Template = (args) => <LegislationCard {...args} />;
 
 ## In Progress Legislation
 
-<Story 
+<Story
   name="In Progress"
   args={{
     name: "Council Budget Action SPD-4-A-1",

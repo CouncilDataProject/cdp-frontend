@@ -1,0 +1,46 @@
+import { action } from "@storybook/addon-actions";
+import { text, array } from "@storybook/addon-knobs";
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+
+import MinutesItemCard from "./MinutesItemCard";
+
+<Meta title="Library/Cards/MinutesItem" component={MinutesItemCard} />
+
+<Props of={MinutesItemCard} />
+
+<Story name="MinutesItem">
+  <MinutesItemCard
+    minutesItems={[
+      {
+        item: "Approval of the minutes",
+      },
+      {
+        item: "Council briefing minutes (2019)",
+        docs: [
+          {
+            url: "http://google.com",
+            label: "Meeting transcript",
+          },
+        ],
+      },
+      {
+        item: "President's report",
+      },
+      {
+        item: "Preview of today's city council actions, council and regional committees",
+      },
+      {
+        item: "Inf 1579",
+        docs: [
+          {
+            url: "http://google.com",
+            label: "A document",
+          },
+        ],
+      },
+      {
+        item: "Executive session on Pending, Potential, or Actual Litigation",
+      },
+    ]}
+  />
+</Story>
