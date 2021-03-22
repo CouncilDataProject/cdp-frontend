@@ -13,4 +13,6 @@ export { default as useFilter } from "./components/Filters/useFilter";
 export { MeetingCard } from "./components/Cards/MeetingCard";
 export { LegislationCard } from "./components/Cards/LegislationCard";
 export { PersonCard } from "./components/Cards/PersonCard";
-export { MinutesItemCard } from "./components/Cards/MinutesItemCard";
+
+//Details
+export { MinutesItem } from "./components/Details/MinutesItem";

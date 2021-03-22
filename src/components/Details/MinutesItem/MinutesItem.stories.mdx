@@ -2,14 +2,14 @@ import { action } from "@storybook/addon-actions";
 import { text, array } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 
-import MinutesItemCard from "./MinutesItemCard";
+import MinutesItem from "./MinutesItem";
 
-<Meta title="Library/Cards/MinutesItem" component={MinutesItemCard} />
+<Meta title="Library/Details/MinutesItem" component={MinutesItem} />
 
-<Props of={MinutesItemCard} />
+<Props of={MinutesItem} />
 
 <Story name="MinutesItem">
-  <MinutesItemCard
+  <MinutesItem
     minutesItems={[
       {
         item: "Approval of the minutes",
