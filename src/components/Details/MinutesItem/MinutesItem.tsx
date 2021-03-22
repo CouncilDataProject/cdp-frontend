@@ -39,9 +39,11 @@ function returnDocList(docs: Docs[] | undefined) {
           </DocumentsListOpen>
           {docs.map((doc) => {
             return (
-              <a href={doc.url} key={doc.label}>
-                {doc.label}
-              </a>
+              <div>
+                <a href={doc.url} key={doc.label}>
+                  {doc.label}
+                </a>
+              </div>
             );
           })}
         </details>

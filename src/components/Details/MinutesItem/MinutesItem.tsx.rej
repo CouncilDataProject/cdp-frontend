@@ -1,0 +1,6 @@
+diff a/src/components/Details/MinutesItem/MinutesItem.tsx b/src/components/Details/MinutesItem/MinutesItem.tsx	(rejected hunks)
+@@ -42 +42,3 @@ function returnDocList(docs: Docs[] | undefined) {
+-              <a href={doc.url} key={doc.label}>{doc.label}</a>
++              <a href={doc.url} key={doc.label}>
++                {doc.label}
++              </a>
