@@ -15,4 +15,4 @@ export { LegislationCard } from "./components/Cards/LegislationCard";
 export { PersonCard } from "./components/Cards/PersonCard";
 
 //Details
-export { MinutesItem } from "./components/Details/MinutesItem";
+export { MinutesItemsList } from "./components/Details/MinutesItemsList";

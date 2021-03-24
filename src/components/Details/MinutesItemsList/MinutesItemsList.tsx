@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 const DocumentsListOpen = styled.summary({
-  width: "7.5rem",
+  width: "8.5rem",
 });
 
 const DocumentsListParagraph = styled.p({
@@ -25,7 +25,9 @@ interface Items {
   docs?: Docs[];
 }
 
-export interface MinutesItemProps {
+export interface MinutesItemsListProps {
+  /*List of minutes items headlines, each of which
+   may have a list of associated documents */
   minutesItems: Items[];
 }
 
@@ -50,7 +52,7 @@ function returnDocList(docs: Docs[] | undefined) {
   }
 }
 
-const MinutesItem: FC<MinutesItemProps> = ({ minutesItems }: MinutesItemProps) => {
+const MinutesItemsList: FC<MinutesItemsListProps> = ({ minutesItems }: MinutesItemsListProps) => {
   return (
     <ol className="mzp-u-list-styled">
       {minutesItems.map((elem) => {
@@ -65,4 +67,4 @@ const MinutesItem: FC<MinutesItemProps> = ({ minutesItems }: MinutesItemProps) =
   );
 };
 
-export default MinutesItem;
+export default MinutesItemsList;
