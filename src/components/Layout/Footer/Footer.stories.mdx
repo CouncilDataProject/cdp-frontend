@@ -1,0 +1,30 @@
+import { action } from "@storybook/addon-actions";
+import { text, array } from "@storybook/addon-knobs";
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+
+import Footer from "./Footer";
+
+<Meta title="Library/Layout/Footer" component={Footer} />
+
+# MeetingCard
+
+### Displays a card
+
+<Props of={Footer} />
+
+<Story name="Footer">
+  <Footer
+    footerLinksSections={[
+      {
+        links: [
+          {
+            label: "First",
+            url: "http://google.com",
+          },
+          { label: "Second", url: "http://google.com" },
+        ],
+        footerLinksSectionName: "First Section",
+      },
+    ]}
+  />
+</Story>
