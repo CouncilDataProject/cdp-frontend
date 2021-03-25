@@ -46,15 +46,13 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
   return (
     <footer className="mzp-c-footer">
       <div className="mzp-l-content">
-        <nav className="mzp-c-footer-primary">
+        <nav className="mzp-c-footer-primary" aria-label="footer">
           <div className="mzp-c-footer-sections">
             <section className="mzp-c-footer-section">
               <h5 className="mzp-c-footer-heading">About</h5>
               <ul>
                 <li>
-                  <a href="https://councildataproject.github.io/#about">
-                    CouncilDataProject Information
-                  </a>
+                  <a href="https://councildataproject.github.io/">CouncilDataProject</a>
                 </li>
                 <li>
                   <a href="https://github.com/CouncilDataProject">GitHub</a>
