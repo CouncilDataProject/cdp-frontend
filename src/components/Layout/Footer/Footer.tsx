@@ -19,7 +19,7 @@ interface FooterLinksSection {
 }
 
 export interface FooterProps {
-  /*Array of footer columns, each with a name to be displayed at 
+  /**Array of footer columns, each with a name to be displayed at 
   the top of the column, and an array of links to be displayed 
   below the name*/
   footerLinksSections: FooterLinksSection[];
