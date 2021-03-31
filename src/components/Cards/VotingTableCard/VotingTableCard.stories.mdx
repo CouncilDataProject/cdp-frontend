@@ -1,0 +1,134 @@
+import { action } from "@storybook/addon-actions";
+import { text, array, boolean } from "@storybook/addon-knobs";
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+import VotingTableCard from "./VotingTableCard";
+
+<Meta title="Library/Tables/Tables" component={VotingTableCard} />
+
+### An Empty Table
+
+<Props of={VotingTableCard} />
+
+<Story name="empty table">
+  <VotingTableCard
+    votesPage={[]}
+    name={text("Example Name")}
+  />
+</Story>
+
+### A Table with a Single Cell
+<Story name="single-cell table">
+  <VotingTableCard
+    votesPage={[
+      {
+        matter: {
+          id: 'example-matter-id',
+          name: text('example-matter-name', "Council Community Meeting"),
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: true,
+        council_decision: true,
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      } 
+    ]}
+    name={text("Example Name", "Alice")}
+  />
+</Story>
+
+### A Table with Many Cells
+
+<Story name="many-cell table">
+  <VotingTableCard
+    votesPage={[
+      {
+        matter: {
+          id: 'example-matter-id',
+          name: "example-matter-name",
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: false,
+        council_decision: false,
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      },
+      {
+        matter: {
+          id: 'example-matter-id2',
+          name: "example-matter-name",
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: true,
+        council_decision: false,
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      },
+      {
+        matter: {
+          id: 'example-matter-id3',
+          name: "example-matter-name",
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: false,
+        council_decision: true,
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      },
+      {
+        matter: {
+          id: 'example-matter-id4',
+          name: "example-matter-name",
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: true,
+        council_decision: true,
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      },
+      {
+        matter: {
+          id: 'example-matter-id5',
+          name: "example-matter-name",
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: true,
+        council_decision: true,
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      },
+      {
+        matter: {
+          id: 'example-matter-id6',
+          name: "example-matter-name",
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: false,
+        council_decision: true,
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      },
+    ]}
+    name={text("Example Name", "Alice")}
+  />
+</Story>

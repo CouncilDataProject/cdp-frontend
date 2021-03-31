@@ -1,0 +1,27 @@
+import { action } from "@storybook/addon-actions";
+import { text, array, boolean } from "@storybook/addon-knobs";
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+
+import VotingTableCardCell from "./VotingTableCardCell";
+
+<Meta title="Library/Tables/Cells" component={VotingTableCardCell} />
+
+# VotingTableCardCell
+
+### A single cell
+
+<Props of={VotingTableCardCell} />
+
+<Story name="Single Cell">
+  <VotingTableCardCell
+    legislationName={text("Legislation name", "Example Legislation Name")}
+    legislationLink={text("Link to legislative text", "https://www.google.com")}
+    isEven={boolean("Is this row even or odd in the table display", true)}
+    isInFavor={boolean("Was the councilor's vote in favor of the legislation", true)}
+    decision={boolean("What was the council's decision?", false)}
+    tags={array("Tags", ["bike", "example", "lanes", "rental"])}
+    meetingDate={text("JS Date Contructable String", "03/26/2021")}
+    meetingLink={text("Link to Meeting", "https://www.google.com")}
+    committeeName={text("Committee Name", "Example Committee")}
+  />
+</Story>
