@@ -4,25 +4,26 @@ import { VotingTableCardCell } from "../VotingTableCardCell";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type VotingTableCardProps = {
-  name: string;
-  votesPage: object[];
+  name: string; // the name of the legislator
+  votesPage: object[]; // an array of Votes
 };
 
 /*
-This is what a Vote looks like
+This component is passed an array of Votes via the votesPage prop.
+This is what a Vote looks like.
 {
-matter: {
-  id: vote.matter_ref,
-  name: get_matter(vote.matter_ref).name,
-  keywords: MAKE OPTIONAL FOR NOW
-},
-decision: vote.decision,
-council_decision: get_event_minutes_item(vote.event_minutes_item_ref).decision,
-event: {
-  id: vote.event_ref,
-  date: get_event(vote.event_ref).event_datetime,
-  body_name: get_body(get_event(vote.event_ref).body_ref).name,
-},
+  matter: {
+    id: vote.matter_ref,
+    name: get_matter(vote.matter_ref).name,
+    keywords: MAKE OPTIONAL FOR NOW
+  },
+  decision: vote.decision,
+  council_decision: get_event_minutes_item(vote.event_minutes_item_ref).decision,
+  event: {
+    id: vote.event_ref,
+    date: get_event(vote.event_ref).event_datetime,
+    body_name: get_body(get_event(vote.event_ref).body_ref).name,
+  }
 }
 */
 const MiniTable = styled("div")({
@@ -52,23 +53,12 @@ function renderEmpty() {
     </blockquote>
   );
 }
-{
-  /* <thead>
-<tr>
-  <td></td>
-  <th scope="col">Legislation</th>
-  <th scope="col">{name}'s Vote</th>
-  <th scope="col">Council Decision</th>
-  <th scope="col">Meeting</th>
-</tr>
-</thead> */
-}
 
 const VotingTableCard = ({ name, votesPage }: VotingTableCardProps) => {
   if (!votesPage || !votesPage.length || votesPage.length === 0) return renderEmpty();
   return (
     <table className="mzp-u-data-table" style={{ width: "100%" }}>
-      <caption>Voting Record</caption>
+      <caption>{name}'s Voting Record</caption>
       <MiniTable>
         <Legislation className="mzp-c-card-desc">
           <h6>Legislation</h6>
@@ -87,10 +77,10 @@ const VotingTableCard = ({ name, votesPage }: VotingTableCardProps) => {
         const legislationName = vote.matter.name;
         const isInFavor = vote.decision;
         const decision = vote.council_decision;
-        const legislationLink = `baseUrl${vote.matter.id}`; //TODO: how does the baseUrl get injected?
+        const legislationLink = `${window.location.hostname}/matters/${vote.matter.id}`;
         const tags = vote.matter.keywords;
         const meetingDate = vote.event.date;
-        const meetingLink = `baseUrl${vote.event.id}`; //TODO: how does the baseUrl get injected?
+        const meetingLink = `${window.location.hostname}/events/${vote.event.id}`;
         const committeeName = vote.event.body_name;
 
         const isEven = index % 2 === 0;

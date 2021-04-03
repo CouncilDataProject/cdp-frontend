@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "@emotion/styled";
-import BooleanApprovalIcon from "../../Shared/BooleanApprovalcon";
+import DecisionResult from "../../Shared/DecisionResult";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type VotingTableCardCellProps = {
   legislationName: string;
   isEven: boolean;
-  isInFavor: boolean;
-  decision: boolean;
+  isInFavor: string;
+  decision: string;
   legislationLink: string;
   tags: string[];
   meetingDate: string;
@@ -17,7 +17,7 @@ type VotingTableCardCellProps = {
 
 const MiniTable = styled("div")({
   display: "flex",
-  padding: 2,
+  padding: 4,
 });
 
 const Legislation = styled("div")({
@@ -45,7 +45,7 @@ const VotingTableCardCell = ({
   meetingLink,
   committeeName,
 }: VotingTableCardCellProps) => {
-  const backgroundColor = isEven ? "lightGrey" : "white";
+  const backgroundColor = isEven ? "rgba(148,148,148,0.2)" : "white";
   const tagString = tags && tags.length > 0 ? tags.join(` • `) : "";
   const dateText = new Date(meetingDate).toDateString();
   return (
@@ -56,13 +56,11 @@ const VotingTableCardCell = ({
         </a>
         <p className="mzp-c-card-desc">{tagString}</p>
       </Legislation>
-      <Vote style={{ justifyContent: "center", alignItems: "center" }}>
-        <BooleanApprovalIcon isInFavor={isInFavor} style={{ maxWidth: 20, margin: 4 }} />
-        <p className="mzp-c-card-desc">{isInFavor ? "In Favor" : "Not in Favor"}</p>
+      <Vote style={{ display: "flex", alignItems: "center" }}>
+        <DecisionResult result={isInFavor} />
       </Vote>
-      <Decison>
-        <BooleanApprovalIcon isInFavor={decision} style={{ maxWidth: 20, margin: 4 }} />
-        <p className="mzp-c-card-desc">{decision ? "In Favor" : "Not in Favor"}</p>
+      <Decison style={{ display: "flex", alignItems: "center" }}>
+        <DecisionResult result={decision} />
       </Decison>
       <Meeting>
         <a className="mzp-c-cta-link" href={meetingLink}>

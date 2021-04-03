@@ -1,1 +1,1 @@
-export { default as BooleanApprovalIcon } from "./BooleanApprovalcon";
+export { default as DecisionResult } from "./DecisionResult";
