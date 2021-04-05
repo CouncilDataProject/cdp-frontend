@@ -58,13 +58,13 @@ const VotingTableCard = ({ name, votesPage }: VotingTableCardProps) => {
   if (!votesPage || !votesPage.length || votesPage.length === 0) return renderEmpty();
   return (
     <table className="mzp-u-data-table" style={{ width: "100%" }}>
-      <caption>{name}'s Voting Record</caption>
+      <caption>{name}&apos;s Voting Record</caption>
       <MiniTable>
         <Legislation className="mzp-c-card-desc">
           <h6>Legislation</h6>
         </Legislation>
         <Vote>
-          <h6>{name}'s Vote</h6>
+          <h6>{name}&apos;s Vote</h6>
         </Vote>
         <Decison>
           <h6>Council Decision</h6>
@@ -87,6 +87,7 @@ const VotingTableCard = ({ name, votesPage }: VotingTableCardProps) => {
 
         return (
           <VotingTableCardCell
+            key={`voting-table-card-cell-${index}`}
             isEven={isEven}
             legislationName={legislationName}
             isInFavor={isInFavor}
