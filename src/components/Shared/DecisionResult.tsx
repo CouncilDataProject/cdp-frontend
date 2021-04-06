@@ -20,6 +20,12 @@ const DecisionResult = ({ result }: DecisionResultProps) => {
     case VOTE_DECISION.REJECT:
       statusIcon = <LegislationRejectedIcon />;
       break;
+    case MATTER_STATUS_DECISION.REJECTED:
+      statusIcon = <LegislationRejectedIcon />;
+      break;
+    case MATTER_STATUS_DECISION.ADOPTED:
+      statusIcon = <LegislationAdoptedIcon />;
+      break;
     case MATTER_STATUS_DECISION.IN_PROGRESS:
       statusIcon = <LegislationInProgressIcon />;
       break;

@@ -3,7 +3,7 @@ import { text, array, boolean } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 import VotingTableCard from "./VotingTableCard";
 
-<Meta title="Library/Tables/Tables" component={VotingTableCard} />
+<Meta title="Library/Tables/VotingRecordTable" component={VotingTableCard} />
 
 ### An Empty Table
 
@@ -16,8 +16,8 @@ import VotingTableCard from "./VotingTableCard";
   />
 </Story>
 
-### A Table with a Single Cell
-<Story name="single-cell table">
+### A Table with a Single row
+<Story name="single-row table">
   <VotingTableCard
     votesPage={[
       {
@@ -27,7 +27,7 @@ import VotingTableCard from "./VotingTableCard";
           keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
         },
         decision: "Approve",
-        council_decision: "Approve",
+        council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
@@ -39,9 +39,9 @@ import VotingTableCard from "./VotingTableCard";
   />
 </Story>
 
-### A Table with Many Cells
+### A Table with Many Rows
 
-<Story name="many-cell table">
+<Story name="many-row-table">
   <VotingTableCard
     votesPage={[
       {
@@ -51,7 +51,7 @@ import VotingTableCard from "./VotingTableCard";
           keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
         },
         decision: "Reject",
-        council_decision: "Reject",
+        council_decision: "Rejected",
         event: {
           id: "example-event-id",
           date: new Date(),
@@ -65,7 +65,7 @@ import VotingTableCard from "./VotingTableCard";
           keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
         },
         decision: "Approve",
-        council_decision: "Reject",
+        council_decision: "Rejected",
         event: {
           id: "example-event-id",
           date: new Date(),
@@ -79,7 +79,7 @@ import VotingTableCard from "./VotingTableCard";
           keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
         },
         decision: "Reject",
-        council_decision: "Approve",
+        council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
@@ -93,7 +93,7 @@ import VotingTableCard from "./VotingTableCard";
           keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
         },
         decision: "Approve",
-        council_decision: "Approve",
+        council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
@@ -107,7 +107,7 @@ import VotingTableCard from "./VotingTableCard";
           keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
         },
         decision: "Approve",
-        council_decision: "Approve",
+        council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
@@ -121,7 +121,7 @@ import VotingTableCard from "./VotingTableCard";
           keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
         },
         decision: "Reject",
-        council_decision: "Approve",
+        council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),

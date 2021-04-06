@@ -1,11 +1,12 @@
 import React from "react";
-import styled from "@emotion/styled";
-import { VotingTableCardCell } from "../VotingTableCardCell";
+import { VotingTableCardRow } from "../VotingTableCardRow";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type VotingTableCardProps = {
-  name: string; // the name of the legislator
-  votesPage: object[]; // an array of Votes
+  /** the name of the legislator */
+  name: string;
+  /** an array of Votes */
+  votesPage: object[];
 };
 
 /*
@@ -26,24 +27,6 @@ This is what a Vote looks like.
   }
 }
 */
-const MiniTable = styled("div")({
-  display: "flex",
-  flex: 1,
-});
-
-const Legislation = styled("div")({
-  width: "30%",
-  marginLeft: 4,
-});
-const Vote = styled("div")({
-  width: "15%",
-});
-const Decison = styled("div")({
-  width: "20%",
-});
-const Meeting = styled("div")({
-  width: "35%",
-});
 
 function renderEmpty() {
   return (
@@ -59,24 +42,22 @@ const VotingTableCard = ({ name, votesPage }: VotingTableCardProps) => {
   return (
     <table className="mzp-u-data-table" style={{ width: "100%" }}>
       <caption>{name}&apos;s Voting Record</caption>
-      <MiniTable>
-        <Legislation className="mzp-c-card-desc">
-          <h6>Legislation</h6>
-        </Legislation>
-        <Vote>
-          <h6>{name}&apos;s Vote</h6>
-        </Vote>
-        <Decison>
-          <h6>Council Decision</h6>
-        </Decison>
-        <Meeting>
-          <h6>Meeting</h6>
-        </Meeting>
-      </MiniTable>
+      <colgroup>
+        <col style={{ width: "30%" }} />
+        <col style={{ width: "15%" }} />
+        <col style={{ width: "20%" }} />
+        <col style={{ width: "35%" }} />
+      </colgroup>
+      <thead>
+        <th scope="col">Legislation</th>
+        <th scope="col">{name}&apos;s Vote</th>
+        <th scope="col">Council Decision</th>
+        <th scope="col">Meeting</th>
+      </thead>
       {votesPage.map((vote: any, index: number) => {
         const legislationName = vote.matter.name;
-        const isInFavor = vote.decision;
-        const decision = vote.council_decision;
+        const voteDecision = vote.decision;
+        const councilDecision = vote.council_decision;
         const legislationLink = `${window.location.hostname}/matters/${vote.matter.id}`;
         const tags = vote.matter.keywords;
         const meetingDate = vote.event.date;
@@ -86,14 +67,14 @@ const VotingTableCard = ({ name, votesPage }: VotingTableCardProps) => {
         const isEven = index % 2 === 0;
 
         return (
-          <VotingTableCardCell
-            key={`voting-table-card-cell-${index}`}
+          <VotingTableCardRow
+            key={`voting-table-card-row-${index}`}
             isEven={isEven}
             legislationName={legislationName}
-            isInFavor={isInFavor}
-            decision={decision}
+            voteDecision={voteDecision}
+            councilDecision={councilDecision}
             legislationLink={legislationLink}
-            tags={tags}
+            legislationTags={tags}
             meetingDate={meetingDate}
             meetingLink={meetingLink}
             committeeName={committeeName}
