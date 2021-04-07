@@ -1,24 +1,24 @@
 import { action } from "@storybook/addon-actions";
 import { text, array, boolean } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
-import VotingTableCard from "./VotingTableCard";
+import VotingTable from "./VotingTable";
 
-<Meta title="Library/Tables/VotingRecordTable" component={VotingTableCard} />
+<Meta title="Library/Tables/VotingRecordTable" component={VotingTable} />
 
 ### An Empty Table
 
-<Props of={VotingTableCard} />
+<Props of={VotingTable} />
 
-<Story name="empty table">
-  <VotingTableCard
+<Story name="Empty Table">
+  <VotingTable
     votesPage={[]}
-    name={text("Example Name")}
+    name={text("Example Name", "Alice")}
   />
 </Story>
 
 ### A Table with a Single row
-<Story name="single-row table">
-  <VotingTableCard
+<Story name="Single Vote">
+  <VotingTable
     votesPage={[
       {
         matter: {
@@ -39,10 +39,64 @@ import VotingTableCard from "./VotingTableCard";
   />
 </Story>
 
+### A Table with a Broken Vote, Simulating Runtime Error
+<Story name="Single Broken Vote">
+  <VotingTable
+    votesPage={[
+      {
+        matter: {
+          id: 'example-matter-id',
+          name: text('example-matter-name', "Council Community Meeting"),
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: "Approve",
+        council_decision: "Adopted",
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      },
+      {
+        error: "This is a vote object with broken properties."
+      },
+      {
+        matter: {
+          id: 'example-matter-id2',
+          name: text('example-matter-name', "Council Community Meeting"),
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: "Reject",
+        council_decision: "Adopted",
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      },
+      {
+        matter: {
+          id: 'example-matter-id3',
+          name: text('example-matter-name', "Council Community Meeting"),
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+        },
+        decision: "Approve",
+        council_decision: "Adopted",
+        event: {
+          id: "example-event-id",
+          date: new Date(),
+          body_name: "example-event-name"
+        }
+      }
+    ]}
+    name={text("Example Name", "Alice")}
+  />
+</Story>
+
 ### A Table with Many Rows
 
-<Story name="many-row-table">
-  <VotingTableCard
+<Story name="Many Votes">
+  <VotingTable
     votesPage={[
       {
         matter: {

@@ -1,4 +1,5 @@
 import React from "react";
+import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type MeetingCardProps = {
@@ -18,7 +19,7 @@ const MeetingCard = ({
   tags,
   excerpt,
 }: MeetingCardProps) => {
-  const tagString = tags.join(` • `);
+  const tagString = tags.join(TAG_CONNECTOR);
 
   return (
     <section className="mzp-c-card mzp-has-aspect-16-9">

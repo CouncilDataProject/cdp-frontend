@@ -8,7 +8,7 @@ import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 interface DecisionResultProps {
   /**Result of the vote or council decision.  This is an enum value, you can see the enumeration in ProjectConstants */
-  result: string;
+  result: VOTE_DECISION | MATTER_STATUS_DECISION;
 }
 
 const DecisionResult = ({ result }: DecisionResultProps) => {

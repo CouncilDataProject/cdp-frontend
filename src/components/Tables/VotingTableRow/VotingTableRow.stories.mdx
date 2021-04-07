@@ -2,18 +2,18 @@ import { action } from "@storybook/addon-actions";
 import { text, array, boolean } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 
-import VotingTableCardRow from "./VotingTableCardRow";
+import VotingTableRow from "./VotingTableRow";
 
-<Meta title="Library/Tables/Rows" component={VotingTableCardRow} />
+<Meta title="Library/Tables/Rows" component={VotingTableRow} />
 
-# VotingTableCardRow
+# VotingTableRow
 
 ### A single Row
 
-<Props of={VotingTableCardRow} />
+<Props of={VotingTableRow} />
 
 <Story name="Single Row">
-  <VotingTableCardRow
+  <VotingTableRow
     legislationName={text("Legislation name", "Example Legislation Name")}
     legislationLink={text("Link to legislative text", "https://www.google.com")}
     isEven={boolean("Is this row even or odd in the table display", true)}

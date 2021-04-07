@@ -2,9 +2,10 @@ import React from "react";
 import DecisionResult from "../../Shared/DecisionResult";
 import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
+import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
-type VotingTableCardRowProps = {
+type VotingTableRowProps = {
   /** the name of the matter that was voted on */
   legislationName: string;
   /** whether or not the row is an even or odd row */
@@ -25,7 +26,7 @@ type VotingTableCardRowProps = {
   committeeName: string;
 };
 
-const VotingTableCardRow = ({
+const VotingTableRow = ({
   isEven,
   legislationLink,
   legislationName,
@@ -35,13 +36,13 @@ const VotingTableCardRow = ({
   meetingDate,
   meetingLink,
   committeeName,
-}: VotingTableCardRowProps) => {
-  const backgroundColor = isEven ? "rgba(148,148,148,0.2)" : "white";
+}: VotingTableRowProps) => {
+  const backgroundColor = isEven ? "rgb(236,236,236)" : "white";
   const legislationTagsString =
-    legislationTags && legislationTags.length > 0 ? legislationTags.join(` • `) : "";
+    legislationTags && legislationTags.length > 0 ? legislationTags.join(TAG_CONNECTOR) : "";
   const dateText = new Date(meetingDate).toDateString();
   return (
-    <tr style={{ backgroundColor }} key={`voting-table-card-Row-${legislationName}`}>
+    <tr style={{ backgroundColor }} key={`voting-table-Row-${legislationName}`}>
       <th scope="row">
         <a className="mzp-c-cta-link" href={legislationLink}>
           {legislationName}
@@ -64,4 +65,4 @@ const VotingTableCardRow = ({
   );
 };
 
-export default VotingTableCardRow;
+export default VotingTableRow;
