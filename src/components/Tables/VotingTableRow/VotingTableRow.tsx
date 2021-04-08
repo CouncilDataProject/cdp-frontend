@@ -11,9 +11,9 @@ type VotingTableRowProps = {
   /** whether or not the row is an even or odd row */
   isEven: boolean;
   /** the persons vote */
-  voteDecision: MATTER_STATUS_DECISION;
+  voteDecision: VOTE_DECISION;
   /** the voting body decision */
-  councilDecision: VOTE_DECISION;
+  councilDecision: MATTER_STATUS_DECISION;
   /** link to the detail page of the matter being voted on */
   legislationLink: string;
   /** words indicating the topic of the matter being voted on */

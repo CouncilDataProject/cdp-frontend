@@ -37,34 +37,38 @@ function renderRows(votesPage: object[]) {
   if (!votesPage || !votesPage.length || votesPage.length === 0) {
     return renderEmpty(0);
   }
-  return votesPage.map((vote: any, index: number) => {
-    if (!vote.matter || !vote.decision || !vote.event) return renderEmpty(index);
-    const legislationName = vote.matter.name;
-    const voteDecision = vote.decision;
-    const councilDecision = vote.council_decision;
-    const legislationLink = `${window.location.hostname}/matters/${vote.matter.id}`;
-    const tags = vote.matter.keywords;
-    const meetingDate = vote.event.date;
-    const meetingLink = `${window.location.hostname}/events/${vote.event.id}`;
-    const committeeName = vote.event.body_name;
+  return (
+    <tbody>
+      {votesPage.map((vote: any, index: number) => {
+        if (!vote.matter || !vote.decision || !vote.event) return renderEmpty(index);
+        const legislationName = vote.matter.name;
+        const voteDecision = vote.decision;
+        const councilDecision = vote.council_decision;
+        const legislationLink = `${window.location.hostname}/matters/${vote.matter.id}`;
+        const tags = vote.matter.keywords;
+        const meetingDate = vote.event.date;
+        const meetingLink = `${window.location.hostname}/events/${vote.event.id}`;
+        const committeeName = vote.event.body_name;
 
-    const isEven = index % 2 === 0;
+        const isEven = index % 2 === 0;
 
-    return (
-      <VotingTableRow
-        key={`voting-table-row-${index}`}
-        isEven={isEven}
-        legislationName={legislationName}
-        voteDecision={voteDecision}
-        councilDecision={councilDecision}
-        legislationLink={legislationLink}
-        legislationTags={tags}
-        meetingDate={meetingDate}
-        meetingLink={meetingLink}
-        committeeName={committeeName}
-      />
-    );
-  });
+        return (
+          <VotingTableRow
+            key={`voting-table-row-${index}`}
+            isEven={isEven}
+            legislationName={legislationName}
+            voteDecision={voteDecision}
+            councilDecision={councilDecision}
+            legislationLink={legislationLink}
+            legislationTags={tags}
+            meetingDate={meetingDate}
+            meetingLink={meetingLink}
+            committeeName={committeeName}
+          />
+        );
+      })}
+    </tbody>
+  );
 }
 
 function renderColGroup(isEmpty: boolean) {
@@ -90,10 +94,12 @@ function renderHeaders(isEmpty: boolean, name: string) {
   if (isEmpty) return null;
   return (
     <thead>
-      <th scope="col">Legislation</th>
-      <th scope="col">{name}&apos;s Vote</th>
-      <th scope="col">Council Decision</th>
-      <th scope="col">Meeting</th>
+      <tr>
+        <th scope="col">Legislation</th>
+        <th scope="col">{name}&apos;s Vote</th>
+        <th scope="col">Council Decision</th>
+        <th scope="col">Meeting</th>
+      </tr>
     </thead>
   );
 }
