@@ -51,27 +51,17 @@ function App() {
           </button>
         </section>
       </main>
-      <footer>
-        <Footer
-          footerLinksSections={[
-            {
-              footerLinksSectionName: "Seattle",
-              links: [
-                { label: "City Of Seattle", url: "#" },
-                { label: "Seattle Open Data", url: "#" },
-                { label: "Seattle Channel", url: "#" },
-              ],
-            },
-            {
-              footerLinksSectionName: "Developers",
-              links: [
-                { label: "Seattle Specific", url: "#" },
-                { label: "Transcription Runner", url: "#" },
-              ],
-            },
-          ]}
-        />
-      </footer>
+      <Footer
+        footerLinksSections={[
+          {
+            footerLinksSectionName: "Links",
+            links: [
+              { label: "Lorem", url: "#" },
+              { label: "Ipsum", url: "#" },
+            ],
+          },
+        ]}
+      />
     </>
   );
 }
