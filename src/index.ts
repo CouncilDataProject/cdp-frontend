@@ -1,3 +1,6 @@
+// Default App
+export { default as App } from "./App";
+
 // Filters
 export { FilterPopup } from "./components/Filters/FilterPopup";
 export { getDateText, SelectDateRange } from "./components/Filters/SelectDateRange";
