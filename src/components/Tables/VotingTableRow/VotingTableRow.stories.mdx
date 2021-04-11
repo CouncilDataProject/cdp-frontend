@@ -1,5 +1,5 @@
 import { action } from "@storybook/addon-actions";
-import { text, array, boolean } from "@storybook/addon-knobs";
+import { text, array, number } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 
 import VotingTableRow from "./VotingTableRow";
@@ -16,7 +16,7 @@ import VotingTableRow from "./VotingTableRow";
   <VotingTableRow
     legislationName={text("Legislation name", "Example Legislation Name")}
     legislationLink={text("Link to legislative text", "https://www.google.com")}
-    isEven={boolean("Is this row even or odd in the table display", true)}
+    index={number("The index of the row", 0)}
     voteDecision={text("Was the councilor's vote in favor of the legislation", "Reject")}
     councilDecision={text("What was the council's decision?", "Approve")}
     legislationTags={array("Tags", ["bike", "example", "lanes", "rental"])}

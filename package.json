@@ -108,7 +108,8 @@
   },
   "dependencies": {
     "@councildataproject/cdp-design": "^1.0.2",
-    "@mozilla-protocol/core": "^13.0.1"
+    "@mozilla-protocol/core": "^13.0.1",
+    "react-router-dom": "^5.2.0"
   },
   "repository": {
     "type": "git",

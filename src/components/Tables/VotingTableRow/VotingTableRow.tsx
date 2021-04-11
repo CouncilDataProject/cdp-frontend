@@ -3,13 +3,14 @@ import DecisionResult from "../../Shared/DecisionResult";
 import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
+const Link = require("react-router-dom").Link;
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type VotingTableRowProps = {
   /** the name of the matter that was voted on */
   legislationName: string;
-  /** whether or not the row is an even or odd row */
-  isEven: boolean;
+  /** the index of the row */
+  index: number;
   /** the persons vote */
   voteDecision: VOTE_DECISION;
   /** the voting body decision */
@@ -27,7 +28,7 @@ type VotingTableRowProps = {
 };
 
 const VotingTableRow = ({
-  isEven,
+  index,
   legislationLink,
   legislationName,
   legislationTags,
@@ -37,16 +38,14 @@ const VotingTableRow = ({
   meetingLink,
   committeeName,
 }: VotingTableRowProps) => {
-  const backgroundColor = isEven ? "rgb(236,236,236)" : "white";
+  const backgroundColor = index % 2 === 0 ? "rgb(236,236,236)" : "white";
   const legislationTagsString =
     legislationTags && legislationTags.length > 0 ? legislationTags.join(TAG_CONNECTOR) : "";
   const dateText = new Date(meetingDate).toDateString();
   return (
-    <tr style={{ backgroundColor }} key={`voting-table-Row-${legislationName}`}>
+    <tr style={{ backgroundColor }} key={`voting-table-row-${index}`}>
       <th scope="row">
-        <a className="mzp-c-cta-link" href={legislationLink}>
-          {legislationName}
-        </a>
+        <Link to={legislationLink}>{legislationName}</Link>
         <p className="mzp-c-card-desc">{legislationTagsString}</p>
       </th>
       <td>
@@ -56,13 +55,10 @@ const VotingTableRow = ({
         <DecisionResult result={councilDecision} />
       </td>
       <td>
-        <a className="mzp-c-cta-link" href={meetingLink}>
-          {dateText}
-        </a>
+        <Link to={meetingLink}>{dateText}</Link>
         <p className="mzp-c-card-desc">{committeeName}</p>
       </td>
     </tr>
   );
 };
-
 export default VotingTableRow;

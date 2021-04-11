@@ -30,32 +30,29 @@ This is what a Vote looks like.
 */
 
 function renderEmpty(index: number) {
-  return <EmptyRow index={index} />;
+  return <EmptyRow key={`empty-table-row-${index}`} index={index} />;
 }
 
 function renderRows(votesPage: object[]) {
-  if (!votesPage || !votesPage.length || votesPage.length === 0) {
-    return renderEmpty(0);
-  }
+  const isEmpty = !votesPage || !votesPage.length || votesPage.length === 0;
   return (
     <tbody>
+      {isEmpty && renderEmpty(0)}
       {votesPage.map((vote: any, index: number) => {
         if (!vote.matter || !vote.decision || !vote.event) return renderEmpty(index);
         const legislationName = vote.matter.name;
         const voteDecision = vote.decision;
         const councilDecision = vote.council_decision;
-        const legislationLink = `${window.location.hostname}/matters/${vote.matter.id}`;
+        const legislationLink = `/matters/${vote.matter.id}`;
         const tags = vote.matter.keywords;
         const meetingDate = vote.event.date;
-        const meetingLink = `${window.location.hostname}/events/${vote.event.id}`;
+        const meetingLink = `/events/${vote.event.id}`;
         const committeeName = vote.event.body_name;
-
-        const isEven = index % 2 === 0;
 
         return (
           <VotingTableRow
             key={`voting-table-row-${index}`}
-            isEven={isEven}
+            index={index}
             legislationName={legislationName}
             voteDecision={voteDecision}
             councilDecision={councilDecision}
@@ -71,27 +68,18 @@ function renderRows(votesPage: object[]) {
   );
 }
 
-function renderColGroup(isEmpty: boolean) {
-  if (isEmpty) {
-    return (
-      <colgroup>
-        <col style={{ width: "100%" }} />
-      </colgroup>
-    );
-  } else {
-    return (
-      <colgroup>
-        <col style={{ width: "30%" }} />
-        <col style={{ width: "15%" }} />
-        <col style={{ width: "20%" }} />
-        <col style={{ width: "35%" }} />
-      </colgroup>
-    );
-  }
+function renderColGroup() {
+  return (
+    <colgroup>
+      <col style={{ width: "30%" }} />
+      <col style={{ width: "15%" }} />
+      <col style={{ width: "20%" }} />
+      <col style={{ width: "35%" }} />
+    </colgroup>
+  );
 }
 
-function renderHeaders(isEmpty: boolean, name: string) {
-  if (isEmpty) return null;
+function renderHeaders(name: string) {
   return (
     <thead>
       <tr>
@@ -105,12 +93,11 @@ function renderHeaders(isEmpty: boolean, name: string) {
 }
 
 const VotingTable = ({ name, votesPage }: VotingTableProps) => {
-  const isEmpty = !votesPage || !votesPage.length || votesPage.length === 0;
   return (
     <table className="mzp-u-data-table" style={{ width: "100%" }}>
       <caption>{name}&apos;s Voting Record</caption>
-      {renderColGroup(isEmpty)}
-      {renderHeaders(isEmpty, name)}
+      {renderColGroup()}
+      {renderHeaders(name)}
       {renderRows(votesPage)}
     </table>
   );

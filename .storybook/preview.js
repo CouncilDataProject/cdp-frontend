@@ -2,11 +2,14 @@ import React from "react";
 import { addDecorator } from "@storybook/react";
 import { withInfo } from "@storybook/addon-info";
 import { themes } from "@storybook/theming";
+import { StaticRouter } from 'react-router-dom';
 import "semantic-ui-css/semantic.min.css";
 
 addDecorator(withInfo);
 
-export const decorators = [(story) => <div style={{ margin: "1rem" }}>{story()}</div>];
+export const decorators = [
+  (story) => <StaticRouter location={"http://localhost:6006/?path=/story"} ><div style={{ margin: "1rem" }}>{story()}</div></StaticRouter>
+];
 
 export const parameters = {
   options: {

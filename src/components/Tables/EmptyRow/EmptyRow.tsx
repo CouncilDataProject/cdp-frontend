@@ -13,15 +13,21 @@ const EmptyRow = ({ index }: EmptyRowProps) => {
     <tr
       style={{
         backgroundColor,
-        display: "flex",
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        paddingTop: 8,
       }}
       key={`empty-row-${index}`}
     >
-      <h6 className="mzp-c-card-desc">{displayText}</h6>
+      <td>
+        <p className="mzp-c-card-desc">{displayText}</p>
+      </td>
+      <td>
+        <p></p>
+      </td>
+      <td>
+        <p></p>
+      </td>
+      <td>
+        <p></p>
+      </td>
     </tr>
   );
 };
