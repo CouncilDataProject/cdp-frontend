@@ -45,3 +45,26 @@ jobs:
     - name: Run Format Check
       run: |
         npm run checkFormat
+
+  publish:
+    needs: [test, lint]
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, 'Bump version')
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
+    - name: Install Dependencies
+      run: |
+        npm i
+    - name: Run Build
+      run: |
+        npm run build
+    - name: Publish to npm
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
