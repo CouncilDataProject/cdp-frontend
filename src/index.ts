@@ -22,3 +22,8 @@ export { Footer } from "./components/Layout/Footer";
 
 //Details
 export { MinutesItemsList } from "./components/Details/MinutesItemsList";
+
+//Tables
+export { default as VotingTableRow } from "./components/Tables/VotingTableRow/VotingTableRow";
+export { default as VotingTable } from "./components/Tables/VotingTable/VotingTable";
+export { default as EmptyRow } from "./components/Tables/EmptyRow/EmptyRow";

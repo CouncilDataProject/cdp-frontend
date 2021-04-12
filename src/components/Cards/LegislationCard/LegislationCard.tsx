@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import LegislationAdoptedIcon from "./LegislationAdoptedIcon";
 import LegislationRejectedIcon from "./LegislationRejectedIcon";
 import LegislationInProgressIcon from "./LegislationInProgressIcon";
+import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
@@ -31,7 +32,7 @@ const LegislationCard: FC<LegislationCardProps> = ({
   date,
   tags,
 }: LegislationCardProps) => {
-  const tagString = tags.join(` • `);
+  const tagString = tags.join(TAG_CONNECTOR);
 
   let statusIcon;
 
