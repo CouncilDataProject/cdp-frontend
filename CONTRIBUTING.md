@@ -17,7 +17,7 @@ Ready to contribute? Here's how to set up `cdp-frontend` for local development.
     ```
     $ cd cdp-frontend/
     $ git remote add upstream https://github.com/CouncilDataProject/cdp-frontend.git
-    $ git fetch upstream master
+    $ git fetch upstream main
     ```
 
 * Install the project:
@@ -46,24 +46,24 @@ tests, and that the package builds:
     $ git add .
     $ git commit -m "Resolves gh-###. Your detailed description of your changes."
     ```
-    If there are new commits from upstream's master since your last git pull, you need
-    to merge the latest commits from upstream's master into your branch and resolve any
-    merge conflicts locally. If there are no new commits from upstream's master, you
+    If there are new commits from upstream's main since your last git pull, you need
+    to merge the latest commits from upstream's main into your branch and resolve any
+    merge conflicts locally. If there are no new commits from upstream's main, you
     can skip step a, b, and c.
 
     a. Get the latest commits:
     ```
-    $ git checkout master
-    $ git pull --rebase upstream master
+    $ git checkout main
+    $ git pull --rebase upstream main
     ```
 
     b. Merge the latest commits into your branch:
     ```
     $ git checkout {your_development_type}/{short-description}
 
-    $ git rebase master
+    $ git rebase main
     or
-    $ git merge master
+    $ git merge main
     ```
 
     c. Resolve any merge conflicts and if needed run all the linting, formatting,
@@ -82,18 +82,18 @@ tests, and that the package builds:
 
 * Submit a pull request through the GitHub website.
 
-* Once your branch has been merged to master, if you want to keep your fork and local
+* Once your branch has been merged to main, if you want to keep your fork and local
 repo clean, you can delete your branch.
     ```
     $ git push origin --delete {your_development_type}/{short-description}
     $ git branch -D {your_development_type}/{short-description}
     ```
 
-    Keep your local and fork repo's master up-to-date with upstream's master:
+    Keep your local and fork repo's main up-to-date with upstream's main:
     ```
-    $ git checkout master
-    $ git pull --rebase upstream master
-    $ git push origin master
+    $ git checkout main
+    $ git pull --rebase upstream main
+    $ git push origin main
     ```
 
 ## Deploying
@@ -101,22 +101,20 @@ repo clean, you can delete your branch.
 A reminder for the maintainers on how to deploy.
 Make sure all your changes are committed.
 
-The following commands should only ever be ran from the most up-to-date `master` branch.
+The following commands should only ever be ran from the most up-to-date `main` branch.
 ```bash
-git checkout master
+git checkout main
 git fetch origin
-git pull origin master
+git pull origin main
 ```
 
 Run:
 
 ```bash
-npm version {major | minor | patch}
+npm run bumpversion-{major | minor | patch}
 git push
 git push --tags
-git branch -D stable
-git checkout -b stable
-git push --set-upstream origin stable -f
 ```
 
-This will release a new package version on Git + GitHub and publish to npm.
+After all tests pass on GitHub a job will automatically run to
+release a new package version on GitHub and publish to npm.
