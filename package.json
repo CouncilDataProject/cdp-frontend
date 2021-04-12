@@ -25,7 +25,10 @@
     "typeCheck": "tsc --noEmit",
     "storybook": "start-storybook -p 6006",
     "build-storybook-docs": "build-storybook",
-    "deploy-storybook-docs": "gh-pages -d storybook-static"
+    "deploy-storybook-docs": "gh-pages -d storybook-static",
+    "bumpversion-patch": "npm version patch -m 'Bump version: %s'",
+    "bumpversion-minor": "npm version minor -m 'Bump version: %s'",
+    "bumpversion-major": "npm version major -m 'Bump version: %s'"
   },
   "files": [
     "es",
@@ -38,7 +41,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "To Huynh, Trung Ngo, Nic Weber, Jackson Maxfield Brown",
+  "author": "To Huynh, Nic Weber, Jackson Maxfield Brown",
   "license": "MIT License",
   "devDependencies": {
     "@babel/cli": "^7.13.10",
@@ -50,12 +53,12 @@
     "@emotion/styled": "^10.0.27",
     "@storybook/addon-a11y": "^6.1.10",
     "@storybook/addon-actions": "^6.1.10",
-    "@storybook/addon-docs": "^6.1.10",
-    "@storybook/addon-essentials": "^6.1.10",
+    "@storybook/addon-docs": "^6.2.7",
+    "@storybook/addon-essentials": "^6.2.7",
     "@storybook/addon-info": "^5.3.21",
     "@storybook/addon-knobs": "^6.1.10",
     "@storybook/addon-links": "^6.1.10",
-    "@storybook/react": "^6.1.10",
+    "@storybook/react": "^6.2.7",
     "@storybook/theming": "^6.1.10",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/enzyme": "^3.10.5",
