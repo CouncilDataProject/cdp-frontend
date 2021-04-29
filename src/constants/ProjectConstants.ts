@@ -9,3 +9,12 @@ export enum MATTER_STATUS_DECISION {
   REJECTED = "Rejected",
   IN_PROGRESS = "In Progress",
 }
+
+export type IndividualMeetingVote = {
+  /** the voter's name */
+  name: string;
+  /** the persons vote */
+  decision: VOTE_DECISION;
+  /** vote id */
+  id: string;
+};

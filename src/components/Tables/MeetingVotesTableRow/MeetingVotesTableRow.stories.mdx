@@ -1,0 +1,71 @@
+import { action } from "@storybook/addon-actions";
+import { text, array, number } from "@storybook/addon-knobs";
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+
+import MeetingVotesTableRow from "./MeetingVotesTableRow";
+
+<Meta title="Library/Tables/Rows" component={MeetingVotesTableRow} />
+
+# MeetingVotesTableRow
+
+### A Meeting Votes Table Row
+
+<Props of={MeetingVotesTableRow} />
+
+<Story name="Single Meeting Votes Table Row">
+  <MeetingVotesTableRow
+    legislationName={text("Legislation name", "Example Legislation Name")}
+    legislationLink={text("Link to legislative text", "https://www.google.com")}
+    index={number("The index of the row", 0)}
+    councilDecision={text("What was the council's decision?", "Approve")}
+    votes={array("Individual Councilor Votes", [
+      {
+        name: "Alice",
+        decision: "Approve",
+        id: "vote1"
+      },
+      {
+        name: "Bob",
+        decision: "Approve",
+        id: "vote2"
+      },
+      {
+        name: "Charlie",
+        decision: "Approve",
+        id: "vote3"
+      },
+      {
+        name: "Denise",
+        decision: "Reject",
+        id: "vote4"
+      },
+      {
+        name: "Elton",
+        decision: "Abstain",
+        id: "vote5"
+      },
+      {
+        name: "Floyd",
+        decision: "Reject",
+        id: "vote6"
+      },
+      {
+        name: "Gregory",
+        decision: "Approve",
+        id: "vote7"
+      },
+      {
+        name: "Haley",
+        decision: "Reject",
+        id: "vote8"
+      },
+      {
+        name: "Ivan",
+        decision: "Abstain",
+        id: "vote9"
+      }
+    ])}
+    meetingDate={text("JS Date Contructable String", "03/26/2021")}
+    meetingLink={text("Link to Meeting", "https://www.google.com")}
+  />
+</Story>
