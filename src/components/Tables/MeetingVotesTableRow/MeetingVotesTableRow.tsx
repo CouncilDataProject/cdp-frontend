@@ -26,9 +26,10 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
   if (isExpanded) {
     return (
       <td>
-        {votes.map((vote) => {
+        {votes.map((vote, index) => {
           return (
             <div
+              key={`individual-vote-${index}-${vote.id}`}
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -52,7 +53,7 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
       if (vote.decision === VOTE_DECISION.REJECT) votesAgainst++;
       if (vote.decision === VOTE_DECISION.ABSTAIN) votesAbstained++;
     });
-    let votesMinified = `${votesFor} Approved   /   ${votesAgainst} Rejected   /   ${votesAbstained} Abstained`;
+    const votesMinified = `${votesFor} Approved   /   ${votesAgainst} Rejected   /   ${votesAbstained} Abstained`;
     return (
       <td>
         <p>{votesMinified}</p>
