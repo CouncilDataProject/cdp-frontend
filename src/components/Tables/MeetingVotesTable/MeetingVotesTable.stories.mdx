@@ -1,5 +1,5 @@
 import { action } from "@storybook/addon-actions";
-import { text, array, boolean } from "@storybook/addon-knobs";
+import { text, boolean, object } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 import MeetingVotesTable from "./MeetingVotesTable";
 
@@ -28,7 +28,7 @@ import MeetingVotesTable from "./MeetingVotesTable";
         date:new Date(),
         council_decision:"Adopted",
         votes:
-          array("Individual Councilor Votes", [
+          object("Individual Councilor Votes", [
             {
             name: "Alice",
             decision: "Approve",
@@ -89,12 +89,68 @@ import MeetingVotesTable from "./MeetingVotesTable";
       {
         matter:{
           id: 'example-matter-id',
-          name: text('example-matter-name', "Council Community Meeting"),
+          name: text('Row 1 Title of Meeting', "Council Community Meeting"),
         },
         date:new Date(),
         council_decision:"Adopted",
         votes:
-          array("Individual Councilor Votes", [
+          object("Individual Councilor Votes Cell 1", [
+            {
+            name: "Alice",
+            decision: "Approve",
+            id: "vote1"
+          },
+          {
+            name: "Bob",
+            decision: "Approve",
+            id: "vote2"
+          },
+          {
+            name: "Charlie",
+            decision: "Approve",
+            id: "vote3"
+          },
+          {
+            name: "Denise",
+            decision: "Approve",
+            id: "vote4"
+          },
+          {
+            name: "Elton",
+            decision: "Abstain",
+            id: "vote5"
+          },
+          {
+            name: "Floyd",
+            decision: "Reject",
+            id: "vote6"
+          },
+          {
+            name: "Gregory",
+            decision: "Approve",
+            id: "vote7"
+          },
+          {
+            name: "Haley",
+            decision: "Reject",
+            id: "vote8"
+          },
+          {
+            name: "Ivan",
+            decision: "Abstain",
+            id: "vote9"
+          }
+          ])
+      },
+      {
+        matter:{
+          id: 'example-matter-id',
+          name: text('Row 2 Title of Meeting', "LSA Community Meeting"),
+        },
+        date:new Date(),
+        council_decision:"Adopted",
+        votes:
+          object("Individual Councilor Votes Cell 2", [
             {
             name: "Alice",
             decision: "Approve",
@@ -145,15 +201,15 @@ import MeetingVotesTable from "./MeetingVotesTable";
       {
         matter:{
           id: 'example-matter-id',
-          name: text('example-matter-name', "Council Community Meeting"),
+          name: text('Row 3 Title of Meeting', "IRC 290"),
         },
         date:new Date(),
-        council_decision:"Adopted",
+        council_decision:"In Progress",
         votes:
-          array("Individual Councilor Votes", [
+          object("Individual Councilor Votes Cell 3", [
             {
             name: "Alice",
-            decision: "Approve",
+            decision: "Reject",
             id: "vote1"
           },
           {
@@ -201,81 +257,25 @@ import MeetingVotesTable from "./MeetingVotesTable";
       {
         matter:{
           id: 'example-matter-id',
-          name: text('example-matter-name', "Council Community Meeting"),
+          name: text('Row 4 Title of Meeting', "Council Community Meeting"),
         },
         date:new Date(),
-        council_decision:"Adopted",
+        council_decision:"Rejected",
         votes:
-          array("Individual Councilor Votes", [
+          object("Individual Councilor Votes Cell 4", [
             {
             name: "Alice",
-            decision: "Approve",
+            decision: "Reject",
             id: "vote1"
           },
           {
             name: "Bob",
-            decision: "Approve",
+            decision: "Reject",
             id: "vote2"
           },
           {
             name: "Charlie",
-            decision: "Approve",
-            id: "vote3"
-          },
-          {
-            name: "Denise",
             decision: "Reject",
-            id: "vote4"
-          },
-          {
-            name: "Elton",
-            decision: "Abstain",
-            id: "vote5"
-          },
-          {
-            name: "Floyd",
-            decision: "Reject",
-            id: "vote6"
-          },
-          {
-            name: "Gregory",
-            decision: "Approve",
-            id: "vote7"
-          },
-          {
-            name: "Haley",
-            decision: "Reject",
-            id: "vote8"
-          },
-          {
-            name: "Ivan",
-            decision: "Abstain",
-            id: "vote9"
-          }
-          ])
-      },
-      {
-        matter:{
-          id: 'example-matter-id',
-          name: text('example-matter-name', "Council Community Meeting"),
-        },
-        date:new Date(),
-        council_decision:"Adopted",
-        votes:
-          array("Individual Councilor Votes", [
-            {
-            name: "Alice",
-            decision: "Approve",
-            id: "vote1"
-          },
-          {
-            name: "Bob",
-            decision: "Approve",
-            id: "vote2"
-          },
-          {
-            name: "Charlie",
-            decision: "Approve",
             id: "vote3"
           },
           {

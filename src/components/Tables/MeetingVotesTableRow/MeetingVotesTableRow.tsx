@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DecisionResult from "../../Shared/DecisionResult";
-import { MATTER_STATUS_DECISION, IndividualMeetingVote } from "../../../constants/ProjectConstants";
+import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
+import { IndividualMeetingVote } from "../../Shared/Types/IndividualMeetingVote";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { STYLES } from "../../../constants/StyleConstants";
 import { Link } from "react-router-dom";
@@ -17,7 +18,7 @@ type MeetingVotesTableRowProps = {
   legislationLink: string;
   /** date of the matter being voted on */
   meetingDate: string;
-  /** vote results by members on the council */
+  /** vote results by individual members on the matter in this row */
   votes: IndividualMeetingVote[];
 };
 
@@ -36,14 +37,13 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
               }}
             >
               <DecisionResult result={vote.decision} />
-              <p style={{ marginTop: 8, marginLeft: 8 }}>{vote.name}</p>
+              <p style={{ flex: 1 }}>{vote.name}</p>
             </div>
           );
         })}
       </td>
     );
   } else {
-    // count votes and display 5/9
     let votesFor = 0;
     let votesAgainst = 0;
     let votesAbstained = 0;

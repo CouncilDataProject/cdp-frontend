@@ -1,26 +1,8 @@
 import React from "react";
 import { MeetingVotesTableRow } from "../MeetingVotesTableRow";
 import { EmptyRow } from "../EmptyRow";
-import { MATTER_STATUS_DECISION, IndividualMeetingVote } from "../../../constants/ProjectConstants";
+import { MeetingVote } from "../../Shared/Types/MeetingVote";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
-
-type Matter = {
-  /** the name of the matter, usually a legislation name */
-  name: string;
-  /** the id of the matter */
-  id: string;
-};
-
-type MeetingVote = {
-  /** the matter being voted upon */
-  matter: Matter;
-  /** the date the meeting occurred in a format consumable by a Date constructor*/
-  date: string;
-  /** the voting body decision */
-  council_decision: MATTER_STATUS_DECISION;
-  /** an array of MeetingVotes */
-  votes: IndividualMeetingVote[];
-};
 
 type MeetingVotesTableProps = {
   /** the matter being voted upon */
