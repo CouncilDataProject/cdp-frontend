@@ -18,7 +18,7 @@ type MeetingVotesTableRowProps = {
   /** link to the detail page of the matter being voted on */
   legislationLink: string;
   /** date of the matter being voted on */
-  meetingDate: string;
+  meetingDate: Date;
   /** vote results by individual members on the matter in this row */
   votes: IndividualMeetingVote[];
 };
@@ -38,8 +38,8 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
                 alignItems: "center",
               }}
             >
-              <DecisionResult result={vote.decision} />
               <p style={{ flex: 1 }}>{vote.name}</p>
+              <DecisionResult result={vote.decision} />
             </div>
           );
         })}
@@ -74,7 +74,7 @@ const MeetingVotesTableRow = ({
   const [expanded, setExpanded] = useState(false);
 
   const backgroundColor = index % 2 === 0 ? STYLES.COLORS.EVEN_CELL : STYLES.COLORS.ODD_CELL;
-  const dateText = new Date(meetingDate).toDateString();
+  const dateText = meetingDate.toDateString();
   return (
     <tr
       style={{ backgroundColor }}

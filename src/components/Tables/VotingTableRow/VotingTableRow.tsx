@@ -20,7 +20,7 @@ type VotingTableRowProps = {
   /** words indicating the topic of the matter being voted on */
   legislationTags: string[];
   /** date of the matter being voted on */
-  meetingDate: string;
+  meetingDate: Date;
   /** link to the detail page of the meeting */
   meetingLink: string;
   /** name of the voting body */
@@ -41,7 +41,7 @@ const VotingTableRow = ({
   const backgroundColor = index % 2 === 0 ? "rgb(236,236,236)" : "white";
   const legislationTagsString =
     legislationTags && legislationTags.length > 0 ? legislationTags.join(TAG_CONNECTOR) : "";
-  const dateText = new Date(meetingDate).toDateString();
+  const dateText = meetingDate.toDateString();
   return (
     <tr style={{ backgroundColor }} key={`voting-table-row-${index}`}>
       <th scope="row">

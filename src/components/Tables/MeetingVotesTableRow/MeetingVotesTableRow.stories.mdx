@@ -1,5 +1,5 @@
 import { action } from "@storybook/addon-actions";
-import { text, array, number } from "@storybook/addon-knobs";
+import { text, array, number, date } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 
 import MeetingVotesTableRow from "./MeetingVotesTableRow";
@@ -65,7 +65,7 @@ import MeetingVotesTableRow from "./MeetingVotesTableRow";
         id: "vote9"
       }
     ])}
-    meetingDate={text("JS Date Contructable String", "03/26/2021")}
+    meetingDate={new Date()}
     meetingLink={text("Link to Meeting", "https://www.google.com")}
   />
 </Story>
