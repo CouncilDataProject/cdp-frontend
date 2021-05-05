@@ -5,8 +5,8 @@ import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import { IndividualMeetingVote } from "../../Shared/Types/IndividualMeetingVote";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { STYLES } from "../../../constants/StyleConstants";
-import { Link } from "react-router-dom";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
+const Link = require("react-router-dom").Link;
 
 type MeetingVotesTableRowProps = {
   /** the name of the matter that was voted on */

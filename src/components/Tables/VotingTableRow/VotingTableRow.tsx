@@ -3,9 +3,9 @@ import DecisionResult from "../../Shared/DecisionResult";
 import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
-import { Link } from "react-router-dom";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
+const Link = require("react-router-dom").Link;
 type VotingTableRowProps = {
   /** the name of the matter that was voted on */
   legislationName: string;
