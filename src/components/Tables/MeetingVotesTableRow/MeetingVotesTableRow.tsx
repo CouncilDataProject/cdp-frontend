@@ -11,14 +11,14 @@ const Link = require("react-router-dom").Link;
 type MeetingVotesTableRowProps = {
   /** the name of the matter that was voted on */
   legislationName: string;
+  /** the description of the matter that was voted on */
+  legislationDescription: string;
   /** the index of the row */
   index: number;
   /** the voting body decision */
   councilDecision: MATTER_STATUS_DECISION;
   /** link to the detail page of the matter being voted on */
   legislationLink: string;
-  /** date of the matter being voted on */
-  meetingDate: Date;
   /** vote results by individual members on the matter in this row */
   votes: IndividualMeetingVote[];
 };
@@ -28,6 +28,7 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
     return (
       <td>
         {votes.map((vote, index) => {
+          const personLink = `/people/${vote.personId}`;
           return (
             <div
               key={`individual-vote-${index}-${vote.id}`}
@@ -38,7 +39,9 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
                 alignItems: "center",
               }}
             >
-              <p style={{ flex: 1 }}>{vote.name}</p>
+              <Link style={{ flex: 1 }} to={personLink}>
+                {vote.name}
+              </Link>
               <DecisionResult result={vote.decision} />
             </div>
           );
@@ -67,14 +70,13 @@ const MeetingVotesTableRow = ({
   index,
   legislationLink,
   legislationName,
+  legislationDescription,
   councilDecision,
-  meetingDate,
   votes,
 }: MeetingVotesTableRowProps) => {
   const [expanded, setExpanded] = useState(false);
 
   const backgroundColor = index % 2 === 0 ? STYLES.COLORS.EVEN_CELL : STYLES.COLORS.ODD_CELL;
-  const dateText = meetingDate.toDateString();
   return (
     <tr
       style={{ backgroundColor }}
@@ -83,11 +85,9 @@ const MeetingVotesTableRow = ({
         setExpanded(!expanded);
       }}
     >
-      <th scope="row">
+      <td scope="row">
         <Link to={legislationLink}>{legislationName}</Link>
-      </th>
-      <td>
-        <p className="mzp-c-card-desc">{dateText}</p>
+        <p>{legislationDescription}</p>
       </td>
       <td>
         <DecisionResult result={councilDecision} />

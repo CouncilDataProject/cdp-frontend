@@ -18,21 +18,21 @@ function renderRows(votesPage: MeetingVote[]) {
   return (
     <tbody>
       {isEmpty && renderEmpty(0)}
-      {votesPage.map((meetingVotes: any, index: number) => {
+      {votesPage.map((meetingVotes: MeetingVote, index: number) => {
         if (!meetingVotes.matter || !meetingVotes.votes) return renderEmpty(index);
         const legislationName = meetingVotes.matter.name;
+        const legislationDescription = meetingVotes.matter.description;
         const councilDecision = meetingVotes.council_decision;
         const legislationLink = `/matters/${meetingVotes.matter.id}`;
-        const meetingDate = meetingVotes.date;
 
         return (
           <MeetingVotesTableRow
             key={`meeting-voting-table-row-${index}`}
             index={index}
             legislationName={legislationName}
+            legislationDescription={legislationDescription}
             councilDecision={councilDecision}
             legislationLink={legislationLink}
-            meetingDate={meetingDate}
             votes={meetingVotes.votes}
           />
         );
@@ -56,9 +56,8 @@ function renderHeaders() {
   return (
     <thead>
       <tr>
-        <th scope="col">Matter</th>
-        <th scope="col">Date</th>
-        <th scope="col">Decision</th>
+        <th scope="col">Legislation</th>
+        <th scope="col">Council Decision</th>
         <th scope="col">Votes</th>
       </tr>
     </thead>
