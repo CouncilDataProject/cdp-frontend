@@ -1,7 +1,7 @@
 import React from "react";
-import LegislationAdoptedIcon from "../Cards/LegislationCard/LegislationAdoptedIcon";
-import LegislationRejectedIcon from "../Cards/LegislationCard/LegislationRejectedIcon";
-import LegislationInProgressIcon from "../Cards/LegislationCard/LegislationInProgressIcon";
+import AdoptedIcon from "./AdoptedIcon";
+import RejectedIcon from "./RejectedIcon";
+import InProgressIcon from "./InProgressIcon";
 import AbstainIcon from "../Shared/AbstainIcon";
 import { MATTER_STATUS_DECISION } from "../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../constants/ProjectConstants";
@@ -16,22 +16,22 @@ const DecisionResult = ({ result }: DecisionResultProps) => {
   let statusIcon = <div />;
   switch (result) {
     case VOTE_DECISION.APPROVE:
-      statusIcon = <LegislationAdoptedIcon />;
+      statusIcon = <AdoptedIcon />;
       break;
     case VOTE_DECISION.REJECT:
-      statusIcon = <LegislationRejectedIcon />;
+      statusIcon = <RejectedIcon />;
       break;
     case VOTE_DECISION.ABSTAIN:
       statusIcon = <AbstainIcon />;
       break;
     case MATTER_STATUS_DECISION.REJECTED:
-      statusIcon = <LegislationRejectedIcon />;
+      statusIcon = <RejectedIcon />;
       break;
     case MATTER_STATUS_DECISION.ADOPTED:
-      statusIcon = <LegislationAdoptedIcon />;
+      statusIcon = <AdoptedIcon />;
       break;
     case MATTER_STATUS_DECISION.IN_PROGRESS:
-      statusIcon = <LegislationInProgressIcon />;
+      statusIcon = <InProgressIcon />;
       break;
     default:
       break;

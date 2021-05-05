@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DecisionResult from "../../Shared/DecisionResult";
 import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
+import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import { IndividualMeetingVote } from "../../Shared/Types/IndividualMeetingVote";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { STYLES } from "../../../constants/StyleConstants";
@@ -53,7 +54,7 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
       if (vote.decision === VOTE_DECISION.REJECT) votesAgainst++;
       if (vote.decision === VOTE_DECISION.ABSTAIN) votesAbstained++;
     });
-    const votesMinified = `${votesFor} Approved   /   ${votesAgainst} Rejected   /   ${votesAbstained} Abstained`;
+    const votesMinified = `${votesFor} Approved ${TAG_CONNECTOR} ${votesAgainst} Rejected ${TAG_CONNECTOR} ${votesAbstained} Abstained`;
     return (
       <td>
         <p>{votesMinified}</p>
