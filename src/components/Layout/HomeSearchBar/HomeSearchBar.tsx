@@ -17,20 +17,20 @@ import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 
 const SearchContainer = styled.div({
-  width: "50%",
-  margin: "0 auto",
   display: "flex",
+  justifyContent: "center",
+  flexWrap: "wrap",
 });
 
 const SearchInput = styled.input({
   backgroundImage: "none !important",
   padding: "8px !important",
-  marginBottom: "12px !important",
-  flex: 1,
+  marginBottom: "4px !important",
+  width: 500,
 });
 
 const SearchSubmit = styled.button({
-  marginBottom: 12,
+  marginBottom: 4,
 });
 
 const searchTypeOptions = [
@@ -60,6 +60,7 @@ const intialSearchTyperFilterState = {
 const FilterContainer = styled.div({
   display: "flex",
   justifyContent: "center",
+  flexWrap: "wrap",
 });
 
 interface HomeSearchBarProps {
@@ -121,7 +122,7 @@ const HomeSearchBar: FC<HomeSearchBarProps> = ({ municipal }: HomeSearchBarProps
               value={searchQuery}
               onChange={onSearchChange}
             />
-            <SearchSubmit className="mzp-c-button mzp-t-product mzp-t-lg" type="submit">
+            <SearchSubmit className="mzp-c-button mzp-t-product" type="submit">
               Search
             </SearchSubmit>
           </SearchContainer>
