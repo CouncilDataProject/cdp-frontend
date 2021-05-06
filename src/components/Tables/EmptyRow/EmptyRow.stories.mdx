@@ -10,9 +10,7 @@ import EmptyRow from "./EmptyRow";
 <Props of={EmptyRow} />
 
 <Story name="Empty Row in an Empty Table">
-  <EmptyRow
-    index={0}
-  />
+  <EmptyRow index={0} />
 </Story>
 
 ### Empty Row due to Error or Omission
@@ -20,7 +18,5 @@ import EmptyRow from "./EmptyRow";
 <Props of={EmptyRow} />
 
 <Story name="Empty in an Otherwise-full Table">
-  <EmptyRow
-    index={number("The row's index, controls even or odd row styling.", 2)}
-  />
+  <EmptyRow index={number("The row's index, controls even or odd row styling.", 2)} />
 </Story>
