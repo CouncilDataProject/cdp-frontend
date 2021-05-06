@@ -9,22 +9,22 @@ import MeetingVotesTable from "./MeetingVotesTable";
 
 <Props of={MeetingVotesTable} />
 
-<Story name="Empty Table">
+<Story name="Empty Legislation Vote Table">
   <MeetingVotesTable
     votesPage={[]}
   />
 </Story>
 
-### A Meeting Votes Table with a Single Row
-<Story name="Single Vote">
+### A Legislation Votes Table with a Single Row
+<Story name="Single Legislation Vote">
   <MeetingVotesTable
     votesPage={
     [
       {
         matter:{
-          id: 'example-matter-id',
-          description: "A description of this meeting",
-          name: text('example-matter-name', "Council Community Meeting"),
+          id: 'example-legislation-id',
+          description: "A description of the legislation",
+          name: text('Meeting Votes Single Row Legislation Name', "IRC 188"),
         },
         date:new Date(),
         council_decision:"Adopted",
@@ -81,17 +81,16 @@ import MeetingVotesTable from "./MeetingVotesTable";
   />
 </Story>
 
-### A Meeting Votes Table with Many Rows
-
-<Story name="Many Votes">
+### A Legislation Votes Table with a Single Broken Row
+<Story name="Single Broken Legislation Row">
   <MeetingVotesTable
     votesPage={
     [
       {
         matter:{
-          id: 'example-matter-id',
-          description: "A description of this meeting",
-          name: text('Row 1 Title of Meeting', "Council Community Meeting"),
+          id: 'example-legislation-id',
+          description: "A description of the legislation",
+          name: text('Row 1 Title of Legislation', "IRC 189"),
         },
         date:new Date(),
         council_decision:"Adopted",
@@ -155,9 +154,219 @@ import MeetingVotesTable from "./MeetingVotesTable";
       },
       {
         matter:{
-          id: 'example-matter-id',
-          description: "A description of this meeting",
-          name: text('Row 2 Title of Meeting', "LSA Community Meeting"),
+          id: 'example-legislation-id',
+          description: "A description of the legislation",
+          name: text('Row 2 Title of Legislation', "IRC 200"),
+        },
+        date:new Date(),
+        council_decision:"Adopted",
+        votes:
+          object("Individual Councilor Votes Cell 2", [
+            {
+            name: "Alice",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote1"
+          },
+          {
+            name: "Bob",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote2"
+          },
+          {
+            name: "Charlie",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote3"
+          },
+          {
+            name: "Denise",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote4"
+          },
+          {
+            name: "Elton",
+            personId: "personId1",
+            decision: "Abstain",
+            id: "vote5"
+          },
+          {
+            name: "Floyd",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote6"
+          },
+          {
+            name: "Gregory",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote7"
+          },
+          {
+            name: "Haley",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote8"
+          },
+          {
+            name: "Ivan",
+            personId: "personId1",
+            decision: "Abstain",
+            id: "vote9"
+          }
+          ])
+      },
+      {broken: "simulating a broken row due to missing or malformed data"},
+      {
+        matter:{
+          id: 'example-legislation-id',
+          description: "A description of the legislation",
+          name: text('Row 4 Title of Legislation', "IRC 201"),
+        },
+        date:new Date(),
+        council_decision:"Rejected",
+        votes:
+          object("Individual Councilor Votes Cell 4", [
+            {
+            name: "Alice",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote1"
+          },
+          {
+            name: "Bob",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote2"
+          },
+          {
+            name: "Charlie",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote3"
+          },
+          {
+            name: "Denise",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote4"
+          },
+          {
+            name: "Elton",
+            personId: "personId1",
+            decision: "Abstain",
+            id: "vote5"
+          },
+          {
+            name: "Floyd",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote6"
+          },
+          {
+            name: "Gregory",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote7"
+          },
+          {
+            name: "Haley",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote8"
+          },
+          {
+            name: "Ivan",
+            personId: "personId1",
+            decision: "Abstain",
+            id: "vote9"
+          }
+          ])
+      }
+    ]}
+  />
+</Story>
+
+
+### A Legislation Votes Table with Many Rows
+
+<Story name="Many Legislation Rows, each with Many Votes">
+  <MeetingVotesTable
+    votesPage={
+    [
+      {
+        matter:{
+          id: 'example-legislation-id',
+          description: "A description of the legislation",
+          name: text('Row 1 Title of Legislation', "IRC 189"),
+        },
+        date:new Date(),
+        council_decision:"Adopted",
+        votes:
+          object("Individual Councilor Votes Cell 1", [
+            {
+            name: "Alice",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote1"
+          },
+          {
+            name: "Bob",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote2"
+          },
+          {
+            name: "Charlie",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote3"
+          },
+          {
+            name: "Denise",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote4"
+          },
+          {
+            name: "Elton",
+            personId: "personId1",
+            decision: "Abstain",
+            id: "vote5"
+          },
+          {
+            name: "Floyd",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote6"
+          },
+          {
+            name: "Gregory",
+            personId: "personId1",
+            decision: "Approve",
+            id: "vote7"
+          },
+          {
+            name: "Haley",
+            personId: "personId1",
+            decision: "Reject",
+            id: "vote8"
+          },
+          {
+            name: "Ivan",
+            personId: "personId1",
+            decision: "Abstain",
+            id: "vote9"
+          }
+          ])
+      },
+      {
+        matter:{
+          id: 'example-legislation-id',
+          description: "A description of the legislation",
+          name: text('Row 2 Title of Legislation', "IRC 200"),
         },
         date:new Date(),
         council_decision:"Adopted",
@@ -221,9 +430,9 @@ import MeetingVotesTable from "./MeetingVotesTable";
       },
       {
         matter:{
-          id: 'example-matter-id',
-          description: "A description of this meeting",
-          name: text('Row 3 Title of Meeting', "IRC 290"),
+          id: 'example-legislation-id',
+          description: "A description of the legislation",
+          name: text('Row 3 Title of Legislation', "IRC 290"),
         },
         date:new Date(),
         council_decision:"In Progress",
@@ -287,9 +496,9 @@ import MeetingVotesTable from "./MeetingVotesTable";
       },
       {
         matter:{
-          id: 'example-matter-id',
-          description: "A description of this meeting",
-          name: text('Row 4 Title of Meeting', "Council Community Meeting"),
+          id: 'example-legislation-id',
+          description: "A description of the legislation",
+          name: text('Row 4 Title of Legislation', "IRC 201"),
         },
         date:new Date(),
         council_decision:"Rejected",
