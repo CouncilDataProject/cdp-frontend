@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
-
-import LegislationAdoptedIcon from "./LegislationAdoptedIcon";
-import LegislationRejectedIcon from "./LegislationRejectedIcon";
-import LegislationInProgressIcon from "./LegislationInProgressIcon";
+import AdoptedIcon from "../../Shared/AdoptedIcon";
+import RejectedIcon from "../../Shared/RejectedIcon";
+import InProgressIcon from "../../Shared/InProgressIcon";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
+import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
@@ -19,7 +19,7 @@ export interface LegislationCardProps {
   /**The name of the legislation */
   name: string;
   /**The status of legislation. If legislation is in progress then the status is Next Meeting */
-  status: string;
+  status: MATTER_STATUS_DECISION;
   /**The legislation status's date or the date of the next meeting */
   date?: string;
   /** List of legislation keywords */
@@ -37,11 +37,11 @@ const LegislationCard: FC<LegislationCardProps> = ({
   let statusIcon;
 
   if (status === "Adopted") {
-    statusIcon = <LegislationAdoptedIcon />;
+    statusIcon = <AdoptedIcon />;
   } else if (status === "Rejected") {
-    statusIcon = <LegislationRejectedIcon />;
+    statusIcon = <RejectedIcon />;
   } else {
-    statusIcon = <LegislationInProgressIcon />;
+    statusIcon = <InProgressIcon />;
   }
 
   return (

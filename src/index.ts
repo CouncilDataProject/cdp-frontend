@@ -27,3 +27,5 @@ export { MinutesItemsList } from "./components/Details/MinutesItemsList";
 export { default as VotingTableRow } from "./components/Tables/VotingTableRow/VotingTableRow";
 export { default as VotingTable } from "./components/Tables/VotingTable/VotingTable";
 export { default as EmptyRow } from "./components/Tables/EmptyRow/EmptyRow";
+export { default as MeetingVotesTable } from "./components/Tables/MeetingVotesTable/MeetingVotesTable";
+export { default as MeetingVotesTableRow } from "./components/Tables/MeetingVotesTableRow/MeetingVotesTableRow";

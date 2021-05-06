@@ -1,5 +1,5 @@
 import { action } from "@storybook/addon-actions";
-import { text, array, number } from "@storybook/addon-knobs";
+import { text, array, number, date } from "@storybook/addon-knobs";
 import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
 
 import VotingTableRow from "./VotingTableRow";
@@ -20,7 +20,7 @@ import VotingTableRow from "./VotingTableRow";
     voteDecision={text("Was the councilor's vote in favor of the legislation", "Reject")}
     councilDecision={text("What was the council's decision?", "Approve")}
     legislationTags={array("Tags", ["bike", "example", "lanes", "rental"])}
-    meetingDate={text("JS Date Contructable String", "03/26/2021")}
+    meetingDate={date("Meeting Date", new Date("3/26/2011"))}
     meetingLink={text("Link to Meeting", "https://www.google.com")}
     committeeName={text("Committee Name", "Example Committee")}
   />

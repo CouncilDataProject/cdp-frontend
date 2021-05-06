@@ -2,7 +2,7 @@ import React from "react";
 
 import "@councildataproject/cdp-design/dist/colors.css";
 
-const LegislationRejectedIcon = () => {
+const RejectedIcon = () => {
   return (
     <svg
       className="cdp-red"
@@ -21,4 +21,4 @@ const LegislationRejectedIcon = () => {
   );
 };
 
-export default LegislationRejectedIcon;
+export default RejectedIcon;
