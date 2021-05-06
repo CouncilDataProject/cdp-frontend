@@ -35,6 +35,7 @@ const ContentContainer = styled(Popup.Content)({
   // add scrollbar if the content is too long
   flexGrow: 1,
   overflowY: "auto",
+  paddingLeft: "10px",
   paddingRight: "10px",
 });
 ContentContainer.displayName = "ContentContainer";
@@ -89,7 +90,7 @@ export interface FilterPopupProps {
   /**React Dispatch callback to update the popupIsOpen state. */
   setPopupIsOpen: Dispatch<boolean>;
   /**Callback to handle filter popup closing. */
-  handlePopupClose(): void;
+  handlePopupClose?(): void;
   /**Whether or not the popup should close when a value is selected. */
   closeOnChange: boolean;
   /**React Child Node. One of the filter components such as SelectDateRange, SelectTextFilterOptions, SelectSorting. */
@@ -118,7 +119,9 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
 
   const onPopupClose = () => {
     setPopupIsOpen(false);
-    handlePopupClose();
+    if (handlePopupClose) {
+      handlePopupClose();
+    }
   };
 
   const onClearFilter = () => {
