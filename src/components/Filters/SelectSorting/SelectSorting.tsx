@@ -52,7 +52,7 @@ const SelectSorting: FunctionComponent<SelectSortingProps> = ({
                 className="mzp-c-choice-label"
                 htmlFor={`form-checkbox-control-${sortOption.label}`}
               >
-                {sortOption.label}{" "}
+                {sortOption.label}
               </label>
             </div>
           ))}
