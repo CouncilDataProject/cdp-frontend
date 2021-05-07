@@ -116,7 +116,7 @@ const HomeSearchBar: FC<HomeSearchBarProps> = ({ municipal }: HomeSearchBarProps
           <SearchContainer>
             <SearchInput
               type="search"
-              placeholder="Enter your keyword"
+              placeholder="Search for a topic..."
               required
               aria-required
               value={searchQuery}
