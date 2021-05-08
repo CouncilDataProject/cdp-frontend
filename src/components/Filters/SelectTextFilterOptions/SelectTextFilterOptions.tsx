@@ -29,6 +29,10 @@ export interface SelectTextFilterOptionsProps {
   optionQuery?: string;
   /**React Dispatch callback to update the search string state. */
   setOptionQuery?: Dispatch<string>;
+  /**Is it required to select at least one option? */
+  isRequired?: boolean;
+  //**Is there at least one selected option? */
+  isActive?: boolean;
 }
 
 const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> = ({
@@ -38,6 +42,8 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   options,
   optionQuery,
   setOptionQuery,
+  isRequired,
+  isActive,
 }: SelectTextFilterOptionsProps) => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const filterOptionName = e.currentTarget.name;
@@ -103,6 +109,13 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
           ))}
         </div>
       </fieldset>
+      {isRequired && !isActive && (
+        <div className="mzp-c-form-errors">
+          <ul className="mzp-u-list-styled">
+            <li>{`Please select at least one ${name}.`}</li>
+          </ul>
+        </div>
+      )}
     </form>
   );
 };

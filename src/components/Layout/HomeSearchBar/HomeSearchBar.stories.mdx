@@ -10,11 +10,4 @@ export const Template = (args) => <HomeSearchBar {...args} />;
 
 ## Search bar
 
-<Story
-  name="Default"
-  args={{
-    municipal: "Seattle, WA",
-  }}
->
-  {Template.bind({})}
-</Story>
+<Story name="Default">{Template.bind({})}</Story>

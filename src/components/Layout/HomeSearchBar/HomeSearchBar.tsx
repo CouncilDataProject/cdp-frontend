@@ -4,35 +4,29 @@ import styled from "@emotion/styled";
 
 import { FilterPopup } from "../../Filters/FilterPopup";
 import useFilter from "../../Filters/useFilter";
+import { FilterState } from "../../Filters/reducer";
 import { getDateText, SelectDateRange } from "../../Filters/SelectDateRange";
-import {
-  getCheckboxText,
-  getSelectedOptions,
-  SelectTextFilterOptions,
-} from "../../Filters/SelectTextFilterOptions";
+import { getSelectedOptions, SelectTextFilterOptions } from "../../Filters/SelectTextFilterOptions";
 import { SEARCH_TYPE } from "../../../constants/ProjectConstants";
+import { default as exampleTopics } from "../../../assets/example-topics.json";
 
 import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 
-const SearchContainer = styled.div({
-  display: "flex",
-  justifyContent: "center",
-  flexWrap: "wrap",
-});
-
 const SearchInput = styled.input({
-  backgroundImage: "none !important",
-  padding: "8px !important",
-  marginBottom: "4px !important",
-  width: 500,
+  marginBottom: "0px !important",
 });
 
-const SearchSubmit = styled.button({
-  marginBottom: 4,
-});
-
+const FilterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 8px;
+  @media (min-width: 544px) {
+    flex-direction: row;
+  }
+`;
 const searchTypeOptions = [
   {
     name: SEARCH_TYPE.MEETING,
@@ -53,30 +47,37 @@ const searchTypeOptions = [
 
 const intialSearchTyperFilterState = {
   [SEARCH_TYPE.MEETING]: true,
-  [SEARCH_TYPE.LEGISLATION]: false,
-  [SEARCH_TYPE.COUNCIL_MEMBER]: false,
+  [SEARCH_TYPE.LEGISLATION]: true,
+  [SEARCH_TYPE.COUNCIL_MEMBER]: true,
 };
 
-const FilterContainer = styled.div({
-  display: "flex",
-  justifyContent: "center",
-  flexWrap: "wrap",
-});
+const getSearchTypeText = (checkboxes: FilterState<boolean>, defaultText: string) => {
+  const selectedCheckboxes = Object.keys(checkboxes).filter((key) => checkboxes[key]);
+  let textRep = defaultText;
+  if (selectedCheckboxes.length === Object.keys(checkboxes).length) {
+    textRep += "(s): All";
+  } else if (selectedCheckboxes.length > 0) {
+    const selectedLabels = selectedCheckboxes.map((name) => {
+      const option = searchTypeOptions.find((option) => option.name === name);
+      return option?.label ?? "";
+    });
+    textRep += `(s): ${selectedLabels.join(",")}`;
+  }
+  return textRep;
+};
 
-interface HomeSearchBarProps {
-  /**The municipal of the CDP instance.*/
-  municipal: string;
-}
+const exampleSearchQuery = exampleTopics[Math.floor(Math.random() * exampleTopics.length)];
 
-const HomeSearchBar: FC<HomeSearchBarProps> = ({ municipal }: HomeSearchBarProps) => {
+const HomeSearchBar: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [showFilters, setShowFilters] = useState<boolean>(false);
   const history = useHistory();
   const dateRangeFilter = useFilter<string>("Date", { start: "", end: "" }, "", getDateText);
   const searchTypeFilter = useFilter<boolean>(
     "Search Type",
     intialSearchTyperFilterState,
     false,
-    getCheckboxText
+    getSearchTypeText
   );
 
   const onSearch: FormEventHandler<HTMLFormElement> = (event) => {
@@ -103,57 +104,69 @@ const HomeSearchBar: FC<HomeSearchBarProps> = ({ municipal }: HomeSearchBarProps
   const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
     setSearchQuery(event.target.value);
 
+  const onClickFilters = () => setShowFilters((showFilters) => !showFilters);
+
   return (
     <>
       <form className="mzp-c-form" role="search" onSubmit={onSearch}>
-        <div className="mzp-c-form-header">
-          <h2 className="mzp-c-form-title" style={{ textAlign: "center" }}>
-            Discover <span className="cdp-dark-blue">{municipal}</span> city council meetings,
-            legislations, and members
-          </h2>
-        </div>
-        <fieldset className="mzp-c-field-set">
-          <SearchContainer>
-            <SearchInput
-              type="search"
-              placeholder="Search for a topic..."
-              required
-              aria-required
-              value={searchQuery}
-              onChange={onSearchChange}
-            />
-            <SearchSubmit className="mzp-c-button mzp-t-product" type="submit">
-              Search
-            </SearchSubmit>
-          </SearchContainer>
-        </fieldset>
-      </form>
-      <FilterContainer>
-        <FilterPopup
-          clear={searchTypeFilter.clear}
-          getTextRep={searchTypeFilter.getTextRep}
-          isActive={searchTypeFilter.isActive}
-          popupIsOpen={searchTypeFilter.popupIsOpen}
-          setPopupIsOpen={searchTypeFilter.setPopupIsOpen}
-          closeOnChange={false}
-        >
-          <SelectTextFilterOptions
-            name={searchTypeFilter.name}
-            state={searchTypeFilter.state}
-            update={searchTypeFilter.update}
-            options={searchTypeOptions}
+        <div className="mzp-l-stretch">
+          <SearchInput
+            className="mzp-c-field-control"
+            type="search"
+            placeholder="Search for a topic..."
+            required
+            aria-required
+            disabled={!searchTypeFilter.isActive()}
+            value={searchQuery}
+            onChange={onSearchChange}
           />
-        </FilterPopup>
-        <FilterPopup
-          clear={dateRangeFilter.clear}
-          getTextRep={dateRangeFilter.getTextRep}
-          isActive={dateRangeFilter.isActive}
-          popupIsOpen={dateRangeFilter.popupIsOpen}
-          setPopupIsOpen={dateRangeFilter.setPopupIsOpen}
-          closeOnChange={false}
+          <p className="mzp-c-field-info">{`Example: ${exampleSearchQuery}`}</p>
+        </div>
+      </form>
+
+      <FilterContainer>
+        <button
+          className="mzp-c-button mzp-t-neutral"
+          onClick={onClickFilters}
+          disabled={!searchTypeFilter.isActive()}
         >
-          <SelectDateRange state={dateRangeFilter.state} update={dateRangeFilter.update} />
-        </FilterPopup>
+          Filters
+        </button>
+        {showFilters && (
+          <div>
+            <FilterPopup
+              clear={searchTypeFilter.clear}
+              getTextRep={searchTypeFilter.getTextRep}
+              isActive={searchTypeFilter.isActive}
+              popupIsOpen={searchTypeFilter.popupIsOpen}
+              setPopupIsOpen={searchTypeFilter.setPopupIsOpen}
+              closeOnChange={false}
+            >
+              <SelectTextFilterOptions
+                name={searchTypeFilter.name}
+                state={searchTypeFilter.state}
+                update={searchTypeFilter.update}
+                options={searchTypeOptions}
+                isRequired={true}
+                isActive={searchTypeFilter.isActive()}
+              />
+            </FilterPopup>
+          </div>
+        )}
+        {showFilters && (
+          <div>
+            <FilterPopup
+              clear={dateRangeFilter.clear}
+              getTextRep={dateRangeFilter.getTextRep}
+              isActive={dateRangeFilter.isActive}
+              popupIsOpen={dateRangeFilter.popupIsOpen}
+              setPopupIsOpen={dateRangeFilter.setPopupIsOpen}
+              closeOnChange={false}
+            >
+              <SelectDateRange state={dateRangeFilter.state} update={dateRangeFilter.update} />
+            </FilterPopup>
+          </div>
+        )}
       </FilterContainer>
     </>
   );

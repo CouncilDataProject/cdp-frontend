@@ -15,8 +15,7 @@ const StyledSelect = styled.div({
   backgroundPosition: "right 8px top 50% !important",
   backgroundRepeat: "no-repeat, repeat !important",
   display: "block !important",
-  minWidth: "300px !important",
-  maxWidth: "100% !important",
+  width: "100% !important",
   textOverflow: "ellipsis !important",
   lineHeight: "1.25 !important",
 });
