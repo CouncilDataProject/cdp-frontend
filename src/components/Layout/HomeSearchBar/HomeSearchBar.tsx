@@ -130,7 +130,7 @@ const HomeSearchBar: FC = () => {
 
       <FilterContainer>
         <button
-          className="mzp-c-button mzp-t-neutral"
+          className="mzp-c-button mzp-t-secondary"
           onClick={onClickFilters}
           disabled={!searchTypeFilter.isActive()}
         >
