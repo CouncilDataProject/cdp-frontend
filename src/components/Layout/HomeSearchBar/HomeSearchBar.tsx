@@ -15,14 +15,27 @@ import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 
 const SearchInput = styled.input`
+  flex: 1;
+  order: 1;
   margin-bottom: 0px !important;
 `;
 
+const SearchSubmit = styled.button`
+  order: 3;
+  @media (min-width: 544px) {
+    order: 2;
+  }
+`;
 const SearchExampleTopic = styled.p`
-  padding-top: 8px !important;
+  width: 100%;
+  padding-top: 0px !important;
+  order: 2;
+  @media (min-width: 544px) {
+    order: 3;
+  }
 `;
 
-const FilterContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -31,6 +44,7 @@ const FilterContainer = styled.div`
     flex-direction: row;
   }
 `;
+
 const searchTypeOptions = [
   {
     name: SEARCH_TYPE.MEETING,
@@ -113,9 +127,8 @@ const HomeSearchBar: FC = () => {
   return (
     <>
       <form className="mzp-c-form" role="search" onSubmit={onSearch}>
-        <div className="mzp-l-stretch">
+        <Container>
           <SearchInput
-            className="mzp-c-field-control"
             type="search"
             placeholder="Search for a topic..."
             required
@@ -124,17 +137,24 @@ const HomeSearchBar: FC = () => {
             value={searchQuery}
             onChange={onSearchChange}
           />
+          <SearchSubmit
+            className="mzp-c-button mzp-t-product"
+            type="submit"
+            disabled={!searchTypeFilter.isActive()}
+          >
+            Search
+          </SearchSubmit>
           <SearchExampleTopic className="mzp-c-field-info">{`Example: ${exampleSearchQuery}`}</SearchExampleTopic>
-        </div>
+        </Container>
       </form>
 
-      <FilterContainer>
+      <Container>
         <button
           className="mzp-c-button mzp-t-secondary"
           onClick={onClickFilters}
           disabled={!searchTypeFilter.isActive()}
         >
-          Filters
+          Advanced Options
         </button>
         {showFilters && (
           <div>
@@ -171,7 +191,7 @@ const HomeSearchBar: FC = () => {
             </FilterPopup>
           </div>
         )}
-      </FilterContainer>
+      </Container>
     </>
   );
 };
