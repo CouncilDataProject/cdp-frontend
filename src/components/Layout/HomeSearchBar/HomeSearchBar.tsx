@@ -14,9 +14,13 @@ import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 
-const SearchInput = styled.input({
-  marginBottom: "0px !important",
-});
+const SearchInput = styled.input`
+  margin-bottom: 0px !important;
+`;
+
+const SearchExampleTopic = styled.p`
+  padding-top: 8px !important;
+`;
 
 const FilterContainer = styled.div`
   display: flex;
@@ -120,7 +124,7 @@ const HomeSearchBar: FC = () => {
             value={searchQuery}
             onChange={onSearchChange}
           />
-          <p className="mzp-c-field-info">{`Example: ${exampleSearchQuery}`}</p>
+          <SearchExampleTopic className="mzp-c-field-info">{`Example: ${exampleSearchQuery}`}</SearchExampleTopic>
         </div>
       </form>
 
