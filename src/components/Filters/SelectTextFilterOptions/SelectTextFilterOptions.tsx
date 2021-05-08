@@ -112,7 +112,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
       {isRequired && !isActive && (
         <div className="mzp-c-form-errors">
           <ul className="mzp-u-list-styled">
-            <li>{`Please select at least one ${name}.`}</li>
+            <li>{`Please select at least one ${name.toLowerCase()}.`}</li>
           </ul>
         </div>
       )}
