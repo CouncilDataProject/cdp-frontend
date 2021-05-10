@@ -37,6 +37,7 @@ const SearchInput = styled.input`
 
 const SearchExampleTopic = styled.p`
   padding-top: 0px !important;
+  font-size: 0.775rem !important;
   @media (min-width: 544px) {
     /**Make the example topic appear after the search button*/
     order: 1;
