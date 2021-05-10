@@ -16,22 +16,21 @@ import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 
 const SearchInput = styled.input`
   flex: 1;
-  order: 1;
   margin-bottom: 0px !important;
 `;
 
-const SearchSubmit = styled.button`
-  order: 3;
-  @media (min-width: 544px) {
-    order: 2;
-  }
-`;
 const SearchExampleTopic = styled.p`
   width: 100%;
   padding-top: 0px !important;
-  order: 2;
   @media (min-width: 544px) {
-    order: 3;
+    order: 1;
+  }
+`;
+
+const AdvancedOptionsBtn = styled.button`
+  @media (min-width: 544px) {
+    order: 1;
+    margin-left: auto;
   }
 `;
 
@@ -39,7 +38,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  gap: 8px;
+  column-gap: 8px;
+  row-gap: 4px;
   @media (min-width: 544px) {
     flex-direction: row;
   }
@@ -53,7 +53,7 @@ const searchTypeOptions = [
   },
   {
     name: SEARCH_TYPE.LEGISLATION,
-    label: "Legislations",
+    label: "Legislation",
     disabled: false,
   },
   {
@@ -79,7 +79,7 @@ const getSearchTypeText = (checkboxes: FilterState<boolean>, defaultText: string
       const option = searchTypeOptions.find((option) => option.name === name);
       return option?.label ?? "";
     });
-    textRep += `(s): ${selectedLabels.join(",")}`;
+    textRep += `(s): ${selectedLabels.join(", ")}`;
   }
   return textRep;
 };
@@ -137,25 +137,25 @@ const HomeSearchBar: FC = () => {
             value={searchQuery}
             onChange={onSearchChange}
           />
-          <SearchSubmit
+          <SearchExampleTopic className="mzp-c-field-info">{`Example: ${exampleSearchQuery}`}</SearchExampleTopic>
+          <button
             className="mzp-c-button mzp-t-product"
             type="submit"
             disabled={!searchTypeFilter.isActive()}
           >
             Search
-          </SearchSubmit>
-          <SearchExampleTopic className="mzp-c-field-info">{`Example: ${exampleSearchQuery}`}</SearchExampleTopic>
+          </button>
         </Container>
       </form>
 
       <Container>
-        <button
+        <AdvancedOptionsBtn
           className="mzp-c-button mzp-t-secondary"
           onClick={onClickFilters}
           disabled={!searchTypeFilter.isActive()}
         >
           Advanced Options
-        </button>
+        </AdvancedOptionsBtn>
         {showFilters && (
           <div>
             <FilterPopup
