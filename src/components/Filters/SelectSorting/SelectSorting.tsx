@@ -40,15 +40,18 @@ const SelectSorting: FunctionComponent<SelectSortingProps> = ({
         <div className="mzp-c-choices">
           {sortOptions.map((sortOption) => (
             <div key={sortOption.label} className="mzp-c-choice">
-              <label className="mzp-c-choice-label">
-                <input
-                  className="mzp-c-choice-control"
-                  type="radio"
-                  id={`form-checkbox-control-${sortOption.label}`}
-                  value={`${sortOption.by}#${sortOption.order}`}
-                  checked={state.label === sortOption.label}
-                  onChange={onChange}
-                />{" "}
+              <input
+                className="mzp-c-choice-control"
+                type="radio"
+                id={`form-checkbox-control-${sortOption.label}`}
+                value={`${sortOption.by}#${sortOption.order}`}
+                checked={state.label === sortOption.label}
+                onChange={onChange}
+              />
+              <label
+                className="mzp-c-choice-label"
+                htmlFor={`form-checkbox-control-${sortOption.label}`}
+              >
                 {sortOption.label}
               </label>
             </div>

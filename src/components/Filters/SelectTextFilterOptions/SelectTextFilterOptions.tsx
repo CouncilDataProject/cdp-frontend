@@ -1,5 +1,6 @@
-import React, { ChangeEvent, Dispatch, FormEvent, FunctionComponent } from "react";
+import React, { ChangeEvent, Dispatch, FunctionComponent } from "react";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
+import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 import { FilterState } from "../reducer";
 import isSubstring from "../../../utils/isSubstring";
 
@@ -25,9 +26,13 @@ export interface SelectTextFilterOptionsProps {
   /**The list of filter options. E.g. Filtering by Council Committee names has a list of committees. */
   options: FilterOption[];
   /**The search string state to narrow the list of filter options. */
-  optionQuery: string;
+  optionQuery?: string;
   /**React Dispatch callback to update the search string state. */
-  setOptionQuery: Dispatch<string>;
+  setOptionQuery?: Dispatch<string>;
+  /**Is it required to select at least one option? */
+  isRequired?: boolean;
+  //**Is there at least one selected option? */
+  isActive?: boolean;
 }
 
 const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> = ({
@@ -37,8 +42,10 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   options,
   optionQuery,
   setOptionQuery,
+  isRequired,
+  isActive,
 }: SelectTextFilterOptionsProps) => {
-  const onChange = (e: FormEvent<HTMLInputElement>) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const filterOptionName = e.currentTarget.name;
     const isFilterOptionChecked = e.currentTarget.checked;
     update(filterOptionName, isFilterOptionChecked);
@@ -46,13 +53,15 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
 
   const onOptionQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
     const currentValue = e.currentTarget.value;
-    setOptionQuery(currentValue);
+    if (setOptionQuery) {
+      setOptionQuery(currentValue);
+    }
   };
 
   let optionsInOrder = [...options];
-  if (options.length > 5) {
+  if (options.length > 5 && setOptionQuery) {
     for (const option of options) {
-      option.disabled = !isSubstring(option.label, optionQuery);
+      option.disabled = !isSubstring(option.label, optionQuery || "");
     }
 
     optionsInOrder = [
@@ -63,7 +72,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
 
   return (
     <form className="mzp-c-form">
-      {options.length > 5 && (
+      {options.length > 5 && setOptionQuery && (
         <div className="mzp-c-field">
           <label className="mzp-c-field-label" htmlFor="form-input-control-search-filter">
             {`Search ${name} Options`}
@@ -77,26 +86,36 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
           />
         </div>
       )}
-      <fieldset style={{ marginBottom: "0" }}>
+      <fieldset className="mzp-c-field-set">
         <div className="mzp-c-choices">
           {optionsInOrder.map((option) => (
             <div key={option.name} className="mzp-c-choice">
-              <label className="mzp-c-choice-label">
-                <input
-                  className="mzp-c-choice-control"
-                  type="checkbox"
-                  name={option.name}
-                  id={`form-checkbox-control-${option.label}`}
-                  checked={state[option.name]}
-                  disabled={option.disabled}
-                  onChange={onChange}
-                />{" "}
+              <input
+                className="mzp-c-choice-control"
+                type="checkbox"
+                name={option.name}
+                id={`form-checkbox-control-${option.name}`}
+                checked={state[option.name]}
+                disabled={option.disabled}
+                onChange={onChange}
+              />
+              <label
+                className="mzp-c-choice-label"
+                htmlFor={`form-checkbox-control-${option.name}`}
+              >
                 {option.label}
               </label>
             </div>
           ))}
         </div>
       </fieldset>
+      {isRequired && !isActive && (
+        <div className="mzp-c-form-errors">
+          <ul className="mzp-u-list-styled">
+            <li>{`Please select at least one ${name.toLowerCase()}.`}</li>
+          </ul>
+        </div>
+      )}
     </form>
   );
 };

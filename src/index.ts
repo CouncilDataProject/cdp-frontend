@@ -19,6 +19,7 @@ export { PersonCard } from "./components/Cards/PersonCard";
 
 //Layout
 export { Footer } from "./components/Layout/Footer";
+export { HomeSearchBar } from "./components/Layout/HomeSearchBar";
 
 //Details
 export { MinutesItemsList } from "./components/Details/MinutesItemsList";

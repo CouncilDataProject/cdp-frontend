@@ -9,3 +9,9 @@ export enum MATTER_STATUS_DECISION {
   REJECTED = "Rejected",
   IN_PROGRESS = "In Progress",
 }
+
+export enum SEARCH_TYPE {
+  MEETING = "meeting",
+  LEGISLATION = "legislation",
+  COUNCIL_MEMBER = "council-member",
+}

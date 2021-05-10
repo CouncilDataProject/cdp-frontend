@@ -10,84 +10,83 @@ import VotingTable from "./VotingTable";
 <Props of={VotingTable} />
 
 <Story name="Empty Table">
-  <VotingTable
-    votesPage={[]}
-    name={text("Example Name", "Alice")}
-  />
+  <VotingTable votesPage={[]} name={text("Example Name", "Alice")} />
 </Story>
 
 ### A Table with a Single Row
+
 <Story name="Single Vote">
   <VotingTable
     votesPage={[
       {
         matter: {
-          id: 'example-matter-id',
-          name: text('example-matter-name', "Council Community Meeting"),
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          id: "example-matter-id",
+          name: text("example-matter-name", "Council Community Meeting"),
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Approve",
         council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
-      } 
+          body_name: "example-event-name",
+        },
+      },
     ]}
     name={text("Example Name", "Alice")}
   />
 </Story>
 
 ### A Table with a Broken Vote, Simulating Runtime Error
+
 <Story name="Single Broken Vote">
   <VotingTable
     votesPage={[
       {
         matter: {
-          id: 'example-matter-id',
-          name: text('example-matter-name', "Council Community Meeting"),
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          id: "example-matter-id",
+          name: text("example-matter-name", "Council Community Meeting"),
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Approve",
         council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
+          body_name: "example-event-name",
+        },
       },
       {
-        error: "This is a vote object with broken properties."
+        error: "This is a vote object with broken properties.",
       },
       {
         matter: {
-          id: 'example-matter-id2',
-          name: text('example-matter-name', "Council Community Meeting"),
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          id: "example-matter-id2",
+          name: text("example-matter-name", "Council Community Meeting"),
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Reject",
         council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
+          body_name: "example-event-name",
+        },
       },
       {
         matter: {
-          id: 'example-matter-id3',
-          name: text('example-matter-name', "Council Community Meeting"),
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          id: "example-matter-id3",
+          name: text("example-matter-name", "Council Community Meeting"),
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Approve",
         council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
-      }
+          body_name: "example-event-name",
+        },
+      },
     ]}
     name={text("Example Name", "Alice")}
   />
@@ -100,87 +99,87 @@ import VotingTable from "./VotingTable";
     votesPage={[
       {
         matter: {
-          id: 'example-matter-id',
+          id: "example-matter-id",
           name: "example-matter-name",
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Reject",
         council_decision: "Rejected",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
+          body_name: "example-event-name",
+        },
       },
       {
         matter: {
-          id: 'example-matter-id2',
+          id: "example-matter-id2",
           name: "example-matter-name",
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Approve",
         council_decision: "Rejected",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
+          body_name: "example-event-name",
+        },
       },
       {
         matter: {
-          id: 'example-matter-id3',
+          id: "example-matter-id3",
           name: "example-matter-name",
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Reject",
         council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
+          body_name: "example-event-name",
+        },
       },
       {
         matter: {
-          id: 'example-matter-id4',
+          id: "example-matter-id4",
           name: "example-matter-name",
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Approve",
         council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
+          body_name: "example-event-name",
+        },
       },
       {
         matter: {
-          id: 'example-matter-id5',
+          id: "example-matter-id5",
           name: "example-matter-name",
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Approve",
         council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
+          body_name: "example-event-name",
+        },
       },
       {
         matter: {
-          id: 'example-matter-id6',
+          id: "example-matter-id6",
           name: "example-matter-name",
-          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"])
+          keywords: array("Tags", ["keyword1", "keyword2", "keyword3"]),
         },
         decision: "Reject",
         council_decision: "Adopted",
         event: {
           id: "example-event-id",
           date: new Date(),
-          body_name: "example-event-name"
-        }
+          body_name: "example-event-name",
+        },
       },
     ]}
     name={text("Example Name", "Alice")}
