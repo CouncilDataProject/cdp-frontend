@@ -14,34 +14,49 @@ import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 
+const gridContainer = `
+  display: grid;
+  column-gap: 8px;
+  row-gap: 4px;
+  /**One column template*/
+  grid-template-columns: 1fr;
+  justify-content: start;
+`;
+
+const SearchContainer = styled.div`
+  ${gridContainer}
+  @media (min-width: 544px) {
+    /**Two columns template, with the first column taking up any free space*/
+    grid-template-columns: 1fr auto;
+  }
+`;
+
 const SearchInput = styled.input`
-  flex: 1;
   margin-bottom: 0px !important;
 `;
 
 const SearchExampleTopic = styled.p`
-  width: 100%;
   padding-top: 0px !important;
   @media (min-width: 544px) {
+    /**Make the example topic appear after the search button*/
     order: 1;
+  }
+`;
+
+const FiltersContainer = styled.div`
+  ${gridContainer}
+  @media (min-width: 544px) {
+    /**Three columns template, with the last column taking up any free space*/
+    grid-template-columns: auto auto 1fr;
   }
 `;
 
 const AdvancedOptionsBtn = styled.button`
   @media (min-width: 544px) {
+    /**Make the advanced options button appear last*/
     order: 1;
-    margin-left: auto;
-  }
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  column-gap: 8px;
-  row-gap: 4px;
-  @media (min-width: 544px) {
-    flex-direction: row;
+    /**Float the button to the right*/
+    justify-self: end;
   }
 `;
 
@@ -127,7 +142,7 @@ const HomeSearchBar: FC = () => {
   return (
     <>
       <form className="mzp-c-form" role="search" onSubmit={onSearch}>
-        <Container>
+        <SearchContainer>
           <SearchInput
             type="search"
             placeholder="Search for a topic..."
@@ -145,10 +160,10 @@ const HomeSearchBar: FC = () => {
           >
             Search
           </button>
-        </Container>
+        </SearchContainer>
       </form>
 
-      <Container>
+      <FiltersContainer>
         <AdvancedOptionsBtn
           className="mzp-c-button mzp-t-secondary"
           onClick={onClickFilters}
@@ -156,8 +171,8 @@ const HomeSearchBar: FC = () => {
         >
           Advanced Options
         </AdvancedOptionsBtn>
-        {showFilters && (
-          <div>
+        <div>
+          {showFilters && (
             <FilterPopup
               clear={searchTypeFilter.clear}
               getTextRep={searchTypeFilter.getTextRep}
@@ -175,10 +190,10 @@ const HomeSearchBar: FC = () => {
                 isActive={searchTypeFilter.isActive()}
               />
             </FilterPopup>
-          </div>
-        )}
-        {showFilters && (
-          <div>
+          )}
+        </div>
+        <div>
+          {showFilters && (
             <FilterPopup
               clear={dateRangeFilter.clear}
               getTextRep={dateRangeFilter.getTextRep}
@@ -189,9 +204,9 @@ const HomeSearchBar: FC = () => {
             >
               <SelectDateRange state={dateRangeFilter.state} update={dateRangeFilter.update} />
             </FilterPopup>
-          </div>
-        )}
-      </Container>
+          )}
+        </div>
+      </FiltersContainer>
     </>
   );
 };
