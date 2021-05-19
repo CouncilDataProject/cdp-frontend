@@ -23,6 +23,7 @@ export { HomeSearchBar } from "./components/Layout/HomeSearchBar";
 
 //Details
 export { MinutesItemsList } from "./components/Details/MinutesItemsList";
+export { TranscriptItem } from "./components/Details/TranscriptItem";
 
 //Tables
 export { default as VotingTableRow } from "./components/Tables/VotingTableRow/VotingTableRow";
