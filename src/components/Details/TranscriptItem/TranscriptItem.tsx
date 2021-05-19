@@ -55,16 +55,19 @@ const DefaultAvatarContainer = styled.div({
   height: AVATAR_SIZE,
 });
 
-const Actions = styled.div({
+interface ActionsProps {
+  single: boolean;
+}
+const Actions = styled.div<ActionsProps>((props) => ({
   display: "grid",
   gridTemplateColumns: "auto",
   justifyContent: "end",
   [`@media (min-width: ${screenWidths.tablet})`]: {
     padding: "0 16px",
     gridTemplateColumns: "auto auto",
-    justifyContent: "space-between",
+    justifyContent: props.single ? "end" : "space-between",
   },
-});
+}));
 
 const Action = styled.div({
   cursor: "pointer",
@@ -94,16 +97,16 @@ interface TranscriptItemProps {
   text: string;
   /**The start time of transcript item  */
   startTime: string;
+  /**Callback to handle user clicking `Video clip` */
+  handleVideoClick(): void;
   /**The speaker's id */
   speakerId?: string;
   /**The speaker's picture src */
   speakerPictureSrc?: string;
   /**A search query */
   searchQuery?: string;
-  /**Callback to handle user clicking `Video clip` */
-  handleVideoClick(): void;
   /**Callback to handle user clicking `Transcript` */
-  handleTranscriptClick(): void;
+  handleTranscriptClick?(): void;
 }
 
 const TranscriptItem: FC<TranscriptItemProps> = ({
@@ -145,13 +148,15 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             <p>{startTime}</p>
           </div>
         </Speaker>
-        <Actions>
+        <Actions single={handleTranscriptClick === undefined}>
           <Action className="cdp-dark-blue" onClick={handleVideoClick}>
             Video clip
           </Action>
-          <Action className="cdp-dark-blue" onClick={handleTranscriptClick}>
-            Transcript
-          </Action>
+          {handleTranscriptClick && (
+            <Action className="cdp-dark-blue" onClick={handleTranscriptClick}>
+              Transcript
+            </Action>
+          )}
         </Actions>
       </Container>
     </Item>

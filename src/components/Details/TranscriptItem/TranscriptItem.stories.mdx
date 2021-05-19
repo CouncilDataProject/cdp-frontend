@@ -1,14 +1,23 @@
 import { Meta, Story, ArgsTable } from "@storybook/addon-docs/blocks";
+import { action } from "@storybook/addon-actions";
 
 import TranscriptItem from "./TranscriptItem";
 
-<Meta title="Library/Details/Transcript Item" component={TranscriptItem} />
+<Meta
+  title="Library/Details/Transcript Item"
+  component={TranscriptItem}
+  argTypes={{
+    handleVideoClick: { action: "handleVideoClick" },
+  }}
+/>
+
+# Transcript Item
 
 <ArgsTable of={TranscriptItem} />
 
 export const Template = (args) => <TranscriptItem {...args} />;
 
-## Transcript Item
+## With Picture Src
 
 <Story
   name="With Picture Src"
@@ -19,10 +28,13 @@ export const Template = (args) => <TranscriptItem {...args} />;
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     startTime: "05:00:45",
     speakerPictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
+    handleTranscriptClick: action("handleTranscriptClick"),
   }}
 >
   {Template.bind({})}
 </Story>
+
+## Without Picture Src
 
 <Story
   name="Without Picture Src"
@@ -31,10 +43,13 @@ export const Template = (args) => <TranscriptItem {...args} />;
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     startTime: "05:00:45",
+    handleTranscriptClick: action("handleTranscriptClick"),
   }}
 >
   {Template.bind({})}
 </Story>
+
+## With Search Query Highlights
 
 <Story
   name="With Search Query"
@@ -46,6 +61,23 @@ export const Template = (args) => <TranscriptItem {...args} />;
     startTime: "05:00:45",
     speakerPictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
     searchQuery: "ipsum dolor sit",
+    handleTranscriptClick: action("handleTranscriptClick"),
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+## Without Transcript (for full transcript view)
+
+<Story
+  name="Without Transcript Click"
+  args={{
+    speakerId: "speaker-id-1",
+    speakerName: "Lisa Herbold",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    startTime: "05:00:45",
+    speakerPictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
   }}
 >
   {Template.bind({})}
