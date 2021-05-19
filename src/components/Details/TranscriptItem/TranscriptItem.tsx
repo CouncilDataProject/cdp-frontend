@@ -21,19 +21,22 @@ const Text = styled.div({
   fontSize: fontSizes.font_size_5,
 });
 
-const Container = styled.div({
+interface ContainerProps {
+  hasMultipleActions: boolean;
+}
+const Container = styled.div<ContainerProps>((props) => ({
   fontSize: fontSizes.font_size_4,
   display: "grid",
   gridTemplateColumns: "auto 1fr",
   alignItems: "center",
   [`@media (min-width: ${screenWidths.tablet})`]: {
-    gridTemplateColumns: "auto 35%",
+    gridTemplateColumns: `auto ${props.hasMultipleActions ? "35%" : "auto"}`,
     justifyContent: "space-between",
   },
   [`@media (min-width: ${screenWidths.desktop})`]: {
-    gridTemplateColumns: "auto 15%",
+    gridTemplateColumns: `auto ${props.hasMultipleActions ? "15%" : "auto"}`,
   },
-});
+}));
 
 const Speaker = styled.div({
   display: "grid",
@@ -54,25 +57,6 @@ const DefaultAvatarContainer = styled.div({
   width: AVATAR_SIZE,
   height: AVATAR_SIZE,
 });
-
-interface ActionsProps {
-  single: boolean;
-}
-const Actions = styled.div<ActionsProps>((props) => ({
-  display: "grid",
-  gridTemplateColumns: "auto",
-  justifyContent: "end",
-  [`@media (min-width: ${screenWidths.tablet})`]: {
-    padding: "0 16px",
-    gridTemplateColumns: "auto auto",
-    justifyContent: props.single ? "end" : "space-between",
-  },
-}));
-
-const Action = styled.div({
-  cursor: "pointer",
-});
-
 const DEFAULT_AVATAR = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -89,6 +73,21 @@ const DEFAULT_AVATAR = (
     />
   </svg>
 );
+
+const Actions = styled.div({
+  display: "grid",
+  gridTemplateColumns: "auto",
+  justifyContent: "end",
+  [`@media (min-width: ${screenWidths.tablet})`]: {
+    padding: "0 16px",
+    gridTemplateColumns: "auto auto",
+    justifyContent: "space-between",
+  },
+});
+
+const Action = styled.div({
+  cursor: "pointer",
+});
 
 interface TranscriptItemProps {
   /**The speaker's name */
@@ -140,7 +139,7 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
           textToHighlight={text}
         />
       </Text>
-      <Container>
+      <Container hasMultipleActions={handleTranscriptClick !== undefined}>
         <Speaker>
           {avatar}
           <div>
@@ -148,7 +147,7 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             <p>{startTime}</p>
           </div>
         </Speaker>
-        <Actions single={handleTranscriptClick === undefined}>
+        <Actions>
           <Action className="cdp-dark-blue" onClick={handleVideoClick}>
             Video clip
           </Action>
