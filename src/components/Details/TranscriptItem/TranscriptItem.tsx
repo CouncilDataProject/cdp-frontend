@@ -4,7 +4,7 @@ import Highlighter from "react-highlight-words";
 import styled from "@emotion/styled";
 
 import { fontSizes } from "../../../styles/fonts";
-import { mediaBreakPoints } from "../../../styles/mediaBreakpoints";
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 
 import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
@@ -26,11 +26,11 @@ const Container = styled.div({
   display: "grid",
   gridTemplateColumns: "auto 1fr",
   alignItems: "center",
-  [`@media (min-width: ${mediaBreakPoints.tablet_screen})`]: {
+  [`@media (min-width: ${screenWidths.tablet})`]: {
     gridTemplateColumns: "auto 0.35fr",
     justifyContent: "space-between",
   },
-  [`@media (min-width: ${mediaBreakPoints.desktop_screen})`]: {
+  [`@media (min-width: ${screenWidths.desktop})`]: {
     gridTemplateColumns: "auto 0.15fr",
   },
 });
@@ -59,7 +59,7 @@ const Actions = styled.div({
   display: "grid",
   gridTemplateColumns: "auto",
   justifyContent: "end",
-  [`@media (min-width: ${mediaBreakPoints.tablet_screen})`]: {
+  [`@media (min-width: ${screenWidths.tablet})`]: {
     padding: "0 16px",
     gridTemplateColumns: "auto auto",
     justifyContent: "space-between",

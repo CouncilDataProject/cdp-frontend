@@ -9,7 +9,7 @@ import { getDateText, SelectDateRange } from "../../Filters/SelectDateRange";
 import { getSelectedOptions, SelectTextFilterOptions } from "../../Filters/SelectTextFilterOptions";
 import { SEARCH_TYPE } from "../../../constants/ProjectConstants";
 import { default as exampleTopics } from "../../../assets/example-topics.json";
-import { mediaBreakPoints } from "../../../styles/mediaBreakpoints";
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 
 import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
@@ -26,7 +26,7 @@ const gridContainer = `
 
 const SearchContainer = styled.div`
   ${gridContainer}
-  @media (min-width: ${mediaBreakPoints.tablet_screen}) {
+  @media (min-width: ${screenWidths.tablet}) {
     /**Two columns template, with the first column taking up any free space*/
     grid-template-columns: 1fr auto;
   }
@@ -39,7 +39,7 @@ const SearchInput = styled.input`
 const SearchExampleTopic = styled.p`
   padding-top: 0px !important;
   font-size: 0.775rem !important;
-  @media (min-width: ${mediaBreakPoints.tablet_screen}) {
+  @media (min-width: ${screenWidths.tablet}) {
     /**Make the example topic appear after the search button*/
     order: 1;
   }
@@ -47,14 +47,14 @@ const SearchExampleTopic = styled.p`
 
 const FiltersContainer = styled.div`
   ${gridContainer}
-  @media (min-width: ${mediaBreakPoints.tablet_screen}) {
+  @media (min-width: ${screenWidths.tablet}) {
     /**Three columns template, with the last column taking up any free space*/
     grid-template-columns: auto auto 1fr;
   }
 `;
 
 const AdvancedOptionsBtn = styled.button`
-  @media (min-width: ${mediaBreakPoints.tablet_screen}) {
+  @media (min-width: ${screenWidths.tablet}) {
     /**Make the advanced options button appear last*/
     order: 1;
     /**Float the button to the right*/
