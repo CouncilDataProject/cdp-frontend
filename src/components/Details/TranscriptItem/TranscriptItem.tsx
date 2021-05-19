@@ -8,7 +8,6 @@ import { screenWidths } from "../../../styles/mediaBreakpoints";
 
 import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
-import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 
 const Item = styled.div({
   display: "grid",
