@@ -27,11 +27,11 @@ const Container = styled.div({
   gridTemplateColumns: "auto 1fr",
   alignItems: "center",
   [`@media (min-width: ${screenWidths.tablet})`]: {
-    gridTemplateColumns: "auto 0.35fr",
+    gridTemplateColumns: "auto 35%",
     justifyContent: "space-between",
   },
   [`@media (min-width: ${screenWidths.desktop})`]: {
-    gridTemplateColumns: "auto 0.15fr",
+    gridTemplateColumns: "auto 15%",
   },
 });
 
