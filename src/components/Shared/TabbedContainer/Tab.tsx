@@ -13,9 +13,17 @@ const TabView = styled.div({
 });
 
 type TabProps = {
+  /** when the user clicks this tab, this function executes */
   setActive: (index: number) => void;
+  /** whether or not this tab is selected */
   isActive: boolean;
+  /** the index of the tab */
   index: number;
+  /**
+   * the components to display as tab labels.
+   * this can be simple <p>s or be combination of icons and strings.
+   **/
+  children?: JSX.Element[];
 };
 export const Tab: FunctionComponent<TabProps> = ({
   isActive,
