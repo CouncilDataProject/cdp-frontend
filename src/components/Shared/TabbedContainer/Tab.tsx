@@ -20,10 +20,10 @@ type TabProps = {
   /** the index of the tab */
   index: number;
   /**
-   * the components to display as tab labels.
-   * this can be simple <p>s or be combination of icons and strings.
+   * the component to display as tab labels.
+   * this can be a simple string or be an enclosed combination, e.g. an icon and string.
    **/
-  children?: JSX.Element[];
+  children?: JSX.Element;
 };
 export const Tab: FunctionComponent<TabProps> = ({
   isActive,
