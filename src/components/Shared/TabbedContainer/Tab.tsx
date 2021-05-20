@@ -17,7 +17,12 @@ type TabProps = {
   isActive: boolean;
   index: number;
 };
-export const Tab: FunctionComponent<TabProps> = ({ isActive, index, setActive, children }) => {
+export const Tab: FunctionComponent<TabProps> = ({
+  isActive,
+  index,
+  setActive,
+  children,
+}: TabProps) => {
   const borderBottom = isActive ? `4px solid ${STYLES.COLORS.ACTIVE_UNDERLINE}` : "white";
 
   return (

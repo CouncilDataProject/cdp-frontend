@@ -24,7 +24,7 @@ export interface TabbedContainerProps {
 export const TabbedContainer: FunctionComponent<TabbedContainerProps> = ({
   tabLabels,
   children,
-}) => {
+}: TabbedContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
   function tabTapped(index: number) {
