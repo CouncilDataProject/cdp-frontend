@@ -8,7 +8,6 @@ import DefaultAvatar from "../../Shared/DefaultAvatar";
 import { fontSizes } from "../../../styles/fonts";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 
-import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 const Item = styled.div({
@@ -31,11 +30,11 @@ const Container = styled.div<ContainerProps>((props) => ({
   gridTemplateColumns: "auto 1fr",
   alignItems: "center",
   [`@media (min-width: ${screenWidths.tablet})`]: {
-    gridTemplateColumns: `auto ${props.hasMultipleActions ? "35%" : "auto"}`,
+    gridTemplateColumns: `auto ${props.hasMultipleActions ? "50%" : "auto"}`,
     justifyContent: "space-between",
   },
   [`@media (min-width: ${screenWidths.desktop})`]: {
-    gridTemplateColumns: `auto ${props.hasMultipleActions ? "15%" : "auto"}`,
+    gridTemplateColumns: `auto ${props.hasMultipleActions ? "20%" : "auto"}`,
   },
 }));
 
@@ -135,13 +134,13 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
           </div>
         </Speaker>
         <Actions>
-          <Action className="cdp-dark-blue" onClick={handleVideoClick}>
+          <button className="mzp-c-button mzp-t-neutral mzp-t-md" onClick={handleVideoClick}>
             Video clip
-          </Action>
+          </button>
           {handleTranscriptClick && (
-            <Action className="cdp-dark-blue" onClick={handleTranscriptClick}>
+            <button className="mzp-c-button mzp-t-neutral mzp-t-md" onClick={handleTranscriptClick}>
               Transcript
-            </Action>
+            </button>
           )}
         </Actions>
       </Container>
