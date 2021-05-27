@@ -34,7 +34,7 @@ const Container = styled.div<ContainerProps>((props) => ({
     justifyContent: "space-between",
   },
   [`@media (min-width: ${screenWidths.desktop})`]: {
-    gridTemplateColumns: `auto ${props.hasMultipleActions ? "20%" : "auto"}`,
+    gridTemplateColumns: `auto ${props.hasMultipleActions ? "25%" : "auto"}`,
   },
 }));
 
@@ -135,11 +135,11 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
         </Speaker>
         <Actions>
           <button className="mzp-c-button mzp-t-neutral mzp-t-md" onClick={handleVideoClick}>
-            Video clip
+            Video clip &#9205;
           </button>
           {handleTranscriptClick && (
             <button className="mzp-c-button mzp-t-neutral mzp-t-md" onClick={handleTranscriptClick}>
-              Transcript
+              Transcript &#9205;
             </button>
           )}
         </Actions>
