@@ -10,6 +10,7 @@ const TabView = styled.div({
   flex: 1,
   flexDirection: "row",
   padding: 8,
+  cursor: "pointer",
 });
 
 type TabProps = {

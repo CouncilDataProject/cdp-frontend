@@ -1,12 +1,10 @@
-const basicGrey = "rgb(236,236,236)";
-const trueWhite = "white";
-const niceBlue = "rgba(45, 65, 123, 1)";
+import colors from "../styles/colors";
 
 export const TAG_CONNECTOR = " • ";
 export const STYLES = {
   COLORS: {
-    ODD_CELL: trueWhite,
-    EVEN_CELL: basicGrey,
-    ACTIVE_UNDERLINE: niceBlue,
+    ODD_CELL: colors.white,
+    EVEN_CELL: colors.lightgrey,
+    ACTIVE_UNDERLINE: colors.dark_blue,
   },
 };
