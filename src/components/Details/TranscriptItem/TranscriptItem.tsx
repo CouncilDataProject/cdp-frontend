@@ -6,7 +6,6 @@ import styled from "@emotion/styled";
 import DefaultAvatar from "../../Shared/DefaultAvatar";
 
 import { fontSizes } from "../../../styles/fonts";
-import { screenWidths } from "../../../styles/mediaBreakpoints";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
@@ -14,7 +13,7 @@ const Item = styled.div({
   display: "grid",
   gridTemplateColumns: "1fr",
   rowGap: 8,
-  padding: 16,
+  padding: 8,
 });
 
 const Text = styled.div({
@@ -25,27 +24,24 @@ interface ContainerProps {
   hasMultipleActions: boolean;
 }
 const Container = styled.div<ContainerProps>((props) => ({
-  fontSize: fontSizes.font_size_4,
   display: "grid",
-  gridTemplateColumns: "auto 1fr",
+  columnGap: 4,
+  gridTemplateColumns: props.hasMultipleActions ? "1fr 1fr auto" : "1fr auto",
+  justifyContent: "start",
   alignItems: "center",
-  [`@media (min-width: ${screenWidths.tablet})`]: {
-    gridTemplateColumns: `auto ${props.hasMultipleActions ? "50%" : "auto"}`,
-    justifyContent: "space-between",
-  },
-  [`@media (min-width: ${screenWidths.desktop})`]: {
-    gridTemplateColumns: `auto ${props.hasMultipleActions ? "25%" : "auto"}`,
-  },
 }));
 
 const Speaker = styled.div({
   display: "grid",
-  columnGap: 4,
+  columnGap: 1,
   gridTemplateColumns: "auto auto",
+  justifyContent: "start",
   alignItems: "center",
+  fontSize: fontSizes.font_size_2,
+  overflowWrap: "anywhere",
 });
 
-const AVATAR_SIZE = 48;
+const AVATAR_SIZE = 24;
 const SpeakerPicture = styled.img({
   objectFit: "cover",
   objectPosition: "center",
@@ -58,19 +54,10 @@ const DefaultAvatarContainer = styled.div({
   height: AVATAR_SIZE,
 });
 
-const Actions = styled.div({
-  display: "grid",
-  gridTemplateColumns: "auto",
-  justifyContent: "end",
-  [`@media (min-width: ${screenWidths.tablet})`]: {
-    padding: "0 16px",
-    gridTemplateColumns: "auto auto",
-    justifyContent: "space-between",
-  },
-});
-
-const Action = styled.div({
-  cursor: "pointer",
+const Action = styled.button({
+  justifySelf: "end",
+  fontSize: fontSizes.font_size_2,
+  padding: "4px 8px !important",
 });
 
 interface TranscriptItemProps {
@@ -133,16 +120,14 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             <p>{startTime}</p>
           </div>
         </Speaker>
-        <Actions>
-          <button className="mzp-c-button mzp-t-neutral mzp-t-md" onClick={handleVideoClick}>
-            Video clip &#9205;
-          </button>
-          {handleTranscriptClick && (
-            <button className="mzp-c-button mzp-t-neutral mzp-t-md" onClick={handleTranscriptClick}>
-              Transcript &#9205;
-            </button>
-          )}
-        </Actions>
+        <Action className="mzp-c-button mzp-t-neutral" onClick={handleVideoClick}>
+          Video clip &#9205;
+        </Action>
+        {handleTranscriptClick && (
+          <Action className="mzp-c-button mzp-t-neutral" onClick={handleTranscriptClick}>
+            Transcript &#9205;
+          </Action>
+        )}
       </Container>
     </Item>
   );
