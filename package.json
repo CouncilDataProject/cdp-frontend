@@ -18,7 +18,7 @@
     "format": "prettier --write src/**/*",
     "checkFormat": "prettier --check src/**/*.tsx",
     "generateTypes": "tsc -p tsconfig.base.json --emitDeclarationOnly",
-    "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
+    "lint": "eslint src/**/*.{ts,tsx}",
     "test": "jest --verbose --coverage",
     "transpile:commonjs": "cross-env TS_NODE_PROJECT=tsconfig.commonjs.json BABEL_ENV=commonjs babel src --out-dir lib --extensions .ts,.tsx,.js,.jsx --ignore src/**/*.test.ts",
     "transpile:es": "cross-env TS_NODE_PROJECT=tsconfig.es.json babel src --out-dir es --extensions .ts,.tsx,.js,.jsx --ignore src/**/*.test.ts",
@@ -117,6 +117,7 @@
     "@councildataproject/cdp-design": "^1.0.2",
     "@mozilla-protocol/core": "^13.0.1",
     "react-highlight-words": "^0.17.0",
+    "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0"
   },
   "repository": {
