@@ -25,7 +25,7 @@ const TitleContainer = styled.div({
   },
 });
 
-const TranscriptItemContainer = styled.div({
+const TranscriptContainer = styled.div({
   minHeight: "50vh",
   [`@media (min-aspect-ratio:5/4), (min-width:${screenWidths.desktop})`]: {
     flex: "1 1 auto",
@@ -70,14 +70,14 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
           onChange={onSearchChange}
         />
       </form>
-      <TranscriptItemContainer>
+      <TranscriptContainer>
         <TranscriptItems
           searchQuery={searchTerm}
           sentences={visibleSentences}
           jumpToVideoClip={jumpToVideoClip}
           jumpToTranscript={jumpToTranscript}
         />
-      </TranscriptItemContainer>
+      </TranscriptContainer>
     </Container>
   );
 };
