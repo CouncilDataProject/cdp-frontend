@@ -1,0 +1,48 @@
+import { Meta, Story, ArgsTable } from "@storybook/addon-docs/blocks";
+import { action } from "@storybook/addon-actions";
+
+import TranscriptSearch from "./TranscriptSearch";
+
+<Meta title="Library/Details/Transcript Search" component={TranscriptSearch} />
+
+# Transcript Search
+
+<ArgsTable of={TranscriptSearch} />
+
+export const Template = (args) => <TranscriptSearch {...args} />;
+
+## With Picture Src
+
+<Story
+  name="Default"
+  args={{
+    searchQuery: "sentence",
+    sentences: [
+      {
+        index: 0,
+        start_time: 1,
+        text: "This is a sentence.",
+        speaker: {
+          name: "Lisa Herbold",
+          id: "lisa-herbold",
+          pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
+        },
+      },
+      {
+        index: 1,
+        start_time: 2,
+        text: "This is another sentence.",
+        speaker: {
+          name: "Unknown",
+        },
+      },
+    ],
+    jumpToVideoClip: (startTime) => action("jump to video clip"),
+    jumpToTranscript: (index) => action("jump to transcript"),
+  }}
+  decorators={[
+    (Story) => <div style={{ height: 800, width: 400, backgroundColor: "#DDDDDD" }}>{Story()}</div>,
+  ]}
+>
+  {Template.bind({})}
+</Story>
