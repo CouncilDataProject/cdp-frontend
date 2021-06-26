@@ -56,10 +56,16 @@ const DefaultAvatarContainer = styled.div({
   height: AVATAR_SIZE,
 });
 
-const Button = styled.button({
+interface ButtonProps {
+  label: string;
+}
+const Button = styled.button<ButtonProps>((props) => ({
   fontSize: `${fontSizes.font_size_5} !important`,
   padding: "1px 8px !important",
-});
+  "&::before": {
+    content: `'${props.label}'`,
+  },
+}));
 
 interface TranscriptItemProps {
   /**The speaker's name */
@@ -129,11 +135,10 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             trigger={
               <Button
                 aria-label="Play video clip"
+                label="⏵"
                 className="mzp-c-button mzp-t-neutral"
                 onClick={handleVideoClick}
-              >
-                &#9205;
-              </Button>
+              />
             }
           />
         </div>
@@ -146,11 +151,10 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
               trigger={
                 <Button
                   aria-label="Go to transcript"
+                  label="→"
                   className="mzp-c-button mzp-t-neutral"
                   onClick={handleTranscriptClick}
-                >
-                  &rarr;
-                </Button>
+                />
               }
             />
           </div>
