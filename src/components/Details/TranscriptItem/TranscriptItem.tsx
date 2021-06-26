@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
+import { Popup } from "semantic-ui-react";
 import styled from "@emotion/styled";
 
 import DefaultAvatar from "../../Shared/DefaultAvatar";
@@ -27,7 +28,7 @@ interface ContainerProps {
 const Container = styled.div<ContainerProps>((props) => ({
   display: "grid",
   columnGap: 4,
-  gridTemplateColumns: props.hasMultipleActions ? "1fr 1fr auto" : "1fr auto",
+  gridTemplateColumns: props.hasMultipleActions ? "1fr auto auto" : "1fr auto",
   justifyContent: "start",
   alignItems: "center",
 }));
@@ -55,10 +56,9 @@ const DefaultAvatarContainer = styled.div({
   height: AVATAR_SIZE,
 });
 
-const Action = styled.button({
-  justifySelf: "end",
-  fontSize: fontSizes.font_size_2,
-  padding: "4px 8px !important",
+const Button = styled.button({
+  fontSize: `${fontSizes.font_size_5} !important`,
+  padding: "1px 8px !important",
 });
 
 interface TranscriptItemProps {
@@ -121,13 +121,39 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             <p>{startTime}</p>
           </div>
         </Speaker>
-        <Action className="mzp-c-button mzp-t-neutral" onClick={handleVideoClick}>
-          Video clip &#9205;
-        </Action>
+        <div>
+          <Popup
+            position="top right"
+            content="Play video clip"
+            size="mini"
+            trigger={
+              <Button
+                aria-label="Play video clip"
+                className="mzp-c-button mzp-t-neutral"
+                onClick={handleVideoClick}
+              >
+                &#9205;
+              </Button>
+            }
+          />
+        </div>
         {handleTranscriptClick && (
-          <Action className="mzp-c-button mzp-t-neutral" onClick={handleTranscriptClick}>
-            Transcript &#9205;
-          </Action>
+          <div>
+            <Popup
+              position="top right"
+              content="Go to transcript"
+              size="mini"
+              trigger={
+                <Button
+                  aria-label="Go to transcript"
+                  className="mzp-c-button mzp-t-neutral"
+                  onClick={handleTranscriptClick}
+                >
+                  &rarr;
+                </Button>
+              }
+            />
+          </div>
         )}
       </Container>
     </Item>

@@ -1,12 +1,22 @@
+/**
+ *
+ * @param sec_num The time duration in seconds.
+ * @returns The number of seconds in hh:mm:ss format.
+ */
 function hhmmss(sec_num: number) {
-  //sec_num = parseInt(sec_num, 10); // don't forget the second param
-  let hours = Math.floor(sec_num / 3600);
-  let minutes = Math.floor((sec_num - hours * 3600) / 60);
-  let seconds = sec_num - hours * 3600 - minutes * 60;
+  const sec_int = Math.floor(sec_num);
+  const hours = Math.floor(sec_int / 3600);
+  const minutes = Math.floor((sec_int - hours * 3600) / 60);
+  const seconds = sec_int - hours * 3600 - minutes * 60;
 
-  return `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${
-    seconds < 10 ? `0${seconds}` : seconds
-  }`;
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 }
 
 export default hhmmss;
+
+/**
+ * Pad the number with 0 if it is < 10.
+ */
+function pad(num: number) {
+  return `${num}`.padStart(2, "0");
+}

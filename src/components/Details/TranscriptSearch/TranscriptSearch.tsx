@@ -1,17 +1,17 @@
-import React, { FC, useState } from "react";
+import React, { ChangeEventHandler, FC, useState } from "react";
 import styled from "@emotion/styled";
 
-import SearchBar from "./SearchBar";
-import { TranscriptItem } from "../TranscriptItem";
+import TranscriptItems from "./TranscriptItems";
 import { Sentence } from "../../Shared/Types/Transcript";
+
 import { fontSizes } from "../../../styles/fonts";
-import hhmmss from "../../../utils/hhmmss";
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 import isSubstring from "../../../utils/isSubstring";
 
 const Container = styled.div({
-  padding: "24px",
   display: "flex",
   flexDirection: "column",
+  height: "100%",
 });
 
 const TitleContainer = styled.div({
@@ -19,18 +19,18 @@ const TitleContainer = styled.div({
   justifyContent: "space-between",
   alignItems: "center",
   marginBottom: "16px",
-  "div:first-child": {
+  "div:first-of-type": {
     fontSize: fontSizes.font_size_7,
     fontWeight: 600,
   },
 });
 
 const TranscriptItemContainer = styled.div({
-  flex: "1 1 auto",
-  overflowY: "scroll",
-  display: "grid",
-  gridTemplateColumns: "auto",
-  gap: "24px",
+  minHeight: "50vh",
+  [`@media (min-aspect-ratio:5/4), (min-width:${screenWidths.desktop})`]: {
+    flex: "1 1 auto",
+    minHeight: "0",
+  },
 });
 
 interface TranscriptSearchProps {
@@ -40,60 +40,43 @@ interface TranscriptSearchProps {
   jumpToTranscript(index: number): void;
 }
 
-const fakeSentences = Array.from({ length: 200 }).map((_, i) => ({
-  index: i,
-  start_time: i,
-  text: `This is a sentence${i}.`,
-  speaker: {
-    name: "Lisa Herbold",
-    id: "lisa-herbold",
-    pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-  },
-}));
-
+/**Transcript search. Note: On deskop, the parent of this component should have enough height
+ * to accomodatea a window view of the list of sentences.
+ */
 const TranscriptSearch: FC<TranscriptSearchProps> = ({
   searchQuery,
   sentences,
   jumpToVideoClip,
   jumpToTranscript,
 }) => {
-  const [visibleSearchTerm, setVisibleSearchTerm] = useState<string>(searchQuery);
-  const [visibleSentences, setVisibleSentences] = useState<Sentence[]>(
-    fakeSentences.filter(({ text }) => isSubstring(text, searchQuery))
-  );
-  const handleSearch = (searchTerm: string) => {
-    setVisibleSearchTerm(searchTerm);
-    const newSentences = fakeSentences.filter(({ text }) => isSubstring(text, searchTerm));
-    setVisibleSentences(newSentences);
-  };
+  const [searchTerm, setSearchTerm] = useState<string>(searchQuery);
+  const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
+    setSearchTerm(event.target.value);
 
-  const onVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
-  const onTranscript = (index: number, startTime: number) => () => {
-    jumpToVideoClip(startTime);
-    jumpToTranscript(index);
-  };
+  const visibleSentences = sentences.filter(({ text }) => isSubstring(text, searchTerm));
 
   return (
     <Container>
       <TitleContainer>
         <div>Transcript Search</div>
-        {visibleSearchTerm && <div>{visibleSentences.length} mention(s)</div>}
+        {searchTerm && <div>{visibleSentences.length} mention(s)</div>}
       </TitleContainer>
-      <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
+      <form className="mzp-c-form" role="search">
+        <input
+          style={{ width: "100%" }}
+          type="search"
+          placeholder="Search transcript..."
+          value={searchTerm}
+          onChange={onSearchChange}
+        />
+      </form>
       <TranscriptItemContainer>
-        {visibleSentences.map((sentence, i) => (
-          <TranscriptItem
-            key={i}
-            speakerName={sentence.speaker.name}
-            text={sentence.text}
-            startTime={hhmmss(sentence.start_time)}
-            handleVideoClick={onVideoClip(sentence.start_time)}
-            searchQuery={visibleSearchTerm}
-            speakerId={sentence.speaker.id}
-            speakerPictureSrc={sentence.speaker.pictureSrc}
-            handleTranscriptClick={onTranscript(i, sentence.start_time)}
-          />
-        ))}
+        <TranscriptItems
+          searchQuery={searchTerm}
+          sentences={visibleSentences}
+          jumpToVideoClip={jumpToVideoClip}
+          jumpToTranscript={jumpToTranscript}
+        />
       </TranscriptItemContainer>
     </Container>
   );

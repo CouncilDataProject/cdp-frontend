@@ -11,8 +11,6 @@ import TranscriptSearch from "./TranscriptSearch";
 
 export const Template = (args) => <TranscriptSearch {...args} />;
 
-## With Picture Src
-
 <Story
   name="Default"
   args={{
@@ -20,7 +18,7 @@ export const Template = (args) => <TranscriptSearch {...args} />;
     sentences: [
       {
         index: 0,
-        start_time: 1,
+        start_time: 1.5,
         text: "This is a sentence.",
         speaker: {
           name: "Lisa Herbold",
@@ -40,9 +38,29 @@ export const Template = (args) => <TranscriptSearch {...args} />;
     jumpToVideoClip: (startTime) => action("jump to video clip"),
     jumpToTranscript: (index) => action("jump to transcript"),
   }}
-  decorators={[
-    (Story) => <div style={{ height: 800, width: 400, backgroundColor: "#DDDDDD" }}>{Story()}</div>,
-  ]}
+  decorators={[(Story) => <div style={{ height: 600 }}>{Story()}</div>]}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  name="Many sentences"
+  args={{
+    searchQuery: "sentence",
+    sentences: Array.from({ length: 200 }).map((_, i) => ({
+      index: i,
+      start_time: i,
+      text: `This is a sentence${i}.`,
+      speaker: {
+        name: "Lisa Herbold",
+        id: "lisa-herbold",
+        pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
+      },
+    })),
+    jumpToVideoClip: (startTime) => action("jump to video clip"),
+    jumpToTranscript: (index) => action("jump to transcript"),
+  }}
+  decorators={[(Story) => <div style={{ height: 600 }}>{Story()}</div>]}
 >
   {Template.bind({})}
 </Story>
