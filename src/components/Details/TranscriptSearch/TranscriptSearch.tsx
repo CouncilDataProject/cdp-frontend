@@ -48,7 +48,7 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
   sentences,
   jumpToVideoClip,
   jumpToTranscript,
-}) => {
+}: TranscriptSearchProps) => {
   const [searchTerm, setSearchTerm] = useState<string>(searchQuery);
   const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
     setSearchTerm(event.target.value);

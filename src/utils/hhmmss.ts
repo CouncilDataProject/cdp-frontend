@@ -1,4 +1,11 @@
 /**
+ * Pad the number with 0 if it is < 10.
+ */
+function pad(num: number) {
+  return `${num}`.padStart(2, "0");
+}
+
+/**
  *
  * @param sec_num The time duration in seconds.
  * @returns The number of seconds in hh:mm:ss format.
@@ -13,10 +20,3 @@ function hhmmss(sec_num: number) {
 }
 
 export default hhmmss;
-
-/**
- * Pad the number with 0 if it is < 10.
- */
-function pad(num: number) {
-  return `${num}`.padStart(2, "0");
-}

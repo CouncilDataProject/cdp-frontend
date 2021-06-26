@@ -4,6 +4,7 @@ import {
   CellMeasurer,
   CellMeasurerCache,
   List,
+  ListRowProps,
   ListRowRenderer,
 } from "react-virtualized";
 
@@ -24,7 +25,7 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
   sentences,
   jumpToVideoClip,
   jumpToTranscript,
-}) => {
+}: TranscriptItemsProps) => {
   const onVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
   const onTranscript = (index: number, startTime: number) => () => {
     jumpToVideoClip(startTime);
@@ -43,7 +44,7 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
     cache.clearAll();
   };
 
-  const Row: ListRowRenderer = ({ index, parent, key, style }) => (
+  const Row: ListRowRenderer = ({ index, parent, key, style }: ListRowProps) => (
     // Row is responsible for rendering a transcript item
     // CellMeasurer will dynamically determine the height of a transcript item,
     // or use the cache to determine the height
