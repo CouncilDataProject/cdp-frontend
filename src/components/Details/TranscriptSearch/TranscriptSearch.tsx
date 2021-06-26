@@ -58,7 +58,7 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
   return (
     <Container>
       <TitleContainer>
-        <div>Transcript Search</div>
+        <div>Search transcript</div>
         {searchTerm && <div>{visibleSentences.length} mention(s)</div>}
       </TitleContainer>
       <form className="mzp-c-form" role="search">
