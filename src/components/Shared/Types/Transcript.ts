@@ -5,7 +5,7 @@ export interface Sentence {
   speaker: {
     name: string;
     id?: string;
-    pictureSrc: string;
+    pictureSrc?: string;
   };
   confidence?: number;
   end_time?: number;
