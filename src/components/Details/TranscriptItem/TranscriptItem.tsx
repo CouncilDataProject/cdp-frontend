@@ -130,11 +130,11 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
         <div>
           <Popup
             position="top right"
-            content="Play video clip"
+            content="Jump to sentence in video"
             size="mini"
             trigger={
               <Button
-                aria-label="Play video clip"
+                aria-label="Jump to sentence in video"
                 label="⏵"
                 className="mzp-c-button mzp-t-neutral"
                 onClick={handleVideoClick}
@@ -146,11 +146,11 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
           <div>
             <Popup
               position="top right"
-              content="Go to transcript"
+              content="Jump to sentence in transcript"
               size="mini"
               trigger={
                 <Button
-                  aria-label="Go to transcript"
+                  aria-label="Jump to sentence in transcript"
                   label="→"
                   className="mzp-c-button mzp-t-neutral"
                   onClick={handleTranscriptClick}
