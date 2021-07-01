@@ -4,6 +4,7 @@ export interface Sentence {
   text: string;
   speaker: {
     name: string;
+    index: number;
     id?: string;
     pictureSrc?: string;
   };
