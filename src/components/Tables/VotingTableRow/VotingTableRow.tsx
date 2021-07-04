@@ -4,6 +4,8 @@ import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
+import { useMediaQuery } from "react-responsive";
+import { ReactiveTableRow } from "../ReactiveTableRow";
 
 const Link = require("react-router-dom").Link;
 type VotingTableRowProps = {
@@ -25,6 +27,10 @@ type VotingTableRowProps = {
   meetingLink: string;
   /** name of the voting body */
   committeeName: string;
+  /** name of the columns this row displays */
+  columnNames: string[];
+  /** sizes of each column from left to right */
+  columnDistribution: string[];
 };
 
 const VotingTableRow = ({
@@ -37,28 +43,32 @@ const VotingTableRow = ({
   meetingDate,
   meetingLink,
   committeeName,
+  columnNames,
+  columnDistribution,
 }: VotingTableRowProps) => {
-  const backgroundColor = index % 2 === 0 ? "rgb(236,236,236)" : "white";
   const legislationTagsString =
     legislationTags && legislationTags.length > 0 ? legislationTags.join(TAG_CONNECTOR) : "";
-  const dateText = meetingDate.toDateString();
+  const dateText = meetingDate?.toDateString();
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+
   return (
-    <tr style={{ backgroundColor }} key={`voting-table-row-${index}`}>
-      <th scope="row">
+    <ReactiveTableRow
+      key={`voting-table-row-${index}`}
+      index={index}
+      columnNames={columnNames}
+      columnDistribution={columnDistribution}
+    >
+      <React.Fragment>
         <Link to={legislationLink}>{legislationName}</Link>
-        <p className="mzp-c-card-desc">{legislationTagsString}</p>
-      </th>
-      <td>
-        <DecisionResult result={voteDecision} />
-      </td>
-      <td>
-        <DecisionResult result={councilDecision} />
-      </td>
-      <td>
+        {!isMobile && <p className="mzp-c-card-desc">{legislationTagsString}</p>}
+      </React.Fragment>
+      <DecisionResult result={voteDecision} />
+      <DecisionResult result={councilDecision} />
+      <React.Fragment>
         <Link to={meetingLink}>{dateText}</Link>
-        <p className="mzp-c-card-desc">{committeeName}</p>
-      </td>
-    </tr>
+        {!isMobile && <p className="mzp-c-card-desc">{committeeName}</p>}
+      </React.Fragment>
+    </ReactiveTableRow>
   );
 };
 export default VotingTableRow;

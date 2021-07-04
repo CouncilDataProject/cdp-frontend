@@ -3,6 +3,7 @@ import AdoptedIcon from "./AdoptedIcon";
 import RejectedIcon from "./RejectedIcon";
 import InProgressIcon from "./InProgressIcon";
 import AbstainIcon from "../Shared/AbstainIcon";
+import { useMediaQuery } from "react-responsive";
 import { MATTER_STATUS_DECISION } from "../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../constants/ProjectConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
@@ -36,6 +37,22 @@ const DecisionResult = ({ result }: DecisionResultProps) => {
     default:
       break;
   }
+
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+
+  if (isMobile) {
+    return (
+      <div
+        style={{
+          height: 24,
+          width: 24,
+        }}
+      >
+        {statusIcon}
+      </div>
+    );
+  }
+
   return (
     <div
       style={{

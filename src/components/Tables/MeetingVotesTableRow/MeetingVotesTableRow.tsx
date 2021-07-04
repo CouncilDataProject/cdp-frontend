@@ -4,7 +4,8 @@ import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import { IndividualMeetingVote } from "../../Shared/Types/IndividualMeetingVote";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
-import { STYLES } from "../../../constants/StyleConstants";
+import { ReactiveTableRow } from "../ReactiveTableRow";
+import { useMediaQuery } from "react-responsive";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 const Link = require("react-router-dom").Link;
 
@@ -21,12 +22,17 @@ type MeetingVotesTableRowProps = {
   legislationLink: string;
   /** vote results by individual members on the matter in this row */
   votes: IndividualMeetingVote[];
+  /** name of the columns this row displays */
+  columnNames: string[];
+  /** sizes of each column from left to right */
+  columnDistribution: string[];
 };
 
 function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   if (isExpanded) {
     return (
-      <td>
+      <React.Fragment>
         {votes.map((vote, index) => {
           const personLink = `/people/${vote.personId}`;
           return (
@@ -46,7 +52,7 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
             </div>
           );
         })}
-      </td>
+      </React.Fragment>
     );
   } else {
     let votesFor = 0;
@@ -57,12 +63,19 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
       if (vote.decision === VOTE_DECISION.REJECT) votesAgainst++;
       if (vote.decision === VOTE_DECISION.ABSTAIN) votesAbstained++;
     });
-    const votesMinified = `${votesFor} Approved ${TAG_CONNECTOR} ${votesAgainst} Rejected ${TAG_CONNECTOR} ${votesAbstained} Abstained`;
-    return (
-      <td>
-        <p>{votesMinified}</p>
-      </td>
-    );
+    if (isMobile) {
+      return (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <p>{`${votesFor} Approved`}</p>
+          <p>{`${votesAgainst} Rejected`}</p>
+          <p>{`${votesAbstained} Abstained`}</p>
+        </div>
+      );
+    } else {
+      return (
+        <p>{`${votesFor} Approved ${TAG_CONNECTOR} ${votesAgainst} Rejected ${TAG_CONNECTOR} ${votesAbstained} Abstained`}</p>
+      );
+    }
   }
 }
 
@@ -73,27 +86,29 @@ const MeetingVotesTableRow = ({
   legislationDescription,
   councilDecision,
   votes,
+  columnNames,
+  columnDistribution,
 }: MeetingVotesTableRowProps) => {
   const [expanded, setExpanded] = useState(false);
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
-  const backgroundColor = index % 2 === 0 ? STYLES.COLORS.EVEN_CELL : STYLES.COLORS.ODD_CELL;
   return (
-    <tr
-      style={{ backgroundColor }}
-      key={`voting-table-row-${index}`}
+    <ReactiveTableRow
+      key={`meeting-table-row-${index}`}
+      index={index}
+      columnNames={columnNames}
+      columnDistribution={columnDistribution}
       onClick={() => {
         setExpanded(!expanded);
       }}
     >
-      <td scope="row">
+      <div>
         <Link to={legislationLink}>{legislationName}</Link>
-        <p>{legislationDescription}</p>
-      </td>
-      <td>
-        <DecisionResult result={councilDecision} />
-      </td>
+        {!isMobile && <p>{legislationDescription}</p>}
+      </div>
+      <DecisionResult result={councilDecision} />
       {renderVotesCell(expanded, votes)}
-    </tr>
+    </ReactiveTableRow>
   );
 };
 export default MeetingVotesTableRow;
