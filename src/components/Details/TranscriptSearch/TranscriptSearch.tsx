@@ -16,12 +16,17 @@ const Container = styled.div({
 
 const TitleContainer = styled.div({
   display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
+  flexDirection: "column",
+  justifyContent: "start",
   marginBottom: "16px",
   "div:first-of-type": {
     fontSize: fontSizes.font_size_7,
     fontWeight: 600,
+  },
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
