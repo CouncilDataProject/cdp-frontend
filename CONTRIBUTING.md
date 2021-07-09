@@ -3,14 +3,19 @@
 Contributions are welcome, and they are greatly appreciated! Every little bit
 helps, and credit will always be given.
 
-# Get Started!
+<br>
 Ready to contribute? Here's how to set up `cdp-frontend` for local development.
 
 ## Your Environment
 
-* Set up your environment. You'll need to install [NodeJS](https://nodejs.org/en/download/) and Node's package manager, [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+Set up your environment. You'll need to install: <br>
+* [NodeJS](https://nodejs.org/en/download/)
 
-* Remember to use `npm run storybook` to see your changes to individual components as you work.
+* Node's package manager, [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+
+* [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+* Don't forget to run `npm install` after forking!
 
 ## Your Fork
 
@@ -38,8 +43,10 @@ Ready to contribute? Here's how to set up `cdp-frontend` for local development.
     $ git checkout -b {your_development_type}/{short-description}
     ```
     Ex: feature/add-transcript-component or bugfix/handle-file-not-found<br>
-    Now you can make your changes locally.<br>
+## Your Work
 
+Now you can make your changes locally.<br>
+Use `npm run storybook` to see your changes to individual components as you work. If you are creating new components, add new storybook files (name-of-your-component.stories.mdx) to accompany them.
 ## Checking Your Work
 
 * When you're done making changes, check that your changes pass linting, formatting,
