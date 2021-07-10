@@ -2,8 +2,8 @@ import { MasterStringsList } from "../LocalizedStrings";
 
 const de: MasterStringsList = {
   tags: "GERMAN TAGS",
+  select_language: "Sprache auswählen",
   same: "same",
-  key2: "DEstring 2",
 };
 
 export default de;

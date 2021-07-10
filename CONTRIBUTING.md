@@ -56,6 +56,7 @@ tests, and that the package builds:
     $ npm run format
     $ npm run test
     $ npm run build
+    $ npm run localize
     ```
 
 * Build and deploy the Storybook docs to your forked repo's GitHub page for a live preview of your changes
