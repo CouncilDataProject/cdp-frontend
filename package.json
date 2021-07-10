@@ -68,6 +68,7 @@
     "@types/react-dom": "^16.9.5",
     "@types/react-highlight-words": "^0.16.2",
     "@types/react-router-dom": "^5.1.7",
+    "@types/react-virtualized": "^9.21.11",
     "@typescript-eslint/eslint-plugin": "~2.8",
     "@typescript-eslint/parser": "~2.8",
     "babel-loader": "~8.0",
@@ -117,7 +118,8 @@
     "@councildataproject/cdp-design": "^1.0.2",
     "@mozilla-protocol/core": "^13.0.1",
     "react-highlight-words": "^0.17.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-virtualized": "^9.22.3"
   },
   "repository": {
     "type": "git",
