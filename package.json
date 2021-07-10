@@ -19,6 +19,7 @@
     "checkFormat": "prettier --check src/**/*.tsx",
     "generateTypes": "tsc -p tsconfig.base.json --emitDeclarationOnly",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
+    "localize": "npm-run-all --print-label clean --parallel bundle transpile:commonjs transpile:es generateTypes && node localize",
     "test": "jest --verbose --coverage",
     "transpile:commonjs": "cross-env TS_NODE_PROJECT=tsconfig.commonjs.json BABEL_ENV=commonjs babel src --out-dir lib --extensions .ts,.tsx,.js,.jsx --ignore src/**/*.test.ts",
     "transpile:es": "cross-env TS_NODE_PROJECT=tsconfig.es.json babel src --out-dir es --extensions .ts,.tsx,.js,.jsx --ignore src/**/*.test.ts",

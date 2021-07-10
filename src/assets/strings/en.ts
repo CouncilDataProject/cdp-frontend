@@ -1,5 +1,9 @@
-//en.ts
-export const enStrings = {
-  tags: "Tags",
-  key2: "ENstring 2",
+import { MasterStringsList } from "../LocalizedStrings";
+
+const en: MasterStringsList = {
+  tags: "ENGLISH TAGS",
+  same: "same",
+  key2: "DEstring 2",
 };
+
+export default en;
