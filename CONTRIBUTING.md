@@ -3,8 +3,21 @@
 Contributions are welcome, and they are greatly appreciated! Every little bit
 helps, and credit will always be given.
 
-## Get Started!
+<br>
 Ready to contribute? Here's how to set up `cdp-frontend` for local development.
+
+## Your Environment
+
+Set up your environment. You'll need to install: <br>
+* [NodeJS](https://nodejs.org/en/download/)
+
+* Node's package manager, [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+
+* [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+* Don't forget to run `npm install` after forking!
+
+## Your Fork
 
 * Fork the `cdp-frontend` repo on GitHub.
 
@@ -30,7 +43,11 @@ Ready to contribute? Here's how to set up `cdp-frontend` for local development.
     $ git checkout -b {your_development_type}/{short-description}
     ```
     Ex: feature/add-transcript-component or bugfix/handle-file-not-found<br>
-    Now you can make your changes locally.<br>
+## Your Work
+
+Now you can make your changes locally.<br>
+Use `npm run storybook` to see your changes to individual components as you work. If you are creating new components, add new storybook files (name-of-your-component.stories.mdx) to accompany them.
+## Checking Your Work
 
 * When you're done making changes, check that your changes pass linting, formatting,
 tests, and that the package builds:
@@ -40,6 +57,13 @@ tests, and that the package builds:
     $ npm run test
     $ npm run build
     ```
+
+* Build and deploy the Storybook docs to your forked repo's GitHub page for a live preview of your changes
+    ```
+    $ npm run build-storybook-docs
+    $ npm run deploy-storybook-docs    
+    ```
+## Your Pull Request
 
 * Commit your changes and push your branch to GitHub.
     ```
@@ -74,13 +98,10 @@ tests, and that the package builds:
     $ git push origin {your_development_type}/{short-description}
     ```
 
-* Build and deploy the Storybook docs to your forked repo's GitHub page for a live preview of your changes
-    ```
-    $ npm run build-storybook-docs
-    $ npm run deploy-storybook-docs    
-    ```
 
 * Submit a pull request through the GitHub website.
+
+## Keep Up to Date
 
 * Once your branch has been merged to main, if you want to keep your fork and local
 repo clean, you can delete your branch.
