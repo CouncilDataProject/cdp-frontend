@@ -5,6 +5,8 @@ import { Popup } from "semantic-ui-react";
 import styled from "@emotion/styled";
 
 import DefaultAvatar from "../../Shared/DefaultAvatar";
+import DocumentTextIcon from "../../Shared/DocumentTextIcon";
+import PlayIcon from "../../Shared/PlayIcon";
 
 import { fontSizes } from "../../../styles/fonts";
 
@@ -56,16 +58,12 @@ const DefaultAvatarContainer = styled.div({
   height: AVATAR_SIZE,
 });
 
-interface ButtonProps {
-  label: string;
-}
-const Button = styled.button<ButtonProps>((props) => ({
-  fontSize: `${fontSizes.font_size_5} !important`,
-  padding: "1px 8px !important",
-  "&::before": {
-    content: `'${props.label}'`,
-  },
-}));
+const Button = styled.button({
+  padding: "2px 8px !important",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
 
 interface TranscriptItemProps {
   /**The speaker's name */
@@ -135,10 +133,11 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             trigger={
               <Button
                 aria-label="Jump to sentence in video"
-                label="⏵"
                 className="mzp-c-button mzp-t-neutral"
                 onClick={handleVideoClick}
-              />
+              >
+                <PlayIcon />
+              </Button>
             }
           />
         </div>
@@ -151,10 +150,11 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
               trigger={
                 <Button
                   aria-label="Jump to sentence in transcript"
-                  label="→"
                   className="mzp-c-button mzp-t-neutral"
                   onClick={handleTranscriptClick}
-                />
+                >
+                  <DocumentTextIcon />
+                </Button>
               }
             />
           </div>
