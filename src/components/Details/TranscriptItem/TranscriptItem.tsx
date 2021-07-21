@@ -1,9 +1,12 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
+import { Popup } from "semantic-ui-react";
 import styled from "@emotion/styled";
 
 import DefaultAvatar from "../../Shared/DefaultAvatar";
+import DocumentTextIcon from "../../Shared/DocumentTextIcon";
+import PlayIcon from "../../Shared/PlayIcon";
 
 import { fontSizes } from "../../../styles/fonts";
 
@@ -14,6 +17,7 @@ const Item = styled.div({
   gridTemplateColumns: "1fr",
   rowGap: 8,
   padding: 8,
+  backgroundColor: "white",
 });
 
 const Text = styled.div({
@@ -26,7 +30,7 @@ interface ContainerProps {
 const Container = styled.div<ContainerProps>((props) => ({
   display: "grid",
   columnGap: 4,
-  gridTemplateColumns: props.hasMultipleActions ? "1fr 1fr auto" : "1fr auto",
+  gridTemplateColumns: props.hasMultipleActions ? "1fr auto auto" : "1fr auto",
   justifyContent: "start",
   alignItems: "center",
 }));
@@ -54,10 +58,11 @@ const DefaultAvatarContainer = styled.div({
   height: AVATAR_SIZE,
 });
 
-const Action = styled.button({
-  justifySelf: "end",
-  fontSize: fontSizes.font_size_2,
-  padding: "4px 8px !important",
+const Button = styled.button({
+  padding: "2px 8px !important",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 });
 
 interface TranscriptItemProps {
@@ -120,13 +125,39 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             <p>{startTime}</p>
           </div>
         </Speaker>
-        <Action className="mzp-c-button mzp-t-neutral" onClick={handleVideoClick}>
-          Video clip &#9205;
-        </Action>
+        <div>
+          <Popup
+            position="top right"
+            content="Jump to sentence in video"
+            size="mini"
+            trigger={
+              <Button
+                aria-label="Jump to sentence in video"
+                className="mzp-c-button mzp-t-neutral"
+                onClick={handleVideoClick}
+              >
+                <PlayIcon />
+              </Button>
+            }
+          />
+        </div>
         {handleTranscriptClick && (
-          <Action className="mzp-c-button mzp-t-neutral" onClick={handleTranscriptClick}>
-            Transcript &#9205;
-          </Action>
+          <div>
+            <Popup
+              position="top right"
+              content="Jump to sentence in transcript"
+              size="mini"
+              trigger={
+                <Button
+                  aria-label="Jump to sentence in transcript"
+                  className="mzp-c-button mzp-t-neutral"
+                  onClick={handleTranscriptClick}
+                >
+                  <DocumentTextIcon />
+                </Button>
+              }
+            />
+          </div>
         )}
       </Container>
     </Item>

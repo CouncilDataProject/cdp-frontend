@@ -18,8 +18,8 @@ For more information about CouncilDataProject, please visit
 
 ## About
 
-`cdp-frontend` is used to maintain the React components and database interactions
-for all CDP Instance web applications.
+`cdp-frontend` houses the React components and database interactions
+for all CDP Instance web applications. It is not a particular city's frontend. 
 
 The central goal is to create a web application and all neccessary components that
 are highly reusable for all CDP Instances to use with little customization.
