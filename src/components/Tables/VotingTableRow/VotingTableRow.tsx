@@ -50,7 +50,7 @@ const VotingTableRow = ({
   const legislationTagsString =
     legislationTags && legislationTags.length > 0 ? legislationTags.join(TAG_CONNECTOR) : "";
   const dateText = meetingDate?.toDateString();
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   return (
     <ReactiveTableRow

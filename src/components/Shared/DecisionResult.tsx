@@ -39,7 +39,7 @@ const DecisionResult = ({ result }: DecisionResultProps) => {
       break;
   }
 
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   if (isMobile) {
     return (
