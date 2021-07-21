@@ -54,4 +54,5 @@ export interface MasterStringsList extends LocalizedStringsMethods {
 export const strings: MasterStringsList = new LocalizedStrings({
   en: Languages.en,
   de: Languages.de,
+  es: Languages.es,
 });

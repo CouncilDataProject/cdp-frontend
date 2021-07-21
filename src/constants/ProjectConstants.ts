@@ -16,4 +16,4 @@ export enum SEARCH_TYPE {
   COUNCIL_MEMBER = "council-member",
 }
 
-export const SUPPORTED_LANGUAGES = ["en", "de"];
+export const SUPPORTED_LANGUAGES = ["en", "de", "es"];

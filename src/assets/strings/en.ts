@@ -11,7 +11,7 @@ const en = {
   jump_to_sentence_transcript: "Jump to sentence in transcript",
   search_transcript: "Search transcript",
   search_transcript_placeholder: "Search transcript...",
-  number_of_results: `{number} results(s)`,
+  number_of_results: `{number} result(s)`,
   clear: "Clear",
   save: "Save",
   about: "About",
