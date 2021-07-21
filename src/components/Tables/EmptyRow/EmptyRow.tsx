@@ -10,25 +10,18 @@ const EmptyRow = ({ index }: EmptyRowProps) => {
   const backgroundColor = index % 2 === 0 ? "rgb(236,236,236)" : "white";
   const displayText = index === 0 ? "No results found." : "Record missing.";
   return (
-    <tr
+    <div
       style={{
+        display: "flex",
+        flex: 1,
+        flexDirection: "column",
+        padding: 16,
+        borderBottom: "1px solid #000000",
         backgroundColor,
       }}
-      key={`empty-row-${index}`}
     >
-      <td>
-        <p className="mzp-c-card-desc">{displayText}</p>
-      </td>
-      <td>
-        <p></p>
-      </td>
-      <td>
-        <p></p>
-      </td>
-      <td>
-        <p></p>
-      </td>
-    </tr>
+      <p className="mzp-c-card-desc">{displayText}</p>
+    </div>
   );
 };
 
