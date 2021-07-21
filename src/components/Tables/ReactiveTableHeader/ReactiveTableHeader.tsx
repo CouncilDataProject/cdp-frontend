@@ -11,7 +11,7 @@ type ReactiveTableHeaderProps = {
 };
 
 const ReactiveTableHeader = ({ columnNames, columnDistribution }: ReactiveTableHeaderProps) => {
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
   if (isMobile) {
     return null;
   } else {
