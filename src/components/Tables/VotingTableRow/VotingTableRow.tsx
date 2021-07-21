@@ -5,6 +5,7 @@ import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { useMediaQuery } from "react-responsive";
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { ReactiveTableRow } from "../ReactiveTableRow";
 
 const Link = require("react-router-dom").Link;
@@ -49,7 +50,7 @@ const VotingTableRow = ({
   const legislationTagsString =
     legislationTags && legislationTags.length > 0 ? legislationTags.join(TAG_CONNECTOR) : "";
   const dateText = meetingDate?.toDateString();
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
 
   return (
     <ReactiveTableRow

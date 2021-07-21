@@ -1,6 +1,7 @@
 import React from "react";
 import { EmptyRow } from "../EmptyRow";
 import { useMediaQuery } from "react-responsive";
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { STYLES } from "../../../constants/StyleConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
@@ -29,7 +30,7 @@ const ReactiveTableRow = ({
   if (!children || children.length === 0) {
     return <EmptyRow index={index} />;
   }
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
   if (isMobile) {
     return (
       <div

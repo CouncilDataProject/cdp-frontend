@@ -1,5 +1,6 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type ReactiveTableHeaderProps = {
@@ -10,7 +11,7 @@ type ReactiveTableHeaderProps = {
 };
 
 const ReactiveTableHeader = ({ columnNames, columnDistribution }: ReactiveTableHeaderProps) => {
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
   if (isMobile) {
     return null;
   } else {

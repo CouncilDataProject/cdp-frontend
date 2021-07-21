@@ -6,6 +6,7 @@ import { IndividualMeetingVote } from "../../Shared/Types/IndividualMeetingVote"
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { ReactiveTableRow } from "../ReactiveTableRow";
 import { useMediaQuery } from "react-responsive";
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 const Link = require("react-router-dom").Link;
 
@@ -29,7 +30,7 @@ type MeetingVotesTableRowProps = {
 };
 
 function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
   if (isExpanded) {
     return (
       <React.Fragment>
@@ -90,7 +91,7 @@ const MeetingVotesTableRow = ({
   columnDistribution,
 }: MeetingVotesTableRowProps) => {
   const [expanded, setExpanded] = useState(false);
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
 
   return (
     <ReactiveTableRow
