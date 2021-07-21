@@ -14,6 +14,7 @@ import { screenWidths } from "../../../styles/mediaBreakpoints";
 import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
+import { strings } from "../../../assets/LocalizedStrings";
 
 const gridContainer = `
   display: grid;
@@ -147,20 +148,23 @@ const HomeSearchBar: FC = () => {
         <SearchContainer>
           <SearchInput
             type="search"
-            placeholder="Search for a topic..."
+            placeholder={strings.search_topic_placeholder}
             required
             aria-required
             disabled={!searchTypeFilter.isActive()}
             value={searchQuery}
             onChange={onSearchChange}
           />
-          <SearchExampleTopic className="mzp-c-field-info">{`Example: ${exampleSearchQuery}`}</SearchExampleTopic>
+          <SearchExampleTopic className="mzp-c-field-info">
+            {strings.example_prefix}
+            {exampleSearchQuery}
+          </SearchExampleTopic>
           <button
             className="mzp-c-button mzp-t-product"
             type="submit"
             disabled={!searchTypeFilter.isActive()}
           >
-            Search
+            {strings.search}
           </button>
         </SearchContainer>
       </form>
@@ -171,7 +175,7 @@ const HomeSearchBar: FC = () => {
           onClick={onClickFilters}
           disabled={!searchTypeFilter.isActive()}
         >
-          Advanced Options
+          {strings.advanced_options}
         </AdvancedOptionsBtn>
         <div>
           {showFilters && (

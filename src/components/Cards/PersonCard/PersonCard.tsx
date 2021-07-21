@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
-
+import { strings } from "../../../assets/LocalizedStrings";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 const PersonStatus = styled.div({
@@ -91,11 +91,11 @@ const PersonCard: FC<PersonCardProps> = ({
           <p className="mzp-c-card-desc">
             {seatName} &bull; {seatElectoralArea}
           </p>
-          <p className="mzp-c-card-meta">Chair</p>
+          <p className="mzp-c-card-meta">{strings.chair}</p>
           <p className="mzp-c-card-desc">{chairedBodyNames}</p>
-          <TenureP className="mzp-c-card-meta">Tenure</TenureP>
+          <TenureP className="mzp-c-card-meta">{strings.tenure}</TenureP>
           <p className="mzp-c-card-desc">
-            {tenureStatus} &bull; {billsSponsored} bill(s) sponsored
+            {tenureStatus} &bull; {billsSponsored} {strings.bills_sponsored}
           </p>
         </div>
       </div>

@@ -5,6 +5,7 @@ import RejectedIcon from "../../Shared/RejectedIcon";
 import InProgressIcon from "../../Shared/InProgressIcon";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
+import { strings } from "../../../assets/LocalizedStrings";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
@@ -52,7 +53,7 @@ const LegislationCard: FC<LegislationCardProps> = ({
           <p className="mzp-c-card-meta">{status}</p>
           <StatusIconContainer>{statusIcon}</StatusIconContainer>
           <p className="mzp-c-card-desc">{date}</p>
-          <p className="mzp-c-card-meta">Tags</p>
+          <p className="mzp-c-card-meta">{strings.tags}</p>
           <p className="mzp-c-card-desc">{tagString}</p>
         </div>
       </div>

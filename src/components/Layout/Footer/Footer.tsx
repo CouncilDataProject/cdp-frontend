@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-
+import { strings } from "../../../assets/LocalizedStrings";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 interface Link {
@@ -49,7 +49,7 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
         <nav className="mzp-c-footer-primary" aria-label="footer">
           <div className="mzp-c-footer-sections">
             <section className="mzp-c-footer-section">
-              <h5 className="mzp-c-footer-heading">About</h5>
+              <h5 className="mzp-c-footer-heading">{strings.about}</h5>
               <ul>
                 <li>
                   <a href="https://councildataproject.github.io/">CouncilDataProject</a>
@@ -68,10 +68,12 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
         <nav className="mzp-c-footer-secondary">
           <div className="mzp-c-footer-legal">
             <p className="mzp-c-footer-license">
-              Portions of this content are ©2017–2021 by individual Council Data Project
-              contributors. Content available under MIT License.
+              {strings.copyright_notice
+                .replace("{date_range}", "2017-2021")
+                .replace("{copyright_license_type}", "MIT License")}
               <br />
-              Styled using Mozilla Protocol. Artwork provided by unDraw.
+              {strings.styled_using.replace("{style_provider}", "Mozilla Protocol")}{" "}
+              {strings.artwork_provided_by.replace("{artwork_provider}", "unDraw")}
             </p>
           </div>
         </nav>

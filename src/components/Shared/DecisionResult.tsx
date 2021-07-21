@@ -6,6 +6,7 @@ import AbstainIcon from "../Shared/AbstainIcon";
 import { MATTER_STATUS_DECISION } from "../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../constants/ProjectConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
+import { strings } from "../../assets/LocalizedStrings";
 
 interface DecisionResultProps {
   /**Result of the vote or council decision.  This is an enum value, you can see the enumeration in ProjectConstants */
@@ -54,7 +55,7 @@ const DecisionResult = ({ result }: DecisionResultProps) => {
       </div>
       <div>
         <p className="mzp-c-card-desc" style={{ marginLeft: 8 }}>
-          {result}
+          {`${strings[result.toLowerCase().replace(" ", "_")]}`}
         </p>
       </div>
     </div>
