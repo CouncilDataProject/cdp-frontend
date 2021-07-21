@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import { Popup } from "semantic-ui-react";
 import styled from "@emotion/styled";
-
+import { strings } from "../../../assets/LocalizedStrings";
 import DefaultAvatar from "../../Shared/DefaultAvatar";
 
 import { fontSizes } from "../../../styles/fonts";
@@ -130,11 +130,11 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
         <div>
           <Popup
             position="top right"
-            content="Jump to sentence in video"
+            content={strings.jump_to_sentence_video}
             size="mini"
             trigger={
               <Button
-                aria-label="Jump to sentence in video"
+                aria-label={strings.jump_to_sentence_video}
                 label="⏵"
                 className="mzp-c-button mzp-t-neutral"
                 onClick={handleVideoClick}
@@ -146,11 +146,11 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
           <div>
             <Popup
               position="top right"
-              content="Jump to sentence in transcript"
+              content={strings.jump_to_sentence_transcript}
               size="mini"
               trigger={
                 <Button
-                  aria-label="Jump to sentence in transcript"
+                  aria-label={strings.jump_to_sentence_transcript}
                   label="→"
                   className="mzp-c-button mzp-t-neutral"
                   onClick={handleTranscriptClick}

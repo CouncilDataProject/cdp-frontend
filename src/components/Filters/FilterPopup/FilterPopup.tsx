@@ -1,5 +1,6 @@
 import React, { Dispatch, FunctionComponent, Fragment, ReactNode, useRef } from "react";
 import styled from "@emotion/styled";
+import { strings } from "../../../assets/LocalizedStrings";
 import { Icon, Popup } from "semantic-ui-react";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
@@ -148,10 +149,10 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
           {!closeOnChange && (
             <ButtonContainer>
               <MozillaNeutralButton disabled={!isActive()} onClick={onClearFilter}>
-                <Icon name="remove" /> Clear
+                <Icon name="remove" /> {strings.clear}
               </MozillaNeutralButton>
               <MozillaProductButton onClick={onPopupClose}>
-                <Icon name="checkmark" /> Save
+                <Icon name="checkmark" /> {strings.save}
               </MozillaProductButton>
             </ButtonContainer>
           )}

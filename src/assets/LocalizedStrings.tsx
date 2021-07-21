@@ -1,11 +1,10 @@
 import * as Languages from "./strings";
-import { SUPPORTED_LANGUAGES } from "../constants/ProjectConstants";
-import LocalizedStrings, { GlobalStrings, LocalizedStringsMethods } from "react-localization";
+import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
 /**
  * When adding strings:
  * all keys should be snake case: like_this
  * add strings to MasterStringsList as a <your_string_name>: string
- * all the language files will then require it.
+ * then add the same key (and a localized value!) to each language file in ./strings
  *
  * When adding a new language:
  * add a file with the appropriate name to ./strings
@@ -14,11 +13,42 @@ import LocalizedStrings, { GlobalStrings, LocalizedStringsMethods } from "react-
  *
  * Be aware that you must `npm run build` before `npm run localize` will work if you have made changes
  **/
-
 export interface MasterStringsList extends LocalizedStringsMethods {
+  [propName: string]: any;
   tags: string;
-  select_language: string;
   same: string;
+  select_language: string;
+  committee: string;
+  chair: string;
+  tenure: string;
+  bills_sponsored: string;
+  see_documents: string;
+  jump_to_sentence_video: string;
+  jump_to_sentence_transcript: string;
+  search_transcript: string;
+  search_transcript_placeholder: string;
+  number_of_results: string;
+  clear: string;
+  save: string;
+  about: string;
+  search: string;
+  copyright_notice: string;
+  styled_using: string;
+  advanced_options: string;
+  artwork_provided_by: string;
+  approve: string;
+  reject: string;
+  rejected: string;
+  abstain: string;
+  adopted: string;
+  in_progress: string;
+  example_prefix: string;
+  search_topic_placeholder: string;
+  links: string;
+  events: string;
+  people: string;
+  council_data_project: string;
+  search_city_council_transcripts: string;
 }
 
 export const strings: MasterStringsList = new LocalizedStrings({
