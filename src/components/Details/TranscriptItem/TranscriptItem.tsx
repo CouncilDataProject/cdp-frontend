@@ -37,7 +37,7 @@ const Container = styled.div<ContainerProps>((props) => ({
 
 const Speaker = styled.div({
   display: "grid",
-  columnGap: 1,
+  columnGap: 4,
   gridTemplateColumns: "auto auto",
   justifyContent: "start",
   alignItems: "center",
