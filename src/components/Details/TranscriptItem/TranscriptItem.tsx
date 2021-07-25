@@ -95,7 +95,7 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
   handleTranscriptClick,
 }: TranscriptItemProps) => {
   const name = speakerId ? (
-    <Link to={`people/${speakerId}`}>{speakerName}</Link>
+    <Link to={`/people/${speakerId}`}>{speakerName}</Link>
   ) : (
     <div>{speakerName}</div>
   );
