@@ -20,6 +20,7 @@ const TranscriptFull: FC<TranscriptFullProps> = ({
   transcriptItemsRefs,
   jumpToVideoClip,
 }: TranscriptFullProps) => {
+  /**Creates a function that handles jumping to video clip at startTime */
   const handleJumpToVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
   return (
     <div>

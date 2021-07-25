@@ -26,7 +26,9 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
   jumpToVideoClip,
   jumpToTranscript,
 }: TranscriptItemsProps) => {
+  /**Creates a function that handles jumping to video clip at startTime */
   const handleJumpToVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
+  /**Creates a function that handles jumping to video clip at startTime and jumping to index-th sentence in full transcript */
   const handleJumpToTranscript = (index: number, startTime: number) => () => {
     jumpToVideoClip(startTime);
     jumpToTranscript(index);
