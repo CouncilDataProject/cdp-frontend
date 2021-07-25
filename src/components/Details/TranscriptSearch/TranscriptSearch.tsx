@@ -39,9 +39,13 @@ const TranscriptContainer = styled.div({
 });
 
 interface TranscriptSearchProps {
+  /**The search query */
   searchQuery: string;
+  /**The sentences of the transcript */
   sentences: Sentence[];
+  /**Callback to play video clip */
   jumpToVideoClip(startTime: number): void;
+  /**Callback to jump to sentence in the full transcript component */
   jumpToTranscript(index: number): void;
 }
 
