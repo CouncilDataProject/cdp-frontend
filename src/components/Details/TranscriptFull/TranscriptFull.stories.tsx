@@ -4,7 +4,7 @@ import { action } from "@storybook/addon-actions";
 import { Story, Meta } from "@storybook/react";
 
 import TranscriptFull, { TranscriptFullProps } from "./TranscriptFull";
-import { TranscriptItemRef } from "../TranscriptItem";
+import { TranscriptItemRef } from "../TranscriptItem/TranscriptItem";
 
 export default {
   component: TranscriptFull,

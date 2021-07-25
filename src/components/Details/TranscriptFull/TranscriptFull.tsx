@@ -1,6 +1,6 @@
 import React, { FC, RefObject } from "react";
 
-import { TranscriptItem, TranscriptItemRef } from "../TranscriptItem";
+import TranscriptItem, { TranscriptItemRef } from "../TranscriptItem/TranscriptItem";
 
 import { Sentence } from "../../Shared/Types/Transcript";
 import hhmmss from "../../../utils/hhmmss";
