@@ -77,16 +77,16 @@ interface TranscriptItemProps extends RefAttributes<HTMLDivElement> {
   text: string;
   /**The start time of transcript item  */
   startTime: string;
-  /**Callback to handle user clicking `Video clip` */
-  handleVideoClick(): void;
+  /**Callback to handle user clicking `Jump to sentence in video clip` */
+  handleJumpToVideoClip(): void;
   /**The speaker's id */
   speakerId?: string;
   /**The speaker's picture src */
   speakerPictureSrc?: string;
   /**A search query */
   searchQuery?: string;
-  /**Callback to handle user clicking `Transcript` */
-  handleTranscriptClick?(): void;
+  /**Callback to handle user clicking `Jump to sentence in transcript` */
+  handleJumpToTranscript?(): void;
   /**Transcript item React reference */
   componentRef?: RefObject<TranscriptItemRef>;
 }
@@ -98,8 +98,8 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
   speakerId,
   speakerPictureSrc,
   searchQuery,
-  handleVideoClick,
-  handleTranscriptClick,
+  handleJumpToVideoClip,
+  handleJumpToTranscript,
   componentRef,
 }: TranscriptItemProps) => {
   const transcriptItemRef = useRef<HTMLDivElement>(null);
@@ -134,7 +134,7 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             textToHighlight={text}
           />
         </Text>
-        <Container hasMultipleActions={handleTranscriptClick !== undefined}>
+        <Container hasMultipleActions={handleJumpToTranscript !== undefined}>
           <Speaker>
             {avatar}
             <div>
@@ -151,14 +151,14 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
                 <Button
                   aria-label="Jump to sentence in video"
                   className="mzp-c-button mzp-t-neutral"
-                  onClick={handleVideoClick}
+                  onClick={handleJumpToVideoClip}
                 >
                   <PlayIcon />
                 </Button>
               }
             />
           </div>
-          {handleTranscriptClick && (
+          {handleJumpToTranscript && (
             <div>
               <Popup
                 position="top right"
@@ -168,7 +168,7 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
                   <Button
                     aria-label="Jump to sentence in transcript"
                     className="mzp-c-button mzp-t-neutral"
-                    onClick={handleTranscriptClick}
+                    onClick={handleJumpToTranscript}
                   >
                     <DocumentTextIcon />
                   </Button>

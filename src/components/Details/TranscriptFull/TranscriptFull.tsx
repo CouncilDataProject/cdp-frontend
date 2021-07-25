@@ -20,7 +20,7 @@ const TranscriptFull: FC<TranscriptFullProps> = ({
   transcriptItemsRefs,
   jumpToVideoClip,
 }: TranscriptFullProps) => {
-  const onVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
+  const handleJumpToVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
   return (
     <div>
       {sentences.map((sentence, i) => (
@@ -29,7 +29,7 @@ const TranscriptFull: FC<TranscriptFullProps> = ({
           speakerName={sentence.speaker.name}
           text={sentence.text}
           startTime={hhmmss(sentence.start_time)}
-          handleVideoClick={onVideoClip(sentence.start_time)}
+          handleJumpToVideoClip={handleJumpToVideoClip(sentence.start_time)}
           searchQuery=""
           speakerId={sentence.speaker.id}
           speakerPictureSrc={sentence.speaker.pictureSrc}

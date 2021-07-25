@@ -26,8 +26,8 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
   jumpToVideoClip,
   jumpToTranscript,
 }: TranscriptItemsProps) => {
-  const onVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
-  const onTranscript = (index: number, startTime: number) => () => {
+  const handleJumpToVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
+  const handleJumpToTranscript = (index: number, startTime: number) => () => {
     jumpToVideoClip(startTime);
     jumpToTranscript(index);
   };
@@ -55,11 +55,11 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
             speakerName={sentences[index].speaker.name}
             text={sentences[index].text}
             startTime={hhmmss(sentences[index].start_time)}
-            handleVideoClick={onVideoClip(sentences[index].start_time)}
+            handleJumpToVideoClip={handleJumpToVideoClip(sentences[index].start_time)}
             searchQuery={searchQuery}
             speakerId={sentences[index].speaker.id}
             speakerPictureSrc={sentences[index].speaker.pictureSrc}
-            handleTranscriptClick={onTranscript(index, sentences[index].start_time)}
+            handleJumpToTranscript={handleJumpToTranscript(index, sentences[index].start_time)}
           />
         </div>
       </div>
