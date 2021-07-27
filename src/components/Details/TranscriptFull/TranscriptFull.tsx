@@ -3,7 +3,7 @@ import React, { FC, RefObject } from "react";
 import TranscriptItem, { TranscriptItemRef } from "../TranscriptItem/TranscriptItem";
 
 import { Sentence } from "../../Shared/Types/Transcript";
-import hhmmss from "../../../utils/hhmmss";
+import secondsToHHMMSS from "../../../utils/secondsToHHMMSS";
 
 export interface TranscriptFullProps {
   /**The sentences of the transcript */
@@ -29,7 +29,7 @@ const TranscriptFull: FC<TranscriptFullProps> = ({
           key={sentence.index}
           speakerName={sentence.speaker.name}
           text={sentence.text}
-          startTime={hhmmss(sentence.start_time)}
+          startTime={secondsToHHMMSS(sentence.start_time)}
           handleJumpToVideoClip={handleJumpToVideoClip(sentence.start_time)}
           searchQuery=""
           speakerId={sentence.speaker.id}

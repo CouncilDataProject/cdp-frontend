@@ -10,7 +10,7 @@ import {
 
 import { TranscriptItem } from "../TranscriptItem";
 
-import hhmmss from "../../../utils/hhmmss";
+import secondsToHHMMSS from "../../../utils/secondsToHHMMSS";
 import { Sentence } from "../../Shared/Types/Transcript";
 
 interface TranscriptItemsProps {
@@ -56,7 +56,7 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
           <TranscriptItem
             speakerName={sentences[index].speaker.name}
             text={sentences[index].text}
-            startTime={hhmmss(sentences[index].start_time)}
+            startTime={secondsToHHMMSS(sentences[index].start_time)}
             handleJumpToVideoClip={handleJumpToVideoClip(sentences[index].start_time)}
             searchQuery={searchQuery}
             speakerId={sentences[index].speaker.id}
