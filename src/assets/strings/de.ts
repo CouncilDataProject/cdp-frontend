@@ -1,4 +1,17 @@
 const de = {
+  number_approved: "{number} Genehmigt",
+  number_rejected: "{number} Abgelehnt",
+  number_abstained: "{number} Enthaltungen",
+  meeting_votes_caption:
+    "Klicken Sie auf jede Zeile, um zu sehen, wie die Ratsmitglieder abgestimmt haben",
+  legislation: "Gesetzgebung",
+  council_decision: "Beschluss des Rates",
+  votes: "Stimmen",
+  meeting: "Treffen",
+  persons_vote: "{name}s Stimee",
+  en: "English",
+  es: "Español",
+  de: "Deutsche",
   tags: "Stichworte",
   select_language: "Sprache auswählen",
   same: "gleich",

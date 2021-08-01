@@ -49,6 +49,18 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   people: string;
   council_data_project: string;
   search_city_council_transcripts: string;
+  number_approved: string;
+  number_rejected: string;
+  number_abstained: string;
+  legislation: string;
+  council_decision: string;
+  votes: string;
+  meeting: string;
+  persons_vote: string;
+  meeting_votes_caption: string;
+  en: string;
+  de: string;
+  es: string;
 }
 
 export const strings: MasterStringsList = new LocalizedStrings({

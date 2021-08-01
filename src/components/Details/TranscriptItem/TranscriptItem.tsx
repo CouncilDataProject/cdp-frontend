@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, RefObject, RefAttributes, useRef, useImperativeHandle } from "react";
 import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import { Popup } from "semantic-ui-react";
@@ -37,7 +37,7 @@ const Container = styled.div<ContainerProps>((props) => ({
 
 const Speaker = styled.div({
   display: "grid",
-  columnGap: 1,
+  columnGap: 4,
   gridTemplateColumns: "auto auto",
   justifyContent: "start",
   alignItems: "center",
@@ -65,23 +65,30 @@ const Button = styled.button({
   alignItems: "center",
 });
 
-interface TranscriptItemProps {
+/**Public API of transcript item exposing scrollIntoView method */
+export interface TranscriptItemRef {
+  scrollIntoView(): void;
+}
+
+interface TranscriptItemProps extends RefAttributes<HTMLDivElement> {
   /**The speaker's name */
   speakerName: string;
   /**The transcript item's text */
   text: string;
   /**The start time of transcript item  */
   startTime: string;
-  /**Callback to handle user clicking `Video clip` */
-  handleVideoClick(): void;
+  /**Callback to handle user clicking `Jump to sentence in video clip` */
+  handleJumpToVideoClip(): void;
   /**The speaker's id */
   speakerId?: string;
   /**The speaker's picture src */
   speakerPictureSrc?: string;
   /**A search query */
   searchQuery?: string;
-  /**Callback to handle user clicking `Transcript` */
-  handleTranscriptClick?(): void;
+  /**Callback to handle user clicking `Jump to sentence in transcript` */
+  handleJumpToTranscript?(): void;
+  /**Transcript item React reference */
+  componentRef?: RefObject<TranscriptItemRef>;
 }
 
 const TranscriptItem: FC<TranscriptItemProps> = ({
@@ -91,11 +98,20 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
   speakerId,
   speakerPictureSrc,
   searchQuery,
-  handleVideoClick,
-  handleTranscriptClick,
+  handleJumpToVideoClip,
+  handleJumpToTranscript,
+  componentRef,
 }: TranscriptItemProps) => {
+  const transcriptItemRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(componentRef, () => ({
+    /**Implements componentRef.scrollIntoView by using the inner ref transcriptItemRef */
+    scrollIntoView: () => {
+      transcriptItemRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    },
+  }));
+
   const name = speakerId ? (
-    <Link to={`people/${speakerId}`}>{speakerName}</Link>
+    <Link to={`/people/${speakerId}`}>{speakerName}</Link>
   ) : (
     <div>{speakerName}</div>
   );
@@ -109,58 +125,60 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
   );
 
   return (
-    <Item>
-      <Text>
-        <Highlighter
-          searchWords={(searchQuery?.trim() || "").split(/\s+/g)}
-          autoEscape={true}
-          textToHighlight={text}
-        />
-      </Text>
-      <Container hasMultipleActions={handleTranscriptClick !== undefined}>
-        <Speaker>
-          {avatar}
-          <div>
-            {name}
-            <p>{startTime}</p>
-          </div>
-        </Speaker>
-        <div>
-          <Popup
-            position="top right"
-            content={strings.jump_to_sentence_video}
-            size="mini"
-            trigger={
-              <Button
-                aria-label={strings.jump_to_sentence_video}
-                className="mzp-c-button mzp-t-neutral"
-                onClick={handleVideoClick}
-              >
-                <PlayIcon />
-              </Button>
-            }
+    <div ref={transcriptItemRef}>
+      <Item>
+        <Text>
+          <Highlighter
+            searchWords={(searchQuery?.trim() || "").split(/\s+/g)}
+            autoEscape={true}
+            textToHighlight={text}
           />
-        </div>
-        {handleTranscriptClick && (
+        </Text>
+        <Container hasMultipleActions={handleJumpToTranscript !== undefined}>
+          <Speaker>
+            {avatar}
+            <div>
+              {name}
+              <p>{startTime}</p>
+            </div>
+          </Speaker>
           <div>
             <Popup
               position="top right"
-              content={strings.jump_to_sentence_transcript}
+              content={strings.jump_to_sentence_video}
               size="mini"
               trigger={
                 <Button
-                  aria-label={strings.jump_to_sentence_transcript}
+                  aria-label={strings.jump_to_sentence_video}
                   className="mzp-c-button mzp-t-neutral"
-                  onClick={handleTranscriptClick}
+                  onClick={handleJumpToVideoClip}
                 >
-                  <DocumentTextIcon />
+                  <PlayIcon />
                 </Button>
               }
             />
           </div>
-        )}
-      </Container>
-    </Item>
+          {handleJumpToTranscript && (
+            <div>
+              <Popup
+                position="top right"
+                content={strings.jump_to_sentence_transcript}
+                size="mini"
+                trigger={
+                  <Button
+                    aria-label={strings.jump_to_sentence_transcript}
+                    className="mzp-c-button mzp-t-neutral"
+                    onClick={handleJumpToTranscript}
+                  >
+                    <DocumentTextIcon />
+                  </Button>
+                }
+              />
+            </div>
+          )}
+        </Container>
+      </Item>
+    </div>
   );
 };
 

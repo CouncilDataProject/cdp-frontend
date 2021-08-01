@@ -7,6 +7,7 @@ import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { ReactiveTableRow } from "../ReactiveTableRow";
 import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
+import { strings } from "../../../assets/LocalizedStrings";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 const Link = require("react-router-dom").Link;
 
@@ -30,7 +31,7 @@ type MeetingVotesTableRowProps = {
 };
 
 function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
   if (isExpanded) {
     return (
       <React.Fragment>
@@ -64,17 +65,20 @@ function renderVotesCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
       if (vote.decision === VOTE_DECISION.REJECT) votesAgainst++;
       if (vote.decision === VOTE_DECISION.ABSTAIN) votesAbstained++;
     });
+    const votesForLabel = strings.number_approved.replace("{number}", `${votesFor}`);
+    const votesAgainstLabel = strings.number_rejected.replace("{number}", `${votesAgainst}`);
+    const votesAbstainedLabel = strings.number_abstained.replace("{number}", `${votesAbstained}`);
     if (isMobile) {
       return (
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <p>{`${votesFor} Approved`}</p>
-          <p>{`${votesAgainst} Rejected`}</p>
-          <p>{`${votesAbstained} Abstained`}</p>
+          <p>{votesForLabel}</p>
+          <p>{votesAgainstLabel}</p>
+          <p>{votesAbstainedLabel}</p>
         </div>
       );
     } else {
       return (
-        <p>{`${votesFor} Approved ${TAG_CONNECTOR} ${votesAgainst} Rejected ${TAG_CONNECTOR} ${votesAbstained} Abstained`}</p>
+        <p>{`${votesForLabel} ${TAG_CONNECTOR} ${votesAgainstLabel} ${TAG_CONNECTOR} ${votesAbstainedLabel}`}</p>
       );
     }
   }
@@ -91,7 +95,7 @@ const MeetingVotesTableRow = ({
   columnDistribution,
 }: MeetingVotesTableRowProps) => {
   const [expanded, setExpanded] = useState(false);
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   return (
     <ReactiveTableRow

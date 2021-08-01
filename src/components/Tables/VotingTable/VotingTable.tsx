@@ -1,6 +1,7 @@
 import React from "react";
 import { VotingTableRow } from "../VotingTableRow";
 import { EmptyRow } from "../EmptyRow";
+import { strings } from "../../../assets/LocalizedStrings";
 import { ReactiveTable } from "../ReactiveTable";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
@@ -35,7 +36,12 @@ function renderEmpty(index: number) {
 }
 
 const VotingTable = ({ name, votesPage }: VotingTableProps) => {
-  const COLUMN_NAMES = ["Legislation", `${name}'s Vote`, "Council Decision", "Meeting"];
+  const COLUMN_NAMES = [
+    strings.legislation,
+    strings.persons_vote.replace("{name}", name),
+    strings.council_decision,
+    strings.meeting,
+  ];
   const COLUMN_DISTRIBUTION = ["30%", "15%", "20%", "35%"];
 
   function renderRow(vote: any, index: number) {

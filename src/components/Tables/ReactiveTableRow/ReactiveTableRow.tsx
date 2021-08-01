@@ -30,7 +30,7 @@ const ReactiveTableRow = ({
   if (!children || children.length === 0) {
     return <EmptyRow index={index} />;
   }
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet}px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
   if (isMobile) {
     return (
       <div

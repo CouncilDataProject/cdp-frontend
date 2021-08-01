@@ -10,7 +10,7 @@ function pad(num: number) {
  * @param sec_num The time duration in seconds.
  * @returns The number of seconds in hh:mm:ss format.
  */
-function hhmmss(sec_num: number) {
+function secondsToHHMMSS(sec_num: number) {
   const sec_int = Math.floor(sec_num);
   const hours = Math.floor(sec_int / 3600);
   const minutes = Math.floor((sec_int - hours * 3600) / 60);
@@ -19,4 +19,4 @@ function hhmmss(sec_num: number) {
   return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 }
 
-export default hhmmss;
+export default secondsToHHMMSS;

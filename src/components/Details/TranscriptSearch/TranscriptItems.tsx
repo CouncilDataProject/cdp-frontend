@@ -10,7 +10,7 @@ import {
 
 import { TranscriptItem } from "../TranscriptItem";
 
-import hhmmss from "../../../utils/hhmmss";
+import secondsToHHMMSS from "../../../utils/secondsToHHMMSS";
 import { Sentence } from "../../Shared/Types/Transcript";
 
 interface TranscriptItemsProps {
@@ -26,8 +26,10 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
   jumpToVideoClip,
   jumpToTranscript,
 }: TranscriptItemsProps) => {
-  const onVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
-  const onTranscript = (index: number, startTime: number) => () => {
+  /**Creates a function that handles jumping to video clip at startTime */
+  const handleJumpToVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
+  /**Creates a function that handles jumping to video clip at startTime and jumping to index-th sentence in full transcript */
+  const handleJumpToTranscript = (index: number, startTime: number) => () => {
     jumpToVideoClip(startTime);
     jumpToTranscript(index);
   };
@@ -54,12 +56,12 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
           <TranscriptItem
             speakerName={sentences[index].speaker.name}
             text={sentences[index].text}
-            startTime={hhmmss(sentences[index].start_time)}
-            handleVideoClick={onVideoClip(sentences[index].start_time)}
+            startTime={secondsToHHMMSS(sentences[index].start_time)}
+            handleJumpToVideoClip={handleJumpToVideoClip(sentences[index].start_time)}
             searchQuery={searchQuery}
             speakerId={sentences[index].speaker.id}
             speakerPictureSrc={sentences[index].speaker.pictureSrc}
-            handleTranscriptClick={onTranscript(index, sentences[index].start_time)}
+            handleJumpToTranscript={handleJumpToTranscript(index, sentences[index].start_time)}
           />
         </div>
       </div>

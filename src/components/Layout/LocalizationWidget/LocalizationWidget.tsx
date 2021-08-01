@@ -1,40 +1,26 @@
-import React, { useReducer } from "react";
+import React, { ChangeEventHandler, useState } from "react";
 import { strings } from "../../../assets/LocalizedStrings";
-import { Dropdown, Button } from "semantic-ui-react";
 import { SUPPORTED_LANGUAGES } from "../../../constants/ProjectConstants";
 
 function DropdownExampleSearchDropdown() {
-  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-
-  const languageOptions = SUPPORTED_LANGUAGES.map((supportedLanguage) => {
-    return {
-      key: supportedLanguage,
-      text: supportedLanguage,
-      value: supportedLanguage,
-      content: (
-        <Button
-          content={`${supportedLanguage}`}
-          subheader={`${supportedLanguage}`}
-          onClick={() => {
-            console.log(`Language changed to ${supportedLanguage}`);
-            strings.setLanguage(supportedLanguage);
-            forceUpdate();
-          }}
-        />
-      ),
-    };
-  });
+  const [selectedLanguage, setSelectedLanguage] = useState<string>(SUPPORTED_LANGUAGES[0]);
+  const onSelect: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    console.log(`Language changed to ${e.target.value}`);
+    strings.setLanguage(e.target.value);
+    setSelectedLanguage(e.target.value);
+  };
 
   return (
-    <Dropdown
-      button
-      className="icon"
-      floating
-      labeled
-      icon="world"
-      options={languageOptions}
-      text={strings.select_language}
-    />
+    <>
+      <label htmlFor="language">{strings.select_language}</label>
+      <select id="language" name="language" value={selectedLanguage} onChange={onSelect}>
+        {SUPPORTED_LANGUAGES.map((supportedLanguage) => (
+          <option key={supportedLanguage} value={supportedLanguage}>
+            {strings[supportedLanguage]}
+          </option>
+        ))}
+      </select>
+    </>
   );
 }
 
