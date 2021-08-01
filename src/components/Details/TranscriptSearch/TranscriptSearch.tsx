@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, FC, useState } from "react";
 import styled from "@emotion/styled";
-
+import { strings } from "../../../assets/LocalizedStrings";
 import TranscriptItems from "./TranscriptItems";
 import { Sentence } from "../../Shared/Types/Transcript";
 
@@ -67,14 +67,16 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
   return (
     <Container>
       <TitleContainer>
-        <div>Search transcript</div>
-        {searchTerm && <div>{visibleSentences.length} result(s)</div>}
+        <div>{strings.search_transcript}</div>
+        {searchTerm && (
+          <div>{strings.number_of_results.replace("{number}", `${visibleSentences.length}`)}</div>
+        )}
       </TitleContainer>
       <form className="mzp-c-form" role="search">
         <input
           style={{ width: "100%" }}
           type="search"
-          placeholder="Search transcript..."
+          placeholder={strings.search_transcript_placeholder}
           value={searchTerm}
           onChange={onSearchChange}
         />

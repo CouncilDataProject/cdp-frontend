@@ -3,6 +3,7 @@ import { MeetingVotesTableRow } from "../MeetingVotesTableRow";
 import { EmptyRow } from "../EmptyRow";
 import { ReactiveTable } from "../ReactiveTable";
 import { MeetingVote } from "../../Shared/Types/MeetingVote";
+import { strings } from "../../../assets/LocalizedStrings";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type MeetingVotesTableProps = {
@@ -15,7 +16,7 @@ function renderEmpty(index: number) {
 }
 
 const MeetingVotesTable = ({ votesPage }: MeetingVotesTableProps) => {
-  const COLUMN_NAMES = ["Legislation", "Council Decision", "Votes"];
+  const COLUMN_NAMES = [strings.legislation, strings.council_decision, strings.votes];
   const COLUMN_DISTRIBUTION = ["35%", "25%", "40%"];
 
   function renderRow(meetingVotes: MeetingVote, index: number) {
@@ -45,7 +46,7 @@ const MeetingVotesTable = ({ votesPage }: MeetingVotesTableProps) => {
       data={votesPage}
       columnDistribution={COLUMN_DISTRIBUTION}
       columnNames={COLUMN_NAMES}
-      caption={<p>Click each row to see how council members voted</p>}
+      caption={<p>{strings.meeting_votes_caption}</p>}
       renderRow={renderRow}
     />
   );
