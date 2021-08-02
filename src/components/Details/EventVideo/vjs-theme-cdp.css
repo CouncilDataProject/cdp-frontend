@@ -76,6 +76,7 @@
 /*Media control elements has primary size*/
 .vjs-theme-cdp .vjs-play-control,
 .vjs-theme-cdp .vjs-volume-panel,
+.vjs-theme-cdp .vjs-playback-rate,
 .vjs-theme-cdp .vjs-picture-in-picture-control,
 .vjs-theme-cdp .vjs-fullscreen-control {
   font-size: var(--vjs-theme-cdp--primary-size);
@@ -109,11 +110,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: var(--vjs-theme-cdp--primary-size);
-}
-
-.vjs-playback-rate .vjs-menu {
-  /*Move the popup menu 10px up */
-  bottom: 10px;
-  font-size: var(--vjs-theme-cdp--secondary-size);
 }
