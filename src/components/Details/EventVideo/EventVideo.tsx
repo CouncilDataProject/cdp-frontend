@@ -5,6 +5,17 @@ import videojs, { VideoJsPlayer } from "video.js";
 import "video.js/dist/video-js.css";
 import "./vjs-theme-cdp.css";
 
+enum KeyBoardKey {
+  SPACE = 32,
+  ARROW_LEFT = 37,
+  ARROW_RIGHT = 39,
+  F = 70,
+  K = 75,
+  M = 77,
+}
+
+const SKIP_SECONDS = 10;
+
 /**Public API with seekTo method */
 export interface EventVideoRef {
   seekTo(seconds: number): void;
@@ -59,7 +70,31 @@ const EventVideo: FC<EventVideoProps> = ({ uri, componentRef }: EventVideoProps)
           responsive: true,
           sources: [{ src: uri }],
           userActions: {
-            hotkeys: true,
+            hotkeys: (event) => {
+              if (event.which === KeyBoardKey.K || event.which === KeyBoardKey.SPACE) {
+                if (videoJsPlayerRef.current?.paused()) {
+                  videoJsPlayerRef.current?.play();
+                } else {
+                  videoJsPlayerRef.current?.pause();
+                }
+              } else if (event.which === KeyBoardKey.M) {
+                videoJsPlayerRef.current?.muted(!videoJsPlayerRef.current?.muted());
+              } else if (event.which === KeyBoardKey.F) {
+                if (videoJsPlayerRef.current?.isFullscreen()) {
+                  videoJsPlayerRef.current?.exitFullscreen();
+                } else {
+                  videoJsPlayerRef.current?.requestFullscreen();
+                }
+              } else if (event.which === KeyBoardKey.ARROW_LEFT) {
+                videoJsPlayerRef.current?.currentTime(
+                  videoJsPlayerRef.current?.currentTime() - SKIP_SECONDS
+                );
+              } else if (event.which === KeyBoardKey.ARROW_RIGHT) {
+                videoJsPlayerRef.current?.currentTime(
+                  videoJsPlayerRef.current?.currentTime() + SKIP_SECONDS
+                );
+              }
+            },
           },
         },
         function () {
