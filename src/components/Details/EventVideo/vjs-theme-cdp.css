@@ -3,7 +3,7 @@
 .vjs-theme-cdp {
   --vjs-theme-cdp--primary-color: #00ffff;
   --vjs-theme-cdp--secondary-color: #fff;
-  --vjs-theme-cdp--primary-size: 1.75em;
+  --vjs-theme-cdp--primary-size: 1.5em;
   --vjs-theme-cdp--secondary-size: 1.25em;
 }
 
@@ -77,6 +77,7 @@
 /*Media control elements has primary size*/
 .vjs-theme-cdp .vjs-play-control,
 .vjs-theme-cdp .vjs-volume-panel,
+.vjs-theme-cdp .vjs-picture-in-picture-control,
 .vjs-theme-cdp .vjs-fullscreen-control {
   font-size: var(--vjs-theme-cdp--primary-size);
 }
