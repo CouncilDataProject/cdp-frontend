@@ -26,9 +26,15 @@ export interface EventVideoProps {
   uri: string;
   /**Event video Transcript reference */
   componentRef: RefObject<EventVideoRef>;
+  /**The initial seconds to seek to. */
+  initialSeconds?: number;
 }
 
-const EventVideo: FC<EventVideoProps> = ({ uri, componentRef }: EventVideoProps) => {
+const EventVideo: FC<EventVideoProps> = ({
+  uri,
+  componentRef,
+  initialSeconds,
+}: EventVideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoJsPlayerRef = useRef<VideoJsPlayer>();
 
@@ -63,7 +69,7 @@ const EventVideo: FC<EventVideoProps> = ({ uri, componentRef }: EventVideoProps)
             customControlSpacer: true,
             remainingTimeDisplay: false,
           },
-          preload: "metadata",
+          preload: initialSeconds ? "auto" : "metadata",
           aspectRatio: "16:9",
           fluid: true,
           playbackRates: [0.75, 1, 1.5, 2],
@@ -98,6 +104,9 @@ const EventVideo: FC<EventVideoProps> = ({ uri, componentRef }: EventVideoProps)
           },
         },
         function () {
+          if (initialSeconds && initialSeconds > 0) {
+            this.currentTime(initialSeconds);
+          }
           videoJsPlayerRef.current = this;
         }
       );
@@ -107,7 +116,7 @@ const EventVideo: FC<EventVideoProps> = ({ uri, componentRef }: EventVideoProps)
         player.dispose();
       }
     };
-  }, [uri]);
+  }, [uri, initialSeconds]);
 
   return <VideoHtml />;
 };
