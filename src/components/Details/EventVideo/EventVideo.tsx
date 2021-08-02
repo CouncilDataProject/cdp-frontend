@@ -13,6 +13,13 @@ const EventVideo: FC<EventVideoProps> = ({ uri }) => {
       options={{
         autoplay: false,
         controls: true,
+        controlBar: {
+          currentTimeDisplay: true,
+          timeDivider: true,
+          durationDisplay: true,
+          customControlSpacer: true,
+          remainingTimeDisplay: false,
+        },
         preload: "metadata",
         aspectRatio: "16:9",
         fluid: true,

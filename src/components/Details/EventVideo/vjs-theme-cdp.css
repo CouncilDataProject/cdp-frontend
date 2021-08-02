@@ -1,0 +1,114 @@
+/*Adapted from https://github.com/videojs/themes*/
+
+.vjs-theme-cdp {
+  --vjs-theme-cdp--primary-color: #ff4f5e;
+  --vjs-theme-cdp--secondary-color: #fff;
+  --vjs-theme-cdp--primary-size: 1.75em;
+  --vjs-theme-cdp--secondary-size: 1.25em;
+}
+
+.vjs-theme-cdp .vjs-big-play-button {
+  width: 70px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.85);
+  line-height: 50px;
+  font-size: 40px;
+  border: none;
+  top: 50%;
+  left: 50%;
+  margin-top: -35px;
+  margin-left: -35px;
+  color: var(--vjs-theme-cdp--secondary);
+}
+
+/*Switch to primary color on focus/hover*/
+.vjs-theme-cdp:hover .vjs-big-play-button,
+.vjs-theme-cdp.vjs-big-play-button:focus {
+  background-color: var(--vjs-theme-cdp--primary-color);
+}
+
+.vjs-theme-cdp .vjs-control-bar {
+  height: 70px;
+  padding-top: 20px;
+  background: none;
+  /*Gradually decrease black's opacity*/
+  background-image: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
+}
+
+/*Move the progress slider toward the top*/
+.vjs-theme-cdp .vjs-progress-control {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+}
+.vjs-theme-cdp .vjs-progress-control .vjs-progress-holder {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  height: 0.4em;
+}
+
+/*Decrease volume slider height*/
+.vjs-theme-cdp .vjs-volume-bar,
+.vjs-theme-cdp .vjs-volume-level {
+  height: 4px;
+}
+.vjs-theme-cdp .vjs-volume-level::before {
+  font-size: 12px;
+}
+
+/*Slider has primary color up to current time*/
+.vjs-theme-cdp .vjs-play-progress {
+  background-color: var(--vjs-theme-cdp--primary-color);
+}
+
+/*Media control elements has primary size*/
+.vjs-theme-cdp .vjs-play-control,
+.vjs-theme-cdp .vjs-volume-panel,
+.vjs-theme-cdp .vjs-fullscreen-control {
+  font-size: var(--vjs-theme-cdp--primary-size);
+}
+
+/*Show and group current time, time divider, and time display together*/
+.vjs-theme-cdp .vjs-time-control {
+  font-size: var(--vjs-theme-cdp--secondary-size);
+  display: block;
+  padding: 0 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.vjs-theme-cdp .vjs-current-time {
+  /*Bold current time*/
+  font-weight: 700;
+}
+.vjs-theme-cdp .vjs-time-divider {
+  min-width: unset;
+}
+
+/*Show and increase size of spacer*/
+.vjs-theme-cdp .vjs-custom-control-spacer {
+  display: block;
+  flex: 1;
+}
+
+.vjs-theme-cdp .vjs-playback-rate-value {
+  /*Center the value*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--vjs-theme-cdp--primary-size);
+}
+
+.vjs-playback-rate .vjs-menu {
+  /*Move the popup menu 10px up */
+  bottom: 10px;
+  font-size: var(--vjs-theme-cdp--secondary-size);
+}

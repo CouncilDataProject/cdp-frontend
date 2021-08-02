@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react";
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
 import "video.js/dist/video-js.css";
+import "./vjs-theme-cdp.css";
 
 interface VideoJSProps {
   options: VideoJsPlayerOptions;
@@ -13,7 +14,7 @@ export const VideoJS: FC<VideoJSProps> = ({ options }: VideoJSProps) => {
   // from the DOM when calling the dispose() method on a player
   const VideoHtml = () => (
     <div data-vjs-player>
-      <video ref={videoRef} className="video-js vjs-big-play-centered" />
+      <video ref={videoRef} className="video-js vjs-big-play-centered vjs-theme-cdp" />
     </div>
   );
 
