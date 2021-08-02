@@ -1,7 +1,7 @@
 /*Adapted from https://github.com/videojs/themes*/
 
 .vjs-theme-cdp {
-  --vjs-theme-cdp--primary-color: #ff4f5e;
+  --vjs-theme-cdp--primary-color: #00ffff;
   --vjs-theme-cdp--secondary-color: #fff;
   --vjs-theme-cdp--primary-size: 1.75em;
   --vjs-theme-cdp--secondary-size: 1.25em;
@@ -13,7 +13,7 @@
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.85);
   line-height: 50px;
-  font-size: 40px;
+  font-size: 45px;
   border: none;
   top: 50%;
   left: 50%;
@@ -42,17 +42,22 @@
   top: 0;
   right: 0;
   left: 0;
-  width: 100%;
+  width: 99%;
   height: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 .vjs-theme-cdp .vjs-progress-control .vjs-progress-holder {
   position: absolute;
   top: 20px;
   right: 0;
   left: 0;
-  width: 100%;
+  width: 99%;
   margin: 0;
   height: 0.4em;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*Decrease volume slider height*/
