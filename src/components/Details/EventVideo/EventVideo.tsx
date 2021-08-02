@@ -2,8 +2,14 @@ import React, { FC, RefObject, useEffect, useImperativeHandle, useRef } from "re
 
 import videojs, { VideoJsPlayer } from "video.js";
 
+import { strings } from "../../../assets/LocalizedStrings";
+
+import { initVideoJsLanguages } from "./utils";
+
 import "video.js/dist/video-js.css";
 import "./vjs-theme-cdp.css";
+
+initVideoJsLanguages();
 
 enum KeyBoardKey {
   SPACE = 32,
@@ -72,6 +78,7 @@ const EventVideo: FC<EventVideoProps> = ({
           preload: initialSeconds ? "auto" : "metadata",
           aspectRatio: "16:9",
           fluid: true,
+          language: strings.getLanguage(),
           playbackRates: [0.75, 1, 1.5, 2],
           responsive: true,
           sources: [{ src: uri }],
