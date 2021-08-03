@@ -3,8 +3,8 @@
 .vjs-theme-cdp {
   --vjs-theme-cdp--primary-color: #00ffff;
   --vjs-theme-cdp--secondary-color: #fff;
-  --vjs-theme-cdp--primary-size: 1.5em;
-  --vjs-theme-cdp--secondary-size: 1.25em;
+  /*15px*/
+  --vjs-theme-cdp--primary-font-size: 0.9375rem;
 }
 
 .vjs-theme-cdp .vjs-big-play-button {
@@ -24,7 +24,7 @@
 
 /*Switch to primary color on focus/hover*/
 .vjs-theme-cdp:hover .vjs-big-play-button,
-.vjs-theme-cdp.vjs-big-play-button:focus {
+.vjs-theme-cdp .vjs-big-play-button:focus {
   background-color: var(--vjs-theme-cdp--primary-color);
 }
 
@@ -58,15 +58,6 @@
   margin-right: auto;
 }
 
-/*Decrease volume slider height*/
-.vjs-theme-cdp .vjs-volume-bar,
-.vjs-theme-cdp .vjs-volume-level {
-  height: 4px;
-}
-.vjs-theme-cdp .vjs-volume-level::before {
-  font-size: 12px;
-}
-
 /*Slider has primary color up to current time*/
 .vjs-theme-cdp .vjs-play-progress {
   background-color: var(--vjs-theme-cdp--primary-color);
@@ -74,26 +65,23 @@
 
 /*Make the dot on the progress slider have primary color*/
 .vjs-theme-cdp .vjs-play-progress::before {
-  color: var(--vjs-theme-cdp--primary-color)
+  color: var(--vjs-theme-cdp--primary-color);
 }
 
-/*Media control elements has primary size*/
+/*Media control elements has primary font size*/
 .vjs-theme-cdp .vjs-play-control,
 .vjs-theme-cdp .vjs-volume-panel,
+.vjs-theme-cdp .vjs-time-control,
 .vjs-theme-cdp .vjs-playback-rate,
 .vjs-theme-cdp .vjs-picture-in-picture-control,
 .vjs-theme-cdp .vjs-fullscreen-control {
-  font-size: var(--vjs-theme-cdp--primary-size);
+  font-size: var(--vjs-theme-cdp--primary-font-size);
 }
 
 /*Show and group current time, time divider, and time display together*/
 .vjs-theme-cdp .vjs-time-control {
-  font-size: var(--vjs-theme-cdp--secondary-size);
   display: block;
   padding: 0 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .vjs-theme-cdp .vjs-current-time {
   /*Bold current time*/
@@ -107,11 +95,4 @@
 .vjs-theme-cdp .vjs-custom-control-spacer {
   display: block;
   flex: 1;
-}
-
-.vjs-theme-cdp .vjs-playback-rate-value {
-  /*Center the value*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
