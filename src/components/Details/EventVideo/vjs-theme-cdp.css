@@ -1,7 +1,7 @@
 /*Adapted from https://github.com/videojs/themes*/
 
 .vjs-theme-cdp {
-  --vjs-theme-cdp--primary-color: #00ffff;
+  --vjs-theme-cdp--primary-color: #ff4f5e;
   --vjs-theme-cdp--secondary-color: #fff;
   /*15px*/
   --vjs-theme-cdp--primary-font-size: 0.9375rem;
