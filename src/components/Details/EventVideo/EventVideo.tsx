@@ -79,7 +79,7 @@ const EventVideo: FC<EventVideoProps> = ({
           aspectRatio: "16:9",
           fluid: true,
           language: strings.getLanguage(),
-          playbackRates: [0.75, 1, 1.5, 2],
+          playbackRates: [2, 1.5, 1, 0.75, 0.5],
           responsive: true,
           sources: [{ src: uri }],
           userActions: {
