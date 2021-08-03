@@ -54,7 +54,6 @@
   left: 0;
   width: 99%;
   margin: 0;
-  height: 0.4em;
   margin-left: auto;
   margin-right: auto;
 }
@@ -71,6 +70,11 @@
 /*Slider has primary color up to current time*/
 .vjs-theme-cdp .vjs-play-progress {
   background-color: var(--vjs-theme-cdp--primary-color);
+}
+
+/*Make the dot on the progress slider have primary color*/
+.vjs-theme-cdp .vjs-play-progress::before {
+  color: var(--vjs-theme-cdp--primary-color)
 }
 
 /*Media control elements has primary size*/
