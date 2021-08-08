@@ -1,0 +1,98 @@
+/*Adapted from https://github.com/videojs/themes*/
+
+.vjs-theme-cdp {
+  --vjs-theme-cdp--primary-color: #ff4f5e;
+  --vjs-theme-cdp--secondary-color: #fff;
+  /*15px*/
+  --vjs-theme-cdp--primary-font-size: 0.9375rem;
+}
+
+.vjs-theme-cdp .vjs-big-play-button {
+  width: 70px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.85);
+  line-height: 50px;
+  font-size: 45px;
+  border: none;
+  top: 50%;
+  left: 50%;
+  margin-top: -35px;
+  margin-left: -35px;
+  color: var(--vjs-theme-cdp--secondary);
+}
+
+/*Switch to primary color on focus/hover*/
+.vjs-theme-cdp:hover .vjs-big-play-button,
+.vjs-theme-cdp .vjs-big-play-button:focus {
+  background-color: var(--vjs-theme-cdp--primary-color);
+}
+
+.vjs-theme-cdp .vjs-control-bar {
+  height: 70px;
+  padding-top: 20px;
+  background: none;
+  /*Gradually decrease black's opacity*/
+  background-image: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
+}
+
+/*Move the progress slider toward the top*/
+.vjs-theme-cdp .vjs-progress-control {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 99%;
+  height: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.vjs-theme-cdp .vjs-progress-control .vjs-progress-holder {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  left: 0;
+  width: 99%;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*Slider has primary color up to current time*/
+.vjs-theme-cdp .vjs-play-progress {
+  background-color: var(--vjs-theme-cdp--primary-color);
+}
+
+/*Make the dot on the progress slider have primary color*/
+.vjs-theme-cdp .vjs-play-progress::before {
+  color: var(--vjs-theme-cdp--primary-color);
+}
+
+/*Media control elements has primary font size*/
+.vjs-theme-cdp .vjs-play-control,
+.vjs-theme-cdp .vjs-volume-panel,
+.vjs-theme-cdp .vjs-time-control,
+.vjs-theme-cdp .vjs-playback-rate,
+.vjs-theme-cdp .vjs-picture-in-picture-control,
+.vjs-theme-cdp .vjs-fullscreen-control {
+  font-size: var(--vjs-theme-cdp--primary-font-size);
+}
+
+/*Show and group current time, time divider, and time display together*/
+.vjs-theme-cdp .vjs-time-control {
+  display: block;
+  padding: 0 4px;
+}
+.vjs-theme-cdp .vjs-current-time {
+  /*Bold current time*/
+  font-weight: 700;
+}
+.vjs-theme-cdp .vjs-time-divider {
+  min-width: unset;
+}
+
+/*Show and increase size of spacer*/
+.vjs-theme-cdp .vjs-custom-control-spacer {
+  display: block;
+  flex: 1;
+}
