@@ -3,53 +3,53 @@
 Contributions are welcome, and they are greatly appreciated! Every little bit
 helps, and credit will always be given.
 
-<br>
 Ready to contribute? Here's how to set up `cdp-frontend` for local development.
 
-## Your Environment
+## Your environment
 
-Set up your environment. You'll need to install: <br>
-* [NodeJS](https://nodejs.org/en/download/)
+To set up your environment you'll need to install:
 
-* Node's package manager, [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- The latest stable version of [NodeJS](https://nodejs.org/en/download/) 
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-* [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+## Your fork
 
-* Don't forget to run `npm install` after forking!
+- Fork the `cdp-frontend` repo on GitHub.
 
-## Your Fork
-
-* Fork the `cdp-frontend` repo on GitHub.
-
-* Clone your fork locally:
+- Clone your fork locally:
     ```
     $ git clone --recurse-submodules git@github.com:{your_name_here}/cdp-frontend.git
     ```
 
-* Add upstream remote:
+- Add upstream remote:
     ```
     $ cd cdp-frontend/
     $ git remote add upstream https://github.com/CouncilDataProject/cdp-frontend.git
     $ git fetch upstream main
     ```
 
-* Install the project:
+- Install the project depedencies:
     ```
     $ npm i
     ```
 
-* Create a branch for local development:
+- Create a branch for local development:
     ```
-    $ git checkout -b {your_development_type}/{short-description}
+    $ git checkout -b {development_type}/{short-description}
     ```
     Ex: feature/add-transcript-component or bugfix/handle-file-not-found<br>
-## Your Work
 
-Now you can make your changes locally.<br>
-Use `npm run storybook` to see your changes to individual components as you work. If you are creating new components, add new storybook files (name-of-your-component.stories.mdx) to accompany them.
-## Checking Your Work
+## Your work
 
-* When you're done making changes, check that your changes pass linting, formatting,
+Now you can make your changes locally.
+
+Use `npm run storybook` to see your changes to individual components as you work. 
+
+If you are creating new components, add new Storybook files to accompany them.
+
+## Checking your work
+
+- When you're done making changes, check that your changes pass linting, formatting,
 tests, and that the package builds:
     ```
     $ npm run lint
@@ -58,14 +58,30 @@ tests, and that the package builds:
     $ npm run build
     ```
 
-* Build and deploy the Storybook docs to your forked repo's GitHub page for a live preview of your changes
-    ```
-    $ npm run build-storybook-docs
-    $ npm run deploy-storybook-docs    
-    ```
-## Your Pull Request
+## Deploying Storybook docs site
 
-* Commit your changes and push your branch to GitHub.
+You can also build and deploy the Storybook docs website to your forked repo's GitHub Pages for a live preview of your changes that can be shared with others.
+
+_Note: If you're working on component features or bug fixes we will ask for this link to view your work._
+
+```
+npm run build-storybook-docs
+npm run deploy-storybook-docs
+```
+
+Once deployed, the site should be viewable at the following link: https://{your-github-username}.github.io/cdp-frontend/
+
+The first time you deploy the docs site, navigating to this link will likely result in a 401 error. This is because GitHub Pages defaults to private visibility. To change this:
+
+-   Navigate to the "Settings" page of your forked repo
+-   Click the "Pages" sidebar tab
+-   Find the "GitHub Pages visibility" dropdown settings option and change it to "Public"
+-   Complete the confirmation popup dialog
+-   The site should now be publicly viewable!
+
+## Your pull request
+
+- Commit your changes and push your branch to GitHub.
     ```
     $ git add .
     $ git commit -m "Resolves gh-###. Your detailed description of your changes."
@@ -83,7 +99,7 @@ tests, and that the package builds:
 
     b. Merge the latest commits into your branch:
     ```
-    $ git checkout {your_development_type}/{short-description}
+    $ git checkout {development_type}/{short-description}
 
     $ git rebase main
     or
@@ -95,19 +111,19 @@ tests, and that the package builds:
 
     Push your branch to GitHub:
     ```
-    $ git push origin {your_development_type}/{short-description}
+    $ git push origin {development_type}/{short-description}
     ```
 
 
-* Submit a pull request through the GitHub website.
+- Submit a pull request through the GitHub website.
 
-## Keep Up to Date
+## Keep up to date
 
-* Once your branch has been merged to main, if you want to keep your fork and local
+- Once your branch has been merged to main, if you want to keep your fork and local
 repo clean, you can delete your branch.
     ```
-    $ git push origin --delete {your_development_type}/{short-description}
-    $ git branch -D {your_development_type}/{short-description}
+    $ git push origin --delete {development_type}/{short-description}
+    $ git branch -D {development_type}/{short-description}
     ```
 
     Keep your local and fork repo's main up-to-date with upstream's main:
@@ -123,6 +139,7 @@ A reminder for the maintainers on how to deploy.
 Make sure all your changes are committed.
 
 The following commands should only ever be ran from the most up-to-date `main` branch.
+
 ```bash
 git checkout main
 git fetch origin
