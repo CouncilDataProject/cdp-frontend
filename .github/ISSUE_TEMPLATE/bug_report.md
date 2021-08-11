@@ -1,10 +1,10 @@
 ---
-name: Bug report
+name: Bug Report
 about: Create a report to help us improve cdp-frontend
 labels: bug
 ---
 
-### Describe the bug
+### Describe the Bug
 
 _A clear and concise description of what the bug is._
 
@@ -17,7 +17,7 @@ _Steps to reproduce the behavior:_
 3. Scroll down to '....'
 4. See error
 
-### Expected behavior
+### Expected Behavior
 
 _A clear and concise description of what you expected to happen._
 
