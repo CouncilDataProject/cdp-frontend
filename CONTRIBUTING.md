@@ -5,14 +5,14 @@ helps, and credit will always be given.
 
 Ready to contribute? Here's how to set up `cdp-frontend` for local development.
 
-## Your environment
+## Your Environment
 
 To set up your environment you'll need to install:
 
 - The latest stable version of [NodeJS](https://nodejs.org/en/download/) 
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-## Your fork
+## Your Fork
 
 - Fork the `cdp-frontend` repo on GitHub.
 
@@ -39,7 +39,7 @@ To set up your environment you'll need to install:
     ```
     Ex: feature/add-transcript-component or bugfix/handle-file-not-found<br>
 
-## Your work
+## Your Work
 
 Now you can make your changes locally.
 
@@ -47,7 +47,7 @@ Use `npm run storybook` to see your changes to individual components as you work
 
 If you are creating new components, add new Storybook files to accompany them.
 
-## Checking your work
+## Checking Your Work
 
 - When you're done making changes, check that your changes pass linting, formatting,
 tests, and that the package builds:
@@ -58,7 +58,7 @@ tests, and that the package builds:
     $ npm run build
     ```
 
-## Deploying Storybook docs site
+## Deploying Your Storybook Docs Site
 
 You can also build and deploy the Storybook docs website to your forked repo's GitHub Pages for a live preview of your changes that can be shared with others.
 
@@ -79,7 +79,7 @@ The first time you deploy the docs site, navigating to this link will likely res
 -   Complete the confirmation popup dialog
 -   The site should now be publicly viewable!
 
-## Your pull request
+## Your Pull Request
 
 - Commit your changes and push your branch to GitHub.
     ```
@@ -117,7 +117,7 @@ The first time you deploy the docs site, navigating to this link will likely res
 
 - Submit a pull request through the GitHub website.
 
-## Keep up to date
+## Keep Up To Date
 
 - Once your branch has been merged to main, if you want to keep your fork and local
 repo clean, you can delete your branch.
