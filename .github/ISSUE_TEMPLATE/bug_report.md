@@ -1,24 +1,34 @@
 ---
-name: Bug Report
-about: '"Something went wrong..."'
-title: ''
-labels: ''
-assignees: ''
-
+name: Bug report
+about: Create a report to help us improve cdp-frontend
+labels: bug
 ---
 
-## System and Software
-* Operating System:
-* Web Browser:
+### Describe the bug
 
+_A clear and concise description of what the bug is._
 
-## Page or Route
-* Link:
+### Reproduction
 
+_Steps to reproduce the behavior:_
 
-## Description
-*A description of the bug*
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
+### Expected behavior
 
-## Notes
-*Any other comments you think may be important to reproducing the issue*
+_A clear and concise description of what you expected to happen._
+
+### Screenshots
+
+_If applicable, add screenshots to help explain your problem._
+
+### Environment
+
+_Any additional information about your environment._
+
+-   OS Version: _[e.g. macOS 11.3.1]_
+-   Browser Version: _[e.g. Chrome 89.0]_
+-   CDP Frontend Version: _[e.g. 0.5.0]_
