@@ -1,23 +1,32 @@
 ---
 name: Feature Request
-about: '"It would be really cool if x did y..."'
-title: ''
-labels: ''
-assignees: ''
-
+about: Suggest a feature for cdp-frontend
+labels: enhancement
 ---
 
-## Use Case
-*Please provide a use case to help us understand your request in context*
+<!--
+  ⚠️⚠️ Please do the following before submitting: ⚠️⚠️
 
+  📖 Please read our Code of Conduct.
+  🔎 Please search existing issues to avoid creating duplicates.
+-->
 
+### Feature Description
 
+_A clear and concise description of the feature you're requesting._
 
-## Solution
-*Please describe your ideal solution*
+### Use Case
 
+_Please provide a use case to help us understand your request in context._
 
+### Solution
 
+_Please describe your ideal solution._
 
-## Alternatives
-*Please describe any alternatives you've considered, even if you've dismissed them*
+### Alternatives
+
+_Please describe any alternatives you've considered, even if you've dismissed them._
+
+### Screenshots/References
+
+_In the case of a visually oriented feature or component request, providing drawings, screenshots, and/or links to examples of what you're seeking will be very helpful._
