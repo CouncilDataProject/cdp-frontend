@@ -119,6 +119,7 @@
   "dependencies": {
     "@councildataproject/cdp-design": "^1.0.2",
     "@mozilla-protocol/core": "^13.0.1",
+    "firebase": "^9.0.0-beta.7",
     "react-highlight-words": "^0.17.0",
     "react-localization": "^1.0.17",
     "react-responsive": "^8.2.0",
