@@ -31,7 +31,7 @@ export class NetworkService {
     const firebaseApp = initializeApp({
       projectId: "cdp-jackson-dev-002",
     });
-    let settings: Settings = {
+    const settings: Settings = {
       // merge bool Whether to merge the provided settings with the existing settings. If set to true, the settings are merged with existing settings. If set to false or left unset, the settings replace the existing settings.
       // ssl bool Whether to use SSL when connecting.
       // ignoreUndefinedProperties bool Whether to skip nested properties that are set to undefined during object serialization. If set to true, these properties are skipped and not written to Firestore. If set to false or omitted, the SDK throws an exception when it encounters properties of type undefined.
@@ -87,7 +87,7 @@ export class NetworkService {
     populationOptions?: PopulationOptions
   ): Promise<NetworkResponse> {
     const documentRef = doc(NetworkService.db, collectionName, documentId);
-    let response = new NetworkResponse();
+    const response = new NetworkResponse();
     return getDoc(documentRef)
       .then((docSnap) => {
         if (!docSnap || !docSnap.data()) {
@@ -97,8 +97,8 @@ export class NetworkService {
         }
         response.data = docSnap.data();
         if (populationOptions && populationOptions.toPopulate) {
-          let cascade: Promise<NetworkResponse>[] = [];
-          let refsToPopulate: string[] = [];
+          const cascade: Promise<NetworkResponse>[] = [];
+          const refsToPopulate: string[] = [];
           populationOptions.toPopulate.forEach((docRefToPopulate: Populate) => {
             const refValueToPopulate = response.data![docRefToPopulate.refName];
             const refsCollection = getCollectionForReference(docRefToPopulate.refName);
