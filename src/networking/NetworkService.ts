@@ -12,7 +12,12 @@ import {
   Settings,
 } from "firebase/firestore";
 import { NetworkResponse } from "./NetworkResponse";
-import { PopulationOptions, Populate } from "./PopulationOptions";
+import {
+  PopulationOptions,
+  Populate,
+  COLLECTION_NAME,
+  getCollectionForReference,
+} from "./PopulationOptions";
 
 export class NetworkService {
   private static instance: NetworkService;
@@ -78,7 +83,7 @@ export class NetworkService {
    */
   public async getDocument(
     documentId: string,
-    collectionName: string,
+    collectionName: COLLECTION_NAME,
     populationOptions?: PopulationOptions
   ): Promise<NetworkResponse> {
     const documentRef = doc(NetworkService.db, collectionName, documentId);
@@ -95,14 +100,11 @@ export class NetworkService {
           let cascade: Promise<NetworkResponse>[] = [];
           let refsToPopulate: string[] = [];
           populationOptions.toPopulate.forEach((docRefToPopulate: Populate) => {
-            let refValueToPopulate = response.data![docRefToPopulate.refName];
-            if (refValueToPopulate) {
+            const refValueToPopulate = response.data![docRefToPopulate.refName];
+            const refsCollection = getCollectionForReference(docRefToPopulate.refName);
+            if (refValueToPopulate && refsCollection) {
               cascade.push(
-                this.getDocument(
-                  refValueToPopulate,
-                  docRefToPopulate.collectionName,
-                  docRefToPopulate.cascade
-                )
+                this.getDocument(refValueToPopulate, refsCollection, docRefToPopulate.cascade)
               );
             }
             refsToPopulate.push(docRefToPopulate.refName);

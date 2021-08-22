@@ -3,15 +3,34 @@ import Person from "../../models/Person";
 import { PersonService } from "../../networking/PersonService";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
-const PersonContainer: React.FC = () => {
-  const [person, setPerson] = useState<Person | undefined>(undefined);
+type PersonContainerProps = {
+  /** optional person overrides fetch for testing */
+  testPerson?: Person;
+  testPersonId?: string;
+};
+
+const PersonContainer = ({ testPerson, testPersonId }: PersonContainerProps) => {
+  // 283ffb6c5a48
+  const [person, setPerson] = useState<Person | undefined>(testPerson);
+  const [error, setError] = useState<Error | undefined>(undefined);
 
   useEffect(() => {
     let personService = new PersonService();
     const fetchData = async () => {
       const slug = window.location.href.substring(window.location.href.lastIndexOf("/") + 1);
-      const result = await personService.getPerson(slug);
-      setPerson(result);
+      try {
+        if (testPersonId) {
+          const result = await personService.getPerson(testPersonId);
+          setPerson(result);
+          setError(undefined);
+        } else {
+          const result = await personService.getPerson(slug);
+          setPerson(result);
+          setError(undefined);
+        }
+      } catch (networkError) {
+        setError(networkError);
+      }
     };
     fetchData();
   }, []);
@@ -23,9 +42,14 @@ const PersonContainer: React.FC = () => {
           {`${JSON.stringify(person)}`}
         </p>
       )}
-      {!person && (
+      {!person && !error && (
         <p className="mzp-c-card-desc" style={{ marginLeft: 8 }}>
           No response yet
+        </p>
+      )}
+      {error && (
+        <p className="mzp-c-card-desc" style={{ marginLeft: 8 }}>
+          {error.message}
         </p>
       )}
     </div>

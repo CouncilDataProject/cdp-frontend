@@ -1,4 +1,5 @@
 import { NetworkService } from "./NetworkService";
+import { COLLECTION_NAME } from "./PopulationOptions";
 import Person from "../models/Person";
 
 export class PersonService {
@@ -6,7 +7,7 @@ export class PersonService {
 
   async getPerson(personId: string): Promise<Person> {
     return this.networkService
-      .getDocument(personId, "people", undefined)
+      .getDocument(personId, COLLECTION_NAME.Person, undefined)
       .then((response) => {
         if (response.error) {
           return Promise.reject(response.error);

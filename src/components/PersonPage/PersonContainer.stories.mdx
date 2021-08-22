@@ -1,0 +1,31 @@
+import { action } from "@storybook/addon-actions";
+import { text, array, number, date } from "@storybook/addon-knobs";
+import { Meta, Props, Story } from "@storybook/addon-docs/blocks";
+
+import PersonContainer from "./PersonContainer";
+
+<Meta title="Library/Containers/Person" component={PersonContainer} />
+
+# PersonContainer
+
+### An Existing Person
+
+<Props of={PersonContainer} />
+
+<Story name="An Existing Person">
+  <PersonContainer
+    testPersonId="283ffb6c5a48"
+  />
+</Story>
+
+
+### A PersonContainer Error
+
+<Props of={PersonContainer} />
+
+<Story name="A Non-Existing Person">
+  <PersonContainer
+    testPersonId="bad-id"
+  />
+</Story>
+
