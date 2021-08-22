@@ -12,6 +12,7 @@ import {
   Settings,
 } from "firebase/firestore";
 import { NetworkResponse } from "./NetworkResponse";
+import { PopulationOptions, Populate } from "./PopulationOptions";
 
 export class NetworkService {
   private static instance: NetworkService;
@@ -50,27 +51,71 @@ export class NetworkService {
     return NetworkService.instance;
   }
 
+  private collateDocumentData(
+    cascade: Promise<NetworkResponse>[],
+    refsToPopulate: string[],
+    parent: NetworkResponse
+  ): Promise<NetworkResponse> {
+    return Promise.all(cascade)
+      .then((cascadeResponses) => {
+        cascadeResponses.forEach((cascadeResponse, index) => {
+          if (parent.data) {
+            parent.data[refsToPopulate[index]] = cascadeResponse.data;
+          }
+        });
+        return Promise.resolve(parent);
+      })
+      .catch((error) => {
+        parent.error = error;
+        return Promise.resolve(parent);
+      });
+  }
+
   /**
    * Why am I doing things this way - doesn't this effectively eat errors by not sending errors via Promise.reject?
    * It does, but this should allow documents to be fetched EVEN IF they have problems in populating foreign keys.
    * Also it will successfully fetch a bunch of documents using Promise.all() - no need for allSettled which afaik is unavailable.
    */
-
   public async getDocument(
     documentId: string,
     collectionName: string,
-    populationOptions
+    populationOptions?: PopulationOptions
   ): Promise<NetworkResponse> {
     const documentRef = doc(NetworkService.db, collectionName, documentId);
-    const docSnap = await getDoc(documentRef);
     let response = new NetworkResponse();
-    if (docSnap.exists()) {
-      response.data = docSnap.data();
-    } else {
-      response.error = new Error(
-        `Document ${documentId} does not exist in Collection ${collectionName}.`
-      );
-    }
-    return Promise.resolve(response);
+    return getDoc(documentRef)
+      .then((docSnap) => {
+        if (!docSnap || !docSnap.data()) {
+          return Promise.reject(
+            new Error(`Document ${documentId} does not exist in Collection ${collectionName}.`)
+          );
+        }
+        response.data = docSnap.data();
+        if (populationOptions && populationOptions.toPopulate) {
+          let cascade: Promise<NetworkResponse>[] = [];
+          let refsToPopulate: string[] = [];
+          populationOptions.toPopulate.forEach((docRefToPopulate: Populate) => {
+            let refValueToPopulate = response.data![docRefToPopulate.refName];
+            if (refValueToPopulate) {
+              cascade.push(
+                this.getDocument(
+                  refValueToPopulate,
+                  docRefToPopulate.collectionName,
+                  docRefToPopulate.cascade
+                )
+              );
+            }
+            refsToPopulate.push(docRefToPopulate.refName);
+          });
+          return this.collateDocumentData(cascade, refsToPopulate, response);
+        } else {
+          response.data = docSnap.data();
+          return Promise.resolve(response);
+        }
+      })
+      .catch((error) => {
+        response.error = error;
+        return Promise.resolve(response);
+      });
   }
 }

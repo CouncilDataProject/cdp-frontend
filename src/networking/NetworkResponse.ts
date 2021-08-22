@@ -1,5 +1,8 @@
-export class NetworkResponse {
-  data?: any;
+class ResponseData {
+  [propName: string]: any;
+}
+class NetworkResponse {
+  data?: ResponseData;
   error?: Error;
 
   constructor(data?: any, error?: Error) {
@@ -7,3 +10,5 @@ export class NetworkResponse {
     this.error = error;
   }
 }
+
+export { ResponseData, NetworkResponse };
