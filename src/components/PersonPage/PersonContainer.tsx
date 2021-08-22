@@ -9,8 +9,8 @@ const PersonContainer: React.FC = () => {
   useEffect(() => {
     let personService = new PersonService();
     const fetchData = async () => {
-      let personId = window.location.pathname;
-      const result = await personService.getPerson(personId);
+      const slug = window.location.href.substring(window.location.href.lastIndexOf("/") + 1);
+      const result = await personService.getPerson(slug);
       setPerson(result);
     };
     fetchData();
