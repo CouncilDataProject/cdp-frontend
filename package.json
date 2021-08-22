@@ -54,12 +54,12 @@
     "@emotion/styled": "^10.0.27",
     "@storybook/addon-a11y": "^6.1.10",
     "@storybook/addon-actions": "^6.1.10",
-    "@storybook/addon-docs": "^6.2.7",
-    "@storybook/addon-essentials": "^6.2.7",
+    "@storybook/addon-docs": "^6.3.7",
+    "@storybook/addon-essentials": "^6.3.7",
     "@storybook/addon-info": "^5.3.21",
     "@storybook/addon-knobs": "^6.1.10",
     "@storybook/addon-links": "^6.1.10",
-    "@storybook/react": "^6.2.7",
+    "@storybook/react": "^6.3.7",
     "@storybook/theming": "^6.1.10",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/enzyme": "^3.10.5",
@@ -71,6 +71,7 @@
     "@types/react-responsive": "^8.0.2",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-virtualized": "^9.21.11",
+    "@types/video.js": "^7.3.26",
     "@typescript-eslint/eslint-plugin": "~2.8",
     "@typescript-eslint/parser": "~2.8",
     "babel-loader": "~8.0",
@@ -124,7 +125,8 @@
     "react-localization": "^1.0.17",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
-    "react-virtualized": "^9.22.3"
+    "react-virtualized": "^9.22.3",
+    "video.js": "^7.14.3"
   },
   "repository": {
     "type": "git",

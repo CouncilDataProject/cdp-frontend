@@ -22,6 +22,7 @@ export { Footer } from "./components/Layout/Footer";
 export { HomeSearchBar } from "./components/Layout/HomeSearchBar";
 
 //Details
+export { EventVideo } from "./components/Details/EventVideo";
 export { MinutesItemsList } from "./components/Details/MinutesItemsList";
 export { TranscriptItem } from "./components/Details/TranscriptItem";
 export { TranscriptSearch } from "./components/Details/TranscriptSearch";
