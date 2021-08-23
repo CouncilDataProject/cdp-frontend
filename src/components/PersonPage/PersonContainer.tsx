@@ -15,7 +15,7 @@ const PersonContainer = ({ testPerson, testPersonId }: PersonContainerProps) => 
   const [error, setError] = useState<Error | undefined>(undefined);
 
   useEffect(() => {
-    let personService = new PersonService();
+    const personService = new PersonService();
     const fetchData = async () => {
       const slug = window.location.href.substring(window.location.href.lastIndexOf("/") + 1);
       try {

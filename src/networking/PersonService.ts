@@ -3,7 +3,11 @@ import { COLLECTION_NAME } from "./PopulationOptions";
 import Person from "../models/Person";
 
 export class PersonService {
-  networkService: NetworkService = NetworkService.getInstance();
+  networkService: NetworkService;
+
+  constructor() {
+    this.networkService = NetworkService.getInstance();
+  }
 
   async getPerson(personId: string): Promise<Person> {
     return this.networkService
