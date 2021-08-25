@@ -11,7 +11,7 @@ import {
   initializeFirestore,
   Settings,
 } from "firebase/firestore";
-import { NetworkResponse } from "./NetworkResponse";
+import { NetworkResponse, ResponseData } from "./NetworkResponse";
 import {
   PopulationOptions,
   Populate,
@@ -90,17 +90,18 @@ export class NetworkService {
     const response = new NetworkResponse();
     return getDoc(documentRef)
       .then((docSnap) => {
-        if (!docSnap || !docSnap.data()) {
+        if (!docSnap.exists()) {
           return Promise.reject(
             new Error(`Document ${documentId} does not exist in Collection ${collectionName}.`)
           );
         }
-        response.data = docSnap.data();
+        let data: ResponseData = docSnap.data();
+        response.data = data;
         if (populationOptions && populationOptions.toPopulate) {
           const cascade: Promise<NetworkResponse>[] = [];
           const refsToPopulate: string[] = [];
           populationOptions.toPopulate.forEach((docRefToPopulate: Populate) => {
-            const refValueToPopulate = response.data![docRefToPopulate.refName];
+            const refValueToPopulate = data[docRefToPopulate.refName];
             const refsCollection = getCollectionForReference(docRefToPopulate.refName);
             if (refValueToPopulate && refsCollection) {
               cascade.push(
@@ -111,7 +112,6 @@ export class NetworkService {
           });
           return this.collateDocumentData(cascade, refsToPopulate, response);
         } else {
-          response.data = docSnap.data();
           return Promise.resolve(response);
         }
       })
