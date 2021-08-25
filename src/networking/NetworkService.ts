@@ -107,8 +107,8 @@ export class NetworkService {
               cascade.push(
                 this.getDocument(refValueToPopulate, refsCollection, docRefToPopulate.cascade)
               );
+              refsToPopulate.push(docRefToPopulate.refName);
             }
-            refsToPopulate.push(docRefToPopulate.refName);
           });
           return this.collateDocumentData(cascade, refsToPopulate, response);
         } else {
