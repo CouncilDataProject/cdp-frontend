@@ -135,7 +135,7 @@ export class NetworkService {
     whereConditions: WhereCondition[],
     orderConditions: OrderCondition[] = [],
     maxDocumentsNum: number = MAX_DOCUMENTS_NUM,
-    startAtIndex: number = 0,
+    startAtIndex = 0,
     populationOptions?: PopulationOptions
   ): Promise<NetworkResponse> {
     //Get the collection ref
@@ -147,7 +147,7 @@ export class NetworkService {
     //Create order constraints
     const orderConstraints = orderConditions.map((oc) => orderBy(oc.fieldPath, oc.orderDirection));
     //Create the query
-    let q = query(
+    const q = query(
       collectionRef,
       ...whereConstraints,
       ...orderConstraints,
