@@ -86,7 +86,7 @@ export class Populate {
   constructor(
     collectionName: COLLECTION_NAME,
     refName: REF_PROPERTY_NAME,
-    cascade: PopulationOptions
+    cascade?: PopulationOptions
   ) {
     this.collectionName = collectionName;
     this.refName = refName;
