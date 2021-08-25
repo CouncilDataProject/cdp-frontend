@@ -95,7 +95,7 @@ export class NetworkService {
             new Error(`Document ${documentId} does not exist in Collection ${collectionName}.`)
           );
         }
-        let data: ResponseData = docSnap.data();
+        const data: ResponseData = docSnap.data();
         response.data = data;
         if (populationOptions && populationOptions.toPopulate) {
           const cascade: Promise<NetworkResponse>[] = [];
