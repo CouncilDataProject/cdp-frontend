@@ -10,6 +10,14 @@ import {
   doc,
   initializeFirestore,
   Settings,
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  limit,
+  startAt,
+  DocumentData,
 } from "firebase/firestore";
 import { NetworkResponse, ResponseData } from "./NetworkResponse";
 import {
@@ -18,6 +26,7 @@ import {
   COLLECTION_NAME,
   getCollectionForReference,
 } from "./PopulationOptions";
+import { WhereCondition, OrderCondition, MAX_DOCUMENTS_NUM } from "./Database";
 
 export class NetworkService {
   private static instance: NetworkService;
@@ -119,5 +128,78 @@ export class NetworkService {
         response.error = error;
         return Promise.resolve(response);
       });
+  }
+
+  public async getDocuments(
+    collectionName: COLLECTION_NAME,
+    whereConditions: WhereCondition[],
+    orderConditions: OrderCondition[] = [],
+    maxDocumentsNum: number = MAX_DOCUMENTS_NUM,
+    startAtIndex: number = 0,
+    populationOptions?: PopulationOptions
+  ): Promise<NetworkResponse> {
+    //Get the collection ref
+    const collectionRef = collection(NetworkService.db, collectionName);
+    //Create where constraints
+    const whereConstraints = whereConditions.map((wc) =>
+      where(wc.fieldPath, wc.whereOperator, wc.fieldValue)
+    );
+    //Create order constraints
+    const orderConstraints = orderConditions.map((oc) => orderBy(oc.fieldPath, oc.orderDirection));
+    //Create the query
+    let q = query(
+      collectionRef,
+      ...whereConstraints,
+      ...orderConstraints,
+      limit(maxDocumentsNum),
+      startAt(startAtIndex)
+    );
+    const response = new NetworkResponse();
+    try {
+      //Execute the query
+      const querySnapshot = await getDocs(q);
+      const querySnapshotData: DocumentData[] = [];
+      querySnapshot.forEach((doc) => {
+        //Get the data for each doc
+        querySnapshotData.push(doc.data());
+      });
+      if (populationOptions && populationOptions.toPopulate) {
+        const collatePromises: Promise<NetworkResponse>[] = [];
+        querySnapshotData.forEach((doc) => {
+          //Create cascade for each doc
+          const cascade: Promise<NetworkResponse>[] = [];
+          const refsToPopulate: string[] = [];
+          const parent = new NetworkResponse();
+          parent.data = doc;
+          populationOptions?.toPopulate?.forEach((docRefToPopulate: Populate) => {
+            const refValueToPopulate = doc[docRefToPopulate.refName];
+            const refsCollection = getCollectionForReference(docRefToPopulate.refName);
+            if (refValueToPopulate && refsCollection) {
+              //Add population to cascade
+              cascade.push(
+                this.getDocument(refValueToPopulate, refsCollection, docRefToPopulate.cascade)
+              );
+              refsToPopulate.push(docRefToPopulate.refName);
+            }
+          });
+          //Add collated document data promise for each doc
+          collatePromises.push(this.collateDocumentData(cascade, refsToPopulate, parent));
+        });
+        //Get all the network responses
+        const networkRespones = await Promise.all(collatePromises);
+        //Collect only the response data
+        const collatedData = networkRespones.map(({ data }) => data);
+        response.data = collatedData;
+        //Return the response
+        return Promise.resolve(response);
+      } else {
+        //Don't need to populate
+        response.data = querySnapshotData;
+        return Promise.resolve(response);
+      }
+    } catch (error) {
+      response.error = error;
+      return Promise.resolve(response);
+    }
   }
 }
