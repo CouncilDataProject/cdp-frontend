@@ -1,8 +1,9 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import Event from "./Event";
+import { Model } from "./Model";
 
-export default class Session {
+export default class Session implements Model {
   caption_uri?: string;
   event_ref?: string;
   event?: Event;

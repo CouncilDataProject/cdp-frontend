@@ -1,8 +1,9 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import Event from "./Event";
 import MinutesItem from "./MinutesItem";
+import { Model } from "./Model";
 
-export default class EventMinutesItem {
+export default class EventMinutesItem implements Model {
   decision?: string;
   event_ref?: string;
   event?: Event;

@@ -2,8 +2,9 @@ import Matter from "./Matter";
 import { ResponseData } from "../networking/NetworkResponse";
 import EventMinutesItem from "./EventMinutesItem";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
+import { Model } from "./Model";
 
-export default class MatterStatus {
+export default class MatterStatus implements Model {
   event_minutes_item_ref?: string;
   event_minutes_item?: EventMinutesItem;
   external_source_id?: string;

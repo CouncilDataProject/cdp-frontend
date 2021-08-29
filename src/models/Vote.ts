@@ -3,8 +3,9 @@ import EventMinutesItem from "./EventMinutesItem";
 import Person from "./Person";
 import Event from "./Event";
 import Matter from "./Matter";
+import { Model } from "./Model";
 
-export default class Vote {
+export default class Vote implements Model {
   decision?: string;
   event_minutes_item_ref?: string;
   event_minutes_item?: EventMinutesItem;

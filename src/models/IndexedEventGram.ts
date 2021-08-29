@@ -1,7 +1,8 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import Event from "./Event";
+import { Model } from "./Model";
 
-export default class IndexedEventGram {
+export default class IndexedEventGram implements Model {
   context_span?: string;
   datetime_weighted_value?: number;
   event_ref?: string;

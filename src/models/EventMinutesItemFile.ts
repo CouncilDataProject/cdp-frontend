@@ -1,7 +1,8 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import MinutesItem from "./MinutesItem";
+import { Model } from "./Model";
 
-export default class EventMinutesItemFile {
+export default class EventMinutesItemFile implements Model {
   event_minutes_item_ref?: string;
   event_minutes_item?: MinutesItem;
   external_source_id?: string;

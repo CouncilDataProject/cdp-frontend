@@ -1,6 +1,7 @@
 import { ResponseData } from "../networking/NetworkResponse";
+import { Model } from "./Model";
 
-export default class Matter {
+export default class Matter implements Model {
   external_source_id?: string;
   matter_type?: string;
   name?: string;

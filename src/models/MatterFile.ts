@@ -1,7 +1,8 @@
 import Matter from "./Matter";
 import { ResponseData } from "../networking/NetworkResponse";
+import { Model } from "./Model";
 
-export default class MatterFile {
+export default class MatterFile implements Model {
   external_source_id?: string;
   matter_ref?: string;
   matter?: Matter;

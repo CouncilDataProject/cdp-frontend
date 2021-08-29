@@ -1,6 +1,7 @@
 import { ResponseData } from "../networking/NetworkResponse";
+import { Model } from "./Model";
 
-class File {
+class File implements Model {
   uri?: string;
   name?: string;
   description?: string;

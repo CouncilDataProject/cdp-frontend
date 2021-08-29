@@ -1,7 +1,8 @@
 import { ResponseData } from "../networking/NetworkResponse";
+import { Model } from "./Model";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 
-export default class Body {
+export default class Body implements Model {
   description?: string;
   end_datetime?: Date;
   external_source_id?: string;

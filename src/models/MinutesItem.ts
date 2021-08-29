@@ -1,7 +1,8 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import Matter from "./Matter";
+import { Model } from "./Model";
 
-export default class MinutesItem {
+export default class MinutesItem implements Model {
   description?: string;
   external_source_id?: string;
   matter_ref?: string;

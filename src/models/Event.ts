@@ -2,8 +2,9 @@ import { ResponseData } from "../networking/NetworkResponse";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import File from "./File";
 import Body from "./Body";
+import { Model } from "./Model";
 
-class Event {
+class Event implements Model {
   agenda_uri?: string;
   body_ref?: string;
   body?: Body;

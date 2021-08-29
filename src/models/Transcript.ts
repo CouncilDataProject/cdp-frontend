@@ -2,8 +2,9 @@ import { ResponseData } from "../networking/NetworkResponse";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import File from "./File";
 import Session from "./Session";
+import { Model } from "./Model";
 
-export default class Transcript {
+export default class Transcript implements Model {
   confidence?: number;
   created?: Date;
   file_ref?: string;

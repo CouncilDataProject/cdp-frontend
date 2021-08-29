@@ -1,7 +1,8 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import File from "./File";
+import { Model } from "./Model";
 
-class Person {
+class Person implements Model {
   name?: string;
   email?: string;
   phone?: string;
