@@ -23,11 +23,11 @@ export default class ModelService {
       const { data, error } = await networkResponse;
 
       if (error) {
-        return Promise.reject(error);
+        throw error;
       }
 
       if (!data) {
-        return Promise.reject(new Error(`No data to create ${this.modelName}.`));
+        throw new Error(`No ${this.modelName} found.`);
       }
 
       return Promise.resolve(new model(data));
@@ -46,11 +46,11 @@ export default class ModelService {
       const { data, error } = await networkQueryResponse;
 
       if (error) {
-        return Promise.reject(error);
+        throw error;
       }
 
       if (!data || data.length === 0) {
-        return Promise.reject(new Error(`No ${this.modelName}s found.`));
+        throw new Error(`No ${this.modelName}s found.`);
       }
 
       const models = data.map((datum) => new model(datum));

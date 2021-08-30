@@ -139,6 +139,9 @@ export class NetworkService {
     try {
       //Execute the query
       const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        throw new Error(`No ${collectionName}(s) found.`);
+      }
       const querySnapshotData: DocumentData[] = [];
       querySnapshot.forEach((doc) => {
         //Get the data for each doc

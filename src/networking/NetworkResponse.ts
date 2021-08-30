@@ -1,6 +1,7 @@
 class ResponseData {
   [propName: string]: any;
 }
+
 class NetworkResponse {
   data?: ResponseData;
   error?: Error;
