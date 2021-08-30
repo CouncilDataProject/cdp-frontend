@@ -1,5 +1,6 @@
-import { where, orderBy } from "@firebase/firestore";
+import { where, orderBy, doc } from "@firebase/firestore";
 
+import { NetworkService } from "./NetworkService";
 import ModelService from "./ModelService";
 import { COLLECTION_NAME, REF_PROPERTY_NAME } from "./PopulationOptions";
 import { WHERE_OPERATOR } from "./constants";
@@ -20,7 +21,7 @@ export default class EventMinutesItemFileService extends ModelService {
         where(
           REF_PROPERTY_NAME.EventMinutesItemFileEventMinutesItemRef,
           WHERE_OPERATOR.eq,
-          eventMinutesItemId
+          doc(NetworkService.getDb(), COLLECTION_NAME.EventMinutesItem, eventMinutesItemId)
         ),
         orderBy("name"),
       ]

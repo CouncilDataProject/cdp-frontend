@@ -1,5 +1,6 @@
-import { where, orderBy, limit } from "@firebase/firestore";
+import { where, orderBy, limit, doc } from "@firebase/firestore";
 
+import { NetworkService } from "./NetworkService";
 import ModelService from "./ModelService";
 import {
   COLLECTION_NAME,
@@ -20,7 +21,11 @@ export default class TranscriptService extends ModelService {
     const networkQueryResponse = this.networkService.getDocuments(
       COLLECTION_NAME.Transcript,
       [
-        where(REF_PROPERTY_NAME.TranscriptSessionRef, WHERE_OPERATOR.eq, sessionId),
+        where(
+          REF_PROPERTY_NAME.TranscriptSessionRef,
+          WHERE_OPERATOR.eq,
+          doc(NetworkService.getDb(), COLLECTION_NAME.Session, sessionId)
+        ),
         orderBy("confidence", ORDER_DIRECTION.desc),
         limit(1),
       ],

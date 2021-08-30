@@ -61,6 +61,10 @@ export class NetworkService {
     return NetworkService.instance;
   }
 
+  public static getDb(): FirebaseFirestore {
+    return NetworkService.db;
+  }
+
   private collateDocumentData(
     cascade: Promise<NetworkResponse>[],
     refsToPopulate: string[],
