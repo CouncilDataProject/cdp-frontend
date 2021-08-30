@@ -1,31 +1,14 @@
-import { NetworkService } from "./NetworkService";
+import ModelService from "./ModelService";
 import { COLLECTION_NAME } from "./PopulationOptions";
 import Person from "../models/Person";
 
-export class PersonService {
-  networkService: NetworkService;
-
+export default class PersonService extends ModelService {
   constructor() {
-    this.networkService = NetworkService.getInstance();
+    super("Person", "PersonService");
   }
 
-  async getPerson(personId: string): Promise<Person> {
-    return this.networkService
-      .getDocument(personId, COLLECTION_NAME.Person, undefined)
-      .then((response) => {
-        if (response.error) {
-          return Promise.reject(response.error);
-        }
-        // we want to make a Person Model and have this return it
-        if (response.data) {
-          return Promise.resolve(new Person(response.data));
-        } else {
-          return Promise.reject(new Error("No data to create person."));
-        }
-      })
-      .catch((error) => {
-        error.messsage = `PersonService_getPerson_${error.message}`;
-        return Promise.reject(error);
-      });
+  async getPersonById(personId: string): Promise<Person> {
+    const networkResponse = this.networkService.getDocument(personId, COLLECTION_NAME.Person);
+    return this.createModel(networkResponse, Person, "getPersonById");
   }
 }

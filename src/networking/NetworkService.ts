@@ -12,21 +12,17 @@ import {
   Settings,
   collection,
   query,
-  where,
   getDocs,
-  orderBy,
-  limit,
-  startAt,
   DocumentData,
+  QueryConstraint,
 } from "firebase/firestore";
-import { NetworkResponse, ResponseData } from "./NetworkResponse";
+import { NetworkResponse, ResponseData, NetworkQueryResponse } from "./NetworkResponse";
 import {
   PopulationOptions,
   Populate,
   COLLECTION_NAME,
   getCollectionForReference,
 } from "./PopulationOptions";
-import { WhereCondition, OrderCondition, MAX_DOCUMENTS_NUM } from "./Database";
 
 export class NetworkService {
   private static instance: NetworkService;
@@ -132,29 +128,14 @@ export class NetworkService {
 
   public async getDocuments(
     collectionName: COLLECTION_NAME,
-    whereConditions: WhereCondition[],
-    orderConditions: OrderCondition[] = [],
-    maxDocumentsNum: number = MAX_DOCUMENTS_NUM,
-    startAtIndex = 0,
+    queryConstraints: QueryConstraint[],
     populationOptions?: PopulationOptions
-  ): Promise<NetworkResponse> {
+  ): Promise<NetworkQueryResponse> {
     //Get the collection ref
     const collectionRef = collection(NetworkService.db, collectionName);
-    //Create where constraints
-    const whereConstraints = whereConditions.map((wc) =>
-      where(wc.fieldPath, wc.whereOperator, wc.fieldValue)
-    );
-    //Create order constraints
-    const orderConstraints = orderConditions.map((oc) => orderBy(oc.fieldPath, oc.orderDirection));
     //Create the query
-    const q = query(
-      collectionRef,
-      ...whereConstraints,
-      ...orderConstraints,
-      limit(maxDocumentsNum),
-      startAt(startAtIndex)
-    );
-    const response = new NetworkResponse();
+    const q = query(collectionRef, ...queryConstraints);
+    const response = new NetworkQueryResponse();
     try {
       //Execute the query
       const querySnapshot = await getDocs(q);
@@ -187,8 +168,8 @@ export class NetworkService {
         });
         //Get all the network responses
         const networkRespones = await Promise.all(collatePromises);
-        //Collect only the response data
-        const collatedData = networkRespones.map(({ data }) => data);
+        //Collect only the response data, each response data is non-null
+        const collatedData = networkRespones.map(({ data }) => data as ResponseData);
         response.data = collatedData;
         //Return the response
         return Promise.resolve(response);
