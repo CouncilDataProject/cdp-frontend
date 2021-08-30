@@ -1,7 +1,9 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import Matter from "./Matter";
+import { Model } from "./Model";
 
-export default class MinutesItem {
+export default class MinutesItem implements Model {
+  id?: string;
   description?: string;
   external_source_id?: string;
   matter_ref?: string;
@@ -9,6 +11,10 @@ export default class MinutesItem {
   name?: string;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (jsonData["description"]) {
       this.description = jsonData["description"];
     }

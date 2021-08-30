@@ -2,8 +2,10 @@ import { ResponseData } from "../networking/NetworkResponse";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import File from "./File";
 import Session from "./Session";
+import { Model } from "./Model";
 
-export default class Transcript {
+export default class Transcript implements Model {
+  id?: string;
   confidence?: number;
   created?: Date;
   file_ref?: string;
@@ -12,6 +14,10 @@ export default class Transcript {
   session?: Session;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (jsonData["confidence"]) {
       this.confidence = jsonData["confidence"];
     }

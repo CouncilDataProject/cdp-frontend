@@ -2,8 +2,10 @@ import Matter from "./Matter";
 import { ResponseData } from "../networking/NetworkResponse";
 import EventMinutesItem from "./EventMinutesItem";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
+import { Model } from "./Model";
 
-export default class MatterStatus {
+export default class MatterStatus implements Model {
+  id?: string;
   event_minutes_item_ref?: string;
   event_minutes_item?: EventMinutesItem;
   external_source_id?: string;
@@ -13,6 +15,10 @@ export default class MatterStatus {
   update_datetime?: Date;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (
       jsonData["event_minutes_item_ref"] &&
       typeof jsonData["event_minutes_item_ref"] === "string"

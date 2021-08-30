@@ -1,7 +1,9 @@
 import Matter from "./Matter";
 import { ResponseData } from "../networking/NetworkResponse";
+import { Model } from "./Model";
 
-export default class MatterFile {
+export default class MatterFile implements Model {
+  id?: string;
   external_source_id?: string;
   matter_ref?: string;
   matter?: Matter;
@@ -9,6 +11,10 @@ export default class MatterFile {
   uri?: string;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (jsonData["external_source_id"]) {
       this.external_source_id = jsonData["external_source_id"];
     }

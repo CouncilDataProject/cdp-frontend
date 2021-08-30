@@ -1,8 +1,10 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import Event from "./Event";
+import { Model } from "./Model";
 
-export default class Session {
+export default class Session implements Model {
+  id?: string;
   caption_uri?: string;
   event_ref?: string;
   event?: Event;
@@ -12,6 +14,10 @@ export default class Session {
   video_uri?: string;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (jsonData["caption_uri"]) {
       this.caption_uri = jsonData["caption_uri"];
     }

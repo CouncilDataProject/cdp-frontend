@@ -1,7 +1,9 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import MinutesItem from "./MinutesItem";
+import { Model } from "./Model";
 
-export default class EventMinutesItemFile {
+export default class EventMinutesItemFile implements Model {
+  id?: string;
   event_minutes_item_ref?: string;
   event_minutes_item?: MinutesItem;
   external_source_id?: string;
@@ -9,6 +11,10 @@ export default class EventMinutesItemFile {
   uri?: string;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (
       jsonData["event_minutes_item_ref"] &&
       typeof jsonData["event_minutes_item_ref"] === "string"

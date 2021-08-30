@@ -10,8 +10,13 @@ import {
   doc,
   initializeFirestore,
   Settings,
+  collection,
+  query,
+  getDocs,
+  DocumentData,
+  QueryConstraint,
 } from "firebase/firestore";
-import { NetworkResponse, ResponseData } from "./NetworkResponse";
+import { NetworkResponse, ResponseData, NetworkQueryResponse } from "./NetworkResponse";
 import {
   PopulationOptions,
   Populate,
@@ -56,6 +61,10 @@ export class NetworkService {
     return NetworkService.instance;
   }
 
+  public static getDb(): FirebaseFirestore {
+    return NetworkService.db;
+  }
+
   private collateDocumentData(
     cascade: Promise<NetworkResponse>[],
     refsToPopulate: string[],
@@ -96,19 +105,20 @@ export class NetworkService {
           );
         }
         const data: ResponseData = docSnap.data();
+        data.id = docSnap.id;
         response.data = data;
         if (populationOptions && populationOptions.toPopulate) {
           const cascade: Promise<NetworkResponse>[] = [];
           const refsToPopulate: string[] = [];
           populationOptions.toPopulate.forEach((docRefToPopulate: Populate) => {
-            const refValueToPopulate = data[docRefToPopulate.refName];
+            const refValueToPopulate = data[docRefToPopulate.refName].id;
             const refsCollection = getCollectionForReference(docRefToPopulate.refName);
             if (refValueToPopulate && refsCollection) {
               cascade.push(
                 this.getDocument(refValueToPopulate, refsCollection, docRefToPopulate.cascade)
               );
+              refsToPopulate.push(docRefToPopulate.refName);
             }
-            refsToPopulate.push(docRefToPopulate.refName);
           });
           return this.collateDocumentData(cascade, refsToPopulate, response);
         } else {
@@ -119,5 +129,69 @@ export class NetworkService {
         response.error = error;
         return Promise.resolve(response);
       });
+  }
+
+  public async getDocuments(
+    collectionName: COLLECTION_NAME,
+    queryConstraints: QueryConstraint[],
+    populationOptions?: PopulationOptions
+  ): Promise<NetworkQueryResponse> {
+    //Get the collection ref
+    const collectionRef = collection(NetworkService.db, collectionName);
+    //Create the query
+    const q = query(collectionRef, ...queryConstraints);
+    const response = new NetworkQueryResponse();
+    try {
+      //Execute the query
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        throw new Error(`No ${collectionName}(s) found.`);
+      }
+      const querySnapshotData: DocumentData[] = [];
+      querySnapshot.forEach((doc) => {
+        //Get the data for each doc
+        const docData = doc.data();
+        docData.id = doc.id;
+        querySnapshotData.push(docData);
+      });
+      if (populationOptions && populationOptions.toPopulate) {
+        const collatePromises: Promise<NetworkResponse>[] = [];
+        querySnapshotData.forEach((doc) => {
+          //Create cascade for each doc
+          const cascade: Promise<NetworkResponse>[] = [];
+          const refsToPopulate: string[] = [];
+          const parent = new NetworkResponse();
+          parent.data = doc;
+          populationOptions?.toPopulate?.forEach((docRefToPopulate: Populate) => {
+            //Get the document reference id
+            const refValueToPopulate = doc[docRefToPopulate.refName].id;
+            const refsCollection = getCollectionForReference(docRefToPopulate.refName);
+            if (refValueToPopulate && refsCollection) {
+              //Add population to cascade
+              cascade.push(
+                this.getDocument(refValueToPopulate, refsCollection, docRefToPopulate.cascade)
+              );
+              refsToPopulate.push(docRefToPopulate.refName);
+            }
+          });
+          //Add collated document data promise for each doc
+          collatePromises.push(this.collateDocumentData(cascade, refsToPopulate, parent));
+        });
+        //Get all the network responses
+        const networkRespones = await Promise.all(collatePromises);
+        //Collect only the response data, each response data is non-null
+        const collatedData = networkRespones.map(({ data }) => data as ResponseData);
+        response.data = collatedData;
+        //Return the response
+        return Promise.resolve(response);
+      } else {
+        //Don't need to populate
+        response.data = querySnapshotData;
+        return Promise.resolve(response);
+      }
+    } catch (error) {
+      response.error = error;
+      return Promise.resolve(response);
+    }
   }
 }

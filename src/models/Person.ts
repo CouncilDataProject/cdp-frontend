@@ -1,7 +1,9 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import File from "./File";
+import { Model } from "./Model";
 
-class Person {
+class Person implements Model {
+  id?: string;
   name?: string;
   email?: string;
   phone?: string;
@@ -13,6 +15,10 @@ class Person {
   external_source_id?: string;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (jsonData["name"]) {
       this.name = jsonData["name"];
     }
