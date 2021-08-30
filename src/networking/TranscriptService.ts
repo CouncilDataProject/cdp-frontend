@@ -14,7 +14,7 @@ import Transcript from "../models/Transcript";
 
 export default class TranscriptService extends ModelService {
   constructor() {
-    super("Transcript", "TranscriptService");
+    super(COLLECTION_NAME.Transcript);
   }
 
   async getTranscriptBySessionId(sessionId: string): Promise<Transcript[]> {

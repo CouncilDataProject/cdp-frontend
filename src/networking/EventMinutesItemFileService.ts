@@ -9,7 +9,7 @@ import EventMinutesItemFile from "../models/EventMinutesItemFile";
 
 export default class EventMinutesItemFileService extends ModelService {
   constructor() {
-    super("EventMinutesItemFile", "EventMinutesItemFileService");
+    super(COLLECTION_NAME.EventMinutesItemFile);
   }
 
   async getEventMinutesItemFilesByEventMinutesItemId(

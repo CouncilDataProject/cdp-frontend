@@ -41,7 +41,7 @@ describe("ModelService", () => {
           "getEventById"
         );
       } catch (e) {
-        expect(e.message).toEqual("EventService_getEventById_No Event found.");
+        expect(e.message).toEqual("EventService_getEventById_No event found.");
       }
     });
   });

@@ -9,7 +9,7 @@ import Session from "../models/Session";
 
 export default class SessionService extends ModelService {
   constructor() {
-    super("Session", "SessionService");
+    super(COLLECTION_NAME.Session);
   }
 
   async getSessionsByEventId(eventId: string): Promise<Session[]> {

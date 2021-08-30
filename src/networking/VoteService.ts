@@ -14,7 +14,7 @@ import Vote from "../models/Vote";
 
 export default class VoteService extends ModelService {
   constructor() {
-    super("Vote", "VoteService");
+    super(COLLECTION_NAME.Vote);
   }
 
   async getVotesByEventId(eventId: string): Promise<Vote[]> {

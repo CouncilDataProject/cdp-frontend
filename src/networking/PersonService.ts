@@ -4,7 +4,7 @@ import Person from "../models/Person";
 
 export default class PersonService extends ModelService {
   constructor() {
-    super("Person", "PersonService");
+    super(COLLECTION_NAME.Person);
   }
 
   async getPersonById(personId: string): Promise<Person> {

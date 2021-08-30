@@ -10,7 +10,7 @@ import Event from "../models/Event";
 
 export default class EventService extends ModelService {
   constructor() {
-    super("Event", "EventService");
+    super(COLLECTION_NAME.Event);
   }
 
   async getEventById(eventId: string): Promise<Event> {

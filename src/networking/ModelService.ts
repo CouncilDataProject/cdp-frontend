@@ -8,10 +8,14 @@ export default class ModelService {
   private modelName: string;
   private serviceName: string;
 
-  constructor(modelName: string, serviceName: string) {
+  constructor(modelName: string) {
     this.networkService = NetworkService.getInstance();
     this.modelName = modelName;
-    this.serviceName = serviceName;
+    const modelNamePascalCase = modelName
+      .split("_")
+      .map((el) => el[0].toUpperCase() + el.slice(1))
+      .join("");
+    this.serviceName = `${modelNamePascalCase}Service`;
   }
 
   async createModel(

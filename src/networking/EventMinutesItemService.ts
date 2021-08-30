@@ -14,7 +14,7 @@ import EventMinutesItem from "../models/EventMinutesItem";
 
 export default class EventMinutesItemService extends ModelService {
   constructor() {
-    super("EventMinutesItem", "EventMinutesItemService");
+    super(COLLECTION_NAME.EventMinutesItem);
   }
 
   async getEventMinutesItemsByEventId(eventId: string): Promise<EventMinutesItem[]> {
