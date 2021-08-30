@@ -16,6 +16,6 @@ export default class SessionService extends ModelService {
       where(REF_PROPERTY_NAME.SessionEventRef, WHERE_OPERATOR.eq, eventId),
       orderBy("session_index"),
     ]);
-    return this.createModels(networkQueryResponse, Session, "getSessionsByEventId");
+    return this.createModels(networkQueryResponse, Session, `getSessionsByEventId(${eventId})`);
   }
 }

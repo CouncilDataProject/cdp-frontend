@@ -28,7 +28,7 @@ export default class EventMinutesItemFileService extends ModelService {
     return this.createModels(
       networkQueryResponse,
       EventMinutesItemFile,
-      "getEventMinutesItemFilesByEventMinutesItemId"
+      `getEventMinutesItemFilesByEventMinutesItemId(${eventMinutesItemId})`
     );
   }
 }

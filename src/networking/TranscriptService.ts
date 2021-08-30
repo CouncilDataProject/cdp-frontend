@@ -28,6 +28,10 @@ export default class TranscriptService extends ModelService {
         new Populate(COLLECTION_NAME.File, REF_PROPERTY_NAME.TranscriptFileRef),
       ])
     );
-    return this.createModels(networkQueryResponse, Transcript, "getTranscriptBySessionId");
+    return this.createModels(
+      networkQueryResponse,
+      Transcript,
+      `getTranscriptBySessionId(${sessionId})`
+    );
   }
 }

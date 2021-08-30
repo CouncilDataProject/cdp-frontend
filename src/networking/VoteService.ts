@@ -22,6 +22,6 @@ export default class VoteService extends ModelService {
       [where(REF_PROPERTY_NAME.VoteEventRef, WHERE_OPERATOR.eq, eventId)],
       new PopulationOptions([new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.VotePersonRef)])
     );
-    return this.createModels(networkQueryResponse, Vote, "getVotesByEventId");
+    return this.createModels(networkQueryResponse, Vote, `getVotesByEventId(${eventId})`);
   }
 }

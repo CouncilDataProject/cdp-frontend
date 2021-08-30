@@ -37,7 +37,7 @@ export default class EventMinutesItemService extends ModelService {
     return this.createModels(
       networkQueryResponse,
       EventMinutesItem,
-      "getEventMinutesItemsByEventId"
+      `getEventMinutesItemsByEventId(${eventId})`
     );
   }
 }

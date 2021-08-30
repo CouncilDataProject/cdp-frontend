@@ -9,6 +9,6 @@ export default class PersonService extends ModelService {
 
   async getPersonById(personId: string): Promise<Person> {
     const networkResponse = this.networkService.getDocument(personId, COLLECTION_NAME.Person);
-    return this.createModel(networkResponse, Person, "getPersonById");
+    return this.createModel(networkResponse, Person, `getPersonById(${personId})`);
   }
 }

@@ -19,6 +19,6 @@ export default class EventService extends ModelService {
       COLLECTION_NAME.Event,
       new PopulationOptions([new Populate(COLLECTION_NAME.Body, REF_PROPERTY_NAME.EventBodyRef)])
     );
-    return this.createModel(networkResponse, Event, "getEventById");
+    return this.createModel(networkResponse, Event, `getEventById(${eventId})`);
   }
 }
