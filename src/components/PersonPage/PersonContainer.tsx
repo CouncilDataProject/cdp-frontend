@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Person from "../../models/Person";
-import { PersonService } from "../../networking/PersonService";
+import PersonService from "../../networking/PersonService";
 import { useLocation } from "react-router-dom";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
@@ -19,7 +19,7 @@ const PersonContainer = ({ testPerson }: PersonContainerProps) => {
     const fetchData = async () => {
       const slug = useLocation().pathname.replace("/", "");
       try {
-        const result = await personService.getPerson(slug);
+        const result = await personService.getPersonById(slug);
         setPerson(result);
         setError(undefined);
       } catch (networkError) {
