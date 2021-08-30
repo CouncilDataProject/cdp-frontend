@@ -3,6 +3,7 @@ import Event from "./Event";
 import { Model } from "./Model";
 
 export default class IndexedEventGram implements Model {
+  id?: string;
   context_span?: string;
   datetime_weighted_value?: number;
   event_ref?: string;
@@ -12,6 +13,10 @@ export default class IndexedEventGram implements Model {
   value?: number;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (jsonData["context_span"]) {
       this.context_span = jsonData["context_span"];
     }

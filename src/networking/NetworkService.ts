@@ -101,12 +101,13 @@ export class NetworkService {
           );
         }
         const data: ResponseData = docSnap.data();
+        data.id = docSnap.id;
         response.data = data;
         if (populationOptions && populationOptions.toPopulate) {
           const cascade: Promise<NetworkResponse>[] = [];
           const refsToPopulate: string[] = [];
           populationOptions.toPopulate.forEach((docRefToPopulate: Populate) => {
-            const refValueToPopulate = data[docRefToPopulate.refName];
+            const refValueToPopulate = data[docRefToPopulate.refName].id;
             const refsCollection = getCollectionForReference(docRefToPopulate.refName);
             if (refValueToPopulate && refsCollection) {
               cascade.push(
@@ -145,7 +146,9 @@ export class NetworkService {
       const querySnapshotData: DocumentData[] = [];
       querySnapshot.forEach((doc) => {
         //Get the data for each doc
-        querySnapshotData.push(doc.data());
+        const docData = doc.data();
+        docData.id = doc.id;
+        querySnapshotData.push(docData);
       });
       if (populationOptions && populationOptions.toPopulate) {
         const collatePromises: Promise<NetworkResponse>[] = [];
@@ -156,7 +159,8 @@ export class NetworkService {
           const parent = new NetworkResponse();
           parent.data = doc;
           populationOptions?.toPopulate?.forEach((docRefToPopulate: Populate) => {
-            const refValueToPopulate = doc[docRefToPopulate.refName];
+            //Get the document reference id
+            const refValueToPopulate = doc[docRefToPopulate.refName].id;
             const refsCollection = getCollectionForReference(docRefToPopulate.refName);
             if (refValueToPopulate && refsCollection) {
               //Add population to cascade

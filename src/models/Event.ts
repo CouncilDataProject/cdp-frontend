@@ -5,6 +5,7 @@ import Body from "./Body";
 import { Model } from "./Model";
 
 class Event implements Model {
+  id?: string;
   agenda_uri?: string;
   body_ref?: string;
   body?: Body;
@@ -17,6 +18,9 @@ class Event implements Model {
   static_thumbnail?: File;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
     if (jsonData["agenda_uri"]) {
       this.agenda_uri = jsonData["agenda_uri"];
     }

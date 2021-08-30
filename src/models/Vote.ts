@@ -6,6 +6,7 @@ import Matter from "./Matter";
 import { Model } from "./Model";
 
 export default class Vote implements Model {
+  id?: string;
   decision?: string;
   event_minutes_item_ref?: string;
   event_minutes_item?: EventMinutesItem;
@@ -19,6 +20,10 @@ export default class Vote implements Model {
   person?: Person;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (jsonData["decision"]) {
       this.decision = jsonData["decision"];
     }

@@ -3,6 +3,7 @@ import { Model } from "./Model";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 
 export default class Body implements Model {
+  id?: string;
   description?: string;
   end_datetime?: Date;
   external_source_id?: string;
@@ -11,6 +12,9 @@ export default class Body implements Model {
   start_datetime?: Date;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
     if (jsonData["description"]) {
       this.description = jsonData["description"];
     }

@@ -4,6 +4,7 @@ import MinutesItem from "./MinutesItem";
 import { Model } from "./Model";
 
 export default class EventMinutesItem implements Model {
+  id?: string;
   decision?: string;
   event_ref?: string;
   event?: Event;
@@ -13,6 +14,10 @@ export default class EventMinutesItem implements Model {
   minutes_item?: MinutesItem;
 
   constructor(jsonData: ResponseData) {
+    if (jsonData["id"]) {
+      this.id = jsonData["id"];
+    }
+
     if (jsonData["decision"]) {
       this.decision = jsonData["decision"];
     }
