@@ -16,6 +16,7 @@ const Template: Story<TranscriptFullProps> = (args) => <TranscriptFull {...args}
 export const Default = Template.bind({});
 Default.args = {
   sentences: Array.from({ length: 20 }).map((_, i) => ({
+    sessionIndex: 0,
     index: i,
     start_time: i,
     text: `This is a sentence${i}.`,
@@ -27,5 +28,5 @@ Default.args = {
     },
   })),
   transcriptItemsRefs: Array.from({ length: 20 }).map(() => createRef<TranscriptItemRef>()),
-  jumpToVideoClip: (startTime) => action(`jump to video clip at ${startTime}`),
+  jumpToVideoClip: (_, startTime) => action(`jump to video clip at ${startTime}`),
 };

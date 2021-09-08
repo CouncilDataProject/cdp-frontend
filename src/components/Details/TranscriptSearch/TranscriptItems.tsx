@@ -11,13 +11,13 @@ import {
 import { TranscriptItem } from "../TranscriptItem";
 
 import secondsToHHMMSS from "../../../utils/secondsToHHMMSS";
-import { Sentence } from "../../Shared/Types/Transcript";
+import { SentenceWithSessionIndex } from "../../../containers/EventContainer/types";
 
 interface TranscriptItemsProps {
   searchQuery: string;
-  sentences: Sentence[];
-  jumpToVideoClip(startTime: number): void;
-  jumpToTranscript(index: number): void;
+  sentences: SentenceWithSessionIndex[];
+  jumpToVideoClip(sessionIndex: number, startTime: number): void;
+  jumpToTranscript(sentenceIndex: number): void;
 }
 
 const TranscriptItems: FC<TranscriptItemsProps> = ({
@@ -27,11 +27,16 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
   jumpToTranscript,
 }: TranscriptItemsProps) => {
   /**Creates a function that handles jumping to video clip at startTime */
-  const handleJumpToVideoClip = (startTime: number) => () => jumpToVideoClip(startTime);
+  const handleJumpToVideoClip = (sessionIndex: number, startTime: number) => () =>
+    jumpToVideoClip(sessionIndex, startTime);
   /**Creates a function that handles jumping to video clip at startTime and jumping to index-th sentence in full transcript */
-  const handleJumpToTranscript = (index: number, startTime: number) => () => {
-    jumpToVideoClip(startTime);
-    jumpToTranscript(index);
+  const handleJumpToTranscript = (
+    sentenceIndex: number,
+    sessionIndex: number,
+    startTime: number
+  ) => () => {
+    jumpToVideoClip(sessionIndex, startTime);
+    jumpToTranscript(sentenceIndex);
   };
   // Stores the CellMeasurer's measurements of all transcript items
   const cache = new CellMeasurerCache({
@@ -57,11 +62,18 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
             speakerName={sentences[index].speaker.name}
             text={sentences[index].text}
             startTime={secondsToHHMMSS(sentences[index].start_time)}
-            handleJumpToVideoClip={handleJumpToVideoClip(sentences[index].start_time)}
+            handleJumpToVideoClip={handleJumpToVideoClip(
+              sentences[index].sessionIndex,
+              sentences[index].start_time
+            )}
             searchQuery={searchQuery}
             speakerId={sentences[index].speaker.id}
             speakerPictureSrc={sentences[index].speaker.pictureSrc}
-            handleJumpToTranscript={handleJumpToTranscript(index, sentences[index].start_time)}
+            handleJumpToTranscript={handleJumpToTranscript(
+              index,
+              sentences[index].sessionIndex,
+              sentences[index].start_time
+            )}
           />
         </div>
       </div>
