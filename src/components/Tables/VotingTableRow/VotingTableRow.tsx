@@ -4,11 +4,11 @@ import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
-import { useMediaQuery } from "react-responsive";
+import useMediaQuery from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { ReactiveTableRow } from "../ReactiveTableRow";
+import { Link } from "react-router-dom";
 
-const Link = require("react-router-dom").Link;
 type VotingTableRowProps = {
   /** the name of the matter that was voted on */
   legislationName: string;
@@ -50,7 +50,7 @@ const VotingTableRow = ({
   const legislationTagsString =
     legislationTags && legislationTags.length > 0 ? legislationTags.join(TAG_CONNECTOR) : "";
   const dateText = meetingDate?.toDateString();
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
+  const isMobile = new useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   return (
     <ReactiveTableRow

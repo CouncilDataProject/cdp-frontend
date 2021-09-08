@@ -3,7 +3,7 @@ import AdoptedIcon from "./AdoptedIcon";
 import RejectedIcon from "./RejectedIcon";
 import InProgressIcon from "./InProgressIcon";
 import AbstainIcon from "../Shared/AbstainIcon";
-import { useMediaQuery } from "react-responsive";
+import useMediaQuery from "react-responsive";
 import { screenWidths } from "../../styles/mediaBreakpoints";
 import { MATTER_STATUS_DECISION } from "../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../constants/ProjectConstants";
@@ -40,7 +40,7 @@ const DecisionResult = ({ result }: DecisionResultProps) => {
       break;
   }
 
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
+  const isMobile = new useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   if (isMobile) {
     return (
