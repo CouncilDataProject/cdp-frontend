@@ -22,9 +22,10 @@ enum KeyBoardKey {
 
 const SKIP_SECONDS = 10;
 
-/**Public API with seekTo method */
+/**Public API with seekTo and pause methods */
 export interface EventVideoRef {
   seekTo(seconds: number): void;
+  pause(): void;
 }
 
 export interface EventVideoProps {
@@ -52,6 +53,8 @@ const EventVideo: FC<EventVideoProps> = ({
         videoJsPlayerRef.current?.play();
       }
     },
+    /**Implement componentRef.seekTo by using videoJsPlayerRef.pause method */
+    pause: () => videoJsPlayerRef.current?.pause(),
   }));
   const VideoHtml = () => (
     <div data-vjs-player>
