@@ -47,6 +47,7 @@ const ReactiveTableRow = ({
           const columnName = columnNames ? columnNames[index] : "";
           return (
             <div
+              key={index}
               style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -80,7 +81,11 @@ const ReactiveTableRow = ({
       >
         {children?.map((childElement, index) => {
           const width = columnDistribution ? columnDistribution[index] : "0%";
-          return <div style={{ width }}>{childElement}</div>;
+          return (
+            <div key={index} style={{ width }}>
+              {childElement}
+            </div>
+          );
         })}
       </div>
     );
