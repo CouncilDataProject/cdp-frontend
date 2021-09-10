@@ -28,13 +28,13 @@ const TranscriptFull: FC<TranscriptFullProps> = ({
       {sentences.map((sentence, i) => (
         <TranscriptItem
           key={sentence.index}
-          speakerName={sentence.speaker.name}
+          speakerName={sentence.speaker_name}
           text={sentence.text}
           startTime={secondsToHHMMSS(sentence.start_time)}
-          handleJumpToVideoClip={handleJumpToVideoClip(sentence.sessionIndex, sentence.start_time)}
+          handleJumpToVideoClip={handleJumpToVideoClip(sentence.session_index, sentence.start_time)}
           searchQuery=""
-          speakerId={sentence.speaker.id}
-          speakerPictureSrc={sentence.speaker.pictureSrc}
+          speakerId={sentence.speaker_id}
+          speakerPictureSrc={sentence.speaker_pictureSrc}
           componentRef={transcriptItemsRefs[i]}
         />
       ))}

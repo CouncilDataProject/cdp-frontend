@@ -25,12 +25,11 @@ for (let sessionIndex = 0; sessionIndex < 3; sessionIndex++) {
       index: sessionIndex * 10 + sentenceIndex,
       start_time: sentenceIndex,
       text: `This is a sentence ${sessionIndex * 10 + sentenceIndex}.`,
-      speaker: {
-        index: sentenceIndex,
-        name: "Lisa Herbold",
-        id: "lisa-herbold",
-        pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-      },
+      speaker_index: sentenceIndex,
+      speaker_name: "Lisa Herbold",
+      speaker_id: "lisa-herbold",
+      speaker_pictureSrc:
+        "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
     });
   }
 }

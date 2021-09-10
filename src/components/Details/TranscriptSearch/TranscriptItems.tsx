@@ -59,19 +59,19 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
       <div style={style} role="row">
         <div style={{ margin: "0 0 16px 0" }} role="cell">
           <TranscriptItem
-            speakerName={sentences[index].speaker.name}
+            speakerName={sentences[index].speaker_name}
             text={sentences[index].text}
             startTime={secondsToHHMMSS(sentences[index].start_time)}
             handleJumpToVideoClip={handleJumpToVideoClip(
-              sentences[index].sessionIndex,
+              sentences[index].session_index,
               sentences[index].start_time
             )}
             searchQuery={searchQuery}
-            speakerId={sentences[index].speaker.id}
-            speakerPictureSrc={sentences[index].speaker.pictureSrc}
+            speakerId={sentences[index].speaker_id}
+            speakerPictureSrc={sentences[index].speaker_pictureSrc}
             handleJumpToTranscript={handleJumpToTranscript(
               index,
-              sentences[index].sessionIndex,
+              sentences[index].session_index,
               sentences[index].start_time
             )}
           />
