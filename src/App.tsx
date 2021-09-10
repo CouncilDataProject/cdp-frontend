@@ -6,7 +6,9 @@ import { strings } from "./assets/LocalizedStrings";
 import EventSearchService from "./networking/EventSearchService";
 
 const service = new EventSearchService();
-service.searchEvents("residential zoning and housing affordability");
+service.searchEvents("residential zoning and housing affordability").then((events) => {
+  console.log(events);
+});
 
 function App() {
   return (
