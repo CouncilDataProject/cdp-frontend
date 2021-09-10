@@ -47,9 +47,9 @@ interface TranscriptSearchProps {
   /**The sentences of the transcript */
   sentences: SentenceWithSessionIndex[];
   /**Callback to play video clip */
-  jumpToVideoClip(session: number, startTime: number): void;
+  jumpToVideoClip(sessionIndex: number, startTime: number): void;
   /**Callback to jump to sentence in the full transcript component */
-  jumpToTranscript(index: number): void;
+  jumpToTranscript(sentenceIndex: number): void;
 }
 
 /**Transcript search. Note: On deskop, the parent of this component should have enough height

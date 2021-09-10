@@ -16,16 +16,15 @@ const Template: Story<TranscriptFullProps> = (args) => <TranscriptFull {...args}
 export const Default = Template.bind({});
 Default.args = {
   sentences: Array.from({ length: 20 }).map((_, i) => ({
-    sessionIndex: 0,
+    session_index: 0,
     index: i,
     start_time: i,
     text: `This is a sentence${i}.`,
-    speaker: {
-      index: i,
-      name: "Lisa Herbold",
-      id: "lisa-herbold",
-      pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-    },
+    speaker_index: i,
+    speaker_name: "Lisa Herbold",
+    speaker_id: "lisa-herbold",
+    speaker_pictureSrc:
+      "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
   })),
   transcriptItemsRefs: Array.from({ length: 20 }).map(() => createRef<TranscriptItemRef>()),
   jumpToVideoClip: (_, startTime) => action(`jump to video clip at ${startTime}`),

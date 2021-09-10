@@ -1,9 +1,5 @@
 import React from "react";
 import { Story, Meta } from "@storybook/react";
-import { Timestamp } from "firebase/firestore";
-
-import Event from "../../models/Event";
-import Body from "../../models/Body";
 
 import EventContainer, { EventContainerProps } from "./EventContainer";
 
@@ -26,20 +22,17 @@ for (let sessionIndex = 0; sessionIndex < 3; sessionIndex++) {
       start_time: sentenceIndex,
       text: `This is a sentence ${sessionIndex * 10 + sentenceIndex}.`,
       speaker_index: sentenceIndex,
-      speaker_name: "Lisa Herbold",
-      speaker_id: "lisa-herbold",
-      speaker_pictureSrc:
-        "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
+      speaker_name: `Speaker ${sentenceIndex}`,
     });
   }
 }
 
 export const Default = Template.bind({});
 Default.args = {
-  event: new Event({
-    body_ref: new Body({ name: "City Council" }),
-    event_datetime: new Timestamp(1, 1),
-  }),
+  event: {
+    body: { name: "City Council" },
+    event_datetime: new Date(),
+  },
   sessions: [
     {
       video_uri: "https://video.seattle.gov/media/council/council_113020_2022091V.mp4",

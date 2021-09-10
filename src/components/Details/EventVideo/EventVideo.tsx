@@ -53,7 +53,7 @@ const EventVideo: FC<EventVideoProps> = ({
         videoJsPlayerRef.current?.play();
       }
     },
-    /**Implement componentRef.seekTo by using videoJsPlayerRef.pause method */
+    /**Implement componentRef.pause by using videoJsPlayerRef.pause method */
     pause: () => videoJsPlayerRef.current?.pause(),
   }));
   const VideoHtml = () => (
