@@ -143,7 +143,7 @@ export default class EventSearchService {
             if (indexedGram.event !== undefined) {
               if (indexedGram.event.id !== undefined) {
                 // Get or update matching event list
-                let currentGramsForEvent = matchingEvents.get(indexedGram.event.id);
+                const currentGramsForEvent = matchingEvents.get(indexedGram.event.id);
                 if (currentGramsForEvent === undefined) {
                   matchingEvents.set(indexedGram.event.id, [indexedGram]);
                 } else {
@@ -164,7 +164,7 @@ export default class EventSearchService {
       });
 
       // Compile results into MatchingEvents object
-      for (let [eventId, matchingIndexedEventGrams] of matchingEvents) {
+      for (const [eventId, matchingIndexedEventGrams] of matchingEvents) {
         // Get gram with highest value for event
         const matchingGramWithHighestValue = matchingIndexedEventGrams.reduce((prev, current) => {
           if (prev.value !== undefined && current.value !== undefined) {
