@@ -2,18 +2,12 @@ import React, { createRef, FC, useState, useRef, useEffect } from "react";
 
 import styled from "@emotion/styled";
 
-import Event from "../../models/Event";
-import Session from "../../models/Session";
-import EventMinutesItem from "../../models/EventMinutesItem";
-import EventMinutesItemFile from "../../models/EventMinutesItemFile";
-import Vote from "../../models/Vote";
-
 import { EventVideoRef } from "../../components/Details/EventVideo/EventVideo";
 import { TranscriptSearch } from "../../components/Details/TranscriptSearch";
 import { TranscriptItemRef } from "../../components/Details/TranscriptItem/TranscriptItem";
 import SessionsVideos from "./SessionsVideos";
 import EventInfoTabs from "./EventInfoTabs";
-import { SentenceWithSessionIndex } from "./types";
+import { EventData } from "./types";
 
 import { screenWidths } from "../../styles/mediaBreakpoints";
 
@@ -47,19 +41,7 @@ const ResponsiveItem = styled.div<ResponsiveItemProps>((props) => ({
   },
 }));
 
-export interface EventContainerProps {
-  /**The event */
-  event: Event;
-  /** Session of the event */
-  sessions: Session[];
-  /** Sentences for the event */
-  sentences: SentenceWithSessionIndex[];
-  /** Event minutes items of the event */
-  eventMinutesItems: EventMinutesItem[];
-  /** Event minutes items files */
-  eventMinutesItemsFiles: EventMinutesItemFile[][];
-  /** Votes for the event */
-  votes: Vote[][];
+export interface EventContainerProps extends EventData {
   /** The search query used to find the event */
   searchQuery?: string;
 }
