@@ -2,6 +2,7 @@ import React, { FC, Dispatch, SetStateAction, RefObject } from "react";
 
 import { TabProps } from "semantic-ui-react";
 
+import EventMinutesItem from "../../models/EventMinutesItem";
 import EventMinutesItemFile from "../../models/EventMinutesItemFile";
 import Vote from "../../models/Vote";
 
@@ -11,15 +12,16 @@ import { MinutesItemsList } from "../../components/Details/MinutesItemsList";
 import { MeetingVotesTable } from "../../components/Tables/MeetingVotesTable";
 import ResponsiveTab from "../../components/Shared/ResponsiveTab";
 
-import { ExtentededEventMinutesItem, SentenceWithSessionIndex } from "./types";
+import { SentenceWithSessionIndex } from "./types";
 import { screenWidths } from "../../styles/mediaBreakpoints";
+
 interface EventInfoTabsProps {
   currentInfoTab: number;
   setCurrentInfoTab: Dispatch<SetStateAction<number>>;
   sentences: SentenceWithSessionIndex[];
 
   transcriptItemsRefs: RefObject<TranscriptItemRef>[];
-  eventMinutesItems: ExtentededEventMinutesItem[];
+  eventMinutesItems: EventMinutesItem[];
   eventMinutesItemsFiles: EventMinutesItemFile[][];
   votes: Vote[][];
   jumpToVideoClip(sessionIndex: number, startTime: number): void;
