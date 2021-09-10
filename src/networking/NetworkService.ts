@@ -16,6 +16,7 @@ import {
   DocumentData,
   QueryConstraint,
 } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { NetworkResponse, ResponseData, NetworkQueryResponse } from "./NetworkResponse";
 import {
   PopulationOptions,
@@ -23,6 +24,7 @@ import {
   COLLECTION_NAME,
   getCollectionForReference,
 } from "./PopulationOptions";
+import { createError } from "../utils/createError";
 
 export class NetworkService {
   private static instance: NetworkService;
@@ -190,7 +192,27 @@ export class NetworkService {
         return Promise.resolve(response);
       }
     } catch (error) {
+      response.error = createError(error);
+      return Promise.resolve(response);
+    }
+  }
+
+  /** Download json from the given uri in firestorage */
+  async downloadJson(uri: string): Promise<NetworkResponse> {
+    const storage = getStorage();
+    const pathReference = ref(storage, uri);
+    const response = new NetworkResponse();
+    try {
+      const url = await getDownloadURL(pathReference);
+      const file = await fetch(url).then((res) => res.json());
+      if (!file) {
+        throw new Error(`No JSON found for uri: ${uri}`);
+      }
+      response.data = file;
+    } catch (err) {
+      const error = createError(err);
       response.error = error;
+    } finally {
       return Promise.resolve(response);
     }
   }
