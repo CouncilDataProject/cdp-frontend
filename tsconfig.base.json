@@ -6,12 +6,12 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "lib": ["DOM", "ES2015", "ES6", "DOM.Iterable", "ScriptHost"],
+    "lib": ["DOM", "ES2020", "ES6", "DOM.Iterable", "ScriptHost"],
     "moduleResolution": "Node",
     "preserveConstEnums": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ES5",
+    "target": "ES6",
     "resolveJsonModule": true
   },
   "include": [

@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   entry: "./src/index.ts",
   output: {
+    publicPath: "",
     filename: "index.js",
     library: "CDPFrontend", // TODO CHANGEME
     libraryTarget: "umd",
