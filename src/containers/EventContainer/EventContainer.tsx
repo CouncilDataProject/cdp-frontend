@@ -3,17 +3,17 @@ import React, { createRef, FC, useState, useRef, useEffect } from "react";
 import styled from "@emotion/styled";
 
 import Event from "../../models/Event";
+import Session from "../../models/Session";
+import EventMinutesItem from "../../models/EventMinutesItem";
+import EventMinutesItemFile from "../../models/EventMinutesItemFile";
+import Vote from "../../models/Vote";
 
 import { EventVideoRef } from "../../components/Details/EventVideo/EventVideo";
 import { TranscriptSearch } from "../../components/Details/TranscriptSearch";
 import { TranscriptItemRef } from "../../components/Details/TranscriptItem/TranscriptItem";
 import SessionsVideos from "./SessionsVideos";
 import EventInfoTabs from "./EventInfoTabs";
-import {
-  ExtentededEventMinutesItem,
-  SentenceWithSessionIndex,
-  SessionWithSentences,
-} from "./types";
+import { SentenceWithSessionIndex } from "./types";
 
 import { screenWidths } from "../../styles/mediaBreakpoints";
 
@@ -51,9 +51,15 @@ export interface EventContainerProps {
   /**The event */
   event: Event;
   /** Session of the event */
-  sessions: SessionWithSentences[];
-  /** Event minutes itesm of the event */
-  eventMinutesItems: ExtentededEventMinutesItem[];
+  sessions: Session[];
+  /** Sentences for the event */
+  sentences: SentenceWithSessionIndex[];
+  /** Event minutes items of the event */
+  eventMinutesItems: EventMinutesItem[];
+  /** Event minutes items files */
+  eventMinutesItemsFiles: EventMinutesItemFile[][];
+  /** Votes for the event */
+  votes: Vote[][];
   /** The search query used to find the event */
   searchQuery?: string;
 }
@@ -61,7 +67,10 @@ export interface EventContainerProps {
 const EventContainer: FC<EventContainerProps> = ({
   event,
   sessions,
+  sentences,
   eventMinutesItems,
+  eventMinutesItemsFiles,
+  votes,
   searchQuery,
 }: EventContainerProps) => {
   // The current video session that is visible
@@ -82,23 +91,8 @@ const EventContainer: FC<EventContainerProps> = ({
     sessionVideoRefs.current[nextSessionIndex].current?.seekTo(startTime);
   };
 
-  // Extending sentences with sessionIndex field
-  const sentencesWithSessionIndex: SentenceWithSessionIndex[] = [];
-  sessions.forEach(({ sentences }, i) => {
-    sentencesWithSessionIndex.push(
-      ...sentences.map((sentence) => {
-        return {
-          ...sentence,
-          sessionIndex: i,
-        };
-      })
-    );
-  });
-
   //Create the TranscriptItemsRefs to create jumpToTranscript callback
-  const transcriptItemsRefs = useRef(
-    sentencesWithSessionIndex.map(() => createRef<TranscriptItemRef>())
-  );
+  const transcriptItemsRefs = useRef(sentences.map(() => createRef<TranscriptItemRef>()));
   const [currentTranscriptItem, setCurrentTranscriptItem] = useState<number>();
   const jumpToTranscript = (sentenceIndex: number) => {
     if (currentInfoTab !== 1) {
@@ -143,7 +137,7 @@ const EventContainer: FC<EventContainerProps> = ({
       <ResponsiveItem width="47%">
         <TranscriptSearch
           searchQuery={searchQuery || ""}
-          sentences={sentencesWithSessionIndex}
+          sentences={sentences}
           jumpToVideoClip={jumpToVideoClip}
           jumpToTranscript={jumpToTranscript}
         />
@@ -152,9 +146,11 @@ const EventContainer: FC<EventContainerProps> = ({
         <EventInfoTabs
           currentInfoTab={currentInfoTab}
           setCurrentInfoTab={setCurrentInfoTab}
-          eventMinutesItems={eventMinutesItems}
-          sentences={sentencesWithSessionIndex}
+          sentences={sentences}
           transcriptItemsRefs={transcriptItemsRefs.current}
+          eventMinutesItems={eventMinutesItems}
+          eventMinutesItemsFiles={eventMinutesItemsFiles}
+          votes={votes}
           jumpToVideoClip={jumpToVideoClip}
         />
       </div>

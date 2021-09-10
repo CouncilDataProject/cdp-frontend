@@ -8,6 +8,7 @@ import Body from "../../models/Body";
 import EventContainer, { EventContainerProps } from "./EventContainer";
 
 import { MATTER_STATUS_DECISION, VOTE_DECISION } from "../../constants/ProjectConstants";
+import { SentenceWithSessionIndex } from "./types";
 
 export default {
   component: EventContainer,
@@ -15,6 +16,24 @@ export default {
 } as Meta;
 
 const Template: Story<EventContainerProps> = (args) => <EventContainer {...args} />;
+
+const sentences: SentenceWithSessionIndex[] = [];
+for (let sessionIndex = 0; sessionIndex < 3; sessionIndex++) {
+  for (let sentenceIndex = 0; sentenceIndex < 10; sentenceIndex++) {
+    sentences.push({
+      session_index: sessionIndex,
+      index: sessionIndex * 10 + sentenceIndex,
+      start_time: sentenceIndex,
+      text: `This is a sentence ${sessionIndex * 10 + sentenceIndex}.`,
+      speaker: {
+        index: sentenceIndex,
+        name: "Lisa Herbold",
+        id: "lisa-herbold",
+        pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
+      },
+    });
+  }
+}
 
 export const Default = Template.bind({});
 Default.args = {
@@ -27,90 +46,64 @@ Default.args = {
       video_uri: "https://video.seattle.gov/media/council/council_113020_2022091V.mp4",
       session_index: 1,
       session_datetime: new Date(0),
-      sentences: Array.from({ length: 10 }).map((_, i) => ({
-        index: i,
-        start_time: i,
-        text: `This is a sentence${i}.`,
-        speaker: {
-          index: i,
-          name: "Lisa Herbold",
-          id: "lisa-herbold",
-          pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-        },
-      })),
     },
     {
       video_uri: "https://video.seattle.gov/media/council/econ_090821_2602120V.mp4",
       session_index: 2,
       session_datetime: new Date(3600000),
-      sentences: Array.from({ length: 10 }).map((_, i) => ({
-        index: 10 + i,
-        start_time: i,
-        text: `This is a sentence ${10 + i}.`,
-        speaker: {
-          index: i,
-          name: "Lisa Herbold",
-          id: "lisa-herbold",
-          pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-        },
-      })),
     },
     {
       video_uri: "https://video.seattle.gov/media/council/council_072621_2022159V.mp4",
       session_index: 3,
       session_datetime: new Date(2 * 3600000),
-      sentences: Array.from({ length: 10 }).map((_, i) => ({
-        index: 20 + i,
-        start_time: i,
-        text: `This is a sentence ${20 + i}.`,
-        speaker: {
-          index: i,
-          name: "Lisa Herbold",
-          id: "lisa-herbold",
-          pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-        },
-      })),
     },
   ],
+  sentences: sentences,
   eventMinutesItems: [
     {
       minutes_item: { name: "test" },
     },
     {
       minutes_item: { name: "test2", description: "test desc", matter: { id: "matter-id" } },
-      files: [
-        {
-          name: "file name",
-          uri: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-        },
-      ],
       decision: MATTER_STATUS_DECISION.REJECTED,
-      votes: [
-        {
-          id: "1",
-          decision: VOTE_DECISION.APPROVE,
-          person: {
-            id: "1",
-            name: "person name 1",
-          },
-        },
-        {
-          id: "2",
-          decision: VOTE_DECISION.REJECT,
-          person: {
-            id: "2",
-            name: "person name 2",
-          },
-        },
-        {
-          id: "3",
-          decision: VOTE_DECISION.REJECT,
-          person: {
-            id: "3",
-            name: "person name 3",
-          },
-        },
-      ],
     },
+  ],
+  eventMinutesItemsFiles: [
+    [],
+    [
+      {
+        name: "file name",
+        uri: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
+      },
+    ],
+  ],
+  votes: [
+    [],
+    [
+      {
+        id: "1",
+        decision: VOTE_DECISION.APPROVE,
+        person: {
+          id: "1",
+          name: "person name 1",
+        },
+      },
+      {
+        id: "2",
+        decision: VOTE_DECISION.REJECT,
+        person: {
+          id: "2",
+          name: "person name 2",
+        },
+      },
+      {
+        id: "3",
+        decision: VOTE_DECISION.REJECT,
+        person: {
+          id: "3",
+          name: "person name 3",
+        },
+      },
+    ],
   ],
 };
