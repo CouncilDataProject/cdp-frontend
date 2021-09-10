@@ -14,7 +14,7 @@ class NetworkResponse {
 
 class NetworkQueryResponse {
   data?: ResponseData[];
-  error?: Error;
+  error?: Error | unknown;
 
   constructor(data?: ResponseData[], error?: Error) {
     this.data = data;
@@ -22,4 +22,14 @@ class NetworkQueryResponse {
   }
 }
 
-export { ResponseData, NetworkResponse, NetworkQueryResponse };
+class NoDocumentsError extends Error {
+  constructor(collectionName: string) {
+    super(`No documents found from querying ${collectionName}`);
+    this.name = "NoDocumentsError";
+
+    // Set the prototype explicitly.
+    Object.setPrototypeOf(this, new.target.prototype);
+  }
+}
+
+export { ResponseData, NetworkResponse, NetworkQueryResponse, NoDocumentsError };

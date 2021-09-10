@@ -16,7 +16,12 @@ import {
   DocumentData,
   QueryConstraint,
 } from "firebase/firestore";
-import { NetworkResponse, ResponseData, NetworkQueryResponse } from "./NetworkResponse";
+import {
+  NetworkResponse,
+  ResponseData,
+  NetworkQueryResponse,
+  NoDocumentsError,
+} from "./NetworkResponse";
 import {
   PopulationOptions,
   Populate,
@@ -145,7 +150,7 @@ export class NetworkService {
       //Execute the query
       const querySnapshot = await getDocs(q);
       if (querySnapshot.empty) {
-        throw new Error(`No ${collectionName}(s) found.`);
+        throw new NoDocumentsError(collectionName);
       }
       const querySnapshotData: DocumentData[] = [];
       querySnapshot.forEach((doc) => {
