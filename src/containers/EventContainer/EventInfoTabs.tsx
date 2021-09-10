@@ -105,6 +105,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
 
   return (
     <ResponsiveTab
+      padding="16px"
       breakpoint={screenWidths.largeMobile}
       menu={{ secondary: true, pointing: true }}
       panes={infoTabPanes}

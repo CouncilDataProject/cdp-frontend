@@ -51,6 +51,7 @@ const SessionVideos: FC<SessionVideosProps> = ({
 
   return (
     <ResponsiveTab
+      padding="0px"
       breakpoint={breakpoint}
       menu={{ secondary: true, pointing: true }}
       panes={panes.current}
