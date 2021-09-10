@@ -7,6 +7,8 @@ import Session from "../../models/Session";
 import EventVideo, { EventVideoRef } from "../../components/Details/EventVideo/EventVideo";
 import ResponsiveTab from "../../components/Shared/ResponsiveTab";
 
+import { screenWidths } from "../../styles/mediaBreakpoints";
+
 interface SessionVideosProps {
   eventVideoRefs: RefObject<EventVideoRef>[];
   sessions: Session[];
@@ -39,8 +41,17 @@ const SessionVideos: FC<SessionVideosProps> = ({
       };
     })
   );
+
+  let breakpoint = undefined;
+  if (sessions.length > 3) {
+    breakpoint = screenWidths.largeMobile;
+  } else if (sessions.length > 2) {
+    breakpoint = screenWidths.smallMobile;
+  }
+
   return (
     <ResponsiveTab
+      breakpoint={breakpoint}
       menu={{ secondary: true, pointing: true }}
       panes={panes.current}
       renderActiveOnly={false}

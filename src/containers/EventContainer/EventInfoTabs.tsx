@@ -12,6 +12,7 @@ import { MeetingVotesTable } from "../../components/Tables/MeetingVotesTable";
 import ResponsiveTab from "../../components/Shared/ResponsiveTab";
 
 import { ExtentededEventMinutesItem, SentenceWithSessionIndex } from "./types";
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
 interface EventInfoTabsProps {
   currentInfoTab: number;
@@ -97,6 +98,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
 
   return (
     <ResponsiveTab
+      breakpoint={screenWidths.largeMobile}
       menu={{ secondary: true, pointing: true }}
       panes={infoTabPanes}
       activeIndex={currentInfoTab}

@@ -2,11 +2,18 @@ import styled from "@emotion/styled";
 
 import { Tab } from "semantic-ui-react";
 
-import { screenWidths } from "../../styles/mediaBreakpoints";
+interface ResponsiveTabProps {
+  breakpoint?: string;
+}
 
-export default styled(Tab)({
-  // Tab menu items on mobile
-  [`@media (max-width:${screenWidths.largeMobile})`]: {
+export default styled(Tab)<ResponsiveTabProps>((props) => ({
+  "& > .ui.tab": {
+    // Get rid of margin and padding on the tabs
+    margin: 0,
+    padding: 0,
+  },
+  // Tab menu items given the breakpoint
+  [`@media (max-width:${props.breakpoint})`]: {
     "& > .ui.menu": {
       // Vertical tab menu instead of horizontal tab menu
       flexDirection: "column",
@@ -22,4 +29,4 @@ export default styled(Tab)({
       borderLeft: "2px solid",
     },
   },
-});
+}));
