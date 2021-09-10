@@ -1,30 +1,50 @@
 import { removeStopwords } from "stopword";
 import { nGram } from "n-gram";
 import { stem } from "stemr";
-import ModelService from "./ModelService";
-import {
-  COLLECTION_NAME,
-  Populate,
-  PopulationOptions,
-  REF_PROPERTY_NAME,
-} from "./PopulationOptions";
-import Event from "../models/Event";
 import IndexedEventGram from "../models/IndexedEventGram";
+import IndexedEventGramService from "./IndexedEventGramService";
+import { NetworkService } from "./NetworkService";
+import { NoDocumentsError } from "./NetworkResponse";
+import { COLLECTION_NAME } from "./PopulationOptions";
+import { sumBy } from "lodash";
 
-export default class EventSearchService extends ModelService {
-  constructor() {
-    super(COLLECTION_NAME.IndexedEventGram);
+/**
+ * The primary return of searchEvents.
+ * Contains all information needed to created paginated requests for full event
+ * information, along with minimal information used for display.
+ */
+class MatchingEvent {
+  eventRef: string;
+  pureRelevance: number;
+  datetimeWeightedRelevance: number;
+  containedGrams: string[];
+  selectedContextSpan: string;
+
+  constructor(
+    eventId: string,
+    pureRelevance: number,
+    datetimeWeightedRelevance: number,
+    containedGrams: string[],
+    selectedContextSpan: string
+  ) {
+    this.eventRef = `${COLLECTION_NAME.Event}/${eventId}`;
+    this.pureRelevance = pureRelevance;
+    this.datetimeWeightedRelevance = datetimeWeightedRelevance;
+    this.containedGrams = containedGrams;
+    this.selectedContextSpan = selectedContextSpan;
   }
+}
 
-  // # Create stemmed grams for query
-  // query_terms = clean_text(query, clean_stop_words=True).split()
-  // stemmed_grams = []
-  // for n_gram_size in range(1, 3):
-  //     grams = ngrams(query_terms, n_gram_size)
-  //     for gram in grams:
-  //         stemmed_grams.append(
-  //              " ".join(stemmer.stem(term.lower()) for term in gram)
-  //          )
+export default class EventSearchService {
+  networkService: NetworkService;
+  indexedEventGramService: IndexedEventGramService;
+  private serviceName: string;
+
+  constructor() {
+    this.networkService = NetworkService.getInstance();
+    this.indexedEventGramService = new IndexedEventGramService();
+    this.serviceName = "EventSearchService";
+  }
 
   /**
    * cleanText function is almost a mirror of the `clean_text` function from
@@ -70,12 +90,8 @@ export default class EventSearchService extends ModelService {
 
   getStemmedGrams(query: string): string[] {
     const cleanedQuery = this.cleanText(query);
-    console.log("cleanedQuery", cleanedQuery);
-
     const stemmedGrams: string[] = [];
     Array.from([1, 2, 3]).forEach((nGramSize) => {
-      console.log("nGramSize", nGramSize);
-
       const allGrams: string[][] = nGram(nGramSize)(cleanedQuery);
       allGrams.forEach((gramSet) => {
         stemmedGrams.push(
@@ -92,9 +108,90 @@ export default class EventSearchService extends ModelService {
     return stemmedGrams;
   }
 
-  async searchEvents(query: string): Promise<Event[]> {
-    console.log(this.getStemmedGrams(query));
+  /**
+   * searchEvents will break a query into it's gram parts (and of multiple gram sizes),
+   * query the database for matching events, and compile the results into an array of
+   * MatchingEvent objects that can be used for later full event information display.
+   *
+   * See getFullEventResult for taking the results of this function and retrieving
+   * "render ready" objects.
+   */
+  async searchEvents(query: string): Promise<MatchingEvent[]> {
+    // Clean and stem the query into all ngram sizes
+    const allStemmedGramsFromQuery = this.getStemmedGrams(query);
 
-    return [];
+    // Initiate all queries to database
+    const allGramSearchPromises: Promise<IndexedEventGram[]>[] = [];
+    allStemmedGramsFromQuery.map((stemmedGram) => {
+      allGramSearchPromises.push(this.indexedEventGramService.getMatchingGrams(stemmedGram));
+    });
+
+    // Catch allSettled not all to protect against NoDocumentsError(s)
+    const matchingEvents: Map<string, IndexedEventGram[]> = new Map();
+    const compiledEvents: MatchingEvent[] = [];
+    Promise.allSettled(allGramSearchPromises).then((allGramSearchResults) => {
+      // Iter all query results and unpack
+      allGramSearchResults.forEach((gramSearchResult) => {
+        // If the promise was fulfilled, unpack the results onto the map
+        if (gramSearchResult.status === "fulfilled") {
+          gramSearchResult.value.forEach((indexedGram) => {
+            // NOTE:
+            // The model unpacking seems to be incorrect
+            // From the code, because I am explicitely not requesting to get the event objects
+            // I would expect `event_ref` to be a string
+            // but rather, `event_ref` is undefined and `event` is populated with only `id`
+            if (indexedGram.event !== undefined) {
+              if (indexedGram.event.id !== undefined) {
+                // Get or update matching event list
+                let currentGramsForEvent = matchingEvents.get(indexedGram.event.id);
+                if (currentGramsForEvent === undefined) {
+                  matchingEvents.set(indexedGram.event.id, [indexedGram]);
+                } else {
+                  currentGramsForEvent.push(indexedGram);
+                  matchingEvents.set(indexedGram.event.id, currentGramsForEvent);
+                }
+              }
+            }
+          });
+          // Otherwise, check the error
+          // If it's an allowed NoDocumentsError, ignore it
+        } else {
+          // Only reraise if an error besides no documents occurred
+          if (!(gramSearchResult.reason instanceof NoDocumentsError)) {
+            throw gramSearchResult.reason;
+          }
+        }
+      });
+
+      // Compile results into MatchingEvents object
+      for (let [eventId, matchingIndexedEventGrams] of matchingEvents) {
+        // Get gram with highest value for event
+        const matchingGramWithHighestValue = matchingIndexedEventGrams.reduce((prev, current) => {
+          if (prev.value !== undefined && current.value !== undefined) {
+            return prev.value > current.value ? prev : current;
+          } else {
+            return prev;
+          }
+        });
+
+        compiledEvents.push(
+          new MatchingEvent(
+            eventId,
+            sumBy(matchingIndexedEventGrams, "value"),
+            sumBy(matchingIndexedEventGrams, "datetime_weighted_value"),
+            matchingIndexedEventGrams.map((gram) => {
+              if (gram.unstemmed_gram !== undefined) {
+                return gram.unstemmed_gram;
+              } else {
+                return "";
+              }
+            }),
+            matchingGramWithHighestValue.context_span || ""
+          )
+        );
+      }
+    });
+
+    return compiledEvents;
   }
 }
