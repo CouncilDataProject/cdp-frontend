@@ -13,7 +13,6 @@ import { MeetingVotesTable } from "../../components/Tables/MeetingVotesTable";
 import ResponsiveTab from "../../components/Shared/ResponsiveTab";
 
 import { SentenceWithSessionIndex } from "./types";
-import { screenWidths } from "../../styles/mediaBreakpoints";
 
 interface EventInfoTabsProps {
   currentInfoTab: number;
@@ -80,16 +79,16 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
 
   const infoTabPanes = [
     {
-      menuItem: "Minutes and Documents",
+      menuItem: "Agenda",
       pane: {
-        key: "minutes-and-documents",
+        key: "agenda",
         content: <MinutesItemsList minutesItems={minutesItems} />,
       },
     },
     {
-      menuItem: "Full Transcript",
+      menuItem: "Transcript",
       pane: {
-        key: "full-transcript",
+        key: "transcript",
         content: (
           <TranscriptFull
             sentences={sentences}
@@ -108,7 +107,6 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
   return (
     <ResponsiveTab
       padding="16px"
-      breakpoint={screenWidths.largeMobile}
       menu={{ secondary: true, pointing: true }}
       panes={infoTabPanes}
       activeIndex={currentInfoTab}
