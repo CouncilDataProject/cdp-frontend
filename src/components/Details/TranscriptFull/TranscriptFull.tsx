@@ -1,9 +1,16 @@
 import React, { FC, RefObject } from "react";
 
+import styled from "@emotion/styled";
+
 import TranscriptItem, { TranscriptItemRef } from "../TranscriptItem/TranscriptItem";
 
 import { SentenceWithSessionIndex } from "../../../containers/EventContainer/types";
 import secondsToHHMMSS from "../../../utils/secondsToHHMMSS";
+
+const TranscripItems = styled.div({
+  maxHeight: "100vh",
+  overflowY: "auto",
+});
 
 export interface TranscriptFullProps {
   /**The sentences of the transcript */
@@ -24,7 +31,7 @@ const TranscriptFull: FC<TranscriptFullProps> = ({
   const handleJumpToVideoClip = (sessionIndex: number, startTime: number) => () =>
     jumpToVideoClip(sessionIndex, startTime);
   return (
-    <div>
+    <TranscripItems>
       {sentences.map((sentence, i) => (
         <TranscriptItem
           key={sentence.index}
@@ -38,7 +45,7 @@ const TranscriptFull: FC<TranscriptFullProps> = ({
           componentRef={transcriptItemsRefs[i]}
         />
       ))}
-    </div>
+    </TranscripItems>
   );
 };
 
