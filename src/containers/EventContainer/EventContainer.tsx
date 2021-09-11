@@ -39,13 +39,13 @@ const SessionsContainer = styled.div({
   [`@media (min-width:${screenWidths.tablet})`]: {
     position: "static",
   },
-  [`@media (min-width:${screenWidths.desktop})`]: {
+  [`@media (min-aspect-ratio:5/4), (min-width:${screenWidths.desktop})`]: {
     width: "50%",
   },
 });
 
 const TranscriptSearchContainer = styled.div({
-  [`@media (min-width:${screenWidths.desktop})`]: {
+  [`@media (min-aspect-ratio:5/4), (min-width:${screenWidths.desktop})`]: {
     width: "47%",
   },
 });
