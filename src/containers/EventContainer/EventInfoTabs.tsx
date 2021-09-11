@@ -18,7 +18,6 @@ interface EventInfoTabsProps {
   currentInfoTab: number;
   setCurrentInfoTab: Dispatch<SetStateAction<number>>;
   sentences: SentenceWithSessionIndex[];
-
   transcriptItemsRefs: RefObject<TranscriptItemRef>[];
   eventMinutesItems: EventMinutesItem[];
   eventMinutesItemsFiles: EventMinutesItemFile[][];

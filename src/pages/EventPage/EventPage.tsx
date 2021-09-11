@@ -14,12 +14,13 @@ import useFetchData, {
 } from "../../containers/FetchDataContainer/useFetchData";
 
 import Vote from "../../models/Vote";
+import { Sentence } from "../../models/TranscriptJson";
 
 import { EventContainer } from "../../containers/EventContainer";
 import FetchDataContainer from "../../containers/FetchDataContainer/FetchDataContainer";
+
 import { SentenceWithSessionIndex, EventData } from "../../containers/EventContainer/types";
 import { createError } from "../../utils/createError";
-import { Sentence } from "../../models/TranscriptJson";
 
 const EventPage: FC = () => {
   // Get the id the the event, provided the route is `events/:id`
@@ -105,10 +106,10 @@ const EventPage: FC = () => {
             combinedSentences.push({
               session_index: sessionIndex,
               index: speakerIndex,
-              start_time: speakerSentences[0].start_time as number,
+              start_time: speakerSentences[0].start_time,
               end_time: speakerSentences[speakerSentences.length - 1].end_time,
               text: speakerSentencesText.join(" "),
-              speaker_name: speakerSentences[0].speaker_name as string,
+              speaker_name: speakerSentences[0].speaker_name,
               speaker_index: speakerIndex,
               speaker_id: speakerSentences[0].speaker_id,
               speaker_pictureSrc: speakerSentences[0].speaker_pictureSrc,
