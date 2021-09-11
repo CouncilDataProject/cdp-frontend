@@ -46,6 +46,7 @@ const es = {
   links: "Enlaces",
   people: "Gente",
   council_data_project: "Council Data Project",
+  transcript: "Transcripción",
 };
 
 export default es;

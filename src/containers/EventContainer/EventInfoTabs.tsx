@@ -13,6 +13,7 @@ import { MeetingVotesTable } from "../../components/Tables/MeetingVotesTable";
 import ResponsiveTab from "../../components/Shared/ResponsiveTab";
 
 import { SentenceWithSessionIndex } from "./types";
+import { strings } from "../../assets/LocalizedStrings";
 
 interface EventInfoTabsProps {
   currentInfoTab: number;
@@ -85,7 +86,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
       },
     },
     {
-      menuItem: "Transcript",
+      menuItem: strings.transcript,
       pane: {
         key: "transcript",
         content: (
@@ -98,7 +99,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
       },
     },
     {
-      menuItem: "Votes",
+      menuItem: strings.votes,
       pane: { key: "votes", content: <MeetingVotesTable votesPage={votesPage} /> },
     },
   ];
