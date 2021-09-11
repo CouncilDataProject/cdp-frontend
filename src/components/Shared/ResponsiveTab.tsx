@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 
 import { Tab } from "semantic-ui-react";
+import { fontSizes } from "../../styles/fonts";
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
 interface ResponsiveTabProps {
   padding: string;
@@ -12,6 +14,12 @@ export default styled(Tab)<ResponsiveTabProps>((props) => ({
     // Get rid of margin on the tabs
     margin: 0,
     padding: props.padding,
+  },
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    "& > .ui.menu > a.item": {
+      // On tablet or above, increase the font size of menu items
+      fontSize: fontSizes.font_size_7,
+    },
   },
   // Tab menu items given the breakpoint
   [`@media (max-width:${props.breakpoint})`]: {
