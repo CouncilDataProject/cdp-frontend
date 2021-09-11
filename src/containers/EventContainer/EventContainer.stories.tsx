@@ -14,7 +14,7 @@ export default {
 const Template: Story<EventContainerProps> = (args) => <EventContainer {...args} />;
 
 const sentences: SentenceWithSessionIndex[] = [];
-for (let sessionIndex = 0; sessionIndex < 3; sessionIndex++) {
+for (let sessionIndex = 0; sessionIndex < 2; sessionIndex++) {
   for (let sentenceIndex = 0; sentenceIndex < 10; sentenceIndex++) {
     sentences.push({
       session_index: sessionIndex,
@@ -43,11 +43,6 @@ Default.args = {
       video_uri: "https://video.seattle.gov/media/council/econ_090821_2602120V.mp4",
       session_index: 2,
       session_datetime: new Date(3600000),
-    },
-    {
-      video_uri: "https://video.seattle.gov/media/council/council_072621_2022159V.mp4",
-      session_index: 3,
-      session_datetime: new Date(2 * 3600000),
     },
   ],
   sentences: sentences,

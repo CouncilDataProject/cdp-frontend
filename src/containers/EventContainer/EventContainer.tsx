@@ -16,7 +16,7 @@ const Container = styled.div({
   flexDirection: "row",
   flexWrap: "wrap",
   justifyContent: "space-between",
-  rowGap: "16px",
+  rowGap: "32px",
   "& > *": {
     // Children of this container have 100% width
     width: "100%",
@@ -30,16 +30,25 @@ const EventName = styled.div({
   },
 });
 
-// Responsive item in container
-interface ResponsiveItemProps {
-  width: string;
-}
-const ResponsiveItem = styled.div<ResponsiveItemProps>((props) => ({
-  [`@media (min-width:${screenWidths.desktop})`]: {
-    // On desktop, the sesion video container and transcript search has its width determined by props.width
-    width: props.width,
+const SessionsContainer = styled.div({
+  // Fix the videos to the top on small and large mobile
+  position: "sticky",
+  top: 0,
+  zIndex: 2,
+  backgroundColor: "white",
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    position: "static",
   },
-}));
+  [`@media (min-width:${screenWidths.desktop})`]: {
+    width: "50%",
+  },
+});
+
+const TranscriptSearchContainer = styled.div({
+  [`@media (min-width:${screenWidths.desktop})`]: {
+    width: "47%",
+  },
+});
 
 export interface EventContainerProps extends EventData {
   /** The search query used to find the event */
@@ -108,22 +117,22 @@ const EventContainer: FC<EventContainerProps> = ({
           })}
         </p>
       </EventName>
-      <ResponsiveItem width="50%">
+      <SessionsContainer>
         <SessionsVideos
           eventVideoRefs={sessionVideoRefs.current}
           sessions={sessions}
           currentSession={currentSession}
           setCurrentSession={setCurrentSession}
         />
-      </ResponsiveItem>
-      <ResponsiveItem width="47%">
+      </SessionsContainer>
+      <TranscriptSearchContainer>
         <TranscriptSearch
           searchQuery={searchQuery || ""}
           sentences={sentences}
           jumpToVideoClip={jumpToVideoClip}
           jumpToTranscript={jumpToTranscript}
         />
-      </ResponsiveItem>
+      </TranscriptSearchContainer>
       <div>
         <EventInfoTabs
           currentInfoTab={currentInfoTab}
