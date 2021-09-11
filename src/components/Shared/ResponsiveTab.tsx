@@ -13,6 +13,8 @@ export default styled(Tab)<ResponsiveTabProps>((props) => ({
   "& > .ui.tab": {
     // Get rid of margin on the tabs
     margin: 0,
+    // Get rid of border on the tabs
+    border: 0,
     padding: props.padding,
   },
   [`@media (min-width:${screenWidths.tablet})`]: {
