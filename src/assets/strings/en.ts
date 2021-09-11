@@ -47,6 +47,7 @@ const en = {
   people: "People",
   council_data_project: "Council Data Project",
   transcript: "Transcript",
+  agenda: "Agenda",
 };
 
 export default en;

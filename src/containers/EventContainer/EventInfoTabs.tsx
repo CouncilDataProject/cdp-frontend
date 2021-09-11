@@ -79,7 +79,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
 
   const infoTabPanes = [
     {
-      menuItem: "Agenda",
+      menuItem: strings.agenda,
       pane: {
         key: "agenda",
         content: <MinutesItemsList minutesItems={minutesItems} />,
