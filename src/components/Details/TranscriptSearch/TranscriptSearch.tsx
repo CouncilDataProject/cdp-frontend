@@ -32,12 +32,16 @@ const TitleContainer = styled.div({
 });
 
 interface TranscriptContainerProps {
-  minHeight: string;
+  hasSearchResults: boolean;
 }
 const TranscriptContainer = styled.div<TranscriptContainerProps>((props) => ({
-  minHeight: props.minHeight,
+  minHeight: props.hasSearchResults ? "80vh" : 0,
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    minHeight: props.hasSearchResults ? "50vh" : 0,
+  },
   [`@media (min-aspect-ratio:5/4), (min-width:${screenWidths.desktop})`]: {
     flex: "1 1 auto",
+    minHeight: 0,
   },
 }));
 
@@ -84,7 +88,7 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
           onChange={onSearchChange}
         />
       </form>
-      <TranscriptContainer minHeight={visibleSentences.length === 0 ? "0" : "50vh"}>
+      <TranscriptContainer hasSearchResults={visibleSentences.length !== 0}>
         <TranscriptItems
           searchQuery={searchTerm}
           sentences={visibleSentences}
