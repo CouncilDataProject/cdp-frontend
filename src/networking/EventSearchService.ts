@@ -6,7 +6,7 @@ import IndexedEventGramService from "./IndexedEventGramService";
 import { NetworkService } from "./NetworkService";
 import { NoDocumentsError } from "./NetworkResponse";
 import { COLLECTION_NAME } from "./PopulationOptions";
-import { sumBy } from "lodash";
+import { sumBy, maxBy } from "lodash";
 
 /**
  * The primary return of searchEvents.
@@ -130,7 +130,6 @@ export default class EventSearchService {
                 matchingEvents.set(indexedGram.event_ref, [indexedGram]);
               } else {
                 currentGramsForEvent.push(indexedGram);
-                matchingEvents.set(indexedGram.event_ref, currentGramsForEvent);
               }
             }
           });
@@ -147,27 +146,31 @@ export default class EventSearchService {
       // Compile results into MatchingEvents object
       for (const [eventId, matchingIndexedEventGrams] of matchingEvents) {
         // Get gram with highest value for event
-        const matchingGramWithHighestValue = matchingIndexedEventGrams.reduce((prev, current) => {
-          if (prev.value !== undefined && current.value !== undefined) {
-            return prev.value > current.value ? prev : current;
-          } else {
-            return prev;
+        const matchingGramWithHighestValue = maxBy(matchingIndexedEventGrams, "value");
+
+        // Unpack matchingGram to protect from undefined
+        let selectedContextSpan = "";
+        if (matchingGramWithHighestValue && matchingGramWithHighestValue.context_span) {
+          selectedContextSpan = matchingGramWithHighestValue.context_span;
+        } else {
+          selectedContextSpan = "";
+        }
+
+        // Get grams found in event from query
+        const containedGrams = matchingIndexedEventGrams.reduce((list, gram) => {
+          if (gram.unstemmed_gram !== undefined) {
+            list.push(gram.unstemmed_gram);
           }
-        });
+          return list;
+        }, [] as string[]);
 
         compiledEvents.push(
           new MatchingEvent(
             eventId,
             sumBy(matchingIndexedEventGrams, "value"),
             sumBy(matchingIndexedEventGrams, "datetime_weighted_value"),
-            matchingIndexedEventGrams.map((gram) => {
-              if (gram.unstemmed_gram !== undefined) {
-                return gram.unstemmed_gram;
-              } else {
-                return "";
-              }
-            }),
-            matchingGramWithHighestValue.context_span || ""
+            containedGrams,
+            selectedContextSpan
           )
         );
       }
