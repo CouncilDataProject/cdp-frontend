@@ -1,5 +1,6 @@
-/** Create Error from error of unknown type */
-
+/** Create Error from error of unknown type.
+ * This is specifically used to convert caught errors in try catch blocks.
+ */
 export function createError(error: unknown): Error {
   if (error instanceof Error) {
     return error;
