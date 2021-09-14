@@ -123,21 +123,14 @@ export default class EventSearchService {
         // If the promise was fulfilled, unpack the results onto the map
         if (gramSearchResult.status === "fulfilled") {
           gramSearchResult.value.forEach((indexedGram) => {
-            // NOTE:
-            // The model unpacking seems to be incorrect
-            // From the code, because I am explicitely not requesting to get the event objects
-            // I would expect `event_ref` to be a string
-            // but rather, `event_ref` is undefined and `event` is populated with only `id`
-            if (indexedGram.event !== undefined) {
-              if (indexedGram.event.id !== undefined) {
-                // Get or update matching event list
-                const currentGramsForEvent = matchingEvents.get(indexedGram.event.id);
-                if (currentGramsForEvent === undefined) {
-                  matchingEvents.set(indexedGram.event.id, [indexedGram]);
-                } else {
-                  currentGramsForEvent.push(indexedGram);
-                  matchingEvents.set(indexedGram.event.id, currentGramsForEvent);
-                }
+            if (indexedGram.event_ref !== undefined) {
+              // Get or update matching event list
+              const currentGramsForEvent = matchingEvents.get(indexedGram.event_ref);
+              if (currentGramsForEvent === undefined) {
+                matchingEvents.set(indexedGram.event_ref, [indexedGram]);
+              } else {
+                currentGramsForEvent.push(indexedGram);
+                matchingEvents.set(indexedGram.event_ref, currentGramsForEvent);
               }
             }
           });
