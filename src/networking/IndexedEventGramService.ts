@@ -2,8 +2,9 @@ import ModelService from "./ModelService";
 import { COLLECTION_NAME } from "./PopulationOptions";
 
 import IndexedEventGram from "../models/IndexedEventGram";
-import { where, limit, orderBy } from "firebase/firestore";
+import { where, limit, orderBy, doc } from "firebase/firestore";
 import { WHERE_OPERATOR } from "./constants";
+import { NetworkService } from "./NetworkService";
 
 export default class IndexedEventGramService extends ModelService {
   constructor() {
@@ -23,7 +24,7 @@ export default class IndexedEventGramService extends ModelService {
 
   async getKeyGramsForEvent(eventRef: string): Promise<IndexedEventGram[]> {
     const networkResponse = this.networkService.getDocuments(COLLECTION_NAME.IndexedEventGram, [
-      where("event_ref", WHERE_OPERATOR.eq, eventRef),
+      where("event_ref", WHERE_OPERATOR.eq, doc(NetworkService.getDb(), eventRef)),
       orderBy("value", "desc"),
       limit(5),
     ]);
