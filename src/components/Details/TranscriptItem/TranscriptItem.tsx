@@ -17,7 +17,7 @@ const Item = styled.div({
   display: "grid",
   gridTemplateColumns: "1fr",
   rowGap: 8,
-  padding: 8,
+  padding: "8px 16px",
   backgroundColor: "white",
 });
 
