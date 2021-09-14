@@ -26,10 +26,15 @@ export default class EventMinutesItemFileService extends ModelService {
         orderBy("name"),
       ]
     );
-    return this.createModels(
-      networkQueryResponse,
-      EventMinutesItemFile,
-      `getEventMinutesItemFilesByEventMinutesItemId(${eventMinutesItemId})`
-    );
+    try {
+      return this.createModels(
+        networkQueryResponse,
+        EventMinutesItemFile,
+        `getEventMinutesItemFilesByEventMinutesItemId(${eventMinutesItemId})`
+      );
+    } catch (e) {
+      // Didn't find any files for event minutes item, return empty list is OK
+      return Promise.resolve([]);
+    }
   }
 }

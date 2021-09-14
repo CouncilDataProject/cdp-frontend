@@ -34,3 +34,9 @@ export { default as VotingTable } from "./components/Tables/VotingTable/VotingTa
 export { default as EmptyRow } from "./components/Tables/EmptyRow/EmptyRow";
 export { default as MeetingVotesTable } from "./components/Tables/MeetingVotesTable/MeetingVotesTable";
 export { default as MeetingVotesTableRow } from "./components/Tables/MeetingVotesTableRow/MeetingVotesTableRow";
+
+//Containers
+export { EventContainer } from "./containers/EventContainer";
+
+//Pages
+export { EventPage } from "./pages/EventPage";

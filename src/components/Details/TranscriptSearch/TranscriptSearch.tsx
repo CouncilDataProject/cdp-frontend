@@ -2,7 +2,8 @@ import React, { ChangeEventHandler, FC, useState } from "react";
 import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
 import TranscriptItems from "./TranscriptItems";
-import { Sentence } from "../../Shared/Types/Transcript";
+
+import { SentenceWithSessionIndex } from "../../../containers/EventContainer/types";
 
 import { fontSizes } from "../../../styles/fonts";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
@@ -30,23 +31,29 @@ const TitleContainer = styled.div({
   },
 });
 
-const TranscriptContainer = styled.div({
-  minHeight: "50vh",
+interface TranscriptContainerProps {
+  hasSearchResults: boolean;
+}
+const TranscriptContainer = styled.div<TranscriptContainerProps>((props) => ({
+  minHeight: props.hasSearchResults ? "80vh" : 0,
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    minHeight: props.hasSearchResults ? "50vh" : 0,
+  },
   [`@media (min-aspect-ratio:5/4), (min-width:${screenWidths.desktop})`]: {
     flex: "1 1 auto",
-    minHeight: "0",
+    minHeight: 0,
   },
-});
+}));
 
 interface TranscriptSearchProps {
   /**The search query */
   searchQuery: string;
   /**The sentences of the transcript */
-  sentences: Sentence[];
+  sentences: SentenceWithSessionIndex[];
   /**Callback to play video clip */
-  jumpToVideoClip(startTime: number): void;
+  jumpToVideoClip(sessionIndex: number, startTime: number): void;
   /**Callback to jump to sentence in the full transcript component */
-  jumpToTranscript(index: number): void;
+  jumpToTranscript(sentenceIndex: number): void;
 }
 
 /**Transcript search. Note: On deskop, the parent of this component should have enough height
@@ -81,7 +88,7 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
           onChange={onSearchChange}
         />
       </form>
-      <TranscriptContainer>
+      <TranscriptContainer hasSearchResults={visibleSentences.length !== 0}>
         <TranscriptItems
           searchQuery={searchTerm}
           sentences={visibleSentences}
