@@ -14,7 +14,7 @@ class NetworkResponse {
 
 class NetworkQueryResponse {
   data?: ResponseData[];
-  error?: Error | unknown;
+  error?: Error;
 
   constructor(data?: ResponseData[], error?: Error) {
     this.data = data;
