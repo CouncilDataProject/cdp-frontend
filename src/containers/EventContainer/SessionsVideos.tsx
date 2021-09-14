@@ -8,6 +8,7 @@ import EventVideo, { EventVideoRef } from "../../components/Details/EventVideo/E
 import ResponsiveTab from "../../components/Shared/ResponsiveTab";
 
 import { screenWidths } from "../../styles/mediaBreakpoints";
+import { strings } from "../../assets/LocalizedStrings";
 
 interface SessionVideosProps {
   eventVideoRefs: RefObject<EventVideoRef>[];
@@ -31,7 +32,7 @@ const SessionVideos: FC<SessionVideosProps> = ({
   const panes = useRef(
     sessions.map((session, i) => {
       return {
-        menuItem: session.session_datetime?.toLocaleTimeString("en-US"),
+        menuItem: `${strings.session} ${i + 1}}`,
         pane: {
           key: `session_index_${session.session_index}`,
           content: (
