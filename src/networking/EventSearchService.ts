@@ -117,65 +117,80 @@ export default class EventSearchService {
     // Catch allSettled not all to protect against NoDocumentsError(s)
     const matchingEvents: Map<string, IndexedEventGram[]> = new Map();
     const compiledEvents: MatchingEvent[] = [];
-    Promise.allSettled(allGramSearchPromises).then((allGramSearchResults) => {
-      // Iter all query results and unpack
-      allGramSearchResults.forEach((gramSearchResult) => {
-        // If the promise was fulfilled, unpack the results onto the map
-        if (gramSearchResult.status === "fulfilled") {
-          gramSearchResult.value.forEach((indexedGram) => {
-            if (indexedGram.event_ref !== undefined) {
-              // Get or update matching event list
-              const currentGramsForEvent = matchingEvents.get(indexedGram.event_ref);
-              if (currentGramsForEvent === undefined) {
-                matchingEvents.set(indexedGram.event_ref, [indexedGram]);
-              } else {
-                currentGramsForEvent.push(indexedGram);
+    try {
+      await Promise.allSettled(allGramSearchPromises).then((allGramSearchResults) => {
+        // Iter all query results and unpack
+        allGramSearchResults.forEach((gramSearchResult) => {
+          // If the promise was fulfilled, unpack the results onto the map
+          if (gramSearchResult.status === "fulfilled") {
+            gramSearchResult.value.forEach((indexedGram) => {
+              if (indexedGram.event_ref !== undefined) {
+                // Get or update matching event list
+                const currentGramsForEvent = matchingEvents.get(indexedGram.event_ref);
+                if (currentGramsForEvent === undefined) {
+                  matchingEvents.set(indexedGram.event_ref, [indexedGram]);
+                } else {
+                  currentGramsForEvent.push(indexedGram);
+                }
               }
+            });
+            // Otherwise, check the error
+            // If it's an allowed NoDocumentsError, ignore it
+          } else {
+            // Only reraise if an error besides no documents occurred
+            if (!(gramSearchResult.reason instanceof NoDocumentsError)) {
+              throw gramSearchResult.reason;
             }
-          });
-          // Otherwise, check the error
-          // If it's an allowed NoDocumentsError, ignore it
-        } else {
-          // Only reraise if an error besides no documents occurred
-          if (!(gramSearchResult.reason instanceof NoDocumentsError)) {
-            throw gramSearchResult.reason;
           }
+        });
+
+        // Compile results into MatchingEvents object
+        for (const [eventId, matchingIndexedEventGrams] of matchingEvents) {
+          // Get gram with highest value for event
+          const matchingGramWithHighestValue = maxBy(matchingIndexedEventGrams, "value");
+
+          // Unpack matchingGram to protect from undefined
+          let selectedContextSpan = "";
+          if (matchingGramWithHighestValue && matchingGramWithHighestValue.context_span) {
+            selectedContextSpan = matchingGramWithHighestValue.context_span;
+          } else {
+            selectedContextSpan = "";
+          }
+
+          // Get grams found in event from query
+          const containedGrams = matchingIndexedEventGrams.reduce((list, gram) => {
+            if (gram.unstemmed_gram !== undefined) {
+              list.push(gram.unstemmed_gram);
+            }
+            return list;
+          }, [] as string[]);
+
+          compiledEvents.push(
+            new MatchingEvent(
+              eventId,
+              sumBy(matchingIndexedEventGrams, "value"),
+              sumBy(matchingIndexedEventGrams, "datetime_weighted_value"),
+              containedGrams,
+              selectedContextSpan
+            )
+          );
         }
       });
 
-      // Compile results into MatchingEvents object
-      for (const [eventId, matchingIndexedEventGrams] of matchingEvents) {
-        // Get gram with highest value for event
-        const matchingGramWithHighestValue = maxBy(matchingIndexedEventGrams, "value");
+      return Promise.resolve(compiledEvents);
 
-        // Unpack matchingGram to protect from undefined
-        let selectedContextSpan = "";
-        if (matchingGramWithHighestValue && matchingGramWithHighestValue.context_span) {
-          selectedContextSpan = matchingGramWithHighestValue.context_span;
-        } else {
-          selectedContextSpan = "";
-        }
-
-        // Get grams found in event from query
-        const containedGrams = matchingIndexedEventGrams.reduce((list, gram) => {
-          if (gram.unstemmed_gram !== undefined) {
-            list.push(gram.unstemmed_gram);
-          }
-          return list;
-        }, [] as string[]);
-
-        compiledEvents.push(
-          new MatchingEvent(
-            eventId,
-            sumBy(matchingIndexedEventGrams, "value"),
-            sumBy(matchingIndexedEventGrams, "datetime_weighted_value"),
-            containedGrams,
-            selectedContextSpan
-          )
-        );
+      // Handle service error
+    } catch (err) {
+      let error: Error;
+      if (err instanceof Error) {
+        error = err;
+      } else if (typeof err === "string") {
+        error = new Error(err);
+      } else {
+        error = new Error(String(err));
       }
-    });
-
-    return compiledEvents;
+      error.message = `${this.serviceName}_searchEvents(${query})_${error.message}`;
+      return Promise.reject(error);
+    }
   }
 }
