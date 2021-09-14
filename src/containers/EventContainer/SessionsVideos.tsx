@@ -32,7 +32,7 @@ const SessionVideos: FC<SessionVideosProps> = ({
   const panes = useRef(
     sessions.map((session, i) => {
       return {
-        menuItem: `${strings.session} ${i + 1}}`,
+        menuItem: `${strings.session} ${i + 1}`,
         pane: {
           key: `session_index_${session.session_index}`,
           content: (

@@ -59,6 +59,7 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
       <div style={style} role="row">
         <div style={{ margin: "0 0 16px 0" }} role="cell">
           <TranscriptItem
+            sessionIndex={sentences[index].session_index}
             speakerName={sentences[index].speaker_name}
             text={sentences[index].text}
             startTime={secondsToHHMMSS(sentences[index].start_time)}

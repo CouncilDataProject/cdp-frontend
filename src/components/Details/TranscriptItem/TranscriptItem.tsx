@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import { Popup } from "semantic-ui-react";
 import styled from "@emotion/styled";
+
 import { strings } from "../../../assets/LocalizedStrings";
 import DefaultAvatar from "../../Shared/DefaultAvatar";
 import DocumentTextIcon from "../../Shared/DocumentTextIcon";
@@ -43,6 +44,9 @@ const Speaker = styled.div({
   alignItems: "center",
   fontSize: fontSizes.font_size_2,
   overflowWrap: "anywhere",
+  "& p": {
+    margin: 0,
+  },
 });
 
 const AVATAR_SIZE = 24;
@@ -71,6 +75,8 @@ export interface TranscriptItemRef {
 }
 
 interface TranscriptItemProps extends RefAttributes<HTMLDivElement> {
+  /**The session index of the transcript item */
+  sessionIndex: number;
   /**The speaker's name */
   speakerName: string;
   /**The transcript item's text */
@@ -92,6 +98,7 @@ interface TranscriptItemProps extends RefAttributes<HTMLDivElement> {
 }
 
 const TranscriptItem: FC<TranscriptItemProps> = ({
+  sessionIndex,
   speakerName,
   text,
   startTime,
@@ -139,6 +146,7 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             {avatar}
             <div>
               {name}
+              <p>{`${strings.session} ${sessionIndex + 1}`}</p>
               <p>{startTime}</p>
             </div>
           </Speaker>

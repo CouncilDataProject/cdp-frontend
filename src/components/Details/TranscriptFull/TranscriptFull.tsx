@@ -34,6 +34,7 @@ const TranscriptFull: FC<TranscriptFullProps> = ({
     <TranscripItems>
       {sentences.map((sentence, i) => (
         <TranscriptItem
+          sessionIndex={sentence.session_index}
           key={sentence.index}
           speakerName={sentence.speaker_name}
           text={sentence.text}
