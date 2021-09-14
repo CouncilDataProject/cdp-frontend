@@ -17,26 +17,25 @@ export const Template = (args) => <TranscriptSearch {...args} />;
     searchQuery: "sentence",
     sentences: [
       {
+        session_index: 0,
         index: 0,
         start_time: 1.5,
         text: "This is a sentence.",
-        speaker: {
-          name: "Lisa Herbold",
-          id: "lisa-herbold",
-          pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-        },
+        speaker_name: "Lisa Herbold",
+        speaker_id: "lisa-herbold",
+        speaker_pictureSrc:
+          "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
       },
       {
+        session_index: 0,
         index: 1,
         start_time: 2,
         text: "This is another sentence.",
-        speaker: {
-          name: "Unknown",
-        },
+        speaker_name: "Unknown",
       },
     ],
-    jumpToVideoClip: (startTime) => action("jump to video clip"),
-    jumpToTranscript: (index) => action("jump to transcript"),
+    jumpToVideoClip: (sessionIndex, startTime) => action("jump to video clip"),
+    jumpToTranscript: (sentenceIndex) => action("jump to transcript"),
   }}
   decorators={[(Story) => <div style={{ height: 600 }}>{Story()}</div>]}
 >
@@ -48,17 +47,17 @@ export const Template = (args) => <TranscriptSearch {...args} />;
   args={{
     searchQuery: "sentence",
     sentences: Array.from({ length: 200 }).map((_, i) => ({
+      session_index: 0,
       index: i,
       start_time: i,
       text: `This is a sentence${i}.`,
-      speaker: {
-        name: "Lisa Herbold",
-        id: "lisa-herbold",
-        pictureSrc: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-      },
+      speaker_name: "Lisa Herbold",
+      speaker_id: "lisa-herbold",
+      speaker_pictureSrc:
+        "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
     })),
-    jumpToVideoClip: (startTime) => action("jump to video clip"),
-    jumpToTranscript: (index) => action("jump to transcript"),
+    jumpToVideoClip: (sessionIndex, startTime) => action("jump to video clip"),
+    jumpToTranscript: (sentenceIndex) => action("jump to transcript"),
   }}
   decorators={[(Story) => <div style={{ height: 600 }}>{Story()}</div>]}
 >

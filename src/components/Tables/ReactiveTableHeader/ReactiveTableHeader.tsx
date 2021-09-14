@@ -20,7 +20,7 @@ const ReactiveTableHeader = ({ columnNames, columnDistribution }: ReactiveTableH
         {columnNames?.map((columnName, index) => {
           const width = columnDistribution[index] || 0;
           return (
-            <div style={{ width }}>
+            <div key={columnName} style={{ width }}>
               <h6>{columnName}</h6>
             </div>
           );

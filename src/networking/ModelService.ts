@@ -3,6 +3,8 @@ import { NetworkService } from "./NetworkService";
 
 import { ModelConstructor, Model } from "../models/Model";
 
+import { createError } from "../utils/createError";
+
 export default class ModelService {
   networkService: NetworkService;
   private modelName: string;
@@ -35,7 +37,8 @@ export default class ModelService {
       }
 
       return Promise.resolve(new model(data));
-    } catch (error) {
+    } catch (err) {
+      const error = createError(err);
       error.message = `${this.serviceName}_${methodName}_${error.message}`;
       return Promise.reject(error);
     }
@@ -59,7 +62,8 @@ export default class ModelService {
 
       const models = data.map((datum) => new model(datum));
       return Promise.resolve(models);
-    } catch (error) {
+    } catch (err) {
+      const error = createError(err);
       error.message = `${this.serviceName}_${methodName}_${error.message}`;
       return Promise.reject(error);
     }

@@ -46,6 +46,9 @@ const es = {
   links: "Enlaces",
   people: "Gente",
   council_data_project: "Council Data Project",
+  transcript: "Transcripción",
+  agenda: "Agenda",
+  session: "Sesión",
 };
 
 export default es;

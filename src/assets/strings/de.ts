@@ -47,6 +47,9 @@ const de = {
   links: "Links",
   people: "Menschen",
   council_data_project: "Council Data Project",
+  transcript: "Transkript",
+  agenda: "Agenda",
+  session: "Sitzung",
 };
 
 export default de;

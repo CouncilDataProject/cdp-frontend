@@ -1,4 +1,4 @@
-import { where, doc } from "@firebase/firestore";
+import { where, doc, orderBy } from "@firebase/firestore";
 
 import { NetworkService } from "./NetworkService";
 import ModelService from "./ModelService";
@@ -26,6 +26,7 @@ export default class VoteService extends ModelService {
           WHERE_OPERATOR.eq,
           doc(NetworkService.getDb(), COLLECTION_NAME.Event, eventId)
         ),
+        orderBy(REF_PROPERTY_NAME.VotePersonRef),
       ],
       new PopulationOptions([new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.VotePersonRef)])
     );
