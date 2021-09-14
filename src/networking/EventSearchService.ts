@@ -63,7 +63,7 @@ export default class EventSearchService {
 
     // Replace common strings used by documents on backend
     // Not _really_ needed here but a nice safety measure to match the alg
-    cleanedQuery = cleanedQuery.replace("--", " ");
+    cleanedQuery = cleanedQuery.replace(/[\-\-]/, " ");
 
     // Same as Python standard punctuation string
     cleanedQuery = cleanedQuery.replace(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g, "");
@@ -72,20 +72,9 @@ export default class EventSearchService {
     cleanedQuery = cleanedQuery.replace(/\s{2,}/g, " ");
 
     // Remove leading and trailing spaces
-    try {
-      if (cleanedQuery.startsWith(" ")) {
-        cleanedQuery = cleanedQuery.substring(1);
-      }
-      if (cleanedQuery.endsWith(" ")) {
-        cleanedQuery = cleanedQuery.slice(0, -1);
-      }
-    } catch {
-      // Error can occur when query was cleaned but no characters remain
-      return [];
-    }
-
     // Remove stopwords
-    return removeStopwords(cleanedQuery.split(" "));
+    // Return as list of terms
+    return removeStopwords(cleanedQuery.trim().split(" "));
   }
 
   getStemmedGrams(query: string): string[] {
@@ -121,10 +110,9 @@ export default class EventSearchService {
     const allStemmedGramsFromQuery = this.getStemmedGrams(query);
 
     // Initiate all queries to database
-    const allGramSearchPromises: Promise<IndexedEventGram[]>[] = [];
-    allStemmedGramsFromQuery.map((stemmedGram) => {
-      allGramSearchPromises.push(this.indexedEventGramService.getMatchingGrams(stemmedGram));
-    });
+    const allGramSearchPromises = allStemmedGramsFromQuery.map((stemmedGram) =>
+      this.indexedEventGramService.getMatchingGrams(stemmedGram)
+    );
 
     // Catch allSettled not all to protect against NoDocumentsError(s)
     const matchingEvents: Map<string, IndexedEventGram[]> = new Map();
