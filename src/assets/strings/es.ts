@@ -32,7 +32,7 @@ const es = {
   copyright_notice:
     "Partes de este contenido son © {date_range} de colaboradores individuales del Council Data Project. Contenido disponible bajo {copyright_license_type}.",
   styled_using: "Diseñado con {style_provider}.",
-  artwork_provided_by: "Obra de arte proporcionada por {artwork_provider}",
+  artwork_provided_by: "Obra de arte proporcionada por {artwork_provider}.",
   approve: "Aprobar",
   reject: "Rechazar",
   rejected: "Rechazado",

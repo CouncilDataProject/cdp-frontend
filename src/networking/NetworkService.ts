@@ -16,8 +16,13 @@ import {
   DocumentData,
   QueryConstraint,
 } from "firebase/firestore";
+import {
+  NetworkResponse,
+  ResponseData,
+  NetworkQueryResponse,
+  NoDocumentsError,
+} from "./NetworkResponse";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { NetworkResponse, ResponseData, NetworkQueryResponse } from "./NetworkResponse";
 import {
   PopulationOptions,
   Populate,
@@ -36,7 +41,7 @@ export class NetworkService {
   private constructor() {
     // initialize firebase
     const firebaseApp = initializeApp({
-      projectId: "cdp-jackson-dev-002",
+      projectId: "cdp-test-deployment-435b5309",
     });
     const settings: Settings = {
       // merge bool Whether to merge the provided settings with the existing settings. If set to true, the settings are merged with existing settings. If set to false or left unset, the settings replace the existing settings.
@@ -147,7 +152,7 @@ export class NetworkService {
       //Execute the query
       const querySnapshot = await getDocs(q);
       if (querySnapshot.empty) {
-        throw new Error(`No ${collectionName}(s) found.`);
+        throw new NoDocumentsError(collectionName);
       }
       const querySnapshotData: DocumentData[] = [];
       querySnapshot.forEach((doc) => {

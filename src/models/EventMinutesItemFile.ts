@@ -1,11 +1,12 @@
 import { ResponseData } from "../networking/NetworkResponse";
-import MinutesItem from "./MinutesItem";
+import EventMinutesItem from "./EventMinutesItem";
 import { Model } from "./Model";
+import { DocumentReference } from "@firebase/firestore";
 
 export default class EventMinutesItemFile implements Model {
   id?: string;
   event_minutes_item_ref?: string;
-  event_minutes_item?: MinutesItem;
+  event_minutes_item?: EventMinutesItem;
   external_source_id?: string;
   name?: string;
   uri?: string;
@@ -15,18 +16,12 @@ export default class EventMinutesItemFile implements Model {
       this.id = jsonData["id"];
     }
 
-    if (
-      jsonData["event_minutes_item_ref"] &&
-      typeof jsonData["event_minutes_item_ref"] === "string"
-    ) {
-      this.event_minutes_item_ref = jsonData["event_minutes_item_ref"];
-    }
-
-    if (
-      jsonData["event_minutes_item_ref"] &&
-      typeof jsonData["event_minutes_item_ref"] === "object"
-    ) {
-      this.event_minutes_item = new MinutesItem(jsonData["event_minutes_item_ref"]);
+    if (jsonData["event_minutes_item_ref"]) {
+      if (jsonData["event_minutes_item_ref"] instanceof DocumentReference) {
+        this.event_minutes_item_ref = jsonData["event_minutes_item_ref"].id;
+      } else if (typeof jsonData["event_minutes_item_ref"] === "object") {
+        this.event_minutes_item = new EventMinutesItem(jsonData["event_minutes_item_ref"]);
+      }
     }
 
     if (jsonData["external_source_id"]) {

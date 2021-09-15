@@ -3,6 +3,7 @@ import { ResponseData } from "../networking/NetworkResponse";
 import EventMinutesItem from "./EventMinutesItem";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import { Model } from "./Model";
+import { DocumentReference } from "@firebase/firestore";
 
 export default class MatterStatus implements Model {
   id?: string;
@@ -19,30 +20,24 @@ export default class MatterStatus implements Model {
       this.id = jsonData["id"];
     }
 
-    if (
-      jsonData["event_minutes_item_ref"] &&
-      typeof jsonData["event_minutes_item_ref"] === "string"
-    ) {
-      this.event_minutes_item_ref = jsonData["event_minutes_item_ref"];
-    }
-
-    if (
-      jsonData["event_minutes_item_ref"] &&
-      typeof jsonData["event_minutes_item_ref"] === "object"
-    ) {
-      this.event_minutes_item = new EventMinutesItem(jsonData["event_minutes_item_ref"]);
+    if (jsonData["event_minutes_item_ref"]) {
+      if (jsonData["event_minutes_item_ref"] instanceof DocumentReference) {
+        this.event_minutes_item_ref = jsonData["event_minutes_item_ref"].id;
+      } else if (typeof jsonData["event_minutes_item_ref"] === "object") {
+        this.event_minutes_item = new EventMinutesItem(jsonData["event_minutes_item_ref"]);
+      }
     }
 
     if (jsonData["external_source_id"]) {
       this.external_source_id = jsonData["external_source_id"];
     }
 
-    if (jsonData["matter_ref"] && typeof jsonData["matter_ref"] === "string") {
-      this.matter_ref = jsonData["matter_ref"];
-    }
-
-    if (jsonData["matter_ref"] && typeof jsonData["matter_ref"] === "object") {
-      this.matter = new Matter(jsonData["matter_ref"]);
+    if (jsonData["matter_ref"]) {
+      if (jsonData["matter_ref"] instanceof DocumentReference) {
+        this.matter_ref = jsonData["matter_ref"].id;
+      } else if (typeof jsonData["matter_ref"] === "object") {
+        this.matter = new Matter(jsonData["matter_ref"]);
+      }
     }
 
     if (jsonData["status"]) {

@@ -17,10 +17,10 @@ function App() {
       >
         <h1 style={{ fontSize: "25px", margin: 0 }}>{strings.council_data_project}</h1>
         <section>
-          <a href="#" style={{ padding: "1rem" }}>
+          <a href="#/events" style={{ padding: "1rem" }}>
             {strings.events}
           </a>
-          <a href="#" style={{ padding: "1rem" }}>
+          <a href="#/people" style={{ padding: "1rem" }}>
             {strings.people}
           </a>
         </section>

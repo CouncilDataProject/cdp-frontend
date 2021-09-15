@@ -32,7 +32,7 @@ const en = {
   copyright_notice:
     "Portions of this content are ©{date_range} by individual Council Data Project contributors. Content available under {copyright_license_type}.",
   styled_using: "Styled using {style_provider}.",
-  artwork_provided_by: "Artwork provided by {artwork_provider}",
+  artwork_provided_by: "Artwork provided by {artwork_provider}.",
   approve: "Approve",
   reject: "Reject",
   rejected: "Rejected",

@@ -2,6 +2,7 @@ import { ResponseData } from "../networking/NetworkResponse";
 import Event from "./Event";
 import MinutesItem from "./MinutesItem";
 import { Model } from "./Model";
+import { DocumentReference } from "@firebase/firestore";
 
 export default class EventMinutesItem implements Model {
   id?: string;
@@ -22,12 +23,12 @@ export default class EventMinutesItem implements Model {
       this.decision = jsonData["decision"];
     }
 
-    if (jsonData["event_ref"] && typeof jsonData["event_ref"] === "string") {
-      this.event_ref = jsonData["event_ref"];
-    }
-
-    if (jsonData["event_ref"] && typeof jsonData["event_ref"] === "object") {
-      this.event = new Event(jsonData["event_ref"]);
+    if (jsonData["event_ref"]) {
+      if (jsonData["event_ref"] instanceof DocumentReference) {
+        this.event_ref = jsonData["event_ref"].id;
+      } else if (typeof jsonData["event_ref"] === "object") {
+        this.event = new Event(jsonData["event_ref"]);
+      }
     }
 
     if (jsonData["external_source_id"]) {
@@ -38,12 +39,12 @@ export default class EventMinutesItem implements Model {
       this.index = jsonData["index"];
     }
 
-    if (jsonData["minutes_item_ref"] && typeof jsonData["minutes_item_ref"] === "string") {
-      this.minutes_item_ref = jsonData["minutes_item_ref"];
-    }
-
-    if (jsonData["minutes_item_ref"] && typeof jsonData["minutes_item_ref"] === "object") {
-      this.minutes_item = new MinutesItem(jsonData["minutes_item_ref"]);
+    if (jsonData["minutes_item_ref"]) {
+      if (jsonData["minutes_item_ref"] instanceof DocumentReference) {
+        this.minutes_item_ref = jsonData["minutes_item_ref"].id;
+      } else if (typeof jsonData["minutes_item_ref"] === "object") {
+        this.minutes_item = new MinutesItem(jsonData["minutes_item_ref"]);
+      }
     }
   }
 }
