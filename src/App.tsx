@@ -3,13 +3,6 @@ import { Footer } from "./index";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { strings } from "./assets/LocalizedStrings";
 
-import EventSearchService from "./networking/EventSearchService";
-
-const service = new EventSearchService();
-service.searchEvents("residential zoning and housing affordability").then((events) => {
-  console.log(events);
-});
-
 function App() {
   return (
     <>
