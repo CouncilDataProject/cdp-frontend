@@ -9,6 +9,8 @@ import { COLLECTION_NAME } from "./PopulationOptions";
 import { sumBy, maxBy } from "lodash";
 import EventService from "./EventService";
 import Event from "../models/Event";
+import { createError } from "../utils/createError";
+import { getStorage, ref, getDownloadURL } from "@firebase/storage";
 
 /**
  * The primary return of searchEvents.
@@ -49,6 +51,8 @@ class RenderableEvent {
   containedGrams: string[];
   selectedContextSpan: string;
   keyGrams: string[];
+  staticThumbnailURL: string;
+  hoverThumbnailURL: string;
 
   constructor(
     event: Event,
@@ -56,7 +60,9 @@ class RenderableEvent {
     datetimeWeightedRelevance: number,
     containedGrams: string[],
     selectedContextSpan: string,
-    keyGrams: string[]
+    keyGrams: string[],
+    staticThumbnailURL: string,
+    hoverThumbnailURL: string
   ) {
     this.event = event;
     this.pureRelevance = pureRelevance;
@@ -64,6 +70,8 @@ class RenderableEvent {
     this.containedGrams = containedGrams;
     this.selectedContextSpan = selectedContextSpan;
     this.keyGrams = keyGrams;
+    this.staticThumbnailURL = staticThumbnailURL;
+    this.hoverThumbnailURL = hoverThumbnailURL;
   }
 }
 
@@ -215,14 +223,7 @@ export default class EventSearchService {
 
       // Handle service error
     } catch (err) {
-      let error: Error;
-      if (err instanceof Error) {
-        error = err;
-      } else if (typeof err === "string") {
-        error = new Error(err);
-      } else {
-        error = new Error(String(err));
-      }
+      const error = createError(err);
       error.message = `${this.serviceName}_searchEvents(${query})_${error.message}`;
       return Promise.reject(error);
     }
@@ -250,6 +251,13 @@ export default class EventSearchService {
         return list;
       }, [] as string[]);
 
+      // Get https storage URLs
+      const storage = getStorage();
+      const staticThumbnailPathRef = ref(storage, event.static_thumbnail?.uri);
+      const hoverThumbnailPathRef = ref(storage, event.hover_thumbnail?.uri);
+      const staticThumbnailPathURL = await getDownloadURL(staticThumbnailPathRef);
+      const hoverThumbnailPathURL = await getDownloadURL(hoverThumbnailPathRef);
+
       return Promise.resolve(
         new RenderableEvent(
           event,
@@ -257,20 +265,15 @@ export default class EventSearchService {
           matchingEvent.datetimeWeightedRelevance,
           matchingEvent.containedGrams,
           matchingEvent.selectedContextSpan,
-          keyUnstemmedGrams
+          keyUnstemmedGrams,
+          staticThumbnailPathURL,
+          hoverThumbnailPathURL
         )
       );
 
       // Handle service error
     } catch (err) {
-      let error: Error;
-      if (err instanceof Error) {
-        error = err;
-      } else if (typeof err === "string") {
-        error = new Error(err);
-      } else {
-        error = new Error(String(err));
-      }
+      const error = createError(err);
       error.message = `${this.serviceName}_getRenderableEvent(${matchingEvent.eventRef})_${error.message}`;
       return Promise.reject(error);
     }
