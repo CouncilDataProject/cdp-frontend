@@ -41,7 +41,7 @@ export class NetworkService {
   private constructor() {
     // initialize firebase
     const firebaseApp = initializeApp({
-      projectId: "cdp-jackson-dev-002",
+      projectId: "cdp-test-deployment-435b5309",
     });
     const settings: Settings = {
       // merge bool Whether to merge the provided settings with the existing settings. If set to true, the settings are merged with existing settings. If set to false or left unset, the settings replace the existing settings.
