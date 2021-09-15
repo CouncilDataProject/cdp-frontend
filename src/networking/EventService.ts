@@ -21,4 +21,18 @@ export default class EventService extends ModelService {
     );
     return this.createModel(networkResponse, Event, `getEventById(${eventId})`);
   }
+
+  async getFullEventById(eventId: string): Promise<Event> {
+    const networkResponse = this.networkService.getDocument(
+      eventId,
+      COLLECTION_NAME.Event,
+      new PopulationOptions([
+        new Populate(COLLECTION_NAME.Body, REF_PROPERTY_NAME.EventBodyRef),
+        new Populate(COLLECTION_NAME.File, REF_PROPERTY_NAME.EventStaticThumbnailRef),
+        new Populate(COLLECTION_NAME.File, REF_PROPERTY_NAME.EventHoverThumbnailRef),
+      ])
+    );
+
+    return this.createModel(networkResponse, Event, `getFullEventById(${eventId})`);
+  }
 }

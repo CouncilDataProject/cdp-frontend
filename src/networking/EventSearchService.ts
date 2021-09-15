@@ -7,6 +7,8 @@ import { NetworkService } from "./NetworkService";
 import { NoDocumentsError } from "./NetworkResponse";
 import { COLLECTION_NAME } from "./PopulationOptions";
 import { sumBy, maxBy } from "lodash";
+import EventService from "./EventService";
+import Event from "../models/Event";
 
 /**
  * The primary return of searchEvents.
@@ -35,13 +37,45 @@ class MatchingEvent {
   }
 }
 
+/**
+ * The primary return of getRenderableEvent.
+ * Contains all information needed to created paginated requests for full event
+ * information, along with minimal information used for display.
+ */
+class RenderableEvent {
+  event: Event;
+  pureRelevance: number;
+  datetimeWeightedRelevance: number;
+  containedGrams: string[];
+  selectedContextSpan: string;
+  keyGrams: string[];
+
+  constructor(
+    event: Event,
+    pureRelevance: number,
+    datetimeWeightedRelevance: number,
+    containedGrams: string[],
+    selectedContextSpan: string,
+    keyGrams: string[]
+  ) {
+    this.event = event;
+    this.pureRelevance = pureRelevance;
+    this.datetimeWeightedRelevance = datetimeWeightedRelevance;
+    this.containedGrams = containedGrams;
+    this.selectedContextSpan = selectedContextSpan;
+    this.keyGrams = keyGrams;
+  }
+}
+
 export default class EventSearchService {
   networkService: NetworkService;
+  eventService: EventService;
   indexedEventGramService: IndexedEventGramService;
   private serviceName: string;
 
   constructor() {
     this.networkService = NetworkService.getInstance();
+    this.eventService = new EventService();
     this.indexedEventGramService = new IndexedEventGramService();
     this.serviceName = "EventSearchService";
   }
@@ -102,7 +136,7 @@ export default class EventSearchService {
    * query the database for matching events, and compile the results into an array of
    * MatchingEvent objects that can be used for later full event information display.
    *
-   * See getFullEventResult for taking the results of this function and retrieving
+   * See getRenderableEvent for taking the results of this function and retrieving
    * "render ready" objects.
    */
   async searchEvents(query: string): Promise<MatchingEvent[]> {
@@ -190,6 +224,54 @@ export default class EventSearchService {
         error = new Error(String(err));
       }
       error.message = `${this.serviceName}_searchEvents(${query})_${error.message}`;
+      return Promise.reject(error);
+    }
+  }
+
+  /**
+   * getRenderableEvent fetches all data required for rendering an Event Card.
+   */
+  async getRenderableEvent(matchingEvent: MatchingEvent): Promise<RenderableEvent> {
+    const eventId = matchingEvent.eventRef.split("/")[1];
+    const fullEventPromise = this.eventService.getFullEventById(eventId);
+
+    const eventKeyGramsPromise = this.indexedEventGramService.getKeyGramsForEvent(
+      matchingEvent.eventRef
+    );
+
+    try {
+      const [event, eventKeyGrams] = await Promise.all([fullEventPromise, eventKeyGramsPromise]);
+
+      // Unpack keygrams to get strings
+      const keyUnstemmedGrams = eventKeyGrams.reduce((list, gram) => {
+        if (gram.unstemmed_gram !== undefined) {
+          list.push(gram.unstemmed_gram);
+        }
+        return list;
+      }, [] as string[]);
+
+      return Promise.resolve(
+        new RenderableEvent(
+          event,
+          matchingEvent.pureRelevance,
+          matchingEvent.datetimeWeightedRelevance,
+          matchingEvent.containedGrams,
+          matchingEvent.selectedContextSpan,
+          keyUnstemmedGrams
+        )
+      );
+
+      // Handle service error
+    } catch (err) {
+      let error: Error;
+      if (err instanceof Error) {
+        error = err;
+      } else if (typeof err === "string") {
+        error = new Error(err);
+      } else {
+        error = new Error(String(err));
+      }
+      error.message = `${this.serviceName}_getRenderableEvent(${matchingEvent.eventRef})_${error.message}`;
       return Promise.reject(error);
     }
   }

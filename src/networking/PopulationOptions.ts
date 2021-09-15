@@ -17,6 +17,8 @@ export enum COLLECTION_NAME {
 
 export enum REF_PROPERTY_NAME {
   EventBodyRef = "body_ref",
+  EventHoverThumbnailRef = "hover_thumbnail_ref",
+  EventStaticThumbnailRef = "static_thumbnail_ref",
   EventMinutesItemEventRef = "event_ref",
   EventMinutesItemMinutesItemRef = "minutes_item_ref",
   EventMinutesItemFileEventMinutesItemRef = "event_minutes_item_ref",
@@ -40,7 +42,11 @@ export function getCollectionForReference(reference: string): COLLECTION_NAME | 
     case REF_PROPERTY_NAME.PersonPictureRef:
       return COLLECTION_NAME.File;
     case REF_PROPERTY_NAME.EventBodyRef:
-      return COLLECTION_NAME.Event;
+      return COLLECTION_NAME.Body;
+    case REF_PROPERTY_NAME.EventHoverThumbnailRef:
+      return COLLECTION_NAME.File;
+    case REF_PROPERTY_NAME.EventStaticThumbnailRef:
+      return COLLECTION_NAME.File;
     case REF_PROPERTY_NAME.EventMinutesItemEventRef:
       return COLLECTION_NAME.Event;
     case REF_PROPERTY_NAME.EventMinutesItemMinutesItemRef:
