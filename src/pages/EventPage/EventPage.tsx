@@ -2,6 +2,7 @@ import React, { FC, useEffect } from "react";
 
 import { useParams } from "react-router-dom";
 
+import { useAppConfigContext } from "../../app";
 import EventService from "../../networking/EventService";
 import SessionService from "../../networking/SessionService";
 import TranscriptService from "../../networking/TranscriptService";
@@ -9,19 +10,17 @@ import EventMinutesItemService from "../../networking/EventMinutesItemService";
 import EventMinutesItemFileService from "../../networking/EventMinutesItemFileService";
 import VoteService from "../../networking/VoteService";
 import TranscriptJsonService from "../../networking/TranscriptJsonService";
-import useFetchData, {
-  FetchDataActionType,
-} from "../../containers/FetchDataContainer/useFetchData";
-
 import Vote from "../../models/Vote";
 import { Sentence } from "../../models/TranscriptJson";
 
-import { EventContainer } from "../../containers/EventContainer";
+import useFetchData, {
+  FetchDataActionType,
+} from "../../containers/FetchDataContainer/useFetchData";
 import FetchDataContainer from "../../containers/FetchDataContainer/FetchDataContainer";
-
+import { EventContainer } from "../../containers/EventContainer";
 import { SentenceWithSessionIndex, EventData } from "../../containers/EventContainer/types";
+
 import { createError } from "../../utils/createError";
-import { useAppConfigContext } from "../..";
 
 const EventPage: FC = () => {
   // Get the id the the event, provided the route is `events/:id`
