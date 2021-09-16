@@ -13,7 +13,7 @@ import { PersonContainer } from "../../containers/PersonContainer";
 
 import { createError } from "../../utils/createError";
 
-const EventPage: FC = () => {
+const PersonPage: FC = () => {
   // Get the id the person, provided the route is `persons/:id`
   const { id } = useParams<{ id: string }>();
   // Get the app config context
@@ -64,4 +64,4 @@ const EventPage: FC = () => {
   );
 };
 
-export default EventPage;
+export default PersonPage;
