@@ -45,7 +45,7 @@ const PersonPage: FC = () => {
       } catch (err) {
         if (!didCancel) {
           const error = createError(err);
-          personDataDispatch({ type: FetchDataActionType.FETCH_FAILTURE, payload: error });
+          personDataDispatch({ type: FetchDataActionType.FETCH_FAILURE, payload: error });
         }
       }
     };

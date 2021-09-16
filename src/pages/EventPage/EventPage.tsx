@@ -148,7 +148,7 @@ const EventPage: FC = () => {
       } catch (err) {
         if (!didCancel) {
           const error = createError(err);
-          eventDataDispatch({ type: FetchDataActionType.FETCH_FAILTURE, payload: error });
+          eventDataDispatch({ type: FetchDataActionType.FETCH_FAILURE, payload: error });
         }
       }
     };
