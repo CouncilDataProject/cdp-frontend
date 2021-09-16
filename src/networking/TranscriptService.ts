@@ -11,10 +11,11 @@ import {
 import { ORDER_DIRECTION, WHERE_OPERATOR } from "./constants";
 
 import Transcript from "../models/Transcript";
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class TranscriptService extends ModelService {
-  constructor() {
-    super(COLLECTION_NAME.Transcript);
+  constructor(firebaseConfig: FirebaseConfig) {
+    super(COLLECTION_NAME.Transcript, firebaseConfig);
   }
 
   async getTranscriptBySessionId(sessionId: string): Promise<Transcript[]> {

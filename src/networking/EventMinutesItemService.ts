@@ -11,10 +11,11 @@ import {
 import { WHERE_OPERATOR } from "./constants";
 
 import EventMinutesItem from "../models/EventMinutesItem";
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class EventMinutesItemService extends ModelService {
-  constructor() {
-    super(COLLECTION_NAME.EventMinutesItem);
+  constructor(firebaseConfig: FirebaseConfig) {
+    super(COLLECTION_NAME.EventMinutesItem, firebaseConfig);
   }
 
   async getEventMinutesItemsByEventId(eventId: string): Promise<EventMinutesItem[]> {

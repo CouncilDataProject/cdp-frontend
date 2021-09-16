@@ -1,4 +1,5 @@
 import { where, orderBy, doc } from "@firebase/firestore";
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 import { NetworkService } from "./NetworkService";
 import ModelService from "./ModelService";
@@ -8,8 +9,8 @@ import { WHERE_OPERATOR } from "./constants";
 import EventMinutesItemFile from "../models/EventMinutesItemFile";
 
 export default class EventMinutesItemFileService extends ModelService {
-  constructor() {
-    super(COLLECTION_NAME.EventMinutesItemFile);
+  constructor(firebaseConfig: FirebaseConfig) {
+    super(COLLECTION_NAME.EventMinutesItemFile, firebaseConfig);
   }
 
   async getEventMinutesItemFilesByEventMinutesItemId(

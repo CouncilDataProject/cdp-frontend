@@ -21,23 +21,26 @@ import FetchDataContainer from "../../containers/FetchDataContainer/FetchDataCon
 
 import { SentenceWithSessionIndex, EventData } from "../../containers/EventContainer/types";
 import { createError } from "../../utils/createError";
+import { useAppConfigContext } from "../..";
 
 const EventPage: FC = () => {
   // Get the id the the event, provided the route is `events/:id`
   const { id } = useParams<{ id: string }>();
+  // Get the app config context
+  const { firebaseConfig } = useAppConfigContext();
 
   const { state: eventDataState, dispatch: eventDataDispatch } = useFetchData<EventData>({
     isLoading: false,
   });
 
   useEffect(() => {
-    const eventService = new EventService();
-    const sessionService = new SessionService();
-    const transcriptService = new TranscriptService();
-    const eventMinutesItemService = new EventMinutesItemService();
-    const eventMinutesItemFileService = new EventMinutesItemFileService();
-    const voteService = new VoteService();
-    const transcriptJsonService = new TranscriptJsonService();
+    const eventService = new EventService(firebaseConfig);
+    const sessionService = new SessionService(firebaseConfig);
+    const transcriptService = new TranscriptService(firebaseConfig);
+    const eventMinutesItemService = new EventMinutesItemService(firebaseConfig);
+    const eventMinutesItemFileService = new EventMinutesItemFileService(firebaseConfig);
+    const voteService = new VoteService(firebaseConfig);
+    const transcriptJsonService = new TranscriptJsonService(firebaseConfig);
 
     let didCancel = false;
 

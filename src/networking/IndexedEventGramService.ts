@@ -5,10 +5,11 @@ import IndexedEventGram from "../models/IndexedEventGram";
 import { where, limit, orderBy, doc } from "firebase/firestore";
 import { WHERE_OPERATOR } from "./constants";
 import { NetworkService } from "./NetworkService";
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class IndexedEventGramService extends ModelService {
-  constructor() {
-    super(COLLECTION_NAME.IndexedEventGram);
+  constructor(firebaseConfig: FirebaseConfig) {
+    super(COLLECTION_NAME.IndexedEventGram, firebaseConfig);
   }
 
   async getMatchingGrams(stemmedGram: string): Promise<IndexedEventGram[]> {
