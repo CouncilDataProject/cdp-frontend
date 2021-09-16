@@ -3,7 +3,7 @@ import Event from "../../models/Event";
 import EventService from "../EventService";
 
 describe("ModelService", () => {
-  const eventService = new EventService();
+  const eventService = new EventService({ options: { projectId: "test" }, settings: {} });
   describe("createModel", () => {
     test("Dynamically creates database model", async () => {
       const createModelResponse = await eventService.createModel(
@@ -30,7 +30,7 @@ describe("ModelService", () => {
           "getEventById"
         );
       } catch (e) {
-        expect(e.message).toEqual(`EventService_getEventById_${errorMessage}`);
+        expect((e as Error).message).toEqual(`EventService_getEventById_${errorMessage}`);
       }
     });
     test("Rejects with no data message", async () => {
@@ -41,7 +41,7 @@ describe("ModelService", () => {
           "getEventById"
         );
       } catch (e) {
-        expect(e.message).toEqual("EventService_getEventById_No event found.");
+        expect((e as Error).message).toEqual("EventService_getEventById_No event found.");
       }
     });
   });
