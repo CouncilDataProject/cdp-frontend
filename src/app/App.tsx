@@ -1,7 +1,7 @@
 import React from "react";
-import { Footer } from "./index";
+import { Footer } from "../index";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
-import { strings } from "./assets/LocalizedStrings";
+import { strings } from "../assets/LocalizedStrings";
 
 function App() {
   return (
