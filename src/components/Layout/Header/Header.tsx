@@ -73,12 +73,12 @@ const Header: FC = () => {
                     </li>
                     <li className="mzp-c-menu-category">
                       <Link to="/events" className="mzp-c-menu-title">
-                        Meetings
+                        {strings.events}
                       </Link>
                     </li>
                     <li className="mzp-c-menu-category">
                       <Link to="/people" className="mzp-c-menu-title">
-                        Council Members
+                        {strings.people}
                       </Link>
                     </li>
                   </ul>
