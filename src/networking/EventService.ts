@@ -7,10 +7,11 @@ import {
 } from "./PopulationOptions";
 
 import Event from "../models/Event";
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class EventService extends ModelService {
-  constructor() {
-    super(COLLECTION_NAME.Event);
+  constructor(firebaseConfig: FirebaseConfig) {
+    super(COLLECTION_NAME.Event, firebaseConfig);
   }
 
   async getEventById(eventId: string): Promise<Event> {

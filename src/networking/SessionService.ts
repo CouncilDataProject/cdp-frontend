@@ -6,10 +6,11 @@ import { COLLECTION_NAME, REF_PROPERTY_NAME } from "./PopulationOptions";
 import { WHERE_OPERATOR } from "./constants";
 
 import Session from "../models/Session";
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class SessionService extends ModelService {
-  constructor() {
-    super(COLLECTION_NAME.Session);
+  constructor(firebaseConfig: FirebaseConfig) {
+    super(COLLECTION_NAME.Session, firebaseConfig);
   }
 
   async getSessionsByEventId(eventId: string): Promise<Session[]> {

@@ -11,6 +11,7 @@ import EventService from "./EventService";
 import Event from "../models/Event";
 import { createError } from "../utils/createError";
 import { getStorage, ref, getDownloadURL } from "@firebase/storage";
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 /**
  * The primary return of searchEvents.
@@ -81,10 +82,13 @@ export default class EventSearchService {
   indexedEventGramService: IndexedEventGramService;
   private serviceName: string;
 
-  constructor() {
-    this.networkService = NetworkService.getInstance();
-    this.eventService = new EventService();
-    this.indexedEventGramService = new IndexedEventGramService();
+  constructor(firebaseConfig: FirebaseConfig) {
+    this.networkService = NetworkService.getInstance(
+      firebaseConfig.options,
+      firebaseConfig.settings
+    );
+    this.eventService = new EventService(firebaseConfig);
+    this.indexedEventGramService = new IndexedEventGramService(firebaseConfig);
     this.serviceName = "EventSearchService";
   }
 

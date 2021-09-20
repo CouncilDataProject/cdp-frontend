@@ -1,10 +1,11 @@
 import ModelService from "./ModelService";
 import { COLLECTION_NAME } from "./PopulationOptions";
 import Person from "../models/Person";
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class PersonService extends ModelService {
-  constructor() {
-    super(COLLECTION_NAME.Person);
+  constructor(firebaseConfig: FirebaseConfig) {
+    super(COLLECTION_NAME.Person, firebaseConfig);
   }
 
   async getPersonById(personId: string): Promise<Person> {

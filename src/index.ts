@@ -1,5 +1,5 @@
 // Default App
-export { default as App } from "./App";
+export { App, AppConfigProvider, useAppConfigContext } from "./app";
 
 // Filters
 export { FilterPopup } from "./components/Filters/FilterPopup";

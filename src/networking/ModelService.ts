@@ -1,3 +1,4 @@
+import { FirebaseConfig } from "../app/AppConfigContext";
 import { NetworkResponse, NetworkQueryResponse } from "./NetworkResponse";
 import { NetworkService } from "./NetworkService";
 
@@ -10,8 +11,11 @@ export default class ModelService {
   private modelName: string;
   private serviceName: string;
 
-  constructor(modelName: string) {
-    this.networkService = NetworkService.getInstance();
+  constructor(modelName: string, firebaseConfig: FirebaseConfig) {
+    this.networkService = NetworkService.getInstance(
+      firebaseConfig.options,
+      firebaseConfig.settings
+    );
     this.modelName = modelName;
     const modelNamePascalCase = modelName
       .split("_")

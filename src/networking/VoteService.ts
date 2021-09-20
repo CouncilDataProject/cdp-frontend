@@ -11,10 +11,11 @@ import {
 import { WHERE_OPERATOR } from "./constants";
 
 import Vote from "../models/Vote";
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class VoteService extends ModelService {
-  constructor() {
-    super(COLLECTION_NAME.Vote);
+  constructor(firebaseConfig: FirebaseConfig) {
+    super(COLLECTION_NAME.Vote, firebaseConfig);
   }
 
   async getVotesByEventId(eventId: string): Promise<Vote[]> {

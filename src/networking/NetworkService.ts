@@ -2,7 +2,7 @@
  * The NetworkService class defines the `getInstance` method that lets clients access
  * the unique NetworkService instance. I wanted to do this since we only want/need 1 firebase instance.
  */
-import { initializeApp } from "firebase/app";
+import { initializeApp, FirebaseOptions } from "firebase/app";
 import {
   FirebaseFirestore,
   getFirestore,
@@ -38,18 +38,9 @@ export class NetworkService {
    * The NetworkService's constructor should always be private to prevent direct
    * construction calls with the `new` operator.
    */
-  private constructor() {
+  private constructor(firebaseOptions: FirebaseOptions, settings: Settings) {
     // initialize firebase
-    const firebaseApp = initializeApp({
-      projectId: "cdp-test-deployment-435b5309",
-    });
-    const settings: Settings = {
-      // merge bool Whether to merge the provided settings with the existing settings. If set to true, the settings are merged with existing settings. If set to false or left unset, the settings replace the existing settings.
-      // ssl bool Whether to use SSL when connecting.
-      // ignoreUndefinedProperties bool Whether to skip nested properties that are set to undefined during object serialization. If set to true, these properties are skipped and not written to Firestore. If set to false or omitted, the SDK throws an exception when it encounters properties of type undefined.
-      // cacheSizeBytes bool An approximate cache size threshold for the on-disk data. If the cache grows beyond this size, Firestore will start removing data that hasn't been recently used. The size is not a guarantee that the cache will stay below that size, only that if the cache exceeds the given size, cleanup will be attempted.
-      // The default value is 40 MB. The threshold must be set to at least 1 MB, and can be set to CACHE_SIZE_UNLIMITED to disable garbage collection.
-    };
+    const firebaseApp = initializeApp(firebaseOptions);
     initializeFirestore(firebaseApp, settings);
     NetworkService.db = getFirestore();
   }
@@ -61,9 +52,9 @@ export class NetworkService {
    * just one instance of each subclass around.
    */
 
-  public static getInstance(): NetworkService {
+  public static getInstance(firebaseOptions: FirebaseOptions, settings: Settings): NetworkService {
     if (!NetworkService.instance) {
-      NetworkService.instance = new NetworkService();
+      NetworkService.instance = new NetworkService(firebaseOptions, settings);
     }
     return NetworkService.instance;
   }

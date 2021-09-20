@@ -9,7 +9,7 @@ export interface FetchDataState<T> {
 export enum FetchDataActionType {
   FETCH_INIT = "FETCH_INIT",
   FETCH_SUCCESS = "FETCH_SUCCESS",
-  FETCH_FAILTURE = "FETCH_FAILURE",
+  FETCH_FAILURE = "FETCH_FAILURE",
 }
 
 export interface FetchDataAction {
@@ -22,21 +22,21 @@ const createFetchDataReducer = <T>() => (
   action: FetchDataAction
 ): FetchDataState<T> => {
   switch (action.type) {
-    case "FETCH_INIT": {
+    case FetchDataActionType.FETCH_INIT: {
       return {
         ...state,
         isLoading: true,
         error: null,
       };
     }
-    case "FETCH_SUCCESS": {
+    case FetchDataActionType.FETCH_SUCCESS: {
       return {
         ...state,
         isLoading: false,
         data: action.payload as T,
       };
     }
-    case "FETCH_FAILURE": {
+    case FetchDataActionType.FETCH_FAILURE: {
       return {
         ...state,
         isLoading: false,
