@@ -25,7 +25,7 @@ interface NavItemsProps {
   isVisible: boolean;
 }
 const NavItems = styled.div<NavItemsProps>((props) => ({
-  // Visibility determined props on mobile
+  // Visibility determined by props on mobile
   display: props.isVisible ? "block" : "none",
   [`@media (min-width:${screenWidths.tablet})`]: {
     // Always visible on tablet size or above
