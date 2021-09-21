@@ -22,8 +22,9 @@ const FlexContainer = styled.div({
 });
 
 const Main = styled.main({
+  boxSizing: "border-box",
   width: "100%",
-  padding: "8px",
+  padding: "16px",
   // Main component takes up all of the remaining height of the flex container
   flex: 1,
   // Align center across the horizontal axis
