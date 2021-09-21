@@ -22,6 +22,7 @@ const FlexContainer = styled.div({
 });
 
 const Main = styled.main({
+  width: "100%",
   padding: "8px",
   // Main component takes up all of the remaining height of the flex container
   flex: 1,
