@@ -12,15 +12,24 @@ import { PersonPage } from "../pages/PersonPage";
 import { PeoplePage } from "../pages/PeoplePage";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
+import { screenWidths } from "../styles/mediaBreakpoints";
 
 const FlexContainer = styled.div({
   // The App takes up at least 100% of the view height
   minHeight: "100vh",
   display: "flex",
   flexDirection: "column",
-  "& > main": {
-    // The main component takes up all of the remaining height of the flex container
-    flex: 1,
+});
+
+const Main = styled.main({
+  padding: "8px",
+  // Main component takes up all of the remaining height of the flex container
+  flex: 1,
+  // Align center across the horizontal axis
+  alignSelf: "center",
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    padding: "32px",
+    maxWidth: "1280px",
   },
 });
 
@@ -30,7 +39,7 @@ function App() {
       <Router basename="/">
         <FlexContainer>
           <Header />
-          <main>
+          <Main>
             <Switch>
               <Route exact path="/">
                 <HomePage />
@@ -51,7 +60,7 @@ function App() {
                 <PersonPage />
               </Route>
             </Switch>
-          </main>
+          </Main>
           <Footer footerLinksSections={[]} />
         </FlexContainer>
       </Router>
