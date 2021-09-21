@@ -6,10 +6,8 @@ import { useAppConfigContext } from "../..";
 import { HomeSearchBar } from "../../components/Layout/HomeSearchBar";
 
 const Container = styled.div({
-  // Center the children horizontally and vertically
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  display: "grid",
+  gridTemplateColumns: "1fr",
 });
 
 const HomePage: FC = () => {
@@ -17,7 +15,7 @@ const HomePage: FC = () => {
 
   return (
     <Container>
-      <h1>{`Discover ${municipality.name} city council meetings, legislations, and members`}</h1>
+      <h1 className="mzp-u-title-xs">{`Discover ${municipality.name} city council meetings, legislations, and members`}</h1>
       <HomeSearchBar />
     </Container>
   );
