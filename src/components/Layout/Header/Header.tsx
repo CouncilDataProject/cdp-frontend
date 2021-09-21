@@ -14,7 +14,7 @@ const CDPLogo = styled.div({
 });
 
 const HamburgerMenuButton = styled.button({
-  display: "inline",
+  display: "block",
   [`@media (min-width:${screenWidths.tablet})`]: {
     // Always hidden on tablet size or above
     display: "none",
