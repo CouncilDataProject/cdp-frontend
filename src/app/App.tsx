@@ -2,6 +2,8 @@ import React from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "@emotion/styled";
 
+import { useAppConfigContext } from "./AppConfigContext";
+
 import { Header } from "../components/Layout/Header";
 import { Footer } from "../components/Layout/Footer";
 import { HomePage } from "../pages/HomePage";
@@ -36,6 +38,7 @@ const Main = styled.main({
 });
 
 function App() {
+  const { municipality } = useAppConfigContext();
   return (
     <>
       <Router basename="/">
@@ -63,7 +66,7 @@ function App() {
               </Route>
             </Switch>
           </Main>
-          <Footer footerLinksSections={[]} />
+          <Footer footerLinksSections={municipality.footerLinksSections} />
         </FlexContainer>
       </Router>
     </>

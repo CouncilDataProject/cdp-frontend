@@ -13,6 +13,13 @@ export interface AppConfig {
   firebaseConfig: FirebaseConfig;
   municipality: {
     name: string;
+    footerLinksSections: {
+      footerLinksSectionName: string;
+      links: {
+        label: string;
+        url: string;
+      }[];
+    }[];
   };
 }
 
@@ -33,6 +40,7 @@ const AppConfigContext = createContext<AppConfig>({
   },
   municipality: {
     name: "Test deployment",
+    footerLinksSections: [],
   },
 });
 

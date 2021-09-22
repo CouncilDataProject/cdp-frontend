@@ -14,6 +14,7 @@ ReactDOM.render(
         },
         municipality: {
           name: "Test Deployment",
+          footerLinksSections: [],
         },
       }}
     >
