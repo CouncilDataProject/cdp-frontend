@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
 
-import { useAppConfigContext } from "../..";
-
 import { HomeSearchBar } from "../../components/Layout/HomeSearchBar";
+
+import { strings } from "../../assets/LocalizedStrings";
 
 const Container = styled.div({
   display: "grid",
@@ -11,11 +11,9 @@ const Container = styled.div({
 });
 
 const HomePage: FC = () => {
-  const { municipality } = useAppConfigContext();
-
   return (
     <Container>
-      <h1 className="mzp-u-title-xs">{`Discover ${municipality.name} city council meetings, legislations, and members`}</h1>
+      <h1 className="mzp-u-title-xs">{strings.search_city_council}</h1>
       <HomeSearchBar />
     </Container>
   );
