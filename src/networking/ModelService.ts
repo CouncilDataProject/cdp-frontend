@@ -5,6 +5,7 @@ import { NetworkService } from "./NetworkService";
 import { ModelConstructor, Model } from "../models/Model";
 
 import { createError } from "../utils/createError";
+import { NoDocumentsError } from "./NetworkResponse";
 
 export default class ModelService {
   networkService: NetworkService;
@@ -57,7 +58,11 @@ export default class ModelService {
       const { data, error } = await networkQueryResponse;
 
       if (error) {
-        throw error;
+        if (error instanceof NoDocumentsError) {
+          return Promise.resolve([]);
+        } else {
+          throw error;
+        }
       }
 
       if (!data || data.length === 0) {
