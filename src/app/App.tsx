@@ -43,7 +43,7 @@ function App() {
     <>
       <Router basename="/">
         <FlexContainer>
-          <Header />
+          <Header municipalityName={municipality.name} />
           <Main>
             <Switch>
               <Route exact path="/">

@@ -33,7 +33,12 @@ const NavItems = styled.div<NavItemsProps>((props) => ({
   },
 }));
 
-const Header: FC = () => {
+export interface HeaderProps {
+  /** The name of the municipality */
+  municipalityName: string;
+}
+
+const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
   const [navigationIsVisible, setNavigationIsVisible] = useState<boolean>(false);
 
   return (
@@ -68,7 +73,7 @@ const Header: FC = () => {
                   <ul className="mzp-c-menu-category-list">
                     <li className="mzp-c-menu-category">
                       <Link to="/" className="mzp-c-menu-title">
-                        Home
+                        {municipalityName}
                       </Link>
                     </li>
                     <li className="mzp-c-menu-category">
