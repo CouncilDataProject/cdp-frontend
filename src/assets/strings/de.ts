@@ -42,7 +42,7 @@ const de = {
   in_progress: "In Bearbeitung",
   example_prefix: "Beispiel:",
   search_topic_placeholder: "Thema suchen...",
-  search_city_council_transcripts: "Transkripte des Stadtrats suchen",
+  search_city_council: "Stadtrat suchen",
   events: "Veranstaltungen",
   links: "Links",
   people: "Menschen",
