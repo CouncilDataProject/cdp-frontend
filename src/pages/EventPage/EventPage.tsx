@@ -85,7 +85,7 @@ const EventPage: FC = () => {
         // The second dimension is the number of speaker indices for a given transcript
         // The third dimension is the number of sentences for a given speaker index
         const transcriptSentencesBySpeakerIndex = transcriptJsons.map((transcriptJson) => {
-          const sentencesBySpeakerIndex: Sentence[][] = [];
+          const sentencesBySpeakerIndex: Sentence[][] = [[]];
           let currentSpeakerIndex = 0;
           transcriptJson?.sentences?.forEach((sentence) => {
             const speakerIndex = sentence?.speaker_index;
