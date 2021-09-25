@@ -8,13 +8,25 @@ import { FilterState } from "../../Filters/reducer";
 import { getDateText, SelectDateRange } from "../../Filters/SelectDateRange";
 import { getSelectedOptions, SelectTextFilterOptions } from "../../Filters/SelectTextFilterOptions";
 import { SEARCH_TYPE } from "../../../constants/ProjectConstants";
-import { default as exampleTopics } from "../../../assets/example-topics.json";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 
 import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 import { strings } from "../../../assets/LocalizedStrings";
+
+const EXAMPLE_TOPICS = [
+  "minimum wage",
+  "police budget",
+  "rent control",
+  "municipal broadband",
+  "police accountability",
+  "homelessness response",
+  "municipal broadband, digital equity",
+  "sodo stadium",
+  "35 ave bike lane",
+  "capitol hill megablock",
+];
 
 const gridContainer = `
   display: grid;
@@ -102,7 +114,7 @@ const getSearchTypeText = (checkboxes: FilterState<boolean>, defaultText: string
   return textRep;
 };
 
-const exampleSearchQuery = exampleTopics[Math.floor(Math.random() * exampleTopics.length)];
+const exampleSearchQuery = EXAMPLE_TOPICS[Math.floor(Math.random() * EXAMPLE_TOPICS.length)];
 
 const HomeSearchBar: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
