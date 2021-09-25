@@ -33,4 +33,20 @@ export default class VoteService extends ModelService {
     );
     return this.createModels(networkQueryResponse, Vote, `getVotesByEventId(${eventId})`);
   }
+
+  async getVotesByPersonId(personId: string): Promise<Vote[]> {
+    const networkQueryResponse = this.networkService.getDocuments(
+      COLLECTION_NAME.Vote,
+      [
+        where(
+          REF_PROPERTY_NAME.VotePersonRef,
+          WHERE_OPERATOR.eq,
+          doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
+        ),
+        orderBy(REF_PROPERTY_NAME.VotePersonRef),
+      ],
+      new PopulationOptions([new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.VotePersonRef)])
+    );
+    return this.createModels(networkQueryResponse, Vote, `getVotesByPersonId(${personId})`);
+  }
 }

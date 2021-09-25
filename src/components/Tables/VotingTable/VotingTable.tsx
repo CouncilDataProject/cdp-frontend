@@ -3,13 +3,14 @@ import { VotingTableRow } from "../VotingTableRow";
 import { EmptyRow } from "../EmptyRow";
 import { strings } from "../../../assets/LocalizedStrings";
 import { ReactiveTable } from "../ReactiveTable";
+import Vote from "../../../models/Vote";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type VotingTableProps = {
   /** the name of the legislator */
   name: string;
   /** an array of Votes */
-  votesPage: object[];
+  votesPage: Vote[];
 };
 
 /*

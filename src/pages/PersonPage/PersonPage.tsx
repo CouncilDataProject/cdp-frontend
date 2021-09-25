@@ -2,16 +2,16 @@ import React, { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { useAppConfigContext } from "../../app";
-import Person from "../../models/Person";
-import PersonService from "../../networking/PersonService";
-
 import useFetchData, {
   FetchDataActionType,
 } from "../../containers/FetchDataContainer/useFetchData";
 import FetchDataContainer from "../../containers/FetchDataContainer/FetchDataContainer";
 import { PersonContainer } from "../../containers/PersonContainer";
+import { PersonPageData } from "../../containers/PersonContainer/types";
+import PersonService from "../../networking/PersonService";
 
 import { createError } from "../../utils/createError";
+import VoteService from "../../networking/VoteService";
 
 const PersonPage: FC = () => {
   // Get the id the person, provided the route is `persons/:id`
@@ -20,12 +20,13 @@ const PersonPage: FC = () => {
   const { firebaseConfig } = useAppConfigContext();
 
   // Initialize the state of fetching the person's data
-  const { state: personDataState, dispatch: personDataDispatch } = useFetchData<Person>({
+  const { state: personDataState, dispatch: personDataDispatch } = useFetchData<PersonPageData>({
     isLoading: false,
   });
 
   useEffect(() => {
     const personService = new PersonService(firebaseConfig);
+    const voteService = new VoteService(firebaseConfig);
 
     let didCancel = false;
 
@@ -35,11 +36,14 @@ const PersonPage: FC = () => {
       try {
         // Get data from the person id
         const person = await personService.getPersonById(id);
-
+        const votes = await voteService.getVotesByPersonId(id);
         if (!didCancel) {
           personDataDispatch({
             type: FetchDataActionType.FETCH_SUCCESS,
-            payload: person,
+            payload: {
+              person,
+              votes,
+            },
           });
         }
       } catch (err) {
@@ -59,7 +63,7 @@ const PersonPage: FC = () => {
 
   return (
     <FetchDataContainer isLoading={personDataState.isLoading} error={personDataState.error}>
-      {personDataState.data && <PersonContainer person={personDataState.data} />}
+      {personDataState.data && <PersonContainer {...personDataState.data} />}
     </FetchDataContainer>
   );
 };

@@ -13,6 +13,28 @@ const Template: Story<PersonContainerProps> = (args) => <PersonContainer {...arg
 export const Default = Template.bind({});
 Default.args = {
   person: {
-    name: "Person",
+    id: "test-id",
+    name: "Test Person",
+    email: "test-person@test.com",
+    phone: "206-867-5309",
+    website: "www.google.com",
+    router_string: "test.person",
+    is_active: true,
   },
+
+  votes: [
+    {
+      matter: {
+        id: "example-matter-id",
+        name: "example-matter-name",
+        title: "example-matter-title",
+      },
+      decision: "Approve",
+      in_majority: true,
+      event: {
+        id: "example-event-id",
+        event_datetime: new Date(),
+      },
+    },
+  ],
 };

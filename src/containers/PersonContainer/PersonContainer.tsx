@@ -1,18 +1,28 @@
 import React from "react";
-import Person from "../../models/Person";
+import { PersonCard, VotingTable } from "../..";
+import { PersonPageData } from "./types";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
-export type PersonContainerProps = {
-  /** The person's data */
-  person: Person;
-};
+export interface PersonContainerProps extends PersonPageData {
+  /** Any extra info */
+  searchQuery?: string;
+}
 
-const PersonContainer = ({ person }: PersonContainerProps) => {
+const PersonContainer = ({ person, votes }: PersonContainerProps) => {
   return (
     <div>
-      <p className="mzp-c-card-desc" style={{ marginLeft: 8 }}>
-        {`${JSON.stringify(person)}`}
-      </p>
+      <PersonCard
+        personName={person.name!}
+        personPictureSrc={""}
+        personIsActive={person.is_active!}
+        seatName={"unknown"}
+        seatElectoralArea={"Unknown Area"}
+        seatPictureSrc={undefined}
+        chairedBodyNames={"strings"}
+        tenureStatus={"Tenure Status"}
+        billsSponsored={0}
+      />
+      <VotingTable name={person.name || "No Name Found"} votesPage={votes} />
     </div>
   );
 };
