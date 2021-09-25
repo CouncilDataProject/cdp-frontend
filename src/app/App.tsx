@@ -1,70 +1,74 @@
 import React from "react";
-import { Footer } from "../index";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import styled from "@emotion/styled";
+
+import { useAppConfigContext } from "./AppConfigContext";
+
+import { Header } from "../components/Layout/Header";
+import { Footer } from "../components/Layout/Footer";
+import { HomePage } from "../pages/HomePage";
+import { SearchPage } from "../pages/SearchPage";
+import { EventPage } from "../pages/EventPage";
+import { EventsPage } from "../pages/EventsPage";
+import { PersonPage } from "../pages/PersonPage";
+import { PeoplePage } from "../pages/PeoplePage";
+
 import "@mozilla-protocol/core/protocol/css/protocol.css";
-import { strings } from "../assets/LocalizedStrings";
+import { screenWidths } from "../styles/mediaBreakpoints";
+
+const FlexContainer = styled.div({
+  // The App takes up at least 100% of the view height
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+});
+
+const Main = styled.main({
+  boxSizing: "border-box",
+  width: "100%",
+  padding: "16px",
+  // Main component takes up all of the remaining height of the flex container
+  flex: 1,
+  // Align center across the horizontal axis
+  alignSelf: "center",
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    padding: "32px",
+    maxWidth: "1280px",
+  },
+});
 
 function App() {
+  const { municipality } = useAppConfigContext();
   return (
     <>
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem",
-          borderBottom: "solid 1px rgba(0,0,0,0.2)",
-        }}
-      >
-        <h1 style={{ fontSize: "25px", margin: 0 }}>{strings.council_data_project}</h1>
-        <section>
-          <a href="#/events" style={{ padding: "1rem" }}>
-            {strings.events}
-          </a>
-          <a href="#/people" style={{ padding: "1rem" }}>
-            {strings.people}
-          </a>
-        </section>
-      </header>
-      <main
-        style={{
-          display: "flex",
-          flexFlow: "column wrap",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "85vh",
-        }}
-      >
-        <h1 style={{ fontSize: "30px", marginBottom: "2rem" }}>
-          {strings.search_city_council_transcripts}
-        </h1>
-        <section>
-          <input type="text" style={{ marginRight: "1rem", width: "30vw" }}></input>
-          <button
-            style={{
-              border: "2px solid transparent",
-              color: "#ffffff",
-              fontSize: "1rem",
-              fontWeight: "bold",
-              background: "#0060df",
-              padding: "8px 24px",
-              borderRadius: "4px",
-            }}
-          >
-            {strings.search}
-          </button>
-        </section>
-      </main>
-      <Footer
-        footerLinksSections={[
-          {
-            footerLinksSectionName: strings.links,
-            links: [
-              { label: "Lorem", url: "#" },
-              { label: "Ipsum", url: "#" },
-            ],
-          },
-        ]}
-      />
+      <Router basename="/">
+        <FlexContainer>
+          <Header municipalityName={municipality.name} />
+          <Main>
+            <Switch>
+              <Route exact path="/">
+                <HomePage />
+              </Route>
+              <Route exact path="/search">
+                <SearchPage />
+              </Route>
+              <Route exact path="/events">
+                <EventsPage />
+              </Route>
+              <Route exact path="/events/:id">
+                <EventPage />
+              </Route>
+              <Route exact path="/people">
+                <PeoplePage />
+              </Route>
+              <Route exact path="/people/:id">
+                <PersonPage />
+              </Route>
+            </Switch>
+          </Main>
+          <Footer footerLinksSections={municipality.footerLinksSections} />
+        </FlexContainer>
+      </Router>
     </>
   );
 }

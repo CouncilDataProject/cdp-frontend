@@ -41,7 +41,7 @@ const en = {
   in_progress: "In Progress",
   example_prefix: "Example: ",
   search_topic_placeholder: "Search for a topic...",
-  search_city_council_transcripts: "Search City Council Transcripts",
+  search_city_council: "Search City Council",
   events: "Events",
   links: "Links",
   people: "People",
