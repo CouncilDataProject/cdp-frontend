@@ -36,7 +36,7 @@ const PersonPage: FC = () => {
       try {
         // Get data from the person id
         const person = await personService.getPersonById(id);
-        const votes = await voteService.getVotesByPersonId(id);
+        const votes = await voteService.getFullyPopulatedVotesByPersonId(id);
         if (!didCancel) {
           personDataDispatch({
             type: FetchDataActionType.FETCH_SUCCESS,

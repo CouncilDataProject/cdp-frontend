@@ -34,7 +34,25 @@ export default class VoteService extends ModelService {
     return this.createModels(networkQueryResponse, Vote, `getVotesByEventId(${eventId})`);
   }
 
-  async getVotesByPersonId(personId: string): Promise<Vote[]> {
+  async getFullyPopulatedVotesByPersonId(personId: string): Promise<Vote[]> {
+    const populatePerson = new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.VotePersonRef);
+
+    const populateMatter = new Populate(COLLECTION_NAME.Matter, REF_PROPERTY_NAME.VoteMatterRef);
+
+    const populateEventBody = new Populate(COLLECTION_NAME.Body, REF_PROPERTY_NAME.EventBodyRef);
+    const populateEventBodyCascade = new PopulationOptions([populateEventBody]);
+
+    const populateEvent = new Populate(
+      COLLECTION_NAME.Event,
+      REF_PROPERTY_NAME.VoteEventRef,
+      populateEventBodyCascade
+    );
+
+    const populateEventMinutesItem = new Populate(
+      COLLECTION_NAME.EventMinutesItem,
+      REF_PROPERTY_NAME.VoteEventMinutesItemRef
+    );
+
     const networkQueryResponse = this.networkService.getDocuments(
       COLLECTION_NAME.Vote,
       [
@@ -45,8 +63,17 @@ export default class VoteService extends ModelService {
         ),
         orderBy(REF_PROPERTY_NAME.VotePersonRef),
       ],
-      new PopulationOptions([new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.VotePersonRef)])
+      new PopulationOptions([
+        populatePerson,
+        populateMatter,
+        populateEvent,
+        populateEventMinutesItem,
+      ])
     );
-    return this.createModels(networkQueryResponse, Vote, `getVotesByPersonId(${personId})`);
+    return this.createModels(
+      networkQueryResponse,
+      Vote,
+      `getFullyPopulatedVotesByPersonId(${personId})`
+    );
   }
 }

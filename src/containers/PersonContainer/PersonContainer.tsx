@@ -1,7 +1,10 @@
 import React from "react";
 import { PersonCard, VotingTable } from "../..";
 import { PersonPageData } from "./types";
+import { useMediaQuery } from "react-responsive";
+import { screenWidths } from "../../styles/mediaBreakpoints";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
+import PersonFullView from "./PersonFullView";
 
 export interface PersonContainerProps extends PersonPageData {
   /** Any extra info */
@@ -9,20 +12,25 @@ export interface PersonContainerProps extends PersonPageData {
 }
 
 const PersonContainer = ({ person, votes }: PersonContainerProps) => {
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.largeMobile})` });
   return (
     <div>
-      <PersonCard
-        personName={person.name!}
-        personPictureSrc={""}
-        personIsActive={person.is_active!}
-        seatName={"unknown"}
-        seatElectoralArea={"Unknown Area"}
-        seatPictureSrc={undefined}
-        chairedBodyNames={"strings"}
-        tenureStatus={"Tenure Status"}
-        billsSponsored={0}
-      />
-      <VotingTable name={person.name || "No Name Found"} votesPage={votes} />
+      {isMobile && (
+        <PersonCard
+          personName={person.name!}
+          personPictureSrc={""}
+          personIsActive={person.is_active!}
+          seatName={"<NOT YET IN MODELS>"}
+          seatElectoralArea={"<NOT YET IN MODELS>"}
+          seatPictureSrc={undefined}
+          chairedBodyNames={"<NOT YET IN MODELS>"}
+          tenureStatus={"<NOT YET IN MODELS>"}
+          billsSponsored={0}
+        />
+      )}
+      {!isMobile && <PersonFullView person={person} />}
+      <br />
+      <VotingTable name={person.name || "No Name Found"} votesPage={votes as any} />
     </div>
   );
 };

@@ -14,6 +14,9 @@ class Person implements Model {
   picture?: File;
   is_active?: boolean;
   external_source_id?: string;
+  seatName?: string;
+  seatPictureUri?: string;
+  seatElectoralArea?: string;
 
   constructor(jsonData: ResponseData) {
     if (jsonData["id"]) {
@@ -53,6 +56,18 @@ class Person implements Model {
 
     if (jsonData["external_source_id"]) {
       this.external_source_id = jsonData["external_source_id"];
+    }
+
+    if (jsonData["seatName"]) {
+      this.seatName = jsonData["seatName"];
+    }
+
+    if (jsonData["seatPictureUri"]) {
+      this.seatPictureUri = jsonData["seatPictureUri"];
+    }
+
+    if (jsonData["seatElectoralArea"]) {
+      this.seatElectoralArea = jsonData["seatElectoralArea"];
     }
   }
 }
