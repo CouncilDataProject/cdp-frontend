@@ -88,7 +88,7 @@ const EventPage: FC = () => {
           const sentencesBySpeakerIndex: Sentence[][] = [[]];
           let currentSpeakerIndex = 0;
           transcriptJson?.sentences?.forEach((sentence) => {
-            const speakerIndex = sentence?.speaker_index;
+            const speakerIndex = sentence?.speaker_index || 0;
             if (speakerIndex === currentSpeakerIndex) {
               sentencesBySpeakerIndex[currentSpeakerIndex].push(sentence);
             } else {
