@@ -2,10 +2,13 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/index.ts",
+  entry: {
+    index: "./src/index.ts",
+    "vjs-theme-cdp": "./src/components/Details/EventVideo/vjs-theme-cdp.css",
+  },
   output: {
     publicPath: "",
-    filename: "index.js",
+    filename: "[name].js",
     library: "CDPFrontend", // TODO CHANGEME
     libraryTarget: "umd",
     path: path.resolve(__dirname, "dist"),
@@ -46,5 +49,5 @@ module.exports = {
     react: "react",
     "semantic-ui-react": "semantic-ui-react",
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [new MiniCssExtractPlugin({ filename: "[name].css" })],
 };
