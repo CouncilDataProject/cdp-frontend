@@ -3,7 +3,7 @@ import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { strings } from "../../../assets/LocalizedStrings";
 
-type MeetingCardProps = {
+export type MeetingCardProps = {
   imgSrc: string;
   imgAlt: string;
   meetingDate: string;
