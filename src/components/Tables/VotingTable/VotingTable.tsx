@@ -5,7 +5,7 @@ import { strings } from "../../../assets/LocalizedStrings";
 import { ReactiveTable } from "../ReactiveTable";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
-type VotingTableProps = {
+export type VotingTableProps = {
   /** the name of the legislator */
   name: string;
   /** an array of Votes */
