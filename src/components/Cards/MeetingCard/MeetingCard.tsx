@@ -4,11 +4,17 @@ import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { strings } from "../../../assets/LocalizedStrings";
 
 export type MeetingCardProps = {
+  /** The poster image src of the event */
   imgSrc: string;
+  /** The alternative title of the post image */
   imgAlt: string;
+  /** The event's date */
   meetingDate: string;
+  /** The event's committee */
   committee: string;
+  /** Tags for the event */
   tags: string[];
+  /** A context span if the event was found through searching */
   excerpt?: string;
 };
 
