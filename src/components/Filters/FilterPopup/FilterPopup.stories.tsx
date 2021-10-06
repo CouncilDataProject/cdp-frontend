@@ -3,27 +3,30 @@ import React from "react";
 import { action } from "@storybook/addon-actions";
 import { Story, Meta } from "@storybook/react";
 
-import FilterPopup, { FilterPopupProps } from "./FilterPopup";
 import { SelectDateRange } from "../SelectDateRange";
 import { SelectSorting } from "../SelectSorting";
 import { SelectTextFilterOptions } from "../SelectTextFilterOptions";
+
+import FilterPopup, { FilterPopupProps } from "./FilterPopup";
 
 export default {
   component: FilterPopup,
   title: "Library/Filters/Filter Popup",
 } as Meta;
 
-const Template: Story<FilterPopupProps> = (args) => <FilterPopup {...args} />;
+const Template: Story<FilterPopupProps> = (args) => (
+  <FilterPopup {...args}>{args.children}</FilterPopup>
+);
 
 export const selectDateRange = Template.bind({});
 selectDateRange.args = {
+  popupIsOpen: false,
+  closeOnChange: false,
   clear: action("clear-filter"),
   getTextRep: () => "Date",
   isActive: () => true,
-  popupIsOpen: false,
   setPopupIsOpen: action("set-popup-is-open"),
   handlePopupClose: action("handle-popup-close"),
-  closeOnChange: false,
   children: (
     <SelectDateRange state={{ start: "", end: "" }} update={action("update-date-range-state")} />
   ),
@@ -31,13 +34,13 @@ selectDateRange.args = {
 
 export const selectSorting = Template.bind({});
 selectSorting.args = {
+  popupIsOpen: false,
+  closeOnChange: false,
   clear: action("clear-filter"),
   getTextRep: () => "Most relevant",
   isActive: () => true,
-  popupIsOpen: false,
   setPopupIsOpen: action("set-popup-is-open"),
   handlePopupClose: action("handle-popup-close"),
-  closeOnChange: false,
   children: (
     <SelectSorting
       state={{
@@ -58,13 +61,13 @@ selectSorting.args = {
 
 export const selectCommittees = Template.bind({});
 selectCommittees.args = {
+  popupIsOpen: false,
+  closeOnChange: false,
   clear: action("clear-filter"),
   getTextRep: () => "Committee",
   isActive: () => true,
-  popupIsOpen: false,
   setPopupIsOpen: action("set-popup-is-open"),
   handlePopupClose: action("handle-popup-close"),
-  closeOnChange: false,
   children: (
     <SelectTextFilterOptions
       name={"Committee"}
