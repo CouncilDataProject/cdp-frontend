@@ -11,7 +11,6 @@ import EventMinutesItemFileService from "../../networking/EventMinutesItemFileSe
 import VoteService from "../../networking/VoteService";
 import TranscriptJsonService from "../../networking/TranscriptJsonService";
 import Vote from "../../models/Vote";
-import { Sentence } from "../../models/TranscriptJson";
 
 import useFetchData, {
   FetchDataActionType,
