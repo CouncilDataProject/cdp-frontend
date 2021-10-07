@@ -4,11 +4,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   entry: {
     index: "./src/index.ts",
-    "vjs-theme-cdp": "./src/components/Details/EventVideo/vjs-theme-cdp.css",
   },
   output: {
     publicPath: "",
-    filename: "[name].js",
+    filename: "index.js",
     library: "CDPFrontend", // TODO CHANGEME
     libraryTarget: "umd",
     path: path.resolve(__dirname, "dist"),
