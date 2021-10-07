@@ -14,6 +14,7 @@ import { PersonPage } from "../pages/PersonPage";
 import { PeoplePage } from "../pages/PeoplePage";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
+import "semantic-ui-css/semantic.min.css";
 import { screenWidths } from "../styles/mediaBreakpoints";
 
 const FlexContainer = styled.div({
