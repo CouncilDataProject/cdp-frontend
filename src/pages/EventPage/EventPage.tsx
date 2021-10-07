@@ -82,14 +82,10 @@ const EventPage: FC = () => {
         // Unpack sentences from all transcripts
         const sentences: SentenceWithSessionIndex[] = [];
         transcriptJsons.forEach((transcriptJson, sessionIndex) => {
-          transcriptJson?.sentences?.forEach((sentence, _, allSentences) => {
+          transcriptJson?.sentences?.forEach((sentence) => {
             sentences.push({
               session_index: sessionIndex,
-              // Set the sentence index to the length of all sentences in the session
-              // transcript + the current sentence index
-              // I.e. 0th session will be (N * 0) + i
-              // I.e. 1st session will be (N * 1) + i
-              index: allSentences.length * sessionIndex + sentence.index,
+              index: sentences.length,
               start_time: sentence.start_time,
               end_time: sentence.end_time,
               text: sentence.text,
