@@ -9,7 +9,7 @@ interface Link {
   url: string;
 }
 
-interface FooterLinksSection {
+export interface FooterLinksSection {
   /*Array of links to be displayed below the 
   footerLinkSectionName*/
   links: Link[];

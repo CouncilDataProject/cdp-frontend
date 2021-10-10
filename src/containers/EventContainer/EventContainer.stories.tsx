@@ -27,8 +27,8 @@ for (let sessionIndex = 0; sessionIndex < 2; sessionIndex++) {
   }
 }
 
-export const Default = Template.bind({});
-Default.args = {
+export const event = Template.bind({});
+event.args = {
   event: {
     body: { name: "City Council" },
     event_datetime: new Date(),

@@ -45,7 +45,7 @@ const TranscriptContainer = styled.div<TranscriptContainerProps>((props) => ({
   },
 }));
 
-interface TranscriptSearchProps {
+export interface TranscriptSearchProps {
   /**The search query */
   searchQuery: string;
   /**The sentences of the transcript */

@@ -13,8 +13,8 @@ export default {
 
 const Template: Story<TranscriptFullProps> = (args) => <TranscriptFull {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const transcriptFull = Template.bind({});
+transcriptFull.args = {
   sentences: Array.from({ length: 20 }).map((_, i) => ({
     session_index: 0,
     index: i,

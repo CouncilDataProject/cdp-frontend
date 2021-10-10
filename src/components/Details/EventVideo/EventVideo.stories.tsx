@@ -10,8 +10,8 @@ export default {
 
 const Template: Story<EventVideoProps> = (args) => <EventVideo {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const eventVideo = Template.bind({});
+eventVideo.args = {
   uri: "https://video.seattle.gov/media/council/council_113020_2022091V.mp4",
   componentRef: createRef<EventVideoRef>(),
 };

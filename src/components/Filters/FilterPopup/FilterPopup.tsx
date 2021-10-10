@@ -111,7 +111,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   closeOnChange,
   children,
 }: FilterPopupProps) => {
-  const mountNodeRef = useRef(null);
+  const mountNodeRef = useRef<HTMLDivElement>(null);
 
   const onPopupOpen = () => {
     setPopupIsOpen(true);
@@ -133,7 +133,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
       <StyledPopup
         basic
         flowing
-        mountNode={mountNodeRef.current}
+        content={mountNodeRef.current}
         on="click"
         onClose={onPopupClose}
         onOpen={onPopupOpen}
@@ -158,7 +158,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
           )}
         </PopupContainer>
       </StyledPopup>
-      <span ref={mountNodeRef} />
+      <div ref={mountNodeRef} />
     </Fragment>
   );
 };
