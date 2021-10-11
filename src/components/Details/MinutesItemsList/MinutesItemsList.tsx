@@ -26,8 +26,9 @@ interface Items {
 }
 
 export interface MinutesItemsListProps {
-  /*List of minutes items headlines, each of which
-   may have a list of associated documents */
+  /**
+   * List of minutes items headlines, each of which may have a list of associated documents
+   */
   minutesItems: Items[];
 }
 

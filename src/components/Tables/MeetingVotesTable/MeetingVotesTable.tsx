@@ -6,7 +6,7 @@ import { MeetingVote } from "../../Shared/Types/MeetingVote";
 import { strings } from "../../../assets/LocalizedStrings";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
-type MeetingVotesTableProps = {
+export type MeetingVotesTableProps = {
   /** an array of Votes */
   votesPage: object[];
 };

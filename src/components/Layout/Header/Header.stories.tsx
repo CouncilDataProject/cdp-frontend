@@ -10,7 +10,7 @@ export default {
 
 const Template: Story<HeaderProps> = (args) => <Header {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const header = Template.bind({});
+header.args = {
   municipalityName: "Test deployment",
 };

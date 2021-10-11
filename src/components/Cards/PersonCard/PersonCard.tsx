@@ -28,7 +28,7 @@ const TenureP = styled.p({
   margin: `12px 0 0 !important`,
 });
 
-interface PersonCardProps {
+export interface PersonCardProps {
   /** The person's name */
   personName: string;
   /** The person's picture */

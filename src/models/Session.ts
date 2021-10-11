@@ -42,5 +42,9 @@ export default class Session implements Model {
     if (jsonData["video_uri"]) {
       this.video_uri = jsonData["video_uri"];
     }
+
+    if (jsonData["session_index"]) {
+      this.session_index = jsonData["session_index"];
+    }
   }
 }

@@ -9,7 +9,7 @@ import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { ReactiveTableRow } from "../ReactiveTableRow";
 import { Link } from "react-router-dom";
 
-type VotingTableRowProps = {
+export type VotingTableRowProps = {
   /** the name of the matter that was voted on */
   legislationName: string;
   /** the index of the row */

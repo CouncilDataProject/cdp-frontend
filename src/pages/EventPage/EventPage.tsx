@@ -11,7 +11,6 @@ import EventMinutesItemFileService from "../../networking/EventMinutesItemFileSe
 import VoteService from "../../networking/VoteService";
 import TranscriptJsonService from "../../networking/TranscriptJsonService";
 import Vote from "../../models/Vote";
-import { Sentence } from "../../models/TranscriptJson";
 
 import useFetchData, {
   FetchDataActionType,
@@ -80,44 +79,22 @@ const EventPage: FC = () => {
             return transcriptJsonService.download(transcript[0].file?.uri as string);
           })
         );
-        // 3d list.
-        // The first dimension is the number of transcripts/or sessions
-        // The second dimension is the number of speaker indices for a given transcript
-        // The third dimension is the number of sentences for a given speaker index
-        const transcriptSentencesBySpeakerIndex = transcriptJsons.map((transcriptJson) => {
-          const sentencesBySpeakerIndex: Sentence[][] = [[]];
-          let currentSpeakerIndex = 0;
-          transcriptJson?.sentences?.forEach((sentence) => {
-            const speakerIndex = sentence?.speaker_index;
-            if (speakerIndex === currentSpeakerIndex) {
-              sentencesBySpeakerIndex[currentSpeakerIndex].push(sentence);
-            } else {
-              currentSpeakerIndex = speakerIndex;
-              sentencesBySpeakerIndex.push([sentence]);
-            }
-          });
-          return sentencesBySpeakerIndex;
-        });
-        //Flatten 3d list into list of sentences
+        // Unpack sentences from all transcripts
         const sentences: SentenceWithSessionIndex[] = [];
-        transcriptSentencesBySpeakerIndex.forEach((sentencesBySpeakerIndex, sessionIndex) => {
-          const combinedSentences: SentenceWithSessionIndex[] = [];
-          sentencesBySpeakerIndex.forEach((speakerSentences, speakerIndex) => {
-            //Combine sentences for a speaker index into one `Sentence`
-            const speakerSentencesText = speakerSentences.map((sentence) => sentence.text);
-            combinedSentences.push({
+        transcriptJsons.forEach((transcriptJson, sessionIndex) => {
+          transcriptJson?.sentences?.forEach((sentence) => {
+            sentences.push({
               session_index: sessionIndex,
-              index: speakerIndex,
-              start_time: speakerSentences[0].start_time,
-              end_time: speakerSentences[speakerSentences.length - 1].end_time,
-              text: speakerSentencesText.join(" "),
-              speaker_name: speakerSentences[0].speaker_name,
-              speaker_index: speakerIndex,
-              speaker_id: speakerSentences[0].speaker_id,
-              speaker_pictureSrc: speakerSentences[0].speaker_pictureSrc,
+              index: sentences.length,
+              start_time: sentence.start_time,
+              end_time: sentence.end_time,
+              text: sentence.text,
+              speaker_name: sentence.speaker_name,
+              speaker_index: sentence.speaker_index,
+              speaker_id: undefined,
+              speaker_pictureSrc: undefined,
             } as SentenceWithSessionIndex);
           });
-          sentences.push(...combinedSentences);
         });
 
         // Create votes list for each event minutes item

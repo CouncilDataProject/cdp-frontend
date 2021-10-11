@@ -74,7 +74,7 @@ export interface TranscriptItemRef {
   scrollIntoView(): void;
 }
 
-interface TranscriptItemProps extends RefAttributes<HTMLDivElement> {
+export interface TranscriptItemProps extends RefAttributes<HTMLDivElement> {
   /**The session index of the transcript item */
   sessionIndex: number;
   /**The speaker's name */
