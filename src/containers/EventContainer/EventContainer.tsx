@@ -7,6 +7,7 @@ import { TranscriptSearch } from "../../components/Details/TranscriptSearch";
 import { TranscriptItemRef } from "../../components/Details/TranscriptItem/TranscriptItem";
 import SessionsVideos from "./SessionsVideos";
 import EventInfoTabs from "./EventInfoTabs";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { EventData } from "./types";
 
 import { screenWidths } from "../../styles/mediaBreakpoints";
@@ -64,6 +65,10 @@ const EventContainer: FC<EventContainerProps> = ({
   votes,
   searchQuery,
 }: EventContainerProps) => {
+  if (event.body?.name != null) {
+    useDocumentTitle(event.body?.name);
+  }
+
   // The current video session that is visible
   const [currentSession, setCurrentSession] = useState<number>(0);
   // The current selected tab - minutes items list, full transcript, or votes
