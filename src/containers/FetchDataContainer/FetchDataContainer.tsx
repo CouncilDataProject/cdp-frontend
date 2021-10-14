@@ -19,7 +19,7 @@ const FetchDataContainer: FC<FetchDataContainerProps> = ({
   if (error) {
     // Display the error for now.
     // TODO: throw the error and catch it with a general error boundary that displays the error page.
-    return <span>{error}</span>;
+    return <span>{error.toString()}</span>;
   }
   return <>{children}</>;
 };
