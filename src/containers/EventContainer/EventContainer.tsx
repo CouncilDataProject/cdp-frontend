@@ -65,9 +65,15 @@ const EventContainer: FC<EventContainerProps> = ({
   votes,
   searchQuery,
 }: EventContainerProps) => {
-  if (event.body?.name != null) {
-    useDocumentTitle(event.body?.name);
-  }
+  useDocumentTitle(
+    `${event.body?.name}` +
+      `${event.body?.name && event.event_datetime && " -- "}` +
+      `${event.event_datetime?.toLocaleDateString("en-US", {
+        month: "numeric",
+        day: "numeric",
+        year: "numeric",
+      })}`
+  );
 
   // The current video session that is visible
   const [currentSession, setCurrentSession] = useState<number>(0);

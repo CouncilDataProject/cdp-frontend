@@ -9,9 +9,7 @@ export type PersonContainerProps = {
 };
 
 const PersonContainer = ({ person }: PersonContainerProps) => {
-  if (person.name != null) {
-    useDocumentTitle(person.name);
-  }
+  useDocumentTitle(person.name);
 
   return (
     <div>

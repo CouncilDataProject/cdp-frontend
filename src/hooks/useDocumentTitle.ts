@@ -1,11 +1,16 @@
 import { useEffect } from "react";
 
-function useDocumentTitle(title: string) {
+function useDocumentTitle(title?: string) {
   useEffect(() => {
+    if (title == null || title === "") {
+      return () => {};
+    }
+
+    const originalTitle = document.title;
     document.title = title;
 
     return () => {
-      document.title = "Council Data Project";
+      document.title = originalTitle;
     };
   }, [title]);
 }
