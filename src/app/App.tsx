@@ -12,6 +12,8 @@ import { EventPage } from "../pages/EventPage";
 import { EventsPage } from "../pages/EventsPage";
 import { PersonPage } from "../pages/PersonPage";
 import { PeoplePage } from "../pages/PeoplePage";
+import useDocumentTitle from "../hooks/useDocumentTitle";
+import { strings } from "../assets/LocalizedStrings";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "semantic-ui-css/semantic.min.css";
@@ -39,6 +41,8 @@ const Main = styled.main({
 });
 
 function App() {
+  useDocumentTitle(strings.council_data_project);
+
   const { municipality } = useAppConfigContext();
   return (
     <>

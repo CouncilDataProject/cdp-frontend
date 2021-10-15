@@ -1,5 +1,6 @@
 import React from "react";
 import Person from "../../models/Person";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 export type PersonContainerProps = {
@@ -8,6 +9,8 @@ export type PersonContainerProps = {
 };
 
 const PersonContainer = ({ person }: PersonContainerProps) => {
+  useDocumentTitle(person.name);
+
   return (
     <div>
       <p className="mzp-c-card-desc" style={{ marginLeft: 8 }}>
