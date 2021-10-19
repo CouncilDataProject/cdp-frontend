@@ -4,9 +4,11 @@ import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import Person from "./Person";
 import { DocumentReference } from "@firebase/firestore";
 import Seat from "./Seat";
+import Body from "./Body";
+import { ROLE_TITLE } from "./util/RoleUtilities";
 
 export default class Role implements Model {
-  title?: string;
+  title?: ROLE_TITLE;
   start_datetime?: Date;
   end_datetime?: Date;
   matter_type?: string;
@@ -20,8 +22,10 @@ export default class Role implements Model {
   external_source_id?: string;
 
   constructor(jsonData: ResponseData) {
-    if (jsonData["title"]) {
+    if (jsonData["title"] && jsonData["title"] in ROLE_TITLE) {
       this.title = jsonData["title"];
+    } else {
+      this.title = ROLE_TITLE.MEMBER;
     }
 
     if (jsonData["start_datetime"]) {
@@ -42,7 +46,7 @@ export default class Role implements Model {
 
     if (jsonData["body_ref"]) {
       if (jsonData["body_ref"] instanceof DocumentReference) {
-        this.person_ref = jsonData["body_ref"].id;
+        this.body_ref = jsonData["body_ref"].id;
       } else if (typeof jsonData["body_ref"] === "object") {
         this.body = new Body(jsonData["body_ref"]);
       }
@@ -50,7 +54,7 @@ export default class Role implements Model {
 
     if (jsonData["seat_ref"]) {
       if (jsonData["seat_ref"] instanceof DocumentReference) {
-        this.person_ref = jsonData["seat_ref"].id;
+        this.seat_ref = jsonData["seat_ref"].id;
       } else if (typeof jsonData["seat_ref"] === "object") {
         this.seat = new Seat(jsonData["seat_ref"]);
       }

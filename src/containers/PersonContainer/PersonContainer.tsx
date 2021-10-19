@@ -11,7 +11,7 @@ export interface PersonContainerProps extends PersonPageData {
   searchQuery?: string;
 }
 
-const PersonContainer = ({ person, votes }: PersonContainerProps) => {
+const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonContainerProps) => {
   const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.largeMobile})` });
   return (
     <div>
@@ -28,7 +28,9 @@ const PersonContainer = ({ person, votes }: PersonContainerProps) => {
           billsSponsored={0}
         />
       )}
-      {!isMobile && <PersonFullView person={person} />}
+      {!isMobile && (
+        <PersonFullView person={person} roles={roles} mattersSponsored={mattersSponsored} />
+      )}
       <br />
       <VotingTable name={person.name || "No Name Found"} votesPage={votes as any} />
     </div>

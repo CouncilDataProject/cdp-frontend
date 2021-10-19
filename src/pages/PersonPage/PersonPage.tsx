@@ -12,10 +12,13 @@ import PersonService from "../../networking/PersonService";
 
 import { createError } from "../../utils/createError";
 import VoteService from "../../networking/VoteService";
+import MatterSponsorService from "../../networking/MatterSponsorService";
+import RoleService from "../../networking/RoleService";
 
 const PersonPage: FC = () => {
   // Get the id the person, provided the route is `persons/:id`
   const { id } = useParams<{ id: string }>();
+  console.log(`id: ${id}`);
   // Get the app config context
   const { firebaseConfig } = useAppConfigContext();
 
@@ -27,6 +30,8 @@ const PersonPage: FC = () => {
   useEffect(() => {
     const personService = new PersonService(firebaseConfig);
     const voteService = new VoteService(firebaseConfig);
+    const mattersSponsoredService = new MatterSponsorService(firebaseConfig);
+    const rolesService = new RoleService(firebaseConfig);
 
     let didCancel = false;
 
@@ -37,12 +42,16 @@ const PersonPage: FC = () => {
         // Get data from the person id
         const person = await personService.getPersonById(id);
         const votes = await voteService.getFullyPopulatedVotesByPersonId(id);
+        const mattersSponsored = await mattersSponsoredService.getMattersSponsoredByPersonId(id);
+        const roles = await rolesService.getPopulatedRolesByPersonId(id);
         if (!didCancel) {
           personDataDispatch({
             type: FetchDataActionType.FETCH_SUCCESS,
             payload: {
               person,
               votes,
+              mattersSponsored,
+              roles,
             },
           });
         }

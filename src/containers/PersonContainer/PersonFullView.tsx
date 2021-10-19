@@ -2,16 +2,13 @@ import React, { FC } from "react";
 import styled from "@emotion/styled";
 import Person from "../../models/Person";
 import DefaultAvatar from "../../components/Shared/DefaultAvatar";
+import { useAppConfigContext } from "../../app/AppConfigContext";
 import { strings } from "../../assets/LocalizedStrings";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
-
-const PersonStatus = styled.div({
-  float: "right",
-  marginRight: 8,
-  marginBottom: 8,
-  borderRadius: "10%",
-  padding: "0 4px",
-});
+import Role from "../../models/Role";
+import { filterRolesByTitle, ROLE_TITLE, getMostRecentRole } from "../../models/util/RoleUtilities";
+import MatterSponsor from "../../models/MatterSponsor";
+import ordinalSuffix from "../../utils/ordinalSuffix";
 
 const CoverImg = styled.img(() => ({
   objectFit: "cover",
@@ -34,6 +31,8 @@ const AvatarImg = styled.img(() => ({
 interface PersonFullViewProps {
   /** The person being displayed */
   person: Person;
+  roles: Role[];
+  mattersSponsored: MatterSponsor[];
 }
 
 function renderCoverImages(person: Person) {
@@ -80,15 +79,35 @@ function renderAvatar(personAvatarUri: string | undefined) {
   }
 }
 
-const PersonFullView: FC<PersonFullViewProps> = ({ person }: PersonFullViewProps) => {
-  const personName = person.name ? person.name : "No Name Provided";
-  const introText = `<PERSON TITLE> <PERSON NAME> is the <PERSON TITLE> of <CITY NAME>'s <SEAT NAME>(<SEAT ELECTORAL AREA>).`;
-  const bioText = `${personName} is serving their <ORDINAL_SUFFIX_OF_TERM_NUMBER> term. They currently hold the following chairs: <CHAIRS_JOIN>. They have sponsored <NUMBER_OF_BILLS_SPONSORED> and attended <NUMBER OF MEETINGS ATTENDED> city council meetings.`;
-  const contactText = `Contact ${personName}`;
-  const linkText = `Visit ${personName}'s website >`;
+const PersonFullView: FC<PersonFullViewProps> = ({
+  person,
+  roles,
+  mattersSponsored,
+}: PersonFullViewProps) => {
+  const { municipality } = useAppConfigContext();
+  const currentRole = getMostRecentRole(roles);
+  const chairBodyNames = filterRolesByTitle(roles, ROLE_TITLE.CHAIR)
+    .filter((role) => {
+      return !role.end_datetime;
+    })
+    .map((role) => {
+      return role.name;
+    });
+  let rolesAsCurrentRole = 1;
+  if (currentRole.title) {
+    rolesAsCurrentRole = filterRolesByTitle(roles, currentRole.title).length;
+  }
+  const introText = `${currentRole.title} ${person.name} is the ${currentRole.title} of ${municipality.name}'s ${currentRole.seat?.name}(${currentRole.seat?.electoral_area}).`;
+  const bioText = `${person.name} is serving their ${ordinalSuffix(
+    rolesAsCurrentRole
+  )} term. They currently hold the following chairs: ${chairBodyNames.join(
+    ", "
+  )}. They have sponsored ${mattersSponsored.length} pieces of legislation.`;
+  const contactText = `Contact ${person.name}`;
+  const linkText = `Visit ${person.name}'s website >`;
   return (
     <div>
-      <h3>{personName}</h3>
+      <h3>{person.name}</h3>
       {person.seatName && <h4>{person.seatName}</h4>}
       {renderCoverImages(person)}
       <div style={{ display: "flex", flexDirection: "row" }}>
