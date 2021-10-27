@@ -3,6 +3,7 @@ import { PersonCard, VotingTable } from "../..";
 import { PersonPageData } from "./types";
 import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../styles/mediaBreakpoints";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import PersonFullView from "./PersonFullView";
 
@@ -13,6 +14,7 @@ export interface PersonContainerProps extends PersonPageData {
 
 const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonContainerProps) => {
   const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.largeMobile})` });
+  useDocumentTitle(person.name);
   return (
     <div>
       {isMobile && (

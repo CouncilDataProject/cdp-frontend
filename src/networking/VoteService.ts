@@ -61,7 +61,6 @@ export default class VoteService extends ModelService {
           WHERE_OPERATOR.eq,
           doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
         ),
-        orderBy(REF_PROPERTY_NAME.VotePersonRef),
       ],
       new PopulationOptions([
         populatePerson,

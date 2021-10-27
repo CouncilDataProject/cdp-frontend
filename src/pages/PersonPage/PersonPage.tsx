@@ -18,7 +18,6 @@ import RoleService from "../../networking/RoleService";
 const PersonPage: FC = () => {
   // Get the id the person, provided the route is `persons/:id`
   const { id } = useParams<{ id: string }>();
-  console.log(`id: ${id}`);
   // Get the app config context
   const { firebaseConfig } = useAppConfigContext();
 
