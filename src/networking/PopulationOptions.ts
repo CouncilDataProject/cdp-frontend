@@ -1,5 +1,3 @@
-import { Collection } from "react-virtualized";
-
 export enum COLLECTION_NAME {
   Body = "body",
   Event = "event",

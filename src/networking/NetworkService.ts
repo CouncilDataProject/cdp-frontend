@@ -102,7 +102,7 @@ export class NetworkService {
             new Error(`Document ${documentId} does not exist in Collection ${collectionName}.`)
           );
         }
-        let data: ResponseData = docSnap.data();
+        const data: ResponseData = docSnap.data();
         data.id = docSnap.id;
         response.data = data;
         if (populationOptions && populationOptions.toPopulate) {
