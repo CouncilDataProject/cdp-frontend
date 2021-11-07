@@ -2,7 +2,6 @@ import { useEffect, useReducer, Dispatch } from "react";
 
 import { FirebaseConfig } from "../../app/AppConfigContext";
 import { ORDER_DIRECTION } from "../../networking/constants";
-
 import EventService, { RenderableEvent } from "../../networking/EventService";
 
 import { createError } from "../../utils/createError";
@@ -12,13 +11,13 @@ export type Action =
   | { type: "FAILURE"; payload: Error }
   | { type: "SUCCESS"; payload: RenderableEvent[] }
   | { type: "SHOW_MORE" }
-  | { type: "UPDATE_CURRENT_PAGE"; payload: number }
   | { type: "FETCH_EVENTS" };
 
 export interface State {
-  shouldFetchEvents: boolean;
+  fetchEvents: boolean;
   eventsPerPage: number;
   events: RenderableEvent[];
+  showMoreEvents: boolean;
   hasMoreEvents: boolean;
   isLoading: boolean;
   error: Error | null;
@@ -37,8 +36,9 @@ export function eventsPageReducer(state: State, action: Action): State {
       return {
         ...state,
         isLoading: false,
-        events: [...state.events, ...action.payload],
-        shouldFetchEvents: false,
+        events: state.fetchEvents ? action.payload : [...state.events, ...action.payload],
+        fetchEvents: false,
+        showMoreEvents: false,
         hasMoreEvents: action.payload.length === state.eventsPerPage,
       };
     }
@@ -47,19 +47,19 @@ export function eventsPageReducer(state: State, action: Action): State {
         ...state,
         isLoading: false,
         error: action.payload,
-        shouldFetchEvents: false,
+        fetchEvents: false,
       };
     }
     case "SHOW_MORE": {
       return {
         ...state,
-        shouldFetchEvents: true,
+        showMoreEvents: true,
       };
     }
     case "FETCH_EVENTS": {
       return {
         ...state,
-        shouldFetchEvents: true,
+        fetchEvents: true,
       };
     }
     default: {
@@ -94,7 +94,9 @@ export default function useEventsPagination(
             by: sort.by,
             order: sort.order as ORDER_DIRECTION,
           },
-          state.events.length > 0 ? state.events[state.events.length - 1].event_datetime : undefined
+          !state.fetchEvents && state.events.length > 0
+            ? state.events[state.events.length - 1].event_datetime
+            : undefined
         );
         const renderableEvents = await Promise.all(
           events.map((event) => {
@@ -112,14 +114,22 @@ export default function useEventsPagination(
       }
     };
 
-    if (state.shouldFetchEvents) {
+    if (state.fetchEvents || state.showMoreEvents) {
       fetchEvents();
     }
 
     return () => {
       didCancel = true;
     };
-  }, [state.events, state.shouldFetchEvents, firebaseConfig, bodyIds, dateRange, sort]);
+  }, [
+    state.events,
+    state.fetchEvents,
+    state.showMoreEvents,
+    firebaseConfig,
+    bodyIds,
+    dateRange,
+    sort,
+  ]);
 
   return [state, dispatch];
 }
