@@ -1,31 +1,42 @@
 import React, { FC, useCallback } from "react";
-import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
+import { Loader } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 import { useAppConfigContext } from "../../app";
-
-import useEventsPagination from "./useEventsPagination";
-import useFilter from "../../components/Filters/useFilter";
-import { getDateText } from "../../components/Filters/SelectDateRange";
-import { getCheckboxText } from "../../components/Filters/SelectTextFilterOptions";
-import { getSortingText } from "../../components/Filters/SelectSorting";
 import { ORDER_DIRECTION } from "../../networking/constants";
-import getSelectedOptions from "../../components/Filters/SelectTextFilterOptions/getSelectedOptions";
-import { Loader } from "semantic-ui-react";
+
 import { MeetingCard } from "../../components/Cards/MeetingCard";
+import useFilter from "../../components/Filters/useFilter";
+import { EventsFilter } from "../../components/Filters/EventsFilter";
+import { getDateText } from "../../components/Filters/SelectDateRange";
+import { getSortingText } from "../../components/Filters/SelectSorting";
+import {
+  getCheckboxText,
+  getSelectedOptions,
+} from "../../components/Filters/SelectTextFilterOptions";
+import useEventsPagination from "./useEventsPagination";
+import { EventsData } from "./types";
 
 import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
-import { EventsData } from "./types";
+const Container = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  gap: 32,
+});
 
 const Events = styled.div({
   display: "flex",
   flexDirection: "row",
   flexWrap: "wrap",
-  gap: 24,
-  "& > *": {
-    width: "50%",
+  gap: 64,
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    "& > div": {
+      width: "40%",
+    },
   },
 });
 
@@ -44,8 +55,9 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }) => {
   const [state, dispatch] = useEventsPagination(
     firebaseConfig,
     {
-      shouldFetchEvents: false,
+      fetchEvents: false,
       events: events,
+      showMoreEvents: false,
       hasMoreEvents: events.length === 10,
       isLoading: false,
       error: null,
@@ -57,53 +69,70 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }) => {
   );
 
   const handlePopupClose = useCallback(() => {
-    dispatch({ type: "FETCH_EVENTS" });
+    dispatch({ type: "FETCH_EVENTS", payload: true });
   }, [dispatch]);
 
-  const handleShowMoreEvents = useCallback(() => dispatch({ type: "SHOW_MORE" }), [dispatch]);
-
-  if (state.isLoading) {
-    return <Loader />;
-  }
+  const handleShowMoreEvents = useCallback(
+    () => dispatch({ type: "FETCH_EVENTS", payload: false }),
+    [dispatch]
+  );
 
   if (state.error) {
+    //TODO: throw the error
     return <div>{state.error.toString()}</div>;
   }
 
   return (
-    <>
+    <Container>
+      <EventsFilter
+        allBodies={bodies}
+        filters={[committeeFilter, dateRangeFilter, sortFilter]}
+        sortOptions={[
+          { by: "date", order: "desc", label: "Newest first" },
+          { by: "date", order: "asc", label: "Oldest first" },
+        ]}
+        handlePopupClose={handlePopupClose}
+      />
+      {state.events.length === 0 && <p>No events found.</p>}
       <Events>
         {state.events.map((event, i) => {
           return (
-            <Link
-              key={i}
-              to={`/events/${event.id}`}
-              style={{
-                textDecoration: "none",
-                color: colors.black,
-                fontSize: fontSizes.font_size_6,
-              }}
-            >
-              <MeetingCard
-                staticImgSrc={event.staticThumbnailURL}
-                hoverImgSrc={event.hoverThumbnailURL}
-                imgAlt={""}
-                meetingDate={
-                  event.event_datetime?.toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  }) as string
-                }
-                committee={event.body?.name as string}
-                tags={event.keyGrams}
-              />
-            </Link>
+            <div key={i}>
+              <Link
+                to={`/events/${event.id}`}
+                style={{
+                  textDecoration: "none",
+                  color: colors.black,
+                  fontSize: fontSizes.font_size_6,
+                }}
+              >
+                <MeetingCard
+                  staticImgSrc={event.staticThumbnailURL}
+                  hoverImgSrc={event.hoverThumbnailURL}
+                  imgAlt={""}
+                  meetingDate={
+                    event.event_datetime?.toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    }) as string
+                  }
+                  committee={event.body?.name as string}
+                  tags={event.keyGrams}
+                />
+              </Link>
+            </div>
           );
         })}
-        {state.hasMoreEvents && <button onClick={handleShowMoreEvents}>Show more</button>}
       </Events>
-    </>
+      {state.hasMoreEvents && (
+        <div>
+          <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
+            {state.isLoading ? "Loading..." : "Show more events"}
+          </button>
+        </div>
+      )}
+    </Container>
   );
 };
 
