@@ -7,12 +7,10 @@ import EventService, { RenderableEvent } from "../../networking/EventService";
 import { createError } from "../../utils/createError";
 
 export type Action =
-  | { type: "INIT" }
   | { type: "FAILURE"; payload: Error }
   | { type: "SUCCESS"; payload: RenderableEvent[] }
-  | { type: "SHOW_MORE" }
-  | { type: "FETCH_EVENTS" };
-
+  //The payload is whether to fetch events with different filter parameters or fetch more events with same filter parameters.
+  | { type: "FETCH_EVENTS"; payload: boolean };
 export interface State {
   fetchEvents: boolean;
   eventsPerPage: number;
@@ -25,13 +23,6 @@ export interface State {
 
 export function eventsPageReducer(state: State, action: Action): State {
   switch (action.type) {
-    case "INIT": {
-      return {
-        ...state,
-        isLoading: true,
-        error: null,
-      };
-    }
     case "SUCCESS": {
       return {
         ...state,
@@ -48,18 +39,16 @@ export function eventsPageReducer(state: State, action: Action): State {
         isLoading: false,
         error: action.payload,
         fetchEvents: false,
-      };
-    }
-    case "SHOW_MORE": {
-      return {
-        ...state,
-        showMoreEvents: true,
+        showMoreEvents: false,
       };
     }
     case "FETCH_EVENTS": {
       return {
         ...state,
-        fetchEvents: true,
+        isLoading: true,
+        error: null,
+        fetchEvents: action.payload,
+        showMoreEvents: !action.payload,
       };
     }
     default: {
@@ -129,6 +118,7 @@ export default function useEventsPagination(
     bodyIds,
     dateRange,
     sort,
+    dispatch,
   ]);
 
   return [state, dispatch];
