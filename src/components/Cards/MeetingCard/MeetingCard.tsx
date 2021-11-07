@@ -30,6 +30,7 @@ const Meeting = styled.section({
   "& img:last-of-type, &:hover img:first-of-type": {
     visibility: "hidden",
   },
+  marginBottom: 0,
 });
 
 const MeetingCard = ({
