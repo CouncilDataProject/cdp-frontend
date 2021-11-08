@@ -19,6 +19,9 @@ const Filters = styled.div({
   [`@media (min-width:${screenWidths.tablet})`]: {
     flexDirection: "row",
     flexWrap: "wrap",
+    "& > div:last-of-type": {
+      marginLeft: "auto",
+    },
   },
 });
 
