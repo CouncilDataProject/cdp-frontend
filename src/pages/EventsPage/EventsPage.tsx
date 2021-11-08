@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react";
 
 import { useAppConfigContext } from "../../app";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 import BodyService from "../../networking/BodyService";
 import EventService from "../../networking/EventService";
@@ -15,8 +16,11 @@ import { EventsContainer } from "../../containers/EventsContainer";
 
 import { createError } from "../../utils/createError";
 
+import { strings } from "../../assets/LocalizedStrings";
+
 const EventsPage: FC = () => {
   const { firebaseConfig } = useAppConfigContext();
+  useDocumentTitle(strings.events);
 
   const { state: eventsDataState, dispatch: eventsDataDispatch } = useFetchData<EventsData>({
     isLoading: false,
