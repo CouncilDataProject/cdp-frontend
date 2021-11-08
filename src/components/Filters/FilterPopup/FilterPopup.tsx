@@ -133,7 +133,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
       <StyledPopup
         basic
         flowing
-        content={mountNodeRef.current}
+        context={mountNodeRef.current || undefined}
         on="click"
         onClose={onPopupClose}
         onOpen={onPopupOpen}
