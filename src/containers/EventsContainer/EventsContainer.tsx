@@ -99,8 +99,8 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }) => {
         allBodies={bodies}
         filters={[committeeFilter, dateRangeFilter, sortFilter]}
         sortOptions={[
-          { by: "date", order: "desc", label: "Newest first" },
-          { by: "date", order: "asc", label: "Oldest first" },
+          { by: "event_datetime", order: "desc", label: "Newest first" },
+          { by: "event_datetime", order: "asc", label: "Oldest first" },
         ]}
         handlePopupClose={handlePopupClose}
       />
