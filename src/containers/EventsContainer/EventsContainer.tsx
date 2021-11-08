@@ -1,6 +1,5 @@
 import React, { FC, useCallback } from "react";
 import styled from "@emotion/styled";
-import { Loader } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import { useAppConfigContext } from "../../app";
@@ -32,10 +31,14 @@ const Events = styled.div({
   display: "flex",
   flexDirection: "row",
   flexWrap: "wrap",
-  gap: 64,
+  rowGap: 64,
+  "& > div": {
+    width: "100%",
+  },
   [`@media (min-width:${screenWidths.tablet})`]: {
+    justifyContent: "space-between",
     "& > div": {
-      width: "40%",
+      width: "45%",
     },
   },
 });
