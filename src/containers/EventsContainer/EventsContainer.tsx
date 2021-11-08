@@ -44,7 +44,15 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }) => {
   const { firebaseConfig } = useAppConfigContext();
 
   const dateRangeFilter = useFilter<string>("Date", { start: "", end: "" }, "", getDateText);
-  const committeeFilter = useFilter<boolean>("Committee", {}, false, getCheckboxText);
+  const committeeFilter = useFilter<boolean>(
+    "Committee",
+    bodies.reduce((obj, body) => {
+      obj[body.id as string] = false;
+      return obj;
+    }, {} as Record<string, boolean>),
+    false,
+    getCheckboxText
+  );
   const sortFilter = useFilter<string>(
     "Sort",
     { by: "event_datetime", order: ORDER_DIRECTION.desc, label: "Newest first" },
