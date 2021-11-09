@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext } from "../../app";
 import { ORDER_DIRECTION } from "../../networking/constants";
@@ -66,13 +67,12 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }) => {
   const [state, dispatch] = useEventsPagination(
     firebaseConfig,
     {
-      fetchEvents: false,
+      eventsPerPage: 10,
       events: events,
+      fetchEvents: false,
       showMoreEvents: false,
       hasMoreEvents: events.length === 10,
-      isLoading: false,
       error: null,
-      eventsPerPage: 10,
     },
     getSelectedOptions(committeeFilter.state),
     dateRangeFilter.state,
@@ -104,42 +104,52 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }) => {
         ]}
         handlePopupClose={handlePopupClose}
       />
-      {state.events.length === 0 && <p>No events found.</p>}
-      <Events>
-        {state.events.map((event, i) => {
-          return (
-            <div key={i}>
-              <Link
-                to={`/events/${event.id}`}
-                style={{
-                  textDecoration: "none",
-                  color: colors.black,
-                  fontSize: fontSizes.font_size_6,
-                }}
-              >
-                <MeetingCard
-                  staticImgSrc={event.staticThumbnailURL}
-                  hoverImgSrc={event.hoverThumbnailURL}
-                  imgAlt={""}
-                  meetingDate={
-                    event.event_datetime?.toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    }) as string
-                  }
-                  committee={event.body?.name as string}
-                  tags={event.keyGrams}
-                />
-              </Link>
-            </div>
-          );
-        })}
-      </Events>
-      {state.hasMoreEvents && (
+      {state.fetchEvents ? (
+        <Loader active inline="centered" size="massive" />
+      ) : (
+        <>
+          {state.events.length > 0 ? (
+            <Events>
+              {state.events.map((event, i) => {
+                return (
+                  <div key={i}>
+                    <Link
+                      to={`/events/${event.id}`}
+                      style={{
+                        textDecoration: "none",
+                        color: colors.black,
+                        fontSize: fontSizes.font_size_6,
+                      }}
+                    >
+                      <MeetingCard
+                        staticImgSrc={event.staticThumbnailURL}
+                        hoverImgSrc={event.hoverThumbnailURL}
+                        imgAlt={""}
+                        meetingDate={
+                          event.event_datetime?.toLocaleDateString("en-US", {
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                          }) as string
+                        }
+                        committee={event.body?.name as string}
+                        tags={event.keyGrams}
+                      />
+                    </Link>
+                  </div>
+                );
+              })}
+            </Events>
+          ) : (
+            <p>No events found.</p>
+          )}
+        </>
+      )}
+      {state.hasMoreEvents && !state.fetchEvents && (
         <div>
           <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
-            {state.isLoading ? "Loading..." : "Show more events"}
+            <span>Show more events</span>
+            <Loader inline active={state.showMoreEvents} size="tiny" style={{ marginLeft: 8 }} />
           </button>
         </div>
       )}
