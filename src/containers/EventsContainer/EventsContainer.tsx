@@ -105,7 +105,7 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }) => {
         handlePopupClose={handlePopupClose}
       />
       {state.fetchEvents ? (
-        <Loader active inline="centered" size="massive" />
+        <Loader active size="massive" style={{ top: "40%" }} />
       ) : (
         <>
           {state.events.length > 0 ? (
