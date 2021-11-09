@@ -11,13 +11,15 @@ export type Action =
   | { type: "SUCCESS"; payload: RenderableEvent[] }
   //The payload is whether to fetch events with different filter parameters or fetch more events with same filter parameters.
   | { type: "FETCH_EVENTS"; payload: boolean };
+
 export interface State {
-  fetchEvents: boolean;
   eventsPerPage: number;
   events: RenderableEvent[];
+  //Is currently fetching events with different filter parameters?
+  fetchEvents: boolean;
+  //Is currently fetching more events with the same filter parameters?
   showMoreEvents: boolean;
   hasMoreEvents: boolean;
-  isLoading: boolean;
   error: Error | null;
 }
 
@@ -26,7 +28,6 @@ export function eventsPageReducer(state: State, action: Action): State {
     case "SUCCESS": {
       return {
         ...state,
-        isLoading: false,
         events: state.fetchEvents ? action.payload : [...state.events, ...action.payload],
         fetchEvents: false,
         showMoreEvents: false,
@@ -36,7 +37,6 @@ export function eventsPageReducer(state: State, action: Action): State {
     case "FAILURE": {
       return {
         ...state,
-        isLoading: false,
         error: action.payload,
         fetchEvents: false,
         showMoreEvents: false,
@@ -45,7 +45,6 @@ export function eventsPageReducer(state: State, action: Action): State {
     case "FETCH_EVENTS": {
       return {
         ...state,
-        isLoading: true,
         error: null,
         fetchEvents: action.payload,
         showMoreEvents: !action.payload,
@@ -111,6 +110,7 @@ export default function useEventsPagination(
       didCancel = true;
     };
   }, [
+    state.eventsPerPage,
     state.events,
     state.fetchEvents,
     state.showMoreEvents,
