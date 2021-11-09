@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, FunctionComponent } from "react";
+import React, { ChangeEvent, Dispatch, FunctionComponent, useCallback } from "react";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 import { FilterState } from "../reducer";
@@ -58,17 +58,20 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
     }
   };
 
-  let optionsInOrder = [...options];
-  if (options.length > 5 && setOptionQuery) {
-    for (const option of options) {
-      option.disabled = !isSubstring(option.label, optionQuery || "");
-    }
+  const getOptionsInOrder = useCallback(() => {
+    let optionsInOrder = [...options];
+    if (options.length > 5 && setOptionQuery) {
+      for (const option of options) {
+        option.disabled = !isSubstring(option.label, optionQuery || "");
+      }
 
-    optionsInOrder = [
-      ...options.filter((option) => !option.disabled),
-      ...options.filter((option) => option.disabled),
-    ];
-  }
+      optionsInOrder = [
+        ...options.filter((option) => !option.disabled),
+        ...options.filter((option) => option.disabled),
+      ];
+    }
+    return optionsInOrder;
+  }, [options, optionQuery, setOptionQuery]);
 
   return (
     <form className="mzp-c-form">
@@ -88,7 +91,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
       )}
       <fieldset className="mzp-c-field-set">
         <div className="mzp-c-choices">
-          {optionsInOrder.map((option) => (
+          {getOptionsInOrder().map((option) => (
             <div key={option.name} className="mzp-c-choice">
               <input
                 className="mzp-c-choice-control"
