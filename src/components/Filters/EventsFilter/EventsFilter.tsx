@@ -67,7 +67,6 @@ const EventsFilter: FC<EventsFilterProps> = ({
           setPopupIsOpen={committeeFilter.setPopupIsOpen}
           handlePopupClose={handlePopupClose}
           closeOnChange={false}
-          hasRequiredError={committeeFilter.hasRequiredError()}
           hasLimitError={committeeFilter.hasLimitError()}
         >
           <SelectTextFilterOptions
@@ -77,7 +76,6 @@ const EventsFilter: FC<EventsFilterProps> = ({
             options={getCommitteeNameOptions()}
             optionQuery={committeeQuery}
             setOptionQuery={setCommitteeQuery}
-            hasRequiredError={committeeFilter.hasRequiredError()}
             hasLimitError={committeeFilter.hasLimitError()}
             limit={committeeFilter.limit}
           />
