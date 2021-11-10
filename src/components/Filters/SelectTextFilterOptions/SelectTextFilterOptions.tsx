@@ -73,7 +73,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   return (
     <form className="mzp-c-form">
       {options.length > 5 && setOptionQuery && (
-        <div className="mzp-c-field">
+        <div className="mzp-c-field mzp-l-stretch">
           <label className="mzp-c-field-label" htmlFor="form-input-control-search-filter">
             {`Search ${name} Options`}
           </label>
