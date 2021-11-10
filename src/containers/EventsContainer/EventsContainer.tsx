@@ -53,6 +53,9 @@ const ShowMoreEvents = styled.div<ShowMoreEventsProps>((props) => ({
   "& > button": {
     width: "100%",
   },
+  "& .ui.loader": {
+    marginLeft: 16,
+  },
   [`@media (min-width:${screenWidths.tablet})`]: {
     "& > button": {
       width: "auto",
@@ -171,7 +174,7 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
       <ShowMoreEvents isVisible={state.hasMoreEvents && !state.fetchEvents}>
         <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
           <span>Show more events</span>
-          <Loader inline active={state.showMoreEvents} size="tiny" style={{ marginLeft: 16 }} />
+          <Loader inline active={state.showMoreEvents} size="tiny" />
         </button>
       </ShowMoreEvents>
     </Container>
