@@ -44,25 +44,31 @@ const Events = styled.div({
   },
 });
 
-const EventsContainer: FC<EventsData> = ({ bodies, events }) => {
+const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
   const { firebaseConfig } = useAppConfigContext();
 
-  const dateRangeFilter = useFilter<string>("Date", { start: "", end: "" }, "", getDateText);
-  const committeeFilter = useFilter<boolean>(
-    "Committee",
-    bodies.reduce((obj, body) => {
+  const dateRangeFilter = useFilter<string>({
+    name: "Date",
+    initialState: { start: "", end: "" },
+    defaultDataValue: "",
+    textRepFunction: getDateText,
+  });
+  const committeeFilter = useFilter<boolean>({
+    name: "Committee",
+    initialState: bodies.reduce((obj, body) => {
       obj[body.id as string] = false;
       return obj;
     }, {} as Record<string, boolean>),
-    false,
-    getCheckboxText
-  );
-  const sortFilter = useFilter<string>(
-    "Sort",
-    { by: "event_datetime", order: ORDER_DIRECTION.desc, label: "Newest first" },
-    "",
-    getSortingText
-  );
+    defaultDataValue: false,
+    textRepFunction: getCheckboxText,
+    limit: 10,
+  });
+  const sortFilter = useFilter<string>({
+    name: "Sort",
+    initialState: { by: "event_datetime", order: ORDER_DIRECTION.desc, label: "Newest first" },
+    defaultDataValue: "",
+    textRepFunction: getSortingText,
+  });
 
   const [state, dispatch] = useEventsPagination(
     firebaseConfig,

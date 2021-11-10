@@ -1,7 +1,10 @@
 import React, { Dispatch, FunctionComponent, Fragment, ReactNode, useRef } from "react";
 import styled from "@emotion/styled";
-import { strings } from "../../../assets/LocalizedStrings";
+import { some } from "lodash";
 import { Icon, Popup } from "semantic-ui-react";
+
+import { strings } from "../../../assets/LocalizedStrings";
+
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 // Matching the styles of a Mozilla Protocol select element
@@ -95,6 +98,10 @@ export interface FilterPopupProps {
   closeOnChange: boolean;
   /**React Child Node. One of the filter components such as SelectDateRange, SelectTextFilterOptions, SelectSorting. */
   children: ReactNode;
+  /**At least one option is selected regarding the filter? */
+  hasRequiredError?: boolean;
+  /**The number of selected options exceeded the allowed limit of selected options? */
+  hasLimitError?: boolean;
 }
 
 /**
@@ -110,6 +117,8 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   handlePopupClose,
   closeOnChange,
   children,
+  hasRequiredError,
+  hasLimitError,
 }: FilterPopupProps) => {
   const mountNodeRef = useRef<HTMLDivElement>(null);
 
@@ -127,6 +136,8 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   const onClearFilter = () => {
     clear();
   };
+
+  const hasError = some([hasRequiredError, hasLimitError]);
 
   return (
     <Fragment>
@@ -151,7 +162,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
               <MozillaNeutralButton disabled={!isActive()} onClick={onClearFilter}>
                 <Icon name="remove" /> {strings.clear}
               </MozillaNeutralButton>
-              <MozillaProductButton onClick={onPopupClose}>
+              <MozillaProductButton disabled={hasError} onClick={onPopupClose}>
                 <Icon name="checkmark" /> {strings.save}
               </MozillaProductButton>
             </ButtonContainer>

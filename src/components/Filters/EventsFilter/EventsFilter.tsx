@@ -37,7 +37,7 @@ const EventsFilter: FC<EventsFilterProps> = ({
   filters,
   sortOptions,
   handlePopupClose,
-}) => {
+}: EventsFilterProps) => {
   const [committeeFilter, dateRangeFilter, sortFilter] = filters;
   const [committeeQuery, setCommitteeQuery] = useState("");
 
@@ -67,6 +67,8 @@ const EventsFilter: FC<EventsFilterProps> = ({
           setPopupIsOpen={committeeFilter.setPopupIsOpen}
           handlePopupClose={handlePopupClose}
           closeOnChange={false}
+          hasRequiredError={committeeFilter.hasRequiredError()}
+          hasLimitError={committeeFilter.hasLimitError()}
         >
           <SelectTextFilterOptions
             name={committeeFilter.name}
@@ -75,6 +77,8 @@ const EventsFilter: FC<EventsFilterProps> = ({
             options={getCommitteeNameOptions()}
             optionQuery={committeeQuery}
             setOptionQuery={setCommitteeQuery}
+            hasRequiredError={committeeFilter.hasRequiredError()}
+            hasLimitError={committeeFilter.hasLimitError()}
           />
         </FilterPopup>
       </div>
