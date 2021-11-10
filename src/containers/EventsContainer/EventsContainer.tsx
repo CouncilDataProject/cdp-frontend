@@ -18,6 +18,7 @@ import {
 import useEventsPagination from "./useEventsPagination";
 import { EventsData } from "./types";
 
+import { strings } from "../../assets/LocalizedStrings";
 import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
 import { screenWidths } from "../../styles/mediaBreakpoints";
@@ -103,6 +104,7 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
 
   return (
     <Container>
+      <h1 className="mzp-u-title-sm">{strings.events}</h1>
       <EventsFilter
         allBodies={bodies}
         filters={[committeeFilter, dateRangeFilter, sortFilter]}
