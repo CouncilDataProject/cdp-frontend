@@ -45,6 +45,10 @@ const Events = styled.div({
   },
 });
 
+const FetchEventsMsg = styled.p({
+  fontSize: fontSizes.font_size_6,
+});
+
 interface ShowMoreEventsProps {
   isVisible: boolean;
 }
@@ -119,9 +123,9 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
     if (state.fetchEvents) {
       return <Loader active size="massive" style={{ top: "40%" }} />;
     } else if (state.error) {
-      return <p>{state.error.toString()}</p>;
+      return <FetchEventsMsg>{state.error.toString()}</FetchEventsMsg>;
     } else if (state.events.length === 0) {
-      return <p>No events found.</p>;
+      return <FetchEventsMsg>No events found.</FetchEventsMsg>;
     } else {
       return (
         <Events>
