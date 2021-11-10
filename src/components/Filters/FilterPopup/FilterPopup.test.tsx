@@ -31,7 +31,7 @@ describe("FilterPopup", () => {
       </FilterPopup>
     );
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(0);
-    filterPopupMount.find("StyledSelect").simulate("click");
+    filterPopupMount.find("TriggerButton").simulate("click");
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(1);
   });
 
@@ -56,14 +56,14 @@ describe("FilterPopup", () => {
 
     test("Calls onClearFilter callback", () => {
       expect(clearMock).toHaveBeenCalledTimes(0);
-      filterPopup.find(".mzp-t-neutral").simulate("click");
+      filterPopup.find(".mzp-t-md.mzp-t-neutral").simulate("click");
       expect(clearMock).toHaveBeenCalledTimes(1);
     });
 
     test("Calls handlePopupClose callback", () => {
       expect(setPopupIsOpenMock).toHaveBeenCalledTimes(0);
       expect(handlePopupCloseMock).toHaveBeenCalledTimes(0);
-      filterPopup.find(".mzp-t-product").simulate("click");
+      filterPopup.find(".mzp-t-md.mzp-t-product").simulate("click");
       expect(setPopupIsOpenMock).toHaveBeenCalledTimes(1);
       expect(handlePopupCloseMock).toHaveBeenCalledTimes(1);
     });

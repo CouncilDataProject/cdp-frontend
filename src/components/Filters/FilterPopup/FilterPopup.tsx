@@ -1,29 +1,21 @@
 import React, { Dispatch, FunctionComponent, Fragment, ReactNode, useRef } from "react";
 import styled from "@emotion/styled";
 import { some } from "lodash";
-import { Icon, Popup } from "semantic-ui-react";
+import { Popup } from "semantic-ui-react";
+
+import ChevronDownIcon from "../../Shared/ChevronDownIcon";
 
 import { strings } from "../../../assets/LocalizedStrings";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
-// Matching the styles of a Mozilla Protocol select element
-// https://protocol.mozilla.org/patterns/atoms/forms.html#select
-const StyledSelect = styled.button({
-  color: "rgba(0, 0, 0, 1) !important",
-  boxShadow: "none !important",
-  padding: "8px calc(1.5em + 16px) 8px 8px !important",
-  borderRadius: "4px !important",
-  border: "2px solid #9595a2 !important",
-  backgroundImage: `url("data:image/svg+xml,%3Csvg width='24px' height='24px' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline stroke='%239595a3' stroke-width='2' points='5 9 12 16 19 9'%3E%3C/polyline%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #ffffff 0%, #ffffff 100%)`,
-  backgroundPosition: "right 8px top 50% !important",
-  backgroundRepeat: "no-repeat, repeat !important",
-  display: "block !important",
-  width: "100% !important",
-  textOverflow: "ellipsis !important",
-  lineHeight: "1.25 !important",
+const TriggerButton = styled.button({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  width: "100%",
 });
-StyledSelect.displayName = "StyledSelect";
+TriggerButton.displayName = "TriggerButton";
 
 const StyledPopup = styled(Popup)({
   // limit the width of the popup
@@ -131,7 +123,14 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
         offset={[0, -5]}
         position="bottom left"
         positionFixed={true}
-        trigger={<StyledSelect>{getTextRep()}</StyledSelect>}
+        trigger={
+          <TriggerButton className="mzp-c-button mzp-t-lg mzp-t-neutral">
+            {getTextRep()}
+            <div style={{ marginLeft: 24, width: 16, height: 16 }}>
+              <ChevronDownIcon />
+            </div>
+          </TriggerButton>
+        }
       >
         <PopupContainer>
           <ContentContainer>{children}</ContentContainer>
