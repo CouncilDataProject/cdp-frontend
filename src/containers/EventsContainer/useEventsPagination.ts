@@ -13,7 +13,7 @@ export type Action =
   | { type: "FETCH_EVENTS"; payload: boolean };
 
 export interface State {
-  eventsPerPage: number;
+  batchSize: number;
   events: RenderableEvent[];
   //Is currently fetching events with different filter parameters?
   fetchEvents: boolean;
@@ -31,7 +31,7 @@ export function eventsPageReducer(state: State, action: Action): State {
         events: state.fetchEvents ? action.payload : [...state.events, ...action.payload],
         fetchEvents: false,
         showMoreEvents: false,
-        hasMoreEvents: action.payload.length === state.eventsPerPage,
+        hasMoreEvents: action.payload.length === state.batchSize,
       };
     }
     case "FAILURE": {
@@ -72,7 +72,7 @@ export default function useEventsPagination(
       try {
         const eventService = new EventService(firebaseConfig);
         const events = await eventService.getEvents(
-          state.eventsPerPage,
+          state.batchSize,
           bodyIds,
           {
             start: dateRange.start ? new Date(dateRange.start) : undefined,
@@ -110,7 +110,7 @@ export default function useEventsPagination(
       didCancel = true;
     };
   }, [
-    state.eventsPerPage,
+    state.batchSize,
     state.events,
     state.fetchEvents,
     state.showMoreEvents,

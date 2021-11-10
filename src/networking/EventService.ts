@@ -20,7 +20,7 @@ import {
   PopulationOptions,
   REF_PROPERTY_NAME,
 } from "./PopulationOptions";
-import { ORDER_DIRECTION, WHERE_OPERATOR } from "./constants";
+import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM, WHERE_OPERATOR } from "./constants";
 
 import Event from "../models/Event";
 
@@ -64,7 +64,7 @@ export default class EventService extends ModelService {
   }
 
   async getEvents(
-    eventsPerPage: number,
+    batchSize: number,
     bodyIds: string[],
     dateRange: { start?: Date; end?: Date },
     sort: { by: string; order: ORDER_DIRECTION },
@@ -72,7 +72,7 @@ export default class EventService extends ModelService {
   ): Promise<Event[]> {
     if (bodyIds.length > 10) {
       // allow only <= 10 bodies filtering
-      return Promise.reject(new Error("Number of bodies exceeded 10."));
+      return Promise.reject(new Error(`Number of bodies exceeded ${OR_QUERY_LIMIT_NUM}.`));
     }
 
     const queryConstraints: QueryConstraint[] = [];
@@ -102,7 +102,7 @@ export default class EventService extends ModelService {
       queryConstraints.push(startAfter(startAfterDate));
     }
 
-    queryConstraints.push(limit(eventsPerPage));
+    queryConstraints.push(limit(batchSize));
 
     const networkResponse = this.networkService.getDocuments(
       COLLECTION_NAME.Event,

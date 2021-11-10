@@ -44,6 +44,8 @@ const Events = styled.div({
   },
 });
 
+const FETCH_EVENTS_BATCH_SIZE = 10;
+
 const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
   const { firebaseConfig } = useAppConfigContext();
 
@@ -73,11 +75,11 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
   const [state, dispatch] = useEventsPagination(
     firebaseConfig,
     {
-      eventsPerPage: 10,
+      batchSize: FETCH_EVENTS_BATCH_SIZE,
       events: events,
       fetchEvents: false,
       showMoreEvents: false,
-      hasMoreEvents: events.length === 10,
+      hasMoreEvents: events.length === FETCH_EVENTS_BATCH_SIZE,
       error: null,
     },
     getSelectedOptions(committeeFilter.state),
