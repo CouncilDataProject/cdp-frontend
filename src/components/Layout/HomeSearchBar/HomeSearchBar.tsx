@@ -120,13 +120,19 @@ const HomeSearchBar: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const history = useHistory();
-  const dateRangeFilter = useFilter<string>("Date", { start: "", end: "" }, "", getDateText);
-  const searchTypeFilter = useFilter<boolean>(
-    "Search Type",
-    intialSearchTyperFilterState,
-    false,
-    getSearchTypeText
-  );
+  const dateRangeFilter = useFilter<string>({
+    name: "Date",
+    initialState: { start: "", end: "" },
+    defaultDataValue: "",
+    textRepFunction: getDateText,
+  });
+  const searchTypeFilter = useFilter<boolean>({
+    name: "Search Type",
+    initialState: intialSearchTyperFilterState,
+    defaultDataValue: false,
+    textRepFunction: getSearchTypeText,
+    isRequired: true,
+  });
 
   const onSearch: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -198,14 +204,14 @@ const HomeSearchBar: FC = () => {
               popupIsOpen={searchTypeFilter.popupIsOpen}
               setPopupIsOpen={searchTypeFilter.setPopupIsOpen}
               closeOnChange={false}
+              hasRequiredError={searchTypeFilter.hasRequiredError()}
             >
               <SelectTextFilterOptions
                 name={searchTypeFilter.name}
                 state={searchTypeFilter.state}
                 update={searchTypeFilter.update}
                 options={searchTypeOptions}
-                isRequired={true}
-                isActive={searchTypeFilter.isActive()}
+                hasRequiredError={searchTypeFilter.hasRequiredError()}
               />
             </FilterPopup>
           )}
