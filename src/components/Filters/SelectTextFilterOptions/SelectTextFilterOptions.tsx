@@ -37,6 +37,8 @@ export interface SelectTextFilterOptionsProps {
   hasRequiredError?: boolean;
   /**The number of selected options exceeded the allowed limit of selected options? */
   hasLimitError?: boolean;
+  /**The number of allowed selected options. */
+  limit?: number;
 }
 
 const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> = ({
@@ -48,6 +50,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   setOptionQuery,
   hasRequiredError,
   hasLimitError,
+  limit,
 }: SelectTextFilterOptionsProps) => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const filterOptionName = e.currentTarget.name;
@@ -85,10 +88,10 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
       errors.push(`Please select at least one ${name.toLowerCase()}.`);
     }
     if (hasLimitError) {
-      errors.push(`Please select only 10 or fewer ${name.toLowerCase()}s.`);
+      errors.push(`Please select only ${limit} or fewer ${name.toLowerCase()}s.`);
     }
     return errors;
-  }, [hasRequiredError, hasLimitError, name]);
+  }, [hasRequiredError, hasLimitError, name, limit]);
 
   return (
     <form className="mzp-c-form">

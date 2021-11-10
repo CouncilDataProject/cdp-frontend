@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext } from "../../app";
-import { ORDER_DIRECTION } from "../../networking/constants";
+import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
 import useFilter from "../../components/Filters/useFilter";
@@ -61,7 +61,7 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
     }, {} as Record<string, boolean>),
     defaultDataValue: false,
     textRepFunction: getCheckboxText,
-    limit: 10,
+    limit: OR_QUERY_LIMIT_NUM,
   });
   const sortFilter = useFilter<string>({
     name: "Sort",

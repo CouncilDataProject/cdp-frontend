@@ -15,3 +15,6 @@ export enum ORDER_DIRECTION {
   asc = "asc",
   desc = "desc",
 }
+
+// https://firebase.google.com/docs/firestore/query-data/queries#query_limitations
+export const OR_QUERY_LIMIT_NUM = 10;

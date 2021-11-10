@@ -31,6 +31,8 @@ export interface Filter<T> {
   hasRequiredError(): boolean;
   /**The number of selected options exceeded the allowed limit of selected options? */
   hasLimitError(): boolean;
+  /**The number of allowed selected options. */
+  limit?: number;
 }
 
 export interface UseFilterArg<T> {
@@ -118,6 +120,7 @@ function useFilter<T>(arg: UseFilterArg<T>): Filter<T> {
     isSameState,
     hasRequiredError,
     hasLimitError,
+    limit,
   };
 }
 

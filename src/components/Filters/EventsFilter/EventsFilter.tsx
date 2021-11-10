@@ -79,6 +79,7 @@ const EventsFilter: FC<EventsFilterProps> = ({
             setOptionQuery={setCommitteeQuery}
             hasRequiredError={committeeFilter.hasRequiredError()}
             hasLimitError={committeeFilter.hasLimitError()}
+            limit={committeeFilter.limit}
           />
         </FilterPopup>
       </div>
