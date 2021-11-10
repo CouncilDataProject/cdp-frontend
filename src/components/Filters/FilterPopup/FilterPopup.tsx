@@ -9,7 +9,7 @@ import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 // Matching the styles of a Mozilla Protocol select element
 // https://protocol.mozilla.org/patterns/atoms/forms.html#select
-const StyledSelect = styled.div({
+const StyledSelect = styled.button({
   color: "rgba(0, 0, 0, 1) !important",
   boxShadow: "none !important",
   padding: "8px calc(1.5em + 16px) 8px 8px !important",
@@ -58,28 +58,6 @@ const ButtonContainer = styled.div({
   padding: ".833em 0 0",
 });
 ButtonContainer.displayName = "ButtonContainer";
-
-const MozillaProductButton = styled.button({
-  color: "#ffffff",
-  backgroundColor: "#0060df",
-  border: "2px solid #000000",
-  borderColor: "transparent",
-  borderRadius: "4px",
-  padding: "6px 24px",
-  fontSize: "0.875rem",
-});
-MozillaProductButton.displayName = "MozillaProductButton";
-
-const MozillaNeutralButton = styled.button({
-  color: "#5e5e72",
-  backgroundColor: "transparent",
-  border: "2px solid #000000",
-  borderColor: "#cdcdd4",
-  borderRadius: "4px",
-  padding: "6px 24px",
-  fontSize: "0.875rem",
-});
-MozillaNeutralButton.displayName = "MozillaNeutralButton";
 
 export interface FilterPopupProps {
   /**Callback to reset the filter state. */
@@ -159,12 +137,20 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
           <ContentContainer>{children}</ContentContainer>
           {!closeOnChange && (
             <ButtonContainer>
-              <MozillaNeutralButton disabled={!isActive()} onClick={onClearFilter}>
-                <Icon name="remove" /> {strings.clear}
-              </MozillaNeutralButton>
-              <MozillaProductButton disabled={hasError} onClick={onPopupClose}>
-                <Icon name="checkmark" /> {strings.save}
-              </MozillaProductButton>
+              <button
+                className="mzp-c-button mzp-t-md mzp-t-neutral"
+                disabled={!isActive()}
+                onClick={onClearFilter}
+              >
+                {strings.clear}
+              </button>
+              <button
+                className="mzp-c-button mzp-t-md mzp-t-product"
+                disabled={hasError}
+                onClick={onPopupClose}
+              >
+                {strings.save}
+              </button>
             </ButtonContainer>
           )}
         </PopupContainer>
