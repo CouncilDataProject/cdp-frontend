@@ -1,4 +1,4 @@
-import { Dispatch, useReducer, useState } from "react";
+import { Dispatch, useReducer, useState, SetStateAction } from "react";
 
 import { FILTER_CLEAR, FILTER_UPDATE } from "./actions";
 import createFilterReducer, { FilterState } from "./reducer";
@@ -20,7 +20,7 @@ export interface Filter<T> {
   /**Whether the filter's popup is open. */
   popupIsOpen: boolean;
   /**Toggle filter's UI popup open/close. */
-  setPopupIsOpen: Dispatch<boolean>;
+  setPopupIsOpen: Dispatch<SetStateAction<boolean>>;
   /**Returns the text representation of the filter's state. */
   getTextRep(): string;
   /**Return whether any of the filter's dataValue does not equal the default dataValue. */
