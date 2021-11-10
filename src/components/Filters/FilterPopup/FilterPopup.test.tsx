@@ -19,6 +19,7 @@ describe("FilterPopup", () => {
   test("Calls setPopupisOpen callback to open popup", () => {
     const filterPopupMount: ReactWrapper<FilterPopupProps> = mount(
       <FilterPopup
+        name="test"
         clear={clearMock}
         getTextRep={getTextRepMock}
         isActive={isActiveMock}
@@ -41,6 +42,7 @@ describe("FilterPopup", () => {
     beforeEach(() => {
       filterPopup = shallow(
         <FilterPopup
+          name="test"
           clear={clearMock}
           getTextRep={getTextRepMock}
           isActive={isActiveMock}
