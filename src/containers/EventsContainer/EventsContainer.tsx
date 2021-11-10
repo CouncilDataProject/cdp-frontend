@@ -50,6 +50,14 @@ interface ShowMoreEventsProps {
 }
 const ShowMoreEvents = styled.div<ShowMoreEventsProps>((props) => ({
   visibility: props.isVisible ? "visible" : "hidden",
+  "& > button": {
+    width: "100%",
+  },
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    "& > button": {
+      width: "auto",
+    },
+  },
 }));
 
 const FETCH_EVENTS_BATCH_SIZE = 10;
@@ -163,7 +171,7 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
       <ShowMoreEvents isVisible={state.hasMoreEvents && !state.fetchEvents}>
         <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
           <span>Show more events</span>
-          <Loader inline active={state.showMoreEvents} size="tiny" style={{ marginLeft: 8 }} />
+          <Loader inline active={state.showMoreEvents} size="tiny" style={{ marginLeft: 16 }} />
         </button>
       </ShowMoreEvents>
     </Container>
