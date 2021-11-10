@@ -45,7 +45,7 @@ const MeetingCard = ({
   const tagString = tags.join(TAG_CONNECTOR);
 
   return (
-    <Meeting className="mzp-c-card mzp-c-card-medium mzp-has-aspect-16-9">
+    <Meeting className="mzp-c-card mzp-has-aspect-16-9">
       <div>
         <div className="mzp-c-card-media-wrapper">
           <img className="mzp-c-card-image" src={staticImgSrc} alt={imgAlt} />

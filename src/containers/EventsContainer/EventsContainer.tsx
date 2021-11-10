@@ -40,7 +40,7 @@ const Events = styled.div({
   [`@media (min-width:${screenWidths.tablet})`]: {
     justifyContent: "space-between",
     "& > div": {
-      width: "45%",
+      width: "35%",
     },
   },
 });
