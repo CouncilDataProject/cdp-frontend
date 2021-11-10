@@ -22,6 +22,11 @@ const TriggerButton = styled.button({
   justifyContent: "space-between",
   alignItems: "center",
   width: "100%",
+  "& > svg": {
+    marginLeft: 24,
+    width: 16,
+    height: 16,
+  },
 });
 TriggerButton.displayName = "TriggerButton";
 
@@ -152,9 +157,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
             onClick={togglePopupIsOpen}
           >
             {getTextRep()}
-            <div style={{ marginLeft: 24, width: 16, height: 16 }}>
-              <ChevronDownIcon />
-            </div>
+            <ChevronDownIcon />
           </TriggerButton>
         }
       >
