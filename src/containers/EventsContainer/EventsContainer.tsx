@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
@@ -44,6 +44,13 @@ const Events = styled.div({
     },
   },
 });
+
+interface ShowMoreEventsProps {
+  isVisible: boolean;
+}
+const ShowMoreEvents = styled.div<ShowMoreEventsProps>((props) => ({
+  visibility: props.isVisible ? "visible" : "hidden",
+}));
 
 const FETCH_EVENTS_BATCH_SIZE = 10;
 
@@ -97,10 +104,48 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
     [dispatch]
   );
 
-  if (state.error) {
-    //TODO: throw the error
-    return <div>{state.error.toString()}</div>;
-  }
+  const fetchEventsResult = useMemo(() => {
+    if (state.fetchEvents) {
+      return <Loader active size="massive" style={{ top: "40%" }} />;
+    } else if (state.error) {
+      return <p>{state.error.toString()}</p>;
+    } else if (state.events.length === 0) {
+      return <p>No events found.</p>;
+    } else {
+      return (
+        <Events>
+          {state.events.map((event, i) => {
+            const eventDateTimeStr = event.event_datetime?.toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            }) as string;
+            return (
+              <div key={i}>
+                <Link
+                  to={`/events/${event.id}`}
+                  style={{
+                    textDecoration: "none",
+                    color: colors.black,
+                    fontSize: fontSizes.font_size_6,
+                  }}
+                >
+                  <MeetingCard
+                    staticImgSrc={event.staticThumbnailURL}
+                    hoverImgSrc={event.hoverThumbnailURL}
+                    imgAlt={`${event.body?.name} - ${eventDateTimeStr}`}
+                    meetingDate={eventDateTimeStr}
+                    committee={event.body?.name as string}
+                    tags={event.keyGrams}
+                  />
+                </Link>
+              </div>
+            );
+          })}
+        </Events>
+      );
+    }
+  }, [state.fetchEvents, state.error, state.events]);
 
   return (
     <Container>
@@ -109,60 +154,18 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
         allBodies={bodies}
         filters={[committeeFilter, dateRangeFilter, sortFilter]}
         sortOptions={[
-          { by: "event_datetime", order: "desc", label: "Newest first" },
-          { by: "event_datetime", order: "asc", label: "Oldest first" },
+          { by: "event_datetime", order: ORDER_DIRECTION.desc, label: "Newest first" },
+          { by: "event_datetime", order: ORDER_DIRECTION.asc, label: "Oldest first" },
         ]}
         handlePopupClose={handlePopupClose}
       />
-      {state.fetchEvents ? (
-        <Loader active size="massive" style={{ top: "40%" }} />
-      ) : (
-        <>
-          {state.events.length > 0 ? (
-            <Events>
-              {state.events.map((event, i) => {
-                return (
-                  <div key={i}>
-                    <Link
-                      to={`/events/${event.id}`}
-                      style={{
-                        textDecoration: "none",
-                        color: colors.black,
-                        fontSize: fontSizes.font_size_6,
-                      }}
-                    >
-                      <MeetingCard
-                        staticImgSrc={event.staticThumbnailURL}
-                        hoverImgSrc={event.hoverThumbnailURL}
-                        imgAlt={""}
-                        meetingDate={
-                          event.event_datetime?.toLocaleDateString("en-US", {
-                            month: "long",
-                            day: "numeric",
-                            year: "numeric",
-                          }) as string
-                        }
-                        committee={event.body?.name as string}
-                        tags={event.keyGrams}
-                      />
-                    </Link>
-                  </div>
-                );
-              })}
-            </Events>
-          ) : (
-            <p>No events found.</p>
-          )}
-        </>
-      )}
-      {state.hasMoreEvents && !state.fetchEvents && (
-        <div>
-          <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
-            <span>Show more events</span>
-            <Loader inline active={state.showMoreEvents} size="tiny" style={{ marginLeft: 8 }} />
-          </button>
-        </div>
-      )}
+      {fetchEventsResult}
+      <ShowMoreEvents isVisible={state.hasMoreEvents && !state.fetchEvents}>
+        <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
+          <span>Show more events</span>
+          <Loader inline active={state.showMoreEvents} size="tiny" style={{ marginLeft: 8 }} />
+        </button>
+      </ShowMoreEvents>
     </Container>
   );
 };
