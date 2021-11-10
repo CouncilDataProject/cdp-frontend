@@ -1,3 +1,5 @@
+import { ORDER_DIRECTION } from "../../../networking/constants";
+
 import getSortingText from "./getSortingText";
 
 describe("getSortingText", () => {
@@ -8,7 +10,7 @@ describe("getSortingText", () => {
   });
 
   test("Returns correct label given sort state", () => {
-    const sortState = { by: "value", order: "desc", label: "Most relevant" };
+    const sortState = { by: "value", order: ORDER_DIRECTION.desc, label: "Most relevant" };
     const textRep = getSortingText(sortState, defaultText);
     expect(textRep).toEqual(sortState.label);
   });
