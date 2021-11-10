@@ -1,4 +1,12 @@
-import React, { Dispatch, FunctionComponent, Fragment, ReactNode, useRef, useMemo } from "react";
+import React, {
+  Dispatch,
+  FunctionComponent,
+  Fragment,
+  ReactNode,
+  useRef,
+  useMemo,
+  SetStateAction,
+} from "react";
 import styled from "@emotion/styled";
 import { some } from "lodash";
 import { Popup } from "semantic-ui-react";
@@ -63,7 +71,7 @@ export interface FilterPopupProps {
   /**Whether the filter popup is open. */
   popupIsOpen: boolean;
   /**React Dispatch callback to update the popupIsOpen state. */
-  setPopupIsOpen: Dispatch<boolean>;
+  setPopupIsOpen: Dispatch<SetStateAction<boolean>>;
   /**Callback to handle filter popup closing. */
   handlePopupClose?(): void;
   /**Whether or not the popup should close when a value is selected. */
@@ -111,8 +119,8 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
     return errors;
   }, [hasRequiredError, hasLimitError, name, limit]);
 
-  const onPopupOpen = () => {
-    setPopupIsOpen(true);
+  const togglePopupIsOpen = () => {
+    setPopupIsOpen((prev) => !prev);
   };
 
   const onPopupClose = () => {
@@ -133,15 +141,16 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
         flowing
         context={mountNodeRef.current || undefined}
         on="click"
-        onClose={onPopupClose}
-        onOpen={onPopupOpen}
         open={popupIsOpen}
         pinned={true}
         offset={[0, -5]}
         position="bottom left"
         positionFixed={true}
         trigger={
-          <TriggerButton className="mzp-c-button mzp-t-lg mzp-t-neutral">
+          <TriggerButton
+            className="mzp-c-button mzp-t-lg mzp-t-neutral"
+            onClick={togglePopupIsOpen}
+          >
             {getTextRep()}
             <div style={{ marginLeft: 24, width: 16, height: 16 }}>
               <ChevronDownIcon />
