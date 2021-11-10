@@ -198,6 +198,7 @@ const HomeSearchBar: FC = () => {
         <div>
           {showFilters && (
             <FilterPopup
+              name={searchTypeFilter.name}
               clear={searchTypeFilter.clear}
               getTextRep={searchTypeFilter.getTextRep}
               isActive={searchTypeFilter.isActive}
@@ -211,7 +212,6 @@ const HomeSearchBar: FC = () => {
                 state={searchTypeFilter.state}
                 update={searchTypeFilter.update}
                 options={searchTypeOptions}
-                hasRequiredError={searchTypeFilter.hasRequiredError()}
               />
             </FilterPopup>
           )}
@@ -219,6 +219,7 @@ const HomeSearchBar: FC = () => {
         <div>
           {showFilters && (
             <FilterPopup
+              name={dateRangeFilter.name}
               clear={dateRangeFilter.clear}
               getTextRep={dateRangeFilter.getTextRep}
               isActive={dateRangeFilter.isActive}

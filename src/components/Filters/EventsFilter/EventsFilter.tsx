@@ -60,6 +60,7 @@ const EventsFilter: FC<EventsFilterProps> = ({
     <Filters>
       <div>
         <FilterPopup
+          name={committeeFilter.name}
           clear={committeeFilter.clear}
           getTextRep={committeeFilter.getTextRep}
           isActive={committeeFilter.isActive}
@@ -68,6 +69,7 @@ const EventsFilter: FC<EventsFilterProps> = ({
           handlePopupClose={handlePopupClose}
           closeOnChange={false}
           hasLimitError={committeeFilter.hasLimitError()}
+          limit={committeeFilter.limit}
         >
           <SelectTextFilterOptions
             name={committeeFilter.name}
@@ -76,13 +78,12 @@ const EventsFilter: FC<EventsFilterProps> = ({
             options={getCommitteeNameOptions()}
             optionQuery={committeeQuery}
             setOptionQuery={setCommitteeQuery}
-            hasLimitError={committeeFilter.hasLimitError()}
-            limit={committeeFilter.limit}
           />
         </FilterPopup>
       </div>
       <div>
         <FilterPopup
+          name={dateRangeFilter.name}
           clear={dateRangeFilter.clear}
           getTextRep={dateRangeFilter.getTextRep}
           isActive={dateRangeFilter.isActive}
@@ -96,6 +97,7 @@ const EventsFilter: FC<EventsFilterProps> = ({
       </div>
       <div>
         <FilterPopup
+          name={sortFilter.name}
           clear={sortFilter.clear}
           getTextRep={sortFilter.getTextRep}
           isActive={sortFilter.isActive}

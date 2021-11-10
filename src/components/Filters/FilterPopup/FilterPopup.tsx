@@ -1,4 +1,4 @@
-import React, { Dispatch, FunctionComponent, Fragment, ReactNode, useRef } from "react";
+import React, { Dispatch, FunctionComponent, Fragment, ReactNode, useRef, useMemo } from "react";
 import styled from "@emotion/styled";
 import { some } from "lodash";
 import { Popup } from "semantic-ui-react";
@@ -52,6 +52,8 @@ const ButtonContainer = styled.div({
 ButtonContainer.displayName = "ButtonContainer";
 
 export interface FilterPopupProps {
+  /**The name of the filter. */
+  name: string;
   /**Callback to reset the filter state. */
   clear(): void;
   /**Get the text representation of the filter state. */
@@ -72,6 +74,8 @@ export interface FilterPopupProps {
   hasRequiredError?: boolean;
   /**The number of selected options exceeded the allowed limit of selected options? */
   hasLimitError?: boolean;
+  /**The number of allowed selected options. */
+  limit?: number;
 }
 
 /**
@@ -79,6 +83,7 @@ export interface FilterPopupProps {
  * SelectDateRange, SelectTextFilterOptions, SelectSorting.
  */
 const FilterPopup: FunctionComponent<FilterPopupProps> = ({
+  name,
   clear,
   getTextRep,
   isActive,
@@ -89,8 +94,22 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   children,
   hasRequiredError,
   hasLimitError,
+  limit,
 }: FilterPopupProps) => {
   const mountNodeRef = useRef<HTMLDivElement>(null);
+
+  const hasError = some([hasRequiredError, hasLimitError]);
+
+  const errors = useMemo(() => {
+    const errors: string[] = [];
+    if (hasRequiredError) {
+      errors.push(`Please select at least one ${name.toLowerCase()}.`);
+    }
+    if (hasLimitError) {
+      errors.push(`Please select only ${limit} or fewer ${name.toLowerCase()}s.`);
+    }
+    return errors;
+  }, [hasRequiredError, hasLimitError, name, limit]);
 
   const onPopupOpen = () => {
     setPopupIsOpen(true);
@@ -98,7 +117,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
 
   const onPopupClose = () => {
     setPopupIsOpen(false);
-    if (handlePopupClose) {
+    if (!hasError && handlePopupClose) {
       handlePopupClose();
     }
   };
@@ -106,8 +125,6 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   const onClearFilter = () => {
     clear();
   };
-
-  const hasError = some([hasRequiredError, hasLimitError]);
 
   return (
     <Fragment>
@@ -134,6 +151,15 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
       >
         <PopupContainer>
           <ContentContainer>{children}</ContentContainer>
+          {hasError && (
+            <div className="mzp-c-form-errors" style={{ margin: "24px 0" }}>
+              <ul className="mzp-u-list-styled">
+                {errors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           {!closeOnChange && (
             <ButtonContainer>
               <button

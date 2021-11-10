@@ -1,5 +1,4 @@
 import React, { ChangeEvent, Dispatch, FunctionComponent, useMemo } from "react";
-import { some } from "lodash";
 
 import { FilterState } from "../reducer";
 
@@ -33,12 +32,6 @@ export interface SelectTextFilterOptionsProps {
   optionQuery?: string;
   /**React Dispatch callback to update the search string state. */
   setOptionQuery?: Dispatch<string>;
-  /**At least one option is selected regarding the filter? */
-  hasRequiredError?: boolean;
-  /**The number of selected options exceeded the allowed limit of selected options? */
-  hasLimitError?: boolean;
-  /**The number of allowed selected options. */
-  limit?: number;
 }
 
 const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> = ({
@@ -48,9 +41,6 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   options,
   optionQuery,
   setOptionQuery,
-  hasRequiredError,
-  hasLimitError,
-  limit,
 }: SelectTextFilterOptionsProps) => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const filterOptionName = e.currentTarget.name;
@@ -79,19 +69,6 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
     }
     return optionsInOrder;
   }, [options, optionQuery, setOptionQuery]);
-
-  const hasError = some([hasRequiredError, hasLimitError]);
-
-  const errors = useMemo(() => {
-    const errors: string[] = [];
-    if (hasRequiredError) {
-      errors.push(`Please select at least one ${name.toLowerCase()}.`);
-    }
-    if (hasLimitError) {
-      errors.push(`Please select only ${limit} or fewer ${name.toLowerCase()}s.`);
-    }
-    return errors;
-  }, [hasRequiredError, hasLimitError, name, limit]);
 
   return (
     <form className="mzp-c-form">
@@ -132,15 +109,6 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
           ))}
         </div>
       </fieldset>
-      {hasError && (
-        <div className="mzp-c-form-errors">
-          <ul className="mzp-u-list-styled">
-            {errors.map((error) => (
-              <li key={error}>{error}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </form>
   );
 };
