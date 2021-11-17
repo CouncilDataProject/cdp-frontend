@@ -2,18 +2,19 @@ import React, { ChangeEventHandler, FC, FormEventHandler, useState } from "react
 import { useHistory } from "react-router-dom";
 import styled from "@emotion/styled";
 
+import { SEARCH_TYPE } from "../../../constants/ProjectConstants";
+
 import { FilterPopup } from "../../Filters/FilterPopup";
 import useFilter from "../../Filters/useFilter";
 import { FilterState } from "../../Filters/reducer";
 import { getDateText, SelectDateRange } from "../../Filters/SelectDateRange";
 import { getSelectedOptions, SelectTextFilterOptions } from "../../Filters/SelectTextFilterOptions";
-import { SEARCH_TYPE } from "../../../constants/ProjectConstants";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
+import { strings } from "../../../assets/LocalizedStrings";
 
 import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
-import { strings } from "../../../assets/LocalizedStrings";
 
 const EXAMPLE_TOPICS = [
   "minimum wage",
@@ -136,22 +137,17 @@ const HomeSearchBar: FC = () => {
 
   const onSearch: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    let queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
-
+    const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
     const selectedSearchTypes = getSelectedOptions(searchTypeFilter.state);
-    if (selectedSearchTypes) {
-      queryParams += `&type=${selectedSearchTypes.join(",")}`;
-    }
-    if (dateRangeFilter.state.start) {
-      queryParams += `&start=${dateRangeFilter.state.start}`;
-    }
-    if (dateRangeFilter.state.end) {
-      queryParams += `&end=${dateRangeFilter.state.end}`;
-    }
     history.push({
       pathname: "/search",
       search: queryParams,
-      state: { query: searchQuery, types: selectedSearchTypes, ...dateRangeFilter.state },
+      state: {
+        query: searchQuery.trim(),
+        types: selectedSearchTypes,
+        committees: [],
+        dateRange: dateRangeFilter.state,
+      },
     });
   };
 

@@ -1,9 +1,17 @@
-import React, { FC, useCallback, useMemo } from "react";
+import React, {
+  FC,
+  useCallback,
+  useMemo,
+  useState,
+  ChangeEventHandler,
+  FormEventHandler,
+} from "react";
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext } from "../../app";
+import { SEARCH_TYPE } from "../../constants/ProjectConstants";
 import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
@@ -27,6 +35,17 @@ const Container = styled.div({
   display: "flex",
   flexDirection: "column",
   gap: 32,
+});
+
+const SearchContainer = styled.div({
+  display: "grid",
+  gap: 8,
+  gridTemplateColumns: "1fr",
+  justifyContent: "start",
+  alignItems: "start",
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    gridTemplateColumns: "1fr auto",
+  },
 });
 
 const Events = styled.div({
@@ -162,9 +181,45 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
     }
   }, [state.fetchEvents, state.error, state.events]);
 
+  const history = useHistory();
+  const [searchQuery, setSearchQuery] = useState("");
+  const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
+    setSearchQuery(event.target.value);
+  const onSearch: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
+
+    history.push({
+      pathname: "/search",
+      search: queryParams,
+      state: {
+        query: searchQuery.trim(),
+        types: [SEARCH_TYPE.MEETING],
+        committees: getSelectedOptions(committeeFilter.state),
+        dateRange: dateRangeFilter.state,
+      },
+    });
+  };
+
   return (
     <Container>
       <h1 className="mzp-u-title-sm">{strings.events}</h1>
+      <form className="mzp-c-form" role="search" onSubmit={onSearch} style={{ marginBottom: 0 }}>
+        <SearchContainer>
+          <input
+            type="search"
+            placeholder={strings.search_topic_placeholder}
+            required
+            aria-required
+            value={searchQuery}
+            onChange={onSearchChange}
+            style={{ marginBottom: 0 }}
+          />
+          <button className="mzp-c-button mzp-t-product" type="submit">
+            {strings.search}
+          </button>
+        </SearchContainer>
+      </form>
       <EventsFilter
         allBodies={bodies}
         filters={[committeeFilter, dateRangeFilter, sortFilter]}
