@@ -46,7 +46,7 @@ const MeetingCard = ({
 
   return (
     <Meeting className="mzp-c-card mzp-has-aspect-16-9">
-      <div>
+      <div className="mzp-c-card-block-link">
         <div className="mzp-c-card-media-wrapper">
           <img className="mzp-c-card-image" src={staticImgSrc} alt={imgAlt} />
           <img className="mzp-c-card-image" src={hoverImgSrc} alt={imgAlt} />
