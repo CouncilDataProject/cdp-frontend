@@ -15,7 +15,7 @@ import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
  **/
 export interface MasterStringsList extends LocalizedStringsMethods {
   [propName: string]: any;
-  tags: string;
+  keywords: string;
   same: string;
   select_language: string;
   committee: string;
