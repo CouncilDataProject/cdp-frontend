@@ -42,7 +42,7 @@ const MeetingCard = ({
   tags,
   excerpt,
 }: MeetingCardProps) => {
-  const tagString = tags.join(TAG_CONNECTOR);
+  const tagString = tags.map((tag) => tag.toLowerCase()).join(TAG_CONNECTOR);
 
   return (
     <Meeting className="mzp-c-card mzp-has-aspect-16-9">
