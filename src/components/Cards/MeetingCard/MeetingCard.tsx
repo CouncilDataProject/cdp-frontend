@@ -64,7 +64,7 @@ const MeetingCard = ({
               }}
             >{`"${excerpt}"`}</p>
           ) : null}
-          <p className="mzp-c-card-meta">{strings.tags}</p>
+          <p className="mzp-c-card-meta">{strings.keywords}</p>
           <p className="mzp-c-card-desc">{tagString}</p>
         </div>
       </div>

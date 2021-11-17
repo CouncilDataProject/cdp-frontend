@@ -53,7 +53,7 @@ const LegislationCard: FC<LegislationCardProps> = ({
           <p className="mzp-c-card-meta">{status}</p>
           <StatusIconContainer>{statusIcon}</StatusIconContainer>
           <p className="mzp-c-card-desc">{date}</p>
-          <p className="mzp-c-card-meta">{strings.tags}</p>
+          <p className="mzp-c-card-meta">{strings.keywords}</p>
           <p className="mzp-c-card-desc">{tagString}</p>
         </div>
       </div>
