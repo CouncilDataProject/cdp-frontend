@@ -34,7 +34,7 @@ const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonConta
         <PersonFullView person={person} roles={roles} mattersSponsored={mattersSponsored} />
       )}
       <br />
-      <VotingTable name={person.name || "No Name Found"} votesPage={votes as any} />
+      {votes && <VotingTable name={person.name || "No Name Found"} votesPage={votes as any} />}
     </div>
   );
 };

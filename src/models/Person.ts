@@ -15,7 +15,8 @@ class Person implements Model {
   is_active?: boolean;
   external_source_id?: string;
   seatName?: string;
-  seatPictureUri?: string;
+  seatPicture?: File;
+  seatPictureRef?: string;
   seatElectoralArea?: string;
 
   constructor(jsonData: ResponseData) {
@@ -62,8 +63,16 @@ class Person implements Model {
       this.seatName = jsonData["seatName"];
     }
 
-    if (jsonData["seatPictureUri"]) {
-      this.seatPictureUri = jsonData["seatPictureUri"];
+    if (jsonData["seatPictureRef"]) {
+      this.seatPictureRef = jsonData["seatPictureRef"];
+    }
+
+    if (jsonData["seatPicture"]) {
+      if (jsonData["seatPicture"] instanceof DocumentReference) {
+        this.seatPictureRef = jsonData["seatPicture"].id;
+      } else if (typeof jsonData["seatPicture"] === "object") {
+        this.picture = new File(jsonData["seatPicture"]);
+      }
     }
 
     if (jsonData["seatElectoralArea"]) {

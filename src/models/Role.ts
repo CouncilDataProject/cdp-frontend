@@ -11,8 +11,6 @@ export default class Role implements Model {
   title?: ROLE_TITLE;
   start_datetime?: Date;
   end_datetime?: Date;
-  matter_type?: string;
-  name?: string;
   person?: Person;
   person_ref?: string;
   body?: Body;

@@ -24,14 +24,15 @@ interface CoverImageProps {
 }
 
 const CoverImage: FC<CoverImageProps> = ({ person }: CoverImageProps) => {
-  if (person.seatPictureUri) {
+  if (person.seatPicture?.uri) {
     return (
       <div>
         <CoverImg
           className="mzp-c-card-image"
-          src={person.seatPictureUri}
+          src={person.seatPicture?.uri}
           alt={`${person.seatName} - ${person.seatElectoralArea}`}
         />
+        {person.picture && <AvatarImage personImageUri={person.picture?.uri} />}
       </div>
     );
   } else {
