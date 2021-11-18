@@ -30,12 +30,7 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
   const handleJumpToVideoClip = (sessionIndex: number, startTime: number) => () =>
     jumpToVideoClip(sessionIndex, startTime);
   /**Creates a function that handles jumping to video clip at startTime and jumping to index-th sentence in full transcript */
-  const handleJumpToTranscript = (
-    sentenceIndex: number,
-    sessionIndex: number,
-    startTime: number
-  ) => () => {
-    jumpToVideoClip(sessionIndex, startTime);
+  const handleJumpToTranscript = (sentenceIndex: number) => () => {
     jumpToTranscript(sentenceIndex);
   };
   // Stores the CellMeasurer's measurements of all transcript items
@@ -70,11 +65,7 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
             searchQuery={searchQuery}
             speakerId={sentences[index].speaker_id}
             speakerPictureSrc={sentences[index].speaker_pictureSrc}
-            handleJumpToTranscript={handleJumpToTranscript(
-              index,
-              sentences[index].session_index,
-              sentences[index].start_time
-            )}
+            handleJumpToTranscript={handleJumpToTranscript(index)}
           />
         </div>
       </div>
