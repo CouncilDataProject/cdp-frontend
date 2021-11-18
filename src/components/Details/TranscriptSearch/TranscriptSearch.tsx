@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FC, useState } from "react";
+import React, { ChangeEventHandler, FC, useState, useMemo } from "react";
 import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
 import TranscriptItems from "./TranscriptItems";
@@ -69,7 +69,9 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
   const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
     setSearchTerm(event.target.value);
 
-  const visibleSentences = sentences.filter(({ text }) => isSubstring(text, searchTerm));
+  const visibleSentences = useMemo(() => {
+    return sentences.filter(({ text }) => isSubstring(text, searchTerm));
+  }, [sentences, searchTerm]);
 
   return (
     <Container>
