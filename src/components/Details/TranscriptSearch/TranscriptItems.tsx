@@ -65,7 +65,7 @@ const TranscriptItems: FC<TranscriptItemsProps> = ({
             searchQuery={searchQuery}
             speakerId={sentences[index].speaker_id}
             speakerPictureSrc={sentences[index].speaker_pictureSrc}
-            handleJumpToTranscript={handleJumpToTranscript(index)}
+            handleJumpToTranscript={handleJumpToTranscript(sentences[index].index)}
           />
         </div>
       </div>
