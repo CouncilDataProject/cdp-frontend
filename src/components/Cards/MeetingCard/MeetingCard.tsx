@@ -7,9 +7,9 @@ import { strings } from "../../../assets/LocalizedStrings";
 export type MeetingCardProps = {
   /** The static poster image src of the event */
   staticImgSrc: string;
-  /** The animated post image src of the event */
+  /** The animated poster image src of the event */
   hoverImgSrc: string;
-  /** The alternative title of the post image */
+  /** The alternative title of the poster image */
   imgAlt: string;
   /** The event's date */
   meetingDate: string;
