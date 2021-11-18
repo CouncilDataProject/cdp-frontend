@@ -68,12 +68,36 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
         <nav className="mzp-c-footer-secondary">
           <div className="mzp-c-footer-legal">
             <p className="mzp-c-footer-license">
-              {strings.copyright_notice
-                .replace("{date_range}", "2017-2021")
-                .replace("{copyright_license_type}", "MIT License")}
+              {strings.copyright_notice.replace("{date_range}", "2017-2021")}
               <br />
-              {strings.styled_using.replace("{style_provider}", "Mozilla Protocol")}{" "}
-              {strings.artwork_provided_by.replace("{artwork_provider}", "unDraw")}
+              <br />
+              {strings.content_license_prefix}
+              <a rel="license" href={strings.content_license_link}>
+                {strings.content_license_link_text}
+              </a>
+              .
+              <br />
+              {strings.tools_license_prefix}
+              <a
+                rel="license"
+                href="https://raw.githubusercontent.com/CouncilDataProject/cookiecutter-cdp-deployment/main/LICENSE"
+              >
+                MIT License
+              </a>
+              .
+              <br />
+              <br />
+              {strings.styled_using_prefix}
+              <a rel="external" href="https://protocol.mozilla.org/">
+                Mozilla Protocol
+              </a>
+              .
+              <br />
+              {strings.artwork_provided_by_prefix}
+              <a rel="external" href="https://undraw.co/">
+                unDraw
+              </a>
+              .
             </p>
           </div>
         </nav>
