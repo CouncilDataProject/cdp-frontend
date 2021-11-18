@@ -12,7 +12,8 @@ const Template: Story<MeetingCardProps> = (args) => <MeetingCard {...args} />;
 
 export const meeting = Template.bind({});
 meeting.args = {
-  imgSrc: "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg",
+  staticImgSrc: "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg",
+  hoverImgSrc: "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg",
   imgAlt: "Citizen presenting at a select budget committee meeting",
   meetingDate: "June 9th, 2020",
   committee: "Select Budget",
@@ -21,7 +22,8 @@ meeting.args = {
 
 export const meetingSearchResult = Template.bind({});
 meetingSearchResult.args = {
-  imgSrc: "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg",
+  staticImgSrc: "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg",
+  hoverImgSrc: "https://mynorthwest.com/wp-content/uploads/2016/05/arena2-1.jpg",
   imgAlt: "Citizen presenting at a select budget committee meeting",
   meetingDate: "June 9th, 2020",
   committee: "Select Budget",

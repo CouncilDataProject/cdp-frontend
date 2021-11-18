@@ -1,8 +1,11 @@
-import React, { ChangeEvent, Dispatch, FunctionComponent } from "react";
+import React, { ChangeEvent, Dispatch, FunctionComponent, useMemo } from "react";
+
+import { FilterState } from "../reducer";
+
+import isSubstring from "../../../utils/isSubstring";
+
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
-import { FilterState } from "../reducer";
-import isSubstring from "../../../utils/isSubstring";
 
 /**The type of of a filter option. */
 interface FilterOption {
@@ -29,10 +32,6 @@ export interface SelectTextFilterOptionsProps {
   optionQuery?: string;
   /**React Dispatch callback to update the search string state. */
   setOptionQuery?: Dispatch<string>;
-  /**Is it required to select at least one option? */
-  isRequired?: boolean;
-  //**Is there at least one selected option? */
-  isActive?: boolean;
 }
 
 const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> = ({
@@ -42,8 +41,6 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   options,
   optionQuery,
   setOptionQuery,
-  isRequired,
-  isActive,
 }: SelectTextFilterOptionsProps) => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const filterOptionName = e.currentTarget.name;
@@ -58,22 +55,25 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
     }
   };
 
-  let optionsInOrder = [...options];
-  if (options.length > 5 && setOptionQuery) {
-    for (const option of options) {
-      option.disabled = !isSubstring(option.label, optionQuery || "");
-    }
+  const optionsInOrder = useMemo(() => {
+    let optionsInOrder = [...options];
+    if (options.length > 5 && setOptionQuery) {
+      for (const option of options) {
+        option.disabled = !isSubstring(option.label, optionQuery || "");
+      }
 
-    optionsInOrder = [
-      ...options.filter((option) => !option.disabled),
-      ...options.filter((option) => option.disabled),
-    ];
-  }
+      optionsInOrder = [
+        ...options.filter((option) => !option.disabled),
+        ...options.filter((option) => option.disabled),
+      ];
+    }
+    return optionsInOrder;
+  }, [options, optionQuery, setOptionQuery]);
 
   return (
     <form className="mzp-c-form">
       {options.length > 5 && setOptionQuery && (
-        <div className="mzp-c-field">
+        <div className="mzp-c-field mzp-l-stretch">
           <label className="mzp-c-field-label" htmlFor="form-input-control-search-filter">
             {`Search ${name} Options`}
           </label>
@@ -109,13 +109,6 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
           ))}
         </div>
       </fieldset>
-      {isRequired && !isActive && (
-        <div className="mzp-c-form-errors">
-          <ul className="mzp-u-list-styled">
-            <li>{`Please select at least one ${name.toLowerCase()}.`}</li>
-          </ul>
-        </div>
-      )}
     </form>
   );
 };

@@ -2,6 +2,8 @@ import React from "react";
 
 import { shallow, ShallowWrapper } from "enzyme";
 
+import { ORDER_DIRECTION } from "../../../networking/constants";
+
 import { SortOption } from "./getSortingText";
 import SelectSorting, { SelectSortingProps } from "./SelectSorting";
 
@@ -10,9 +12,9 @@ describe("SelectSorting", () => {
   const updateMock = jest.fn();
   const onPopupCloseMock = jest.fn();
   const sortOptions: SortOption[] = [
-    { by: "value", order: "desc", label: "Most relevant" },
-    { by: "date", order: "desc", label: "Newest first" },
-    { by: "date", order: "asc", label: "Oldest first" },
+    { by: "value", order: ORDER_DIRECTION.desc, label: "Most relevant" },
+    { by: "date", order: ORDER_DIRECTION.desc, label: "Newest first" },
+    { by: "date", order: ORDER_DIRECTION.asc, label: "Oldest first" },
   ];
 
   beforeEach(() => {

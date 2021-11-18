@@ -2,18 +2,19 @@ import React, { ChangeEventHandler, FC, FormEventHandler, useState } from "react
 import { useHistory } from "react-router-dom";
 import styled from "@emotion/styled";
 
+import { SEARCH_TYPE } from "../../../constants/ProjectConstants";
+
 import { FilterPopup } from "../../Filters/FilterPopup";
 import useFilter from "../../Filters/useFilter";
 import { FilterState } from "../../Filters/reducer";
 import { getDateText, SelectDateRange } from "../../Filters/SelectDateRange";
 import { getSelectedOptions, SelectTextFilterOptions } from "../../Filters/SelectTextFilterOptions";
-import { SEARCH_TYPE } from "../../../constants/ProjectConstants";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
+import { strings } from "../../../assets/LocalizedStrings";
 
 import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
-import { strings } from "../../../assets/LocalizedStrings";
 
 const EXAMPLE_TOPICS = [
   "minimum wage",
@@ -120,32 +121,33 @@ const HomeSearchBar: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const history = useHistory();
-  const dateRangeFilter = useFilter<string>("Date", { start: "", end: "" }, "", getDateText);
-  const searchTypeFilter = useFilter<boolean>(
-    "Search Type",
-    intialSearchTyperFilterState,
-    false,
-    getSearchTypeText
-  );
+  const dateRangeFilter = useFilter<string>({
+    name: "Date",
+    initialState: { start: "", end: "" },
+    defaultDataValue: "",
+    textRepFunction: getDateText,
+  });
+  const searchTypeFilter = useFilter<boolean>({
+    name: "Search Type",
+    initialState: intialSearchTyperFilterState,
+    defaultDataValue: false,
+    textRepFunction: getSearchTypeText,
+    isRequired: true,
+  });
 
   const onSearch: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    let queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
-
+    const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
     const selectedSearchTypes = getSelectedOptions(searchTypeFilter.state);
-    if (selectedSearchTypes) {
-      queryParams += `&type=${selectedSearchTypes.join(",")}`;
-    }
-    if (dateRangeFilter.state.start) {
-      queryParams += `&start=${dateRangeFilter.state.start}`;
-    }
-    if (dateRangeFilter.state.end) {
-      queryParams += `&end=${dateRangeFilter.state.end}`;
-    }
     history.push({
       pathname: "/search",
       search: queryParams,
-      state: { query: searchQuery, types: selectedSearchTypes, ...dateRangeFilter.state },
+      state: {
+        query: searchQuery.trim(),
+        types: selectedSearchTypes,
+        committees: [],
+        dateRange: dateRangeFilter.state,
+      },
     });
   };
 
@@ -192,20 +194,20 @@ const HomeSearchBar: FC = () => {
         <div>
           {showFilters && (
             <FilterPopup
+              name={searchTypeFilter.name}
               clear={searchTypeFilter.clear}
               getTextRep={searchTypeFilter.getTextRep}
               isActive={searchTypeFilter.isActive}
               popupIsOpen={searchTypeFilter.popupIsOpen}
               setPopupIsOpen={searchTypeFilter.setPopupIsOpen}
               closeOnChange={false}
+              hasRequiredError={searchTypeFilter.hasRequiredError()}
             >
               <SelectTextFilterOptions
                 name={searchTypeFilter.name}
                 state={searchTypeFilter.state}
                 update={searchTypeFilter.update}
                 options={searchTypeOptions}
-                isRequired={true}
-                isActive={searchTypeFilter.isActive()}
               />
             </FilterPopup>
           )}
@@ -213,6 +215,7 @@ const HomeSearchBar: FC = () => {
         <div>
           {showFilters && (
             <FilterPopup
+              name={dateRangeFilter.name}
               clear={dateRangeFilter.clear}
               getTextRep={dateRangeFilter.getTextRep}
               isActive={dateRangeFilter.isActive}

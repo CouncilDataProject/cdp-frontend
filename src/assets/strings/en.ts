@@ -11,7 +11,7 @@ const en = {
   en: "English",
   es: "Español",
   de: "Deutsche",
-  tags: "Tags",
+  keywords: "Keywords",
   select_language: "Select Language",
   same: "same",
   committee: "Committee",

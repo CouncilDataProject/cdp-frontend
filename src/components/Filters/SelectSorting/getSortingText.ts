@@ -1,10 +1,11 @@
 import { FilterState } from "../reducer";
+import { ORDER_DIRECTION } from "../../../networking/constants";
 
 export interface SortOption {
   /**The field to sort by */
   by: string;
   /**The order to sort by */
-  order: string;
+  order: ORDER_DIRECTION;
   /**The label of the sort option */
   label: string;
 }

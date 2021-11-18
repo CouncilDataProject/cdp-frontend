@@ -12,7 +12,7 @@ const de = {
   en: "English",
   es: "Español",
   de: "Deutsche",
-  tags: "Stichworte",
+  keywords: "Schlüsselwörter",
   select_language: "Sprache auswählen",
   same: "gleich",
   committee: "Komitee",

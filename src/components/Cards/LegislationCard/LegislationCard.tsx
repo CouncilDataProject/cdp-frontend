@@ -33,7 +33,7 @@ const LegislationCard: FC<LegislationCardProps> = ({
   date,
   tags,
 }: LegislationCardProps) => {
-  const tagString = tags.join(TAG_CONNECTOR);
+  const tagString = tags.map((tag) => tag.toLowerCase()).join(TAG_CONNECTOR);
 
   let statusIcon;
 
@@ -53,7 +53,7 @@ const LegislationCard: FC<LegislationCardProps> = ({
           <p className="mzp-c-card-meta">{status}</p>
           <StatusIconContainer>{statusIcon}</StatusIconContainer>
           <p className="mzp-c-card-desc">{date}</p>
-          <p className="mzp-c-card-meta">{strings.tags}</p>
+          <p className="mzp-c-card-meta">{strings.keywords}</p>
           <p className="mzp-c-card-desc">{tagString}</p>
         </div>
       </div>
