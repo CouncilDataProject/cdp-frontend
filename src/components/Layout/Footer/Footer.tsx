@@ -70,16 +70,20 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
             <p>{strings.copyright_notice.replace("{date_range}", "2017-2021")}</p>
             <p>
               {strings.content_license_prefix}
-              <a rel="license" href={strings.content_license_link} target="opener">
+              <a
+                rel="noopener noreferrer license external"
+                href={strings.content_license_link}
+                target="_blank"
+              >
                 {strings.content_license_link_text}
               </a>
               .
               <br />
               {strings.tools_license_prefix}
               <a
-                rel="license"
+                rel="noopener noreferrer license external"
                 href="https://github.com/CouncilDataProject/cookiecutter-cdp-deployment/blob/main/LICENSE"
-                target="opener"
+                target="_blank"
               >
                 MIT License
               </a>
@@ -87,13 +91,17 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
             </p>
             <p>
               {strings.styled_using_prefix}
-              <a rel="external" href="https://protocol.mozilla.org/" target="opener">
+              <a
+                rel="noopener noreferrer external"
+                href="https://protocol.mozilla.org/"
+                target="_blank"
+              >
                 Mozilla Protocol
               </a>
               .
               <br />
               {strings.artwork_provided_by_prefix}
-              <a rel="external" href="https://undraw.co/" target="opener">
+              <a rel="noopener noreferrer external" href="https://undraw.co/" target="_blank">
                 unDraw
               </a>
               .
