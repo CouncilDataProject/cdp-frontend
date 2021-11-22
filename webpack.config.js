@@ -21,14 +21,23 @@ module.exports = {
         use: [{ loader: "babel-loader" }],
       },
       {
-        test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
-        type: "asset",
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "assets/img/[hash][ext]"
+        },
         use: [
-          "file-loader",
           {
             loader: "image-webpack-loader",
-          },
-        ],
+          }
+        ]
+      },
+      {
+        test: /\.(eot|ttf|woff|woff2)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "assets/fonts/[hash][ext]"
+        },
       },
       {
         test: /\.css/,
@@ -61,10 +70,7 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js", ".jsx", "css"],
   },
   externals: {
-    "@emotion/styled": "@emotion/styled",
-    moment: "moment",
     react: "react",
-    "semantic-ui-react": "semantic-ui-react",
   },
   plugins: [new MiniCssExtractPlugin({ filename: "[name].css" })],
 };
