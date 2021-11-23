@@ -41,12 +41,15 @@ const SearchPage: FC = () => {
 
       try {
         const events = await eventSearchService.searchEvents(searchQuery);
+        const renderableEvents = await Promise.all(
+          events.map((event) => eventSearchService.getRenderableEvent(event))
+        );
 
         if (!didCancel) {
           searchPageDataDispatch({
             type: FetchDataActionType.FETCH_SUCCESS,
             payload: {
-              events,
+              events: renderableEvents,
             },
           });
         }
@@ -64,6 +67,7 @@ const SearchPage: FC = () => {
       didCancel = true;
     };
   }, [searchQuery, firebaseConfig]);
+
   return (
     <FetchDataContainer isLoading={searchPageDataState.isLoading} error={searchPageDataState.error}>
       {searchPageDataState.data && <SearchContainer {...searchPageDataState.data} />}

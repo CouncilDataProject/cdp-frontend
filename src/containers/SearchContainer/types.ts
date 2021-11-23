@@ -1,5 +1,5 @@
-import { MatchingEvent } from "../../networking/EventSearchService";
+import { RenderableEvent } from "../../networking/EventSearchService";
 
 export interface SearchContainerData {
-  events: MatchingEvent[];
+  events: RenderableEvent[];
 }
