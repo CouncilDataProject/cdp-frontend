@@ -18,7 +18,7 @@ import { FirebaseConfig } from "../app/AppConfigContext";
  * Contains all information needed to created paginated requests for full event
  * information, along with minimal information used for display.
  */
-class MatchingEvent {
+export class MatchingEvent {
   eventRef: string;
   pureRelevance: number;
   datetimeWeightedRelevance: number;

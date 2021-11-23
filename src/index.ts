@@ -37,6 +37,8 @@ export { default as MeetingVotesTableRow } from "./components/Tables/MeetingVote
 
 //Containers
 export { EventContainer } from "./containers/EventContainer";
+export { EventsContainer } from "./containers/EventsContainer";
+export { SearchContainer } from "./containers/SearchContainer";
 
 //Pages
 export { HomePage } from "./pages/HomePage";
