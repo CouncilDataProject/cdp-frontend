@@ -7,11 +7,10 @@ import React, {
   FormEventHandler,
 } from "react";
 import styled from "@emotion/styled";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext } from "../../app";
-import { SEARCH_TYPE } from "../../constants/ProjectConstants";
 import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
@@ -26,9 +25,10 @@ import {
 import { CardsContainer } from "../CardsContainer";
 import useEventsPagination from "./useEventsPagination";
 import { EventsData } from "./types";
+import { SearchEventsState } from "../../pages/SearchEventsPage/types";
+import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
-import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
 import { screenWidths } from "../../styles/mediaBreakpoints";
 
@@ -131,39 +131,31 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
     } else if (state.events.length === 0) {
       return <FetchEventsMsg>No events found.</FetchEventsMsg>;
     } else {
-      const cards = state.events.map((event, i) => {
+      const cards = state.events.map((event) => {
         const eventDateTimeStr = event.event_datetime?.toLocaleDateString("en-US", {
           month: "long",
           day: "numeric",
           year: "numeric",
         }) as string;
-        return (
-          <div key={i}>
-            <Link
-              to={`/events/${event.id}`}
-              style={{
-                textDecoration: "none",
-                color: colors.black,
-                fontSize: fontSizes.font_size_6,
-              }}
-            >
-              <MeetingCard
-                staticImgSrc={event.staticThumbnailURL}
-                hoverImgSrc={event.hoverThumbnailURL}
-                imgAlt={`${event.body?.name} - ${eventDateTimeStr}`}
-                meetingDate={eventDateTimeStr}
-                committee={event.body?.name as string}
-                tags={event.keyGrams}
-              />
-            </Link>
-          </div>
-        );
+        return {
+          link: `/${SEARCH_TYPE.EVENT}/${event.id}`,
+          jsx: (
+            <MeetingCard
+              staticImgSrc={event.staticThumbnailURL}
+              hoverImgSrc={event.hoverThumbnailURL}
+              imgAlt={`${event.body?.name} - ${eventDateTimeStr}`}
+              meetingDate={eventDateTimeStr}
+              committee={event.body?.name as string}
+              tags={event.keyGrams}
+            />
+          ),
+        };
       });
       return <CardsContainer cards={cards} />;
     }
   }, [state.fetchEvents, state.error, state.events]);
 
-  const history = useHistory();
+  const history = useHistory<SearchEventsState>();
   const [searchQuery, setSearchQuery] = useState("");
   const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
     setSearchQuery(event.target.value);
@@ -172,11 +164,10 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
     const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
 
     history.push({
-      pathname: "/search",
+      pathname: `/${SEARCH_TYPE.EVENT}/search`,
       search: queryParams,
       state: {
         query: searchQuery.trim(),
-        types: [SEARCH_TYPE.MEETING],
         committees: getSelectedOptions(committeeFilter.state),
         dateRange: dateRangeFilter.state,
       },
