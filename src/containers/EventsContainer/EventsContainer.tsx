@@ -23,6 +23,7 @@ import {
   getCheckboxText,
   getSelectedOptions,
 } from "../../components/Filters/SelectTextFilterOptions";
+import { CardsContainer } from "../CardsContainer";
 import useEventsPagination from "./useEventsPagination";
 import { EventsData } from "./types";
 
@@ -45,22 +46,6 @@ const SearchContainer = styled.div({
   alignItems: "start",
   [`@media (min-width:${screenWidths.tablet})`]: {
     gridTemplateColumns: "1fr auto",
-  },
-});
-
-const Events = styled.div({
-  display: "flex",
-  flexDirection: "row",
-  flexWrap: "wrap",
-  rowGap: 64,
-  "& > div": {
-    width: "100%",
-  },
-  [`@media (min-width:${screenWidths.tablet})`]: {
-    justifyContent: "space-between",
-    "& > div": {
-      width: "35%",
-    },
   },
 });
 
@@ -146,38 +131,35 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
     } else if (state.events.length === 0) {
       return <FetchEventsMsg>No events found.</FetchEventsMsg>;
     } else {
-      return (
-        <Events>
-          {state.events.map((event, i) => {
-            const eventDateTimeStr = event.event_datetime?.toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            }) as string;
-            return (
-              <div key={i}>
-                <Link
-                  to={`/events/${event.id}`}
-                  style={{
-                    textDecoration: "none",
-                    color: colors.black,
-                    fontSize: fontSizes.font_size_6,
-                  }}
-                >
-                  <MeetingCard
-                    staticImgSrc={event.staticThumbnailURL}
-                    hoverImgSrc={event.hoverThumbnailURL}
-                    imgAlt={`${event.body?.name} - ${eventDateTimeStr}`}
-                    meetingDate={eventDateTimeStr}
-                    committee={event.body?.name as string}
-                    tags={event.keyGrams}
-                  />
-                </Link>
-              </div>
-            );
-          })}
-        </Events>
-      );
+      const cards = state.events.map((event, i) => {
+        const eventDateTimeStr = event.event_datetime?.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        }) as string;
+        return (
+          <div key={i}>
+            <Link
+              to={`/events/${event.id}`}
+              style={{
+                textDecoration: "none",
+                color: colors.black,
+                fontSize: fontSizes.font_size_6,
+              }}
+            >
+              <MeetingCard
+                staticImgSrc={event.staticThumbnailURL}
+                hoverImgSrc={event.hoverThumbnailURL}
+                imgAlt={`${event.body?.name} - ${eventDateTimeStr}`}
+                meetingDate={eventDateTimeStr}
+                committee={event.body?.name as string}
+                tags={event.keyGrams}
+              />
+            </Link>
+          </div>
+        );
+      });
+      return <CardsContainer cards={cards} />;
     }
   }, [state.fetchEvents, state.error, state.events]);
 
