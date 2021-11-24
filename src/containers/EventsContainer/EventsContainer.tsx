@@ -168,7 +168,7 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
       search: queryParams,
       state: {
         query: searchQuery.trim(),
-        committees: getSelectedOptions(committeeFilter.state),
+        committees: committeeFilter.state,
         dateRange: dateRangeFilter.state,
       },
     });

@@ -2,6 +2,6 @@ import { FilterState } from "../../components/Filters/reducer";
 
 export interface SearchEventsState {
   query: string;
-  committees: string[];
+  committees: FilterState<boolean>;
   dateRange: FilterState<string>;
 }
