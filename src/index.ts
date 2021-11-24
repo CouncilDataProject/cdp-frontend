@@ -43,6 +43,7 @@ export { SearchContainer } from "./containers/SearchContainer";
 //Pages
 export { HomePage } from "./pages/HomePage";
 export { SearchPage } from "./pages/SearchPage";
+export { SearchEventsPage } from "./pages/SearchEventsPage";
 export { EventsPage } from "./pages/EventsPage";
 export { EventPage } from "./pages/EventPage";
 export { PeoplePage } from "./pages/PeoplePage";
