@@ -18,7 +18,7 @@ import { SEARCH_TYPE, SearchState } from "./types";
 import { createError } from "../../utils/createError";
 
 const Container = styled.div({
-  "& > :first-child": {
+  "& > div:first-of-type": {
     marginBottom: 32,
   },
 });
