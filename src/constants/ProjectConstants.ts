@@ -10,10 +10,4 @@ export enum MATTER_STATUS_DECISION {
   IN_PROGRESS = "In Progress",
 }
 
-export enum SEARCH_TYPE {
-  MEETING = "meeting",
-  LEGISLATION = "legislation",
-  COUNCIL_MEMBER = "council-member",
-}
-
 export const SUPPORTED_LANGUAGES = ["en", "de", "es"];
