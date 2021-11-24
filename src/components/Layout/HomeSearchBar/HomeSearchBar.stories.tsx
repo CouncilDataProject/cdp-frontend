@@ -1,13 +1,13 @@
 import React from "react";
 import { Story, Meta } from "@storybook/react";
 
-import HomeSearchBar from "./HomeSearchBar";
+import HomeSearchBar, { HomeSearchBarProps } from "./HomeSearchBar";
 
 export default {
   component: HomeSearchBar,
   title: "Library/Layout/Home Search Bar",
 } as Meta;
 
-const Template: Story = (args) => <HomeSearchBar {...args} />;
+const Template: Story<HomeSearchBarProps> = (args) => <HomeSearchBar {...args} />;
 
 export const homeSearchBar = Template.bind({});

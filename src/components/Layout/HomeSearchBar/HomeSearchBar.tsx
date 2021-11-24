@@ -2,13 +2,12 @@ import React, { ChangeEventHandler, FC, FormEventHandler, useState } from "react
 import { useHistory } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { SEARCH_TYPE } from "../../../constants/ProjectConstants";
+import { SEARCH_TYPE, SearchState } from "../../../pages/SearchPage/types";
 
 import { FilterPopup } from "../../Filters/FilterPopup";
 import useFilter from "../../Filters/useFilter";
 import { FilterState } from "../../Filters/reducer";
-import { getDateText, SelectDateRange } from "../../Filters/SelectDateRange";
-import { getSelectedOptions, SelectTextFilterOptions } from "../../Filters/SelectTextFilterOptions";
+import { SelectTextFilterOptions } from "../../Filters/SelectTextFilterOptions";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { strings } from "../../../assets/LocalizedStrings";
 
@@ -63,7 +62,7 @@ const FiltersContainer = styled.div`
   ${gridContainer}
   @media (min-width: ${screenWidths.tablet}) {
     /**Three columns template, with the last column taking up any free space*/
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: auto 1fr;
   }
 `;
 
@@ -78,26 +77,20 @@ const AdvancedOptionsBtn = styled.button`
 
 const searchTypeOptions = [
   {
-    name: SEARCH_TYPE.MEETING,
-    label: "Meetings",
+    name: SEARCH_TYPE.EVENT,
+    label: "Events",
     disabled: false,
   },
   {
     name: SEARCH_TYPE.LEGISLATION,
-    label: "Legislation",
-    disabled: false,
-  },
-  {
-    name: SEARCH_TYPE.COUNCIL_MEMBER,
-    label: "Council Members",
+    label: "Legislations",
     disabled: false,
   },
 ];
 
 const intialSearchTyperFilterState = {
-  [SEARCH_TYPE.MEETING]: true,
+  [SEARCH_TYPE.EVENT]: true,
   [SEARCH_TYPE.LEGISLATION]: true,
-  [SEARCH_TYPE.COUNCIL_MEMBER]: true,
 };
 
 const getSearchTypeText = (checkboxes: FilterState<boolean>, defaultText: string) => {
@@ -117,19 +110,20 @@ const getSearchTypeText = (checkboxes: FilterState<boolean>, defaultText: string
 
 const exampleSearchQuery = EXAMPLE_TOPICS[Math.floor(Math.random() * EXAMPLE_TOPICS.length)];
 
-const HomeSearchBar: FC = () => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+export interface HomeSearchBarProps {
+  /**The inital search query */
+  query?: string;
+  /**The initial search types - which search types are selected? */
+  searchTypes?: Record<SEARCH_TYPE, boolean>;
+}
+
+const HomeSearchBar: FC<HomeSearchBarProps> = ({ query, searchTypes }: HomeSearchBarProps) => {
+  const [searchQuery, setSearchQuery] = useState<string>(query || "");
   const [showFilters, setShowFilters] = useState<boolean>(false);
-  const history = useHistory();
-  const dateRangeFilter = useFilter<string>({
-    name: "Date",
-    initialState: { start: "", end: "" },
-    defaultDataValue: "",
-    textRepFunction: getDateText,
-  });
+  const history = useHistory<SearchState>();
   const searchTypeFilter = useFilter<boolean>({
     name: "Search Type",
-    initialState: intialSearchTyperFilterState,
+    initialState: searchTypes || intialSearchTyperFilterState,
     defaultDataValue: false,
     textRepFunction: getSearchTypeText,
     isRequired: true,
@@ -138,15 +132,12 @@ const HomeSearchBar: FC = () => {
   const onSearch: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
-    const selectedSearchTypes = getSelectedOptions(searchTypeFilter.state);
     history.push({
       pathname: "/search",
       search: queryParams,
       state: {
         query: searchQuery.trim(),
-        types: selectedSearchTypes,
-        committees: [],
-        dateRange: dateRangeFilter.state,
+        searchTypes: searchTypeFilter.state as Record<SEARCH_TYPE, boolean>,
       },
     });
   };
@@ -157,7 +148,7 @@ const HomeSearchBar: FC = () => {
   const onClickFilters = () => setShowFilters((showFilters) => !showFilters);
 
   return (
-    <>
+    <div>
       <form className="mzp-c-form" role="search" onSubmit={onSearch}>
         <SearchContainer>
           <SearchInput
@@ -212,23 +203,8 @@ const HomeSearchBar: FC = () => {
             </FilterPopup>
           )}
         </div>
-        <div>
-          {showFilters && (
-            <FilterPopup
-              name={dateRangeFilter.name}
-              clear={dateRangeFilter.clear}
-              getTextRep={dateRangeFilter.getTextRep}
-              isActive={dateRangeFilter.isActive}
-              popupIsOpen={dateRangeFilter.popupIsOpen}
-              setPopupIsOpen={dateRangeFilter.setPopupIsOpen}
-              closeOnChange={false}
-            >
-              <SelectDateRange state={dateRangeFilter.state} update={dateRangeFilter.update} />
-            </FilterPopup>
-          )}
-        </div>
       </FiltersContainer>
-    </>
+    </div>
   );
 };
 
