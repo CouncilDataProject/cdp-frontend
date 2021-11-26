@@ -101,7 +101,14 @@ export default function useFetchEvents(
     return () => {
       didCancel = true;
     };
-  }, [state.batchSize, state.events, state.fetchEvents, state.showMoreEvents, dispatch]);
+  }, [
+    state.batchSize,
+    state.events,
+    state.fetchEvents,
+    state.showMoreEvents,
+    fetchEventsFunctionCreator,
+    dispatch,
+  ]);
 
   return [state, dispatch];
 }
