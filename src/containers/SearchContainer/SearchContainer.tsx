@@ -1,9 +1,10 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext } from "../../app";
+import EventSearchService from "../../networking/EventSearchService";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
 import { FilterPopup } from "../../components/Filters/FilterPopup";
@@ -14,13 +15,15 @@ import FetchCardsStatus from "../../components/Shared/FetchCardsStatus";
 import PageContainer from "../../components/Shared/PageContainer";
 import SearchBar from "../../components/Shared/SearchBar";
 import SearchPageTitle from "../../components/Shared/SearchPageTitle";
+import useFetchData, { FetchDataActionType } from "../FetchDataContainer/useFetchData";
 import SearchResultContainer from "./SearchResultContainer";
-import { SearchContainerData } from "./types";
-import useFetchSearchResult from "./useFetchSearchResult";
+import { SearchContainerData, SearchData } from "./types";
 import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
 import { screenWidths } from "../../styles/mediaBreakpoints";
+
+const SEARCH_RESULT_NUM = 4;
 
 const SearchFilter = styled.div({
   display: "grid",
@@ -42,20 +45,45 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
     textRepFunction: getSearchTypeText,
     isRequired: true,
   });
-  const [state, dispatch] = useFetchSearchResult(
-    firebaseConfig,
+
+  const fetchSearchData = useCallback(async () => {
+    const eventSearchService = new EventSearchService(firebaseConfig);
+    const matchingEventsPromise = searchTypeFilter.state.events
+      ? eventSearchService.searchEvents(query)
+      : Promise.resolve([]);
+    const [matchingEvents] = await Promise.all([matchingEventsPromise]);
+    //sort matching events by pure relevance with order desc
+    matchingEvents.sort((a, b) => b.pureRelevance - a.pureRelevance);
+    //TODO: add matching legislations
+
+    const renderableEventsPromise = Promise.all(
+      matchingEvents
+        .slice(0, SEARCH_RESULT_NUM)
+        .map((matchingEvent) => eventSearchService.getRenderableEvent(matchingEvent))
+    );
+    const [renderableEvents] = await Promise.all([renderableEventsPromise]);
+    //TODO: add renderable legislations
+    return Promise.resolve({
+      event: {
+        total: matchingEvents.length,
+        events: renderableEvents,
+      },
+    });
+  }, [query, searchTypeFilter.state, firebaseConfig]);
+
+  const { state, dispatch } = useFetchData<SearchData>(
     {
-      searchResult: {
+      isLoading: false,
+      error: null,
+      hasFetchRequest: true,
+      data: {
         event: {
-          events: [],
           total: 0,
+          events: [],
         },
       },
-      fetchSearchResult: true,
-      error: null,
     },
-    query,
-    searchTypeFilter.state as Record<SEARCH_TYPE, boolean>
+    fetchSearchData
   );
 
   const location = useLocation();
@@ -63,11 +91,14 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
     const queryParams = `?q=${query.trim().replace(/\s+/g, "+")}`;
     // # is because the react-router-dom BrowserRouter is used
     history.pushState({}, "", `#${location.pathname}${queryParams}`);
-    dispatch({ type: "FETCH_SEARCH_RESULT" });
+    dispatch({ type: FetchDataActionType.FETCH });
   };
 
   const eventCards = useMemo(() => {
-    return state.searchResult.event.events.map((renderableEvent) => {
+    if (!state.data?.event) {
+      return [];
+    }
+    return state.data.event.events.map((renderableEvent) => {
       const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
@@ -88,7 +119,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
         ),
       };
     });
-  }, [state.searchResult.event]);
+  }, [state.data?.event]);
 
   //TODO: add the legislation cards
 
@@ -124,13 +155,13 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
           </FilterPopup>
         </div>
       </SearchFilter>
-      <Loader active={state.fetchSearchResult} size="massive" />
+      <Loader active={state.hasFetchRequest} size="massive" />
       {state.error && <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>}
       <SearchResultContainer
         query={query}
-        isVisible={searchTypeFilter.state.events && !state.fetchSearchResult}
+        isVisible={searchTypeFilter.state.events && !state.hasFetchRequest}
         searchType={SEARCH_TYPE.EVENT}
-        total={state.searchResult.event.total}
+        total={state.data?.event.total || 0}
         cards={eventCards}
       />
     </PageContainer>

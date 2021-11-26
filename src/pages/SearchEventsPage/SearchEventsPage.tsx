@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 
@@ -6,14 +6,10 @@ import { useAppConfigContext } from "../../app";
 import BodyService from "../../networking/BodyService";
 
 import { FetchDataContainer } from "../../containers/FetchDataContainer";
-import useFetchData, {
-  FetchDataActionType,
-} from "../../containers/FetchDataContainer/useFetchData";
+import useFetchData from "../../containers/FetchDataContainer/useFetchData";
 import { SearchEventsContainer } from "../../containers/SearchEventsContainer";
 import { SearchEventsContainerData } from "../../containers/SearchEventsContainer/types";
 import { SearchEventsState } from "./types";
-
-import { createError } from "../../utils/createError";
 
 const SearchEventsPage: FC = () => {
   const location = useLocation<SearchEventsState>();
@@ -31,45 +27,20 @@ const SearchEventsPage: FC = () => {
 
   const { firebaseConfig } = useAppConfigContext();
 
-  const { state: searchEventsDataState, dispatch: searchEventsDataDispatch } = useFetchData<
-    SearchEventsContainerData
-  >({
-    isLoading: false,
-  });
-
-  useEffect(() => {
+  const fetchSearchEventsContainerData = useCallback(async () => {
     const bodyService = new BodyService(firebaseConfig);
-    let didCancel = false;
+    const bodies = await bodyService.getAllBodies();
+    return Promise.resolve({ bodies, searchEventsState });
+  }, [firebaseConfig, searchEventsState]);
 
-    const fetchSearchEventsData = async () => {
-      searchEventsDataDispatch({ type: FetchDataActionType.FETCH_INIT });
-
-      try {
-        const allBodies = await bodyService.getAllBodies();
-
-        if (!didCancel) {
-          searchEventsDataDispatch({
-            type: FetchDataActionType.FETCH_SUCCESS,
-            payload: {
-              searchEventsState: searchEventsState,
-              bodies: allBodies,
-            },
-          });
-        }
-      } catch (err) {
-        if (!didCancel) {
-          const error = createError(err);
-          searchEventsDataDispatch({ type: FetchDataActionType.FETCH_FAILURE, payload: error });
-        }
-      }
-    };
-
-    fetchSearchEventsData();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [searchEventsState, firebaseConfig]);
+  const { state: searchEventsDataState } = useFetchData<SearchEventsContainerData>(
+    {
+      isLoading: false,
+      error: null,
+      hasFetchRequest: true,
+    },
+    fetchSearchEventsContainerData
+  );
 
   return (
     <FetchDataContainer

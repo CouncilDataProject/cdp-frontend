@@ -1,17 +1,13 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
 import { useAppConfigContext } from "../../app";
 import Person from "../../models/Person";
 import PersonService from "../../networking/PersonService";
 
-import useFetchData, {
-  FetchDataActionType,
-} from "../../containers/FetchDataContainer/useFetchData";
+import useFetchData from "../../containers/FetchDataContainer/useFetchData";
 import FetchDataContainer from "../../containers/FetchDataContainer/FetchDataContainer";
 import { PersonContainer } from "../../containers/PersonContainer";
-
-import { createError } from "../../utils/createError";
 
 const PersonPage: FC = () => {
   // Get the id the person, provided the route is `persons/:id`
@@ -19,43 +15,20 @@ const PersonPage: FC = () => {
   // Get the app config context
   const { firebaseConfig } = useAppConfigContext();
 
-  // Initialize the state of fetching the person's data
-  const { state: personDataState, dispatch: personDataDispatch } = useFetchData<Person>({
-    isLoading: false,
-  });
-
-  useEffect(() => {
+  const fetchPerson = useCallback(async () => {
     const personService = new PersonService(firebaseConfig);
+    return personService.getPersonById(id);
+  }, [id, firebaseConfig]);
 
-    let didCancel = false;
-
-    const fetchPersonData = async () => {
-      personDataDispatch({ type: FetchDataActionType.FETCH_INIT });
-
-      try {
-        // Get data from the person id
-        const person = await personService.getPersonById(id);
-
-        if (!didCancel) {
-          personDataDispatch({
-            type: FetchDataActionType.FETCH_SUCCESS,
-            payload: person,
-          });
-        }
-      } catch (err) {
-        if (!didCancel) {
-          const error = createError(err);
-          personDataDispatch({ type: FetchDataActionType.FETCH_FAILURE, payload: error });
-        }
-      }
-    };
-
-    fetchPersonData();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [id]);
+  // Initialize the state of fetching the person's data
+  const { state: personDataState } = useFetchData<Person>(
+    {
+      isLoading: false,
+      error: null,
+      hasFetchRequest: true,
+    },
+    fetchPerson
+  );
 
   return (
     <FetchDataContainer isLoading={personDataState.isLoading} error={personDataState.error}>
