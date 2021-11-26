@@ -46,7 +46,7 @@ const SearchResultContainer: FC<SearchResultContainerProps> = ({
   return (
     <div>
       <Title>
-        <h2 className="mzp-u-title-xs">{`${searchType[0].toUpperCase()}${searchType.slice(1)}`}</h2>
+        <h1 className="mzp-u-title-xs">{`${searchType[0].toUpperCase()}${searchType.slice(1)}`}</h1>
         {total > 0 ? (
           <Link
             to={{
