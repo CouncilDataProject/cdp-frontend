@@ -4,6 +4,7 @@ import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext } from "../../app";
 import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
+import EventService from "../../networking/EventService";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
 import useFilter from "../../components/Filters/useFilter";
@@ -20,7 +21,7 @@ import SearchBar from "../../components/Shared/SearchBar";
 import SearchPageTitle from "../../components/Shared/SearchPageTitle";
 import ShowMoreCards from "../../components/Shared/ShowMoreCards";
 import { CardsContainer } from "../CardsContainer";
-import useEventsPagination from "./useEventsPagination";
+import useFetchEvents, { FetchEventsActionType } from "./useFetchEvents";
 import { EventsData } from "./types";
 import { SearchEventsState } from "../../pages/SearchEventsPage/types";
 import { SEARCH_TYPE } from "../../pages/SearchPage/types";
@@ -54,8 +55,33 @@ const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
     textRepFunction: getSortingText,
   });
 
-  const [state, dispatch] = useEventsPagination(
-    firebaseConfig,
+  const fetchEventsFunctionCreator = useCallback(
+    (batchSize: number, startAfterEventDate?: Date) => async () => {
+      const eventService = new EventService(firebaseConfig);
+      const events = await eventService.getEvents(
+        batchSize,
+        getSelectedOptions(committeeFilter.state),
+        {
+          start: dateRangeFilter.state.start ? new Date(dateRangeFilter.state.start) : undefined,
+          end: dateRangeFilter.state.end ? new Date(dateRangeFilter.state.end) : undefined,
+        },
+        {
+          by: sortFilter.state.by,
+          order: sortFilter.state.order as ORDER_DIRECTION,
+        },
+        startAfterEventDate
+      );
+      const renderableEvents = await Promise.all(
+        events.map((event) => {
+          return eventService.getRenderableEvent(event);
+        })
+      );
+      return Promise.resolve(renderableEvents);
+    },
+    [firebaseConfig, committeeFilter.state, dateRangeFilter.state, sortFilter.state]
+  );
+
+  const [state, dispatch] = useFetchEvents(
     {
       batchSize: FETCH_CARDS_BATCH_SIZE,
       events: [],
@@ -64,17 +90,15 @@ const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
       hasMoreEvents: false,
       error: null,
     },
-    getSelectedOptions(committeeFilter.state),
-    dateRangeFilter.state,
-    sortFilter.state
+    fetchEventsFunctionCreator
   );
 
   const handlePopupClose = useCallback(() => {
-    dispatch({ type: "FETCH_EVENTS", payload: true });
+    dispatch({ type: FetchEventsActionType.FETCH_EVENTS, payload: true });
   }, [dispatch]);
 
   const handleShowMoreEvents = useCallback(
-    () => dispatch({ type: "FETCH_EVENTS", payload: false }),
+    () => dispatch({ type: FetchEventsActionType.FETCH_EVENTS, payload: false }),
     [dispatch]
   );
 
