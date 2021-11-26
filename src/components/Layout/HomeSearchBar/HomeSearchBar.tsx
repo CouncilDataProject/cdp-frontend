@@ -75,7 +75,7 @@ const AdvancedOptionsBtn = styled.button`
   }
 `;
 
-const searchTypeOptions = [
+export const searchTypeOptions = [
   {
     name: SEARCH_TYPE.EVENT,
     label: "Events",
@@ -93,7 +93,7 @@ const intialSearchTyperFilterState = {
   [SEARCH_TYPE.LEGISLATION]: true,
 };
 
-const getSearchTypeText = (checkboxes: FilterState<boolean>, defaultText: string) => {
+export const getSearchTypeText = (checkboxes: FilterState<boolean>, defaultText: string) => {
   const selectedCheckboxes = Object.keys(checkboxes).filter((key) => checkboxes[key]);
   let textRep = defaultText;
   if (selectedCheckboxes.length === Object.keys(checkboxes).length) {
@@ -110,20 +110,13 @@ const getSearchTypeText = (checkboxes: FilterState<boolean>, defaultText: string
 
 const exampleSearchQuery = EXAMPLE_TOPICS[Math.floor(Math.random() * EXAMPLE_TOPICS.length)];
 
-export interface HomeSearchBarProps {
-  /**The inital search query */
-  query?: string;
-  /**The initial search types - which search types are selected? */
-  searchTypes?: Record<SEARCH_TYPE, boolean>;
-}
-
-const HomeSearchBar: FC<HomeSearchBarProps> = ({ query, searchTypes }: HomeSearchBarProps) => {
-  const [searchQuery, setSearchQuery] = useState<string>(query || "");
+const HomeSearchBar: FC = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const history = useHistory<SearchState>();
   const searchTypeFilter = useFilter<boolean>({
     name: "Search Type",
-    initialState: searchTypes || intialSearchTyperFilterState,
+    initialState: intialSearchTyperFilterState,
     defaultDataValue: false,
     textRepFunction: getSearchTypeText,
     isRequired: true,
