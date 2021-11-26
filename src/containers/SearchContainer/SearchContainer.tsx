@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState, useEffect } from "react";
+import React, { FC, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
@@ -10,6 +10,7 @@ import { FilterPopup } from "../../components/Filters/FilterPopup";
 import useFilter from "../../components/Filters/useFilter";
 import { SelectTextFilterOptions } from "../../components/Filters/SelectTextFilterOptions";
 import { getSearchTypeText, searchTypeOptions } from "../../components/Layout/HomeSearchBar";
+import FetchCardsStatus from "../../components/Shared/FetchCardsStatus";
 import PageContainer from "../../components/Shared/PageContainer";
 import SearchBar from "../../components/Shared/SearchBar";
 import SearchPageTitle from "../../components/Shared/SearchPageTitle";
@@ -50,16 +51,16 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
           total: 0,
         },
       },
-      fetchSearchResult: false,
+      fetchSearchResult: true,
       error: null,
     },
     query,
     searchTypeFilter.state as Record<SEARCH_TYPE, boolean>
   );
 
-  useEffect(() => {
+  /* useEffect(() => {
     dispatch({ type: "FETCH_SEARCH_RESULT" });
-  }, [dispatch]);
+  }, [dispatch]); */
 
   const location = useLocation();
   const handleSearch = () => {
@@ -128,6 +129,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
         </div>
       </SearchFilter>
       <Loader active={state.fetchSearchResult} size="massive" />
+      {state.error && <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>}
       <SearchResultContainer
         query={query}
         isVisible={searchTypeFilter.state.events && !state.fetchSearchResult}

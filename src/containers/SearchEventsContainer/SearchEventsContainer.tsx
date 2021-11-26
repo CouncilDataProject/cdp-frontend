@@ -1,5 +1,4 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
-import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
@@ -15,6 +14,7 @@ import {
   getCheckboxText,
   getSelectedOptions,
 } from "../../components/Filters/SelectTextFilterOptions";
+import FetchCardsStatus from "../../components/Shared/FetchCardsStatus";
 import PageContainer from "../../components/Shared/PageContainer";
 import SearchBar from "../../components/Shared/SearchBar";
 import SearchPageTitle from "../../components/Shared/SearchPageTitle";
@@ -25,11 +25,6 @@ import useSearchEventsPagination from "./useSearchEventsPagination";
 import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
-import { fontSizes } from "../../styles/fonts";
-
-const FetchEventsMsg = styled.p({
-  fontSize: fontSizes.font_size_6,
-});
 
 const FETCH_EVENTS_BATCH_SIZE = 10;
 
@@ -92,9 +87,9 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     if (state.fetchEvents || state.filterAndSortEvents) {
       return <Loader active size="massive" />;
     } else if (state.error) {
-      return <FetchEventsMsg>{state.error.toString()}</FetchEventsMsg>;
+      return <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>;
     } else if (state.events.length === 0) {
-      return <FetchEventsMsg>No events found.</FetchEventsMsg>;
+      return <FetchCardsStatus>No events found.</FetchCardsStatus>;
     } else {
       const cards = state.events.slice(0, state.visibleCount).map((renderableEvent) => {
         const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString("en-US", {
@@ -119,7 +114,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
       });
       return (
         <>
-          <FetchEventsMsg>{`${state.events.length} ${SEARCH_TYPE.EVENT}`}</FetchEventsMsg>
+          <FetchCardsStatus>{`${state.events.length} ${SEARCH_TYPE.EVENT}`}</FetchCardsStatus>
           <CardsContainer cards={cards} />
         </>
       );
