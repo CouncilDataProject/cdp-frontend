@@ -1,9 +1,12 @@
 import React, { FC, useCallback, useMemo, useState } from "react";
+import { orderBy } from "lodash";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext } from "../../app";
+import useSearchCards, { SearchCardsActionType } from "../../hooks/useSearchCards";
 import { ORDER_DIRECTION } from "../../networking/constants";
+import EventSearchService, { RenderableEvent } from "../../networking/EventSearchService";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
 import useFilter from "../../components/Filters/useFilter";
@@ -21,7 +24,6 @@ import SearchPageTitle from "../../components/Shared/SearchPageTitle";
 import ShowMoreCards from "../../components/Shared/ShowMoreCards";
 import { CardsContainer } from "../CardsContainer";
 import { SearchEventsContainerData } from "./types";
-import useSearchEventsPagination from "./useSearchEventsPagination";
 import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
@@ -32,6 +34,15 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   bodies,
 }: SearchEventsContainerData) => {
   const { firebaseConfig } = useAppConfigContext();
+
+  const [searchQuery, setSearchQuery] = useState(searchEventsState.query);
+  const fetchEvents = useCallback(async () => {
+    const eventSearchService = new EventSearchService(firebaseConfig);
+    const matchingEvents = await eventSearchService.searchEvents(searchQuery);
+    return Promise.all(
+      matchingEvents.map((matchingEvent) => eventSearchService.getRenderableEvent(matchingEvent))
+    );
+  }, [searchQuery, firebaseConfig]);
 
   const dateRangeFilter = useFilter<string>({
     name: "Date",
@@ -51,42 +62,96 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     defaultDataValue: "",
     textRepFunction: getSortingText,
   });
+  const filterAndSortFunctionCreator = useCallback(
+    (searchCards: RenderableEvent[]) => () => {
+      const bodyIds = getSelectedOptions(committeeFilter.state);
+      let filteredEvents = searchCards.filter(({ event }) => {
+        if (bodyIds.length) {
+          if (!event.body?.id) {
+            //exclude events without a body
+            return false;
+          }
+          if (!bodyIds.includes(event.body.id)) {
+            //exclude body not in bodyIds
+            return false;
+          }
+        }
 
-  const [searchQuery, setSearchQuery] = useState(searchEventsState.query);
-  const [state, dispatch] = useSearchEventsPagination(
-    firebaseConfig,
+        if (dateRangeFilter.state.start || dateRangeFilter.state.end) {
+          if (!event.event_datetime) {
+            //exclude events without a event_datetime
+            return false;
+          }
+          if (
+            dateRangeFilter.state.start &&
+            event.event_datetime < new Date(dateRangeFilter.state.start)
+          ) {
+            //exclude events before start date
+            return false;
+          }
+          if (dateRangeFilter.state.end) {
+            //exclude events after end date
+            const endDate = new Date(dateRangeFilter.state.end);
+            endDate.setDate(endDate.getDate() + 1);
+            if (event.event_datetime > endDate) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+      });
+
+      filteredEvents = orderBy(
+        filteredEvents,
+        [sortFilter.state.by],
+        [sortFilter.state.order as ORDER_DIRECTION]
+      );
+      return filteredEvents;
+    },
+    [committeeFilter.state, dateRangeFilter.state, sortFilter.state]
+  );
+
+  const [state, dispatch] = useSearchCards<RenderableEvent>(
     {
       batchSize: FETCH_CARDS_BATCH_SIZE,
       visibleCount: 0,
-      searchedEvents: [],
-      events: [],
-      fetchEvents: true,
-      filterAndSortEvents: false,
+      searchedCards: [],
+      cards: [],
+      fetchCards: true,
+      filterAndSortCards: false,
       error: null,
     },
-    searchQuery,
-    getSelectedOptions(committeeFilter.state),
-    dateRangeFilter.state,
-    sortFilter.state
+    fetchEvents,
+    filterAndSortFunctionCreator
   );
 
+  const location = useLocation();
+  const handleSearch = () => {
+    const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
+    //# is because the react-router-dom BrowserRouter is used
+    history.pushState({}, "", `#${location.pathname}${queryParams}`);
+    dispatch({ type: SearchCardsActionType.FETCH_CARDS });
+  };
+
   const handlePopupClose = useCallback(() => {
-    dispatch({ type: "FILTER_AND_SORT_EVENTS" });
+    dispatch({ type: SearchCardsActionType.FILTER_AND_SORT_CARDS });
   }, [dispatch]);
 
-  const handleShowMoreEvents = useCallback(() => dispatch({ type: "SHOW_MORE_EVENTS" }), [
-    dispatch,
-  ]);
+  const handleShowMoreEvents = useCallback(
+    () => dispatch({ type: SearchCardsActionType.SHOW_MORE_CARDS }),
+    [dispatch]
+  );
 
   const fetchEventsResult = useMemo(() => {
-    if (state.fetchEvents || state.filterAndSortEvents) {
+    if (state.fetchCards || state.filterAndSortCards) {
       return <Loader active size="massive" />;
     } else if (state.error) {
       return <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>;
-    } else if (state.events.length === 0) {
+    } else if (state.cards.length === 0) {
       return <FetchCardsStatus>No events found.</FetchCardsStatus>;
     } else {
-      const cards = state.events.slice(0, state.visibleCount).map((renderableEvent) => {
+      const cards = state.cards.slice(0, state.visibleCount).map((renderableEvent) => {
         const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString("en-US", {
           month: "long",
           day: "numeric",
@@ -109,24 +174,16 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
       });
       return (
         <>
-          <FetchCardsStatus>{`${state.events.length} ${SEARCH_TYPE.EVENT}`}</FetchCardsStatus>
+          <FetchCardsStatus>{`${state.cards.length} ${SEARCH_TYPE.EVENT}`}</FetchCardsStatus>
           <CardsContainer cards={cards} />
         </>
       );
     }
-  }, [state.fetchEvents, state.filterAndSortEvents, state.error, state.events, state.visibleCount]);
-
-  const location = useLocation();
-  const handleSearch = () => {
-    const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
-    //# is because the react-router-dom BrowserRouter is used
-    history.pushState({}, "", `#${location.pathname}${queryParams}`);
-    dispatch({ type: "FETCH_EVENTS" });
-  };
+  }, [state.fetchCards, state.filterAndSortCards, state.error, state.cards, state.visibleCount]);
 
   const showMoreEvents = useMemo(() => {
     return (
-      state.visibleCount < state.events.length && !state.fetchEvents && !state.filterAndSortEvents
+      state.visibleCount < state.cards.length && !state.fetchCards && !state.filterAndSortCards
     );
   }, [state]);
 
