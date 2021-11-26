@@ -18,6 +18,7 @@ import {
 import PageContainer from "../../components/Shared/PageContainer";
 import SearchBar from "../../components/Shared/SearchBar";
 import SearchPageTitle from "../../components/Shared/SearchPageTitle";
+import ShowMoreCards from "../../components/Shared/ShowMoreCards";
 import { CardsContainer } from "../CardsContainer";
 import { SearchEventsContainerData } from "./types";
 import useSearchEventsPagination from "./useSearchEventsPagination";
@@ -25,23 +26,10 @@ import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
 import { fontSizes } from "../../styles/fonts";
-import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const FetchEventsMsg = styled.p({
   fontSize: fontSizes.font_size_6,
 });
-
-const ShowMoreEvents = styled.div<{ isVisible: boolean }>((props) => ({
-  visibility: props.isVisible ? "visible" : "hidden",
-  "& > button": {
-    width: "100%",
-  },
-  [`@media (min-width:${screenWidths.tablet})`]: {
-    "& > button": {
-      width: "auto",
-    },
-  },
-}));
 
 const FETCH_EVENTS_BATCH_SIZE = 10;
 
@@ -179,11 +167,11 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         handlePopupClose={handlePopupClose}
       />
       {fetchEventsResult}
-      <ShowMoreEvents isVisible={showMoreEvents}>
+      <ShowMoreCards isVisible={showMoreEvents}>
         <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
           Show more events
         </button>
-      </ShowMoreEvents>
+      </ShowMoreCards>
     </PageContainer>
   );
 };
