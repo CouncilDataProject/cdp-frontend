@@ -1,12 +1,4 @@
-import React, {
-  ChangeEventHandler,
-  FC,
-  FormEventHandler,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
@@ -23,6 +15,8 @@ import {
   getCheckboxText,
   getSelectedOptions,
 } from "../../components/Filters/SelectTextFilterOptions";
+import SearchBar from "../../components/Shared/SearchBar";
+import SearchPageTitle from "../../components/Shared/SearchPageTitle";
 import { CardsContainer } from "../CardsContainer";
 import { SearchEventsContainerData } from "./types";
 import useSearchEventsPagination from "./useSearchEventsPagination";
@@ -36,17 +30,6 @@ const Container = styled.div({
   display: "flex",
   flexDirection: "column",
   gap: 32,
-});
-
-const SearchContainer = styled.div({
-  display: "grid",
-  gap: 8,
-  gridTemplateColumns: "1fr",
-  justifyContent: "start",
-  alignItems: "start",
-  [`@media (min-width:${screenWidths.tablet})`]: {
-    gridTemplateColumns: "1fr auto",
-  },
 });
 
 const FetchEventsMsg = styled.p({
@@ -161,12 +144,10 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   }, [state.fetchEvents, state.filterAndSortEvents, state.error, state.events, state.visibleCount]);
 
   const location = useLocation();
-  const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
-    setSearchQuery(event.target.value);
-  const onSearch: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
+  const handleSearch = () => {
     const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
-    window.location.hash = `${location.pathname}${queryParams}`;
+    //# is because the react-router-dom BrowserRouter is used
+    history.pushState({}, "", `#${location.pathname}${queryParams}`);
     dispatch({ type: "FETCH_EVENTS" });
   };
 
@@ -178,23 +159,15 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
 
   return (
     <Container>
-      <h1 className="mzp-u-title-sm">Event Search Results</h1>
-      <form className="mzp-c-form" role="search" onSubmit={onSearch} style={{ marginBottom: 0 }}>
-        <SearchContainer>
-          <input
-            type="search"
-            placeholder={strings.search_topic_placeholder}
-            required
-            aria-required
-            value={searchQuery}
-            onChange={onSearchChange}
-            style={{ marginBottom: 0 }}
-          />
-          <button className="mzp-c-button mzp-t-product" type="submit">
-            {strings.search}
-          </button>
-        </SearchContainer>
-      </form>
+      <SearchPageTitle>
+        <h1 className="mzp-u-title-sm">Event Search Results</h1>
+        <SearchBar
+          placeholder={strings.search_topic_placeholder}
+          query={searchQuery}
+          setQuery={setSearchQuery}
+          handleSearch={handleSearch}
+        />
+      </SearchPageTitle>
       <EventsFilter
         allBodies={bodies}
         filters={[committeeFilter, dateRangeFilter, sortFilter]}
