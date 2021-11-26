@@ -1,11 +1,24 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useState, useEffect } from "react";
 import styled from "@emotion/styled";
+import { useLocation } from "react-router-dom";
+import { Loader } from "semantic-ui-react";
 
-import SearchResultContainer from "./SearchResultContainer";
-import { SearchContainerData } from "./types";
+import { useAppConfigContext } from "../../app";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
+import { FilterPopup } from "../../components/Filters/FilterPopup";
+import useFilter from "../../components/Filters/useFilter";
+import { SelectTextFilterOptions } from "../../components/Filters/SelectTextFilterOptions";
+import { getSearchTypeText, searchTypeOptions } from "../../components/Layout/HomeSearchBar";
+import SearchBar from "../../components/Shared/SearchBar";
+import SearchPageTitle from "../../components/Shared/SearchPageTitle";
+import SearchResultContainer from "./SearchResultContainer";
+import { SearchContainerData } from "./types";
+import useFetchSearchResult from "./useFetchSearchResult";
 import { SEARCH_TYPE } from "../../pages/SearchPage/types";
+
+import { strings } from "../../assets/LocalizedStrings";
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const Container = styled.div({
   display: "flex",
@@ -13,12 +26,56 @@ const Container = styled.div({
   gap: 32,
 });
 
-const SearchContainer: FC<SearchContainerData> = ({
-  searchState,
-  eventResult,
-}: SearchContainerData) => {
+const SearchFilter = styled.div({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: 8,
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    gridTemplateColumns: "auto 1fr",
+  },
+});
+
+const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContainerData) => {
+  const { firebaseConfig } = useAppConfigContext();
+
+  const [query, setQuery] = useState(searchState.query);
+  const searchTypeFilter = useFilter<boolean>({
+    name: "Search Type",
+    initialState: searchState.searchTypes,
+    defaultDataValue: false,
+    textRepFunction: getSearchTypeText,
+    isRequired: true,
+  });
+  const [state, dispatch] = useFetchSearchResult(
+    firebaseConfig,
+    {
+      searchResult: {
+        event: {
+          events: [],
+          total: 0,
+        },
+      },
+      fetchSearchResult: false,
+      error: null,
+    },
+    query,
+    searchTypeFilter.state as Record<SEARCH_TYPE, boolean>
+  );
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_SEARCH_RESULT" });
+  }, [dispatch]);
+
+  const location = useLocation();
+  const handleSearch = () => {
+    const queryParams = `?q=${query.trim().replace(/\s+/g, "+")}`;
+    // # is because the react-router-dom BrowserRouter is used
+    history.pushState({}, "", `#${location.pathname}${queryParams}`);
+    dispatch({ type: "FETCH_SEARCH_RESULT" });
+  };
+
   const eventCards = useMemo(() => {
-    return eventResult.events.map((renderableEvent) => {
+    return state.searchResult.event.events.map((renderableEvent) => {
       const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
@@ -39,18 +96,48 @@ const SearchContainer: FC<SearchContainerData> = ({
         ),
       };
     });
-  }, [eventResult.events]);
+  }, [state.searchResult.event]);
 
   //TODO: add the legislation cards
 
   return (
     <Container>
-      <h1 className="mzp-u-title-xs">Search Results</h1>
+      <SearchPageTitle>
+        <h1 className="mzp-u-title-xs">Search Results</h1>
+        <SearchBar
+          placeholder={strings.search_topic_placeholder}
+          query={query}
+          setQuery={setQuery}
+          handleSearch={handleSearch}
+        />
+      </SearchPageTitle>
+      <SearchFilter>
+        <div>
+          <FilterPopup
+            name={searchTypeFilter.name}
+            clear={searchTypeFilter.clear}
+            getTextRep={searchTypeFilter.getTextRep}
+            isActive={searchTypeFilter.isActive}
+            popupIsOpen={searchTypeFilter.popupIsOpen}
+            setPopupIsOpen={searchTypeFilter.setPopupIsOpen}
+            closeOnChange={false}
+            hasRequiredError={searchTypeFilter.hasRequiredError()}
+          >
+            <SelectTextFilterOptions
+              name={searchTypeFilter.name}
+              state={searchTypeFilter.state}
+              update={searchTypeFilter.update}
+              options={searchTypeOptions}
+            />
+          </FilterPopup>
+        </div>
+      </SearchFilter>
+      <Loader active={state.fetchSearchResult} size="massive" />
       <SearchResultContainer
-        query={searchState.query}
-        isVisible={searchState.searchTypes.events}
+        query={query}
+        isVisible={searchTypeFilter.state.events && !state.fetchSearchResult}
         searchType={SEARCH_TYPE.EVENT}
-        total={eventResult.total}
+        total={state.searchResult.event.total}
         cards={eventCards}
       />
     </Container>
