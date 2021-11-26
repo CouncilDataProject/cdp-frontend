@@ -1,9 +1,10 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback, useMemo, useState, useRef } from "react";
 import { orderBy } from "lodash";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext } from "../../app";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 import useSearchCards, { SearchCardsActionType } from "../../hooks/useSearchCards";
 import { ORDER_DIRECTION } from "../../networking/constants";
 import EventSearchService, { RenderableEvent } from "../../networking/EventSearchService";
@@ -35,7 +36,11 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
 }: SearchEventsContainerData) => {
   const { firebaseConfig } = useAppConfigContext();
 
+  const searchQueryRef = useRef(searchEventsState.query);
   const [searchQuery, setSearchQuery] = useState(searchEventsState.query);
+  useDocumentTitle(
+    searchQueryRef.current ? `${strings.events} -- ${searchQueryRef.current}` : strings.events
+  );
   const fetchEvents = useCallback(async () => {
     const eventSearchService = new EventSearchService(firebaseConfig);
     const matchingEvents = await eventSearchService.searchEvents(searchQuery);
@@ -128,6 +133,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
 
   const location = useLocation();
   const handleSearch = () => {
+    searchQueryRef.current = searchQuery;
     const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
     //# is because the react-router-dom BrowserRouter is used
     history.pushState({}, "", `#${location.pathname}${queryParams}`);

@@ -13,7 +13,7 @@ const SearchPage: FC = () => {
     }
     const { q } = queryString.parse(location.search);
     return {
-      query: (q as string) || " ",
+      query: (q as string) || "",
       searchTypes: {
         [SEARCH_TYPE.EVENT]: true,
         [SEARCH_TYPE.LEGISLATION]: true,

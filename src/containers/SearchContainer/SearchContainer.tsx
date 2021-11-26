@@ -1,9 +1,10 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback, useMemo, useState, useRef } from "react";
 import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext } from "../../app";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 import EventSearchService from "../../networking/EventSearchService";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
@@ -37,6 +38,7 @@ const SearchFilter = styled.div({
 const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContainerData) => {
   const { firebaseConfig } = useAppConfigContext();
 
+  const queryRef = useRef(searchState.query);
   const [query, setQuery] = useState(searchState.query);
   const searchTypeFilter = useFilter<boolean>({
     name: "Search Type",
@@ -45,6 +47,8 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
     textRepFunction: getSearchTypeText,
     isRequired: true,
   });
+
+  useDocumentTitle(queryRef.current ? `${strings.search} -- ${queryRef.current}` : strings.search);
 
   const fetchSearchData = useCallback(async () => {
     const eventSearchService = new EventSearchService(firebaseConfig);
@@ -88,6 +92,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
 
   const location = useLocation();
   const handleSearch = () => {
+    queryRef.current = query;
     const queryParams = `?q=${query.trim().replace(/\s+/g, "+")}`;
     // # is because the react-router-dom BrowserRouter is used
     history.pushState({}, "", `#${location.pathname}${queryParams}`);
@@ -158,7 +163,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
       <Loader active={state.hasFetchRequest} size="massive" />
       {state.error && <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>}
       <SearchResultContainer
-        query={query}
+        query={queryRef.current}
         isVisible={searchTypeFilter.state.events && !state.hasFetchRequest}
         searchType={SEARCH_TYPE.EVENT}
         total={state.data?.event.total || 0}
