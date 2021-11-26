@@ -93,6 +93,22 @@ const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
     fetchEventsFunctionCreator
   );
 
+  const history = useHistory<SearchEventsState>();
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearch = () => {
+    const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
+
+    history.push({
+      pathname: `/${SEARCH_TYPE.EVENT}/search`,
+      search: queryParams,
+      state: {
+        query: searchQuery.trim(),
+        committees: committeeFilter.state,
+        dateRange: dateRangeFilter.state,
+      },
+    });
+  };
+
   const handlePopupClose = useCallback(() => {
     dispatch({ type: FetchEventsActionType.FETCH_EVENTS, payload: true });
   }, [dispatch]);
@@ -133,22 +149,6 @@ const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
       return <CardsContainer cards={cards} />;
     }
   }, [state.fetchEvents, state.error, state.events]);
-
-  const history = useHistory<SearchEventsState>();
-  const [searchQuery, setSearchQuery] = useState("");
-  const handleSearch = () => {
-    const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
-
-    history.push({
-      pathname: `/${SEARCH_TYPE.EVENT}/search`,
-      search: queryParams,
-      state: {
-        query: searchQuery.trim(),
-        committees: committeeFilter.state,
-        dateRange: dateRangeFilter.state,
-      },
-    });
-  };
 
   return (
     <PageContainer>
