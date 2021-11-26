@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
@@ -61,7 +61,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
       visibleCount: 0,
       searchedEvents: [],
       events: [],
-      fetchEvents: false,
+      fetchEvents: true,
       filterAndSortEvents: false,
       error: null,
     },
@@ -70,10 +70,6 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     dateRangeFilter.state,
     sortFilter.state
   );
-
-  useEffect(() => {
-    dispatch({ type: "FETCH_EVENTS" });
-  }, [dispatch]);
 
   const handlePopupClose = useCallback(() => {
     dispatch({ type: "FILTER_AND_SORT_EVENTS" });

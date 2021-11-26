@@ -58,10 +58,6 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
     searchTypeFilter.state as Record<SEARCH_TYPE, boolean>
   );
 
-  /* useEffect(() => {
-    dispatch({ type: "FETCH_SEARCH_RESULT" });
-  }, [dispatch]); */
-
   const location = useLocation();
   const handleSearch = () => {
     const queryParams = `?q=${query.trim().replace(/\s+/g, "+")}`;

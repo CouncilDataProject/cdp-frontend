@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
@@ -60,7 +60,7 @@ const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
     {
       batchSize: FETCH_EVENTS_BATCH_SIZE,
       events: [],
-      fetchEvents: false,
+      fetchEvents: true,
       showMoreEvents: false,
       hasMoreEvents: false,
       error: null,
@@ -69,10 +69,6 @@ const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
     dateRangeFilter.state,
     sortFilter.state
   );
-
-  useEffect(() => {
-    dispatch({ type: "FETCH_EVENTS", payload: true });
-  }, [dispatch]);
 
   const handlePopupClose = useCallback(() => {
     dispatch({ type: "FETCH_EVENTS", payload: true });
