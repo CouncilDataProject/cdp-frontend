@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useCallback,
-  useMemo,
-  useState,
-  ChangeEventHandler,
-  FormEventHandler,
-} from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import { useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
@@ -22,6 +15,8 @@ import {
   getCheckboxText,
   getSelectedOptions,
 } from "../../components/Filters/SelectTextFilterOptions";
+import SearchBar from "../../components/Shared/SearchBar";
+import SearchPageTitle from "../../components/Shared/SearchPageTitle";
 import { CardsContainer } from "../CardsContainer";
 import useEventsPagination from "./useEventsPagination";
 import { EventsData } from "./types";
@@ -36,17 +31,6 @@ const Container = styled.div({
   display: "flex",
   flexDirection: "column",
   gap: 32,
-});
-
-const SearchContainer = styled.div({
-  display: "grid",
-  gap: 8,
-  gridTemplateColumns: "1fr",
-  justifyContent: "start",
-  alignItems: "start",
-  [`@media (min-width:${screenWidths.tablet})`]: {
-    gridTemplateColumns: "1fr auto",
-  },
 });
 
 const FetchEventsMsg = styled.p({
@@ -125,7 +109,7 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
 
   const fetchEventsResult = useMemo(() => {
     if (state.fetchEvents) {
-      return <Loader active size="massive" style={{ top: "40%" }} />;
+      return <Loader active size="massive" />;
     } else if (state.error) {
       return <FetchEventsMsg>{state.error.toString()}</FetchEventsMsg>;
     } else if (state.events.length === 0) {
@@ -157,10 +141,7 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
 
   const history = useHistory<SearchEventsState>();
   const [searchQuery, setSearchQuery] = useState("");
-  const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
-    setSearchQuery(event.target.value);
-  const onSearch: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
+  const handleSearch = () => {
     const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
 
     history.push({
@@ -176,23 +157,15 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
 
   return (
     <Container>
-      <h1 className="mzp-u-title-sm">{strings.events}</h1>
-      <form className="mzp-c-form" role="search" onSubmit={onSearch} style={{ marginBottom: 0 }}>
-        <SearchContainer>
-          <input
-            type="search"
-            placeholder={strings.search_topic_placeholder}
-            required
-            aria-required
-            value={searchQuery}
-            onChange={onSearchChange}
-            style={{ marginBottom: 0 }}
-          />
-          <button className="mzp-c-button mzp-t-product" type="submit">
-            {strings.search}
-          </button>
-        </SearchContainer>
-      </form>
+      <SearchPageTitle>
+        <h1 className="mzp-u-title-sm">{strings.events}</h1>
+        <SearchBar
+          placeholder={strings.search_topic_placeholder}
+          query={searchQuery}
+          setQuery={setSearchQuery}
+          handleSearch={handleSearch}
+        />
+      </SearchPageTitle>
       <EventsFilter
         allBodies={bodies}
         filters={[committeeFilter, dateRangeFilter, sortFilter]}
