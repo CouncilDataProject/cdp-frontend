@@ -4,8 +4,6 @@ import { useAppConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 import BodyService from "../../networking/BodyService";
-import EventService from "../../networking/EventService";
-import { ORDER_DIRECTION } from "../../networking/constants";
 
 import { EventsData } from "../../containers/EventsContainer/types";
 import useFetchData, {
@@ -28,7 +26,6 @@ const EventsPage: FC = () => {
 
   useEffect(() => {
     let didCancel = false;
-    const eventService = new EventService(firebaseConfig);
     const bodyService = new BodyService(firebaseConfig);
 
     const fetchEventsData = async () => {
@@ -36,27 +33,12 @@ const EventsPage: FC = () => {
 
       try {
         const bodies = await bodyService.getAllBodies();
-        const events = await eventService.getEvents(
-          10,
-          [],
-          { start: undefined, end: undefined },
-          {
-            by: "event_datetime",
-            order: ORDER_DIRECTION.desc,
-          }
-        );
-        const renderableEvents = await Promise.all(
-          events.map((event) => {
-            return eventService.getRenderableEvent(event);
-          })
-        );
 
         if (!didCancel) {
           eventsDataDispatch({
             type: FetchDataActionType.FETCH_SUCCESS,
             payload: {
               bodies,
-              events: renderableEvents,
             },
           });
         }

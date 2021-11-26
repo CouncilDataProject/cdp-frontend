@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import { useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
@@ -57,7 +57,7 @@ const ShowMoreEvents = styled.div<ShowMoreEventsProps>((props) => ({
 
 const FETCH_EVENTS_BATCH_SIZE = 10;
 
-const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
+const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
   const { firebaseConfig } = useAppConfigContext();
 
   const dateRangeFilter = useFilter<string>({
@@ -87,16 +87,20 @@ const EventsContainer: FC<EventsData> = ({ bodies, events }: EventsData) => {
     firebaseConfig,
     {
       batchSize: FETCH_EVENTS_BATCH_SIZE,
-      events: events,
+      events: [],
       fetchEvents: false,
       showMoreEvents: false,
-      hasMoreEvents: events.length === FETCH_EVENTS_BATCH_SIZE,
+      hasMoreEvents: false,
       error: null,
     },
     getSelectedOptions(committeeFilter.state),
     dateRangeFilter.state,
     sortFilter.state
   );
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_EVENTS", payload: true });
+  }, [dispatch]);
 
   const handlePopupClose = useCallback(() => {
     dispatch({ type: "FETCH_EVENTS", payload: true });
