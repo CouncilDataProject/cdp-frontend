@@ -10,6 +10,7 @@ import { FilterPopup } from "../../components/Filters/FilterPopup";
 import useFilter from "../../components/Filters/useFilter";
 import { SelectTextFilterOptions } from "../../components/Filters/SelectTextFilterOptions";
 import { getSearchTypeText, searchTypeOptions } from "../../components/Layout/HomeSearchBar";
+import PageContainer from "../../components/Shared/PageContainer";
 import SearchBar from "../../components/Shared/SearchBar";
 import SearchPageTitle from "../../components/Shared/SearchPageTitle";
 import SearchResultContainer from "./SearchResultContainer";
@@ -19,12 +20,6 @@ import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
 import { screenWidths } from "../../styles/mediaBreakpoints";
-
-const Container = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  gap: 32,
-});
 
 const SearchFilter = styled.div({
   display: "grid",
@@ -101,7 +96,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
   //TODO: add the legislation cards
 
   return (
-    <Container>
+    <PageContainer>
       <SearchPageTitle>
         <h1 className="mzp-u-title-xs">Search Results</h1>
         <SearchBar
@@ -140,7 +135,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
         total={state.searchResult.event.total}
         cards={eventCards}
       />
-    </Container>
+    </PageContainer>
   );
 };
 

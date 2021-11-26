@@ -15,6 +15,7 @@ import {
   getCheckboxText,
   getSelectedOptions,
 } from "../../components/Filters/SelectTextFilterOptions";
+import PageContainer from "../../components/Shared/PageContainer";
 import SearchBar from "../../components/Shared/SearchBar";
 import SearchPageTitle from "../../components/Shared/SearchPageTitle";
 import { CardsContainer } from "../CardsContainer";
@@ -25,12 +26,6 @@ import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 import { strings } from "../../assets/LocalizedStrings";
 import { fontSizes } from "../../styles/fonts";
 import { screenWidths } from "../../styles/mediaBreakpoints";
-
-const Container = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  gap: 32,
-});
 
 const FetchEventsMsg = styled.p({
   fontSize: fontSizes.font_size_6,
@@ -158,7 +153,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   }, [state]);
 
   return (
-    <Container>
+    <PageContainer>
       <SearchPageTitle>
         <h1 className="mzp-u-title-sm">Event Search Results</h1>
         <SearchBar
@@ -189,7 +184,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
           Show more events
         </button>
       </ShowMoreEvents>
-    </Container>
+    </PageContainer>
   );
 };
 
