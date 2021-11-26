@@ -25,8 +25,7 @@ import useSearchEventsPagination from "./useSearchEventsPagination";
 import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
-
-const FETCH_EVENTS_BATCH_SIZE = 10;
+import { FETCH_CARDS_BATCH_SIZE } from "../../constants/ProjectConstants";
 
 const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   searchEventsState,
@@ -57,7 +56,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   const [state, dispatch] = useSearchEventsPagination(
     firebaseConfig,
     {
-      batchSize: FETCH_EVENTS_BATCH_SIZE,
+      batchSize: FETCH_CARDS_BATCH_SIZE,
       visibleCount: 0,
       searchedEvents: [],
       events: [],
