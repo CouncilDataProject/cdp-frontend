@@ -19,7 +19,7 @@ const Title = styled.div({
     alignItems: "center",
   },
   "& > :last-child": {
-    fontSize: fontSizes.font_size_7,
+    fontSize: fontSizes.font_size_6,
   },
 });
 
