@@ -7,6 +7,9 @@ const SearchPageTitle = styled.div({
   display: "flex",
   flexDirection: "column",
   rowGap: 32,
+  "& > h1": {
+    marginBottom: 0,
+  },
   "& form": {
     marginBottom: 0,
   },

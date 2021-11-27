@@ -18,6 +18,9 @@ const Title = styled.div({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  "& > h1": {
+    marginBottom: 0,
+  },
   "& > :last-child": {
     fontSize: fontSizes.font_size_6,
   },
