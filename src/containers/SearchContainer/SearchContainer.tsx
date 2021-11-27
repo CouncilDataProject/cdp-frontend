@@ -69,6 +69,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
     //TODO: add renderable legislations
     return Promise.resolve({
       event: {
+        isRequested: searchTypeFilter.state.events,
         total: matchingEvents.length,
         events: renderableEvents,
       },
@@ -82,6 +83,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
       hasFetchRequest: true,
       data: {
         event: {
+          isRequested: false,
           total: 0,
           events: [],
         },
@@ -91,13 +93,13 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
   );
 
   const location = useLocation();
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     queryRef.current = query;
     const queryParams = `?q=${query.trim().replace(/\s+/g, "+")}`;
     // # is because the react-router-dom BrowserRouter is used
     history.pushState({}, "", `#${location.pathname}${queryParams}`);
     dispatch({ type: FetchDataActionType.FETCH });
-  };
+  }, [query, location, dispatch]);
 
   const eventCards = useMemo(() => {
     if (!state.data?.event) {
@@ -150,6 +152,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
             setPopupIsOpen={searchTypeFilter.setPopupIsOpen}
             closeOnChange={false}
             hasRequiredError={searchTypeFilter.hasRequiredError()}
+            handlePopupClose={handleSearch}
           >
             <SelectTextFilterOptions
               name={searchTypeFilter.name}
@@ -164,7 +167,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
       {state.error && <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>}
       <SearchResultContainer
         query={queryRef.current}
-        isVisible={searchTypeFilter.state.events && !state.hasFetchRequest}
+        isVisible={(!state.hasFetchRequest && state.data?.event.isRequested) || false}
         searchType={SEARCH_TYPE.EVENT}
         total={state.data?.event.total || 0}
         cards={eventCards}

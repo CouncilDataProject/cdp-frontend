@@ -8,6 +8,7 @@ export interface SearchContainerData {
 
 export interface SearchData {
   event: {
+    isRequested: boolean;
     total: number;
     events: RenderableEvent[];
   };
