@@ -41,13 +41,6 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   useDocumentTitle(
     searchQueryRef.current ? `${strings.events} -- ${searchQueryRef.current}` : strings.events
   );
-  const fetchEvents = useCallback(async () => {
-    const eventSearchService = new EventSearchService(firebaseConfig);
-    const matchingEvents = await eventSearchService.searchEvents(searchQuery);
-    return Promise.all(
-      matchingEvents.map((matchingEvent) => eventSearchService.getRenderableEvent(matchingEvent))
-    );
-  }, [searchQuery, firebaseConfig]);
 
   const dateRangeFilter = useFilter<string>({
     name: "Date",
@@ -67,82 +60,78 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     defaultDataValue: "",
     textRepFunction: getSortingText,
   });
-  const filterAndSortFunctionCreator = useCallback(
-    (searchCards: RenderableEvent[]) => () => {
-      const bodyIds = getSelectedOptions(committeeFilter.state);
-      let filteredEvents = searchCards.filter(({ event }) => {
-        if (bodyIds.length) {
-          if (!event.body?.id) {
-            //exclude events without a body
-            return false;
-          }
-          if (!bodyIds.includes(event.body.id)) {
-            //exclude body not in bodyIds
+
+  const fetchEvents = useCallback(async () => {
+    const eventSearchService = new EventSearchService(firebaseConfig);
+    const matchingEvents = await eventSearchService.searchEvents(searchQuery);
+    const renderableEvents = await Promise.all(
+      matchingEvents.map((matchingEvent) => eventSearchService.getRenderableEvent(matchingEvent))
+    );
+    const bodyIds = getSelectedOptions(committeeFilter.state);
+    let filteredEvents = renderableEvents.filter(({ event }) => {
+      if (bodyIds.length) {
+        if (!event.body?.id) {
+          //exclude events without a body
+          return false;
+        }
+        if (!bodyIds.includes(event.body.id)) {
+          //exclude body not in bodyIds
+          return false;
+        }
+      }
+
+      if (dateRangeFilter.state.start || dateRangeFilter.state.end) {
+        if (!event.event_datetime) {
+          //exclude events without a event_datetime
+          return false;
+        }
+        if (
+          dateRangeFilter.state.start &&
+          event.event_datetime < new Date(dateRangeFilter.state.start)
+        ) {
+          //exclude events before start date
+          return false;
+        }
+        if (dateRangeFilter.state.end) {
+          //exclude events after end date
+          const endDate = new Date(dateRangeFilter.state.end);
+          endDate.setDate(endDate.getDate() + 1);
+          if (event.event_datetime > endDate) {
             return false;
           }
         }
+      }
 
-        if (dateRangeFilter.state.start || dateRangeFilter.state.end) {
-          if (!event.event_datetime) {
-            //exclude events without a event_datetime
-            return false;
-          }
-          if (
-            dateRangeFilter.state.start &&
-            event.event_datetime < new Date(dateRangeFilter.state.start)
-          ) {
-            //exclude events before start date
-            return false;
-          }
-          if (dateRangeFilter.state.end) {
-            //exclude events after end date
-            const endDate = new Date(dateRangeFilter.state.end);
-            endDate.setDate(endDate.getDate() + 1);
-            if (event.event_datetime > endDate) {
-              return false;
-            }
-          }
-        }
+      return true;
+    });
 
-        return true;
-      });
-
-      filteredEvents = orderBy(
-        filteredEvents,
-        [sortFilter.state.by],
-        [sortFilter.state.order as ORDER_DIRECTION]
-      );
-      return filteredEvents;
-    },
-    [committeeFilter.state, dateRangeFilter.state, sortFilter.state]
-  );
+    filteredEvents = orderBy(
+      filteredEvents,
+      [sortFilter.state.by],
+      [sortFilter.state.order as ORDER_DIRECTION]
+    );
+    return Promise.resolve(filteredEvents);
+  }, [searchQuery, committeeFilter.state, dateRangeFilter.state, sortFilter.state, firebaseConfig]);
 
   const [state, dispatch] = useSearchCards<RenderableEvent>(
     {
       batchSize: FETCH_CARDS_BATCH_SIZE,
       visibleCount: 0,
-      searchedCards: [],
       cards: [],
       fetchCards: true,
-      filterAndSortCards: false,
       error: null,
     },
-    fetchEvents,
-    filterAndSortFunctionCreator
+    fetchEvents
   );
 
   const location = useLocation();
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     searchQueryRef.current = searchQuery;
     const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
     //# is because the react-router-dom BrowserRouter is used
     history.pushState({}, "", `#${location.pathname}${queryParams}`);
     dispatch({ type: SearchCardsActionType.FETCH_CARDS });
-  };
-
-  const handlePopupClose = useCallback(() => {
-    dispatch({ type: SearchCardsActionType.FILTER_AND_SORT_CARDS });
-  }, [dispatch]);
+  }, [searchQuery, location, dispatch]);
 
   const handleShowMoreEvents = useCallback(
     () => dispatch({ type: SearchCardsActionType.SHOW_MORE_CARDS }),
@@ -150,7 +139,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   );
 
   const fetchEventsResult = useMemo(() => {
-    if (state.fetchCards || state.filterAndSortCards) {
+    if (state.fetchCards) {
       return <Loader active size="massive" />;
     } else if (state.error) {
       return <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>;
@@ -185,12 +174,10 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         </>
       );
     }
-  }, [state.fetchCards, state.filterAndSortCards, state.error, state.cards, state.visibleCount]);
+  }, [state.fetchCards, state.error, state.cards, state.visibleCount]);
 
   const showMoreEvents = useMemo(() => {
-    return (
-      state.visibleCount < state.cards.length && !state.fetchCards && !state.filterAndSortCards
-    );
+    return state.visibleCount < state.cards.length && !state.fetchCards;
   }, [state]);
 
   return (
@@ -217,7 +204,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
           { by: "event.event_datetime", order: ORDER_DIRECTION.desc, label: "Newest first" },
           { by: "event.event_datetime", order: ORDER_DIRECTION.asc, label: "Oldest first" },
         ]}
-        handlePopupClose={handlePopupClose}
+        handlePopupClose={handleSearch}
       />
       {fetchEventsResult}
       <ShowMoreCards isVisible={showMoreEvents}>
