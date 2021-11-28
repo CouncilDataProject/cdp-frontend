@@ -1,5 +1,4 @@
 import React, { FC, useCallback, useMemo, useState, useRef } from "react";
-import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
@@ -8,6 +7,7 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import EventSearchService from "../../networking/EventSearchService";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
+import { FiltersContainer } from "../../components/Filters/FiltersContainer";
 import { FilterPopup } from "../../components/Filters/FilterPopup";
 import useFilter from "../../components/Filters/useFilter";
 import { SelectTextFilterOptions } from "../../components/Filters/SelectTextFilterOptions";
@@ -22,18 +22,8 @@ import { SearchContainerData, SearchData } from "./types";
 import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
-import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const SEARCH_RESULT_NUM = 4;
-
-const SearchFilter = styled.div({
-  display: "grid",
-  gridTemplateColumns: "1fr",
-  gap: 8,
-  [`@media (min-width:${screenWidths.tablet})`]: {
-    gridTemplateColumns: "auto 1fr",
-  },
-});
 
 const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContainerData) => {
   const { firebaseConfig } = useAppConfigContext();
@@ -141,7 +131,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
           handleSearch={handleSearch}
         />
       </SearchPageTitle>
-      <SearchFilter>
+      <FiltersContainer>
         <div>
           <FilterPopup
             name={searchTypeFilter.name}
@@ -162,7 +152,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
             />
           </FilterPopup>
         </div>
-      </SearchFilter>
+      </FiltersContainer>
       <Loader active={state.hasFetchRequest} size="massive" />
       {state.error && <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>}
       <SearchResultContainer

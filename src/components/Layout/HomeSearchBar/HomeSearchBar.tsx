@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 
 import { SEARCH_TYPE, SearchState } from "../../../pages/SearchPage/types";
 
+import { FiltersContainer } from "../../Filters/FiltersContainer";
 import { FilterPopup } from "../../Filters/FilterPopup";
 import useFilter from "../../Filters/useFilter";
 import { FilterState } from "../../Filters/reducer";
@@ -58,20 +59,10 @@ const SearchExampleTopic = styled.p`
   }
 `;
 
-const FiltersContainer = styled.div`
-  ${gridContainer}
-  @media (min-width: ${screenWidths.tablet}) {
-    /**Three columns template, with the last column taking up any free space*/
-    grid-template-columns: auto 1fr;
-  }
-`;
-
 const AdvancedOptionsBtn = styled.button`
   @media (min-width: ${screenWidths.tablet}) {
     /**Make the advanced options button appear last*/
     order: 1;
-    /**Float the button to the right*/
-    justify-self: end;
   }
 `;
 
