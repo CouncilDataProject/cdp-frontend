@@ -11,7 +11,7 @@
   "browser": "dist/index.js",
   "types": "type-declarations",
   "scripts": {
-    "start": "snowpack dev",
+    "start": "snowpack dev --polyfill-node",
     "build": "npm-run-all --print-label clean --parallel bundle transpile:commonjs transpile:es generateTypes",
     "bundle": "cross-env NODE_ENV=production webpack --config webpack.config.js --display-modules",
     "clean": "rimraf es lib dist type-declarations",
@@ -100,7 +100,7 @@
     "react-dom": "^16.13.0",
     "rimraf": "~3.0",
     "semantic-ui-css": "^2.4.1",
-    "snowpack": "^3.2.2",
+    "snowpack": "^3.8.8",
     "ts-jest": "^26.1.1",
     "ts-node": "~8.5",
     "typescript": "^3.9.9",
