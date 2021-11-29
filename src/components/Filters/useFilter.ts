@@ -1,7 +1,9 @@
-import { Dispatch, useReducer, useState } from "react";
+import { Dispatch, useReducer, useState, SetStateAction } from "react";
 
 import { FILTER_CLEAR, FILTER_UPDATE } from "./actions";
 import createFilterReducer, { FilterState } from "./reducer";
+
+import { getSelectedOptions } from "./SelectTextFilterOptions";
 
 /**
  * The return type of useFilter hook
@@ -18,22 +20,33 @@ export interface Filter<T> {
   /**Whether the filter's popup is open. */
   popupIsOpen: boolean;
   /**Toggle filter's UI popup open/close. */
-  setPopupIsOpen: Dispatch<boolean>;
+  setPopupIsOpen: Dispatch<SetStateAction<boolean>>;
   /**Returns the text representation of the filter's state. */
   getTextRep(): string;
   /**Return whether any of the filter's dataValue does not equal the default dataValue. */
   isActive(): boolean;
   /**Return whether the other filter's state is the same as this filter's state */
   isSameState(otherState: FilterState<T>): boolean;
+  /**At least one option is selected regarding the filter? */
+  hasRequiredError(): boolean;
+  /**The number of selected options exceeded the allowed limit of selected options? */
+  hasLimitError(): boolean;
+  /**The number of allowed selected options. */
+  limit?: number;
+}
+
+export interface UseFilterArg<T> {
+  name: string;
+  initialState: FilterState<T>;
+  defaultDataValue: T;
+  textRepFunction: (state: FilterState<T>, defaultText: string) => string;
+  isRequired?: boolean;
+  limit?: number;
 }
 /**Returns an object that encapsulates the filter's state with functions to update filter's state
  * and get other useful informations about the state. */
-function useFilter<T>(
-  name: string,
-  initialState: FilterState<T>,
-  defaultDataValue: T,
-  textRepFunction: (state: FilterState<T>, defaultText: string) => string
-): Filter<T> {
+function useFilter<T>(arg: UseFilterArg<T>): Filter<T> {
+  const { name, initialState, defaultDataValue, textRepFunction, isRequired, limit } = arg;
   const filterReducer = createFilterReducer<T>();
   const [state, dispatch] = useReducer(filterReducer, initialState);
   const [popupIsOpen, setPopupIsOpen] = useState(false);
@@ -81,6 +94,20 @@ function useFilter<T>(
     return true;
   };
 
+  const hasRequiredError = (): boolean => {
+    if (isRequired) {
+      return !isActive();
+    }
+    return false;
+  };
+
+  const hasLimitError = (): boolean => {
+    if (limit !== undefined) {
+      return getSelectedOptions(state).length > limit;
+    }
+    return false;
+  };
+
   return {
     name,
     state,
@@ -91,6 +118,9 @@ function useFilter<T>(
     getTextRep,
     isActive,
     isSameState,
+    hasRequiredError,
+    hasLimitError,
+    limit,
   };
 }
 

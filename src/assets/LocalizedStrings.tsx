@@ -15,7 +15,7 @@ import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
  **/
 export interface MasterStringsList extends LocalizedStringsMethods {
   [propName: string]: any;
-  tags: string;
+  keywords: string;
   same: string;
   select_language: string;
   committee: string;
@@ -33,9 +33,12 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   about: string;
   search: string;
   copyright_notice: string;
-  styled_using: string;
-  advanced_options: string;
-  artwork_provided_by: string;
+  content_license_prefix: string;
+  content_license_link: string;
+  content_license_link_text: string;
+  tools_license_prefix: string;
+  styled_using_prefix: string;
+  artwork_provided_by_prefix: string;
   approve: string;
   reject: string;
   rejected: string;

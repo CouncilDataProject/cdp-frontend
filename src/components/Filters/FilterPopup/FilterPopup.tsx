@@ -1,26 +1,34 @@
-import React, { Dispatch, FunctionComponent, Fragment, ReactNode, useRef } from "react";
+import React, {
+  Dispatch,
+  FunctionComponent,
+  Fragment,
+  ReactNode,
+  useRef,
+  useMemo,
+  SetStateAction,
+} from "react";
 import styled from "@emotion/styled";
+import { some } from "lodash";
+import { Popup } from "semantic-ui-react";
+
+import ChevronDownIcon from "../../Shared/ChevronDownIcon";
+
 import { strings } from "../../../assets/LocalizedStrings";
-import { Icon, Popup } from "semantic-ui-react";
+
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
-// Matching the styles of a Mozilla Protocol select element
-// https://protocol.mozilla.org/patterns/atoms/forms.html#select
-const StyledSelect = styled.div({
-  color: "rgba(0, 0, 0, 1) !important",
-  boxShadow: "none !important",
-  padding: "8px calc(1.5em + 16px) 8px 8px !important",
-  borderRadius: "4px !important",
-  border: "2px solid #9595a2 !important",
-  backgroundImage: `url("data:image/svg+xml,%3Csvg width='24px' height='24px' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline stroke='%239595a3' stroke-width='2' points='5 9 12 16 19 9'%3E%3C/polyline%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #ffffff 0%, #ffffff 100%)`,
-  backgroundPosition: "right 8px top 50% !important",
-  backgroundRepeat: "no-repeat, repeat !important",
-  display: "block !important",
-  width: "100% !important",
-  textOverflow: "ellipsis !important",
-  lineHeight: "1.25 !important",
+const TriggerButton = styled.button({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  width: "100%",
+  "& > svg": {
+    marginLeft: 24,
+    width: 16,
+    height: 16,
+  },
 });
-StyledSelect.displayName = "StyledSelect";
+TriggerButton.displayName = "TriggerButton";
 
 const StyledPopup = styled(Popup)({
   // limit the width of the popup
@@ -56,29 +64,9 @@ const ButtonContainer = styled.div({
 });
 ButtonContainer.displayName = "ButtonContainer";
 
-const MozillaProductButton = styled.button({
-  color: "#ffffff",
-  backgroundColor: "#0060df",
-  border: "2px solid #000000",
-  borderColor: "transparent",
-  borderRadius: "4px",
-  padding: "6px 24px",
-  fontSize: "0.875rem",
-});
-MozillaProductButton.displayName = "MozillaProductButton";
-
-const MozillaNeutralButton = styled.button({
-  color: "#5e5e72",
-  backgroundColor: "transparent",
-  border: "2px solid #000000",
-  borderColor: "#cdcdd4",
-  borderRadius: "4px",
-  padding: "6px 24px",
-  fontSize: "0.875rem",
-});
-MozillaNeutralButton.displayName = "MozillaNeutralButton";
-
 export interface FilterPopupProps {
+  /**The name of the filter. */
+  name: string;
   /**Callback to reset the filter state. */
   clear(): void;
   /**Get the text representation of the filter state. */
@@ -88,13 +76,19 @@ export interface FilterPopupProps {
   /**Whether the filter popup is open. */
   popupIsOpen: boolean;
   /**React Dispatch callback to update the popupIsOpen state. */
-  setPopupIsOpen: Dispatch<boolean>;
+  setPopupIsOpen: Dispatch<SetStateAction<boolean>>;
   /**Callback to handle filter popup closing. */
   handlePopupClose?(): void;
   /**Whether or not the popup should close when a value is selected. */
   closeOnChange: boolean;
   /**React Child Node. One of the filter components such as SelectDateRange, SelectTextFilterOptions, SelectSorting. */
   children: ReactNode;
+  /**At least one option is selected regarding the filter? */
+  hasRequiredError?: boolean;
+  /**The number of selected options exceeded the allowed limit of selected options? */
+  hasLimitError?: boolean;
+  /**The number of allowed selected options. */
+  limit?: number;
 }
 
 /**
@@ -102,6 +96,7 @@ export interface FilterPopupProps {
  * SelectDateRange, SelectTextFilterOptions, SelectSorting.
  */
 const FilterPopup: FunctionComponent<FilterPopupProps> = ({
+  name,
   clear,
   getTextRep,
   isActive,
@@ -110,16 +105,32 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
   handlePopupClose,
   closeOnChange,
   children,
+  hasRequiredError,
+  hasLimitError,
+  limit,
 }: FilterPopupProps) => {
   const mountNodeRef = useRef<HTMLDivElement>(null);
 
-  const onPopupOpen = () => {
-    setPopupIsOpen(true);
+  const hasError = some([hasRequiredError, hasLimitError]);
+
+  const errors = useMemo(() => {
+    const errors: string[] = [];
+    if (hasRequiredError) {
+      errors.push(`Please select at least one ${name.toLowerCase()}.`);
+    }
+    if (hasLimitError) {
+      errors.push(`Please select only ${limit} or fewer ${name.toLowerCase()}s.`);
+    }
+    return errors;
+  }, [hasRequiredError, hasLimitError, name, limit]);
+
+  const togglePopupIsOpen = () => {
+    setPopupIsOpen((prev) => !prev);
   };
 
   const onPopupClose = () => {
     setPopupIsOpen(false);
-    if (handlePopupClose) {
+    if (!hasError && handlePopupClose) {
       handlePopupClose();
     }
   };
@@ -133,27 +144,50 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
       <StyledPopup
         basic
         flowing
-        content={mountNodeRef.current}
+        context={mountNodeRef.current || undefined}
         on="click"
-        onClose={onPopupClose}
-        onOpen={onPopupOpen}
         open={popupIsOpen}
         pinned={true}
         offset={[0, -5]}
         position="bottom left"
         positionFixed={true}
-        trigger={<StyledSelect>{getTextRep()}</StyledSelect>}
+        trigger={
+          <TriggerButton
+            className="mzp-c-button mzp-t-lg mzp-t-neutral"
+            onClick={togglePopupIsOpen}
+          >
+            {getTextRep()}
+            <ChevronDownIcon />
+          </TriggerButton>
+        }
       >
         <PopupContainer>
           <ContentContainer>{children}</ContentContainer>
+          {hasError && (
+            <div className="mzp-c-form-errors" style={{ margin: "24px 0" }}>
+              <ul className="mzp-u-list-styled">
+                {errors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           {!closeOnChange && (
             <ButtonContainer>
-              <MozillaNeutralButton disabled={!isActive()} onClick={onClearFilter}>
-                <Icon name="remove" /> {strings.clear}
-              </MozillaNeutralButton>
-              <MozillaProductButton onClick={onPopupClose}>
-                <Icon name="checkmark" /> {strings.save}
-              </MozillaProductButton>
+              <button
+                className="mzp-c-button mzp-t-md mzp-t-neutral"
+                disabled={!isActive()}
+                onClick={onClearFilter}
+              >
+                {strings.clear}
+              </button>
+              <button
+                className="mzp-c-button mzp-t-md mzp-t-product"
+                disabled={hasError}
+                onClick={onPopupClose}
+              >
+                {strings.save}
+              </button>
             </ButtonContainer>
           )}
         </PopupContainer>

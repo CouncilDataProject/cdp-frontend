@@ -14,7 +14,7 @@ const FetchDataContainer: FC<FetchDataContainerProps> = ({
   error,
 }: FetchDataContainerProps) => {
   if (isLoading) {
-    return <Loader />;
+    return <Loader active size="massive" style={{ top: "40%" }} />;
   }
   if (error) {
     // Display the error for now.

@@ -66,14 +66,45 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
         </nav>
 
         <nav className="mzp-c-footer-secondary">
-          <div className="mzp-c-footer-legal">
-            <p className="mzp-c-footer-license">
-              {strings.copyright_notice
-                .replace("{date_range}", "2017-2021")
-                .replace("{copyright_license_type}", "MIT License")}
+          <div className="mzp-c-footer-legal mzp-c-footer-license">
+            <p>{strings.copyright_notice.replace("{date_range}", "2017-2021")}</p>
+            <p>
+              {strings.content_license_prefix}
+              <a
+                rel="noopener noreferrer license external"
+                href={strings.content_license_link}
+                target="_blank"
+              >
+                {strings.content_license_link_text}
+              </a>
+              .
               <br />
-              {strings.styled_using.replace("{style_provider}", "Mozilla Protocol")}{" "}
-              {strings.artwork_provided_by.replace("{artwork_provider}", "unDraw")}
+              {strings.tools_license_prefix}
+              <a
+                rel="noopener noreferrer license external"
+                href="https://github.com/CouncilDataProject/cookiecutter-cdp-deployment/blob/main/LICENSE"
+                target="_blank"
+              >
+                MIT License
+              </a>
+              .
+            </p>
+            <p>
+              {strings.styled_using_prefix}
+              <a
+                rel="noopener noreferrer external"
+                href="https://protocol.mozilla.org/"
+                target="_blank"
+              >
+                Mozilla Protocol
+              </a>
+              .
+              <br />
+              {strings.artwork_provided_by_prefix}
+              <a rel="noopener noreferrer external" href="https://undraw.co/" target="_blank">
+                unDraw
+              </a>
+              .
             </p>
           </div>
         </nav>

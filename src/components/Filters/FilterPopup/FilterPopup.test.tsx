@@ -19,6 +19,7 @@ describe("FilterPopup", () => {
   test("Calls setPopupisOpen callback to open popup", () => {
     const filterPopupMount: ReactWrapper<FilterPopupProps> = mount(
       <FilterPopup
+        name="test"
         clear={clearMock}
         getTextRep={getTextRepMock}
         isActive={isActiveMock}
@@ -31,7 +32,7 @@ describe("FilterPopup", () => {
       </FilterPopup>
     );
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(0);
-    filterPopupMount.find("StyledSelect").simulate("click");
+    filterPopupMount.find("TriggerButton").simulate("click");
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(1);
   });
 
@@ -41,6 +42,7 @@ describe("FilterPopup", () => {
     beforeEach(() => {
       filterPopup = shallow(
         <FilterPopup
+          name="test"
           clear={clearMock}
           getTextRep={getTextRepMock}
           isActive={isActiveMock}
@@ -56,14 +58,14 @@ describe("FilterPopup", () => {
 
     test("Calls onClearFilter callback", () => {
       expect(clearMock).toHaveBeenCalledTimes(0);
-      filterPopup.find("MozillaNeutralButton").simulate("click");
+      filterPopup.find(".mzp-t-md.mzp-t-neutral").simulate("click");
       expect(clearMock).toHaveBeenCalledTimes(1);
     });
 
     test("Calls handlePopupClose callback", () => {
       expect(setPopupIsOpenMock).toHaveBeenCalledTimes(0);
       expect(handlePopupCloseMock).toHaveBeenCalledTimes(0);
-      filterPopup.find("MozillaProductButton").simulate("click");
+      filterPopup.find(".mzp-t-md.mzp-t-product").simulate("click");
       expect(setPopupIsOpenMock).toHaveBeenCalledTimes(1);
       expect(handlePopupCloseMock).toHaveBeenCalledTimes(1);
     });

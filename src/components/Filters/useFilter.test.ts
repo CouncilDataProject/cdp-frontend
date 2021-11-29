@@ -11,7 +11,12 @@ describe("useFilter", () => {
 
   test("Sets boolean filter state to all false", () => {
     const { result } = renderHook(() =>
-      useFilter<boolean>("test", { a: true, b: true }, false, textRepFuncMock)
+      useFilter<boolean>({
+        name: "test",
+        initialState: { a: true, b: true },
+        defaultDataValue: false,
+        textRepFunction: textRepFuncMock,
+      })
     );
     act(() => {
       result.current.clear();
@@ -24,7 +29,12 @@ describe("useFilter", () => {
     const keyName = "a";
     const newDataValue = false;
     const { result } = renderHook(() =>
-      useFilter<boolean>("test", { a: true, b: true }, false, textRepFuncMock)
+      useFilter<boolean>({
+        name: "test",
+        initialState: { a: true, b: true },
+        defaultDataValue: false,
+        textRepFunction: textRepFuncMock,
+      })
     );
     act(() => {
       result.current.update(keyName, newDataValue);
@@ -34,7 +44,12 @@ describe("useFilter", () => {
 
   test("Calls textRepFunc callback", () => {
     const { result } = renderHook(() =>
-      useFilter<boolean>("test", { a: false, b: false }, false, textRepFuncMock)
+      useFilter<boolean>({
+        name: "test",
+        initialState: { a: false, b: false },
+        defaultDataValue: false,
+        textRepFunction: textRepFuncMock,
+      })
     );
     result.current.getTextRep();
     expect(textRepFuncMock).toHaveBeenCalledTimes(1);
@@ -42,20 +57,37 @@ describe("useFilter", () => {
 
   describe("isActive for boolean filter", () => {
     test("Returns false for uninitialized state", () => {
-      const { result } = renderHook(() => useFilter<boolean>("test", {}, false, textRepFuncMock));
+      const { result } = renderHook(() =>
+        useFilter<boolean>({
+          name: "test",
+          initialState: {},
+          defaultDataValue: false,
+          textRepFunction: textRepFuncMock,
+        })
+      );
       expect(result.current.isActive()).toBe(false);
     });
 
     test("Returns false for no selected options", () => {
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", { a: false, b: false }, false, textRepFuncMock)
+        useFilter<boolean>({
+          name: "test",
+          initialState: { a: false, b: false },
+          defaultDataValue: false,
+          textRepFunction: textRepFuncMock,
+        })
       );
       expect(result.current.isActive()).toBe(false);
     });
 
     test("Returns true for one selected option", () => {
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", { a: true, b: false }, false, textRepFuncMock)
+        useFilter<boolean>({
+          name: "test",
+          initialState: { a: true, b: false },
+          defaultDataValue: false,
+          textRepFunction: textRepFuncMock,
+        })
       );
       expect(result.current.isActive()).toBe(true);
     });
@@ -66,7 +98,12 @@ describe("useFilter", () => {
       const prevState = {};
       const newState = { a: false, b: false };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", newState, false, textRepFuncMock)
+        useFilter<boolean>({
+          name: "test",
+          initialState: newState,
+          defaultDataValue: false,
+          textRepFunction: textRepFuncMock,
+        })
       );
       expect(result.current.isSameState(prevState)).toBe(true);
     });
@@ -75,7 +112,12 @@ describe("useFilter", () => {
       const prevState = {};
       const newState = { a: true, b: false };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", newState, false, textRepFuncMock)
+        useFilter<boolean>({
+          name: "test",
+          initialState: newState,
+          defaultDataValue: false,
+          textRepFunction: textRepFuncMock,
+        })
       );
       expect(result.current.isSameState(prevState)).toBe(false);
     });
@@ -84,7 +126,12 @@ describe("useFilter", () => {
       const prevState = { a: false };
       const newState = { a: false, b: true };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", newState, false, textRepFuncMock)
+        useFilter<boolean>({
+          name: "test",
+          initialState: newState,
+          defaultDataValue: false,
+          textRepFunction: textRepFuncMock,
+        })
       );
       expect(result.current.isSameState(prevState)).toBe(false);
     });
@@ -93,7 +140,12 @@ describe("useFilter", () => {
       const prevState = { a: false, b: false };
       const newState = { a: true, b: false };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", newState, false, textRepFuncMock)
+        useFilter<boolean>({
+          name: "test",
+          initialState: newState,
+          defaultDataValue: false,
+          textRepFunction: textRepFuncMock,
+        })
       );
       expect(result.current.isSameState(prevState)).toBe(false);
     });
@@ -102,7 +154,12 @@ describe("useFilter", () => {
       const prevState = { a: true, b: false };
       const newState = { a: false, b: false };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", newState, false, textRepFuncMock)
+        useFilter<boolean>({
+          name: "test",
+          initialState: newState,
+          defaultDataValue: false,
+          textRepFunction: textRepFuncMock,
+        })
       );
       expect(result.current.isSameState(prevState)).toBe(false);
     });
@@ -111,7 +168,12 @@ describe("useFilter", () => {
       const prevState = { a: true, b: true };
       const newState = { a: true, b: true };
       const { result } = renderHook(() =>
-        useFilter<boolean>("test", newState, false, textRepFuncMock)
+        useFilter<boolean>({
+          name: "test",
+          initialState: newState,
+          defaultDataValue: false,
+          textRepFunction: textRepFuncMock,
+        })
       );
       expect(result.current.isSameState(prevState)).toBe(true);
     });
