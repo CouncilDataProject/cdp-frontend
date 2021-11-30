@@ -24,7 +24,7 @@ const Biography: FC<BiographyProps> = ({ person, roles, mattersSponsored }: Biog
       <p className="mzp-c-card-desc">{introText}</p>
       <p className="mzp-c-card-desc">{bioText}</p>
       {person.website && (
-        <a target="_blank" href={person.website}>
+        <a target="_blank" rel="noopener noreferrer" href={person.website}>
           {linkText}
         </a>
       )}

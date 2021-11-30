@@ -15,7 +15,7 @@ interface DecisionResultProps {
   result: VOTE_DECISION | MATTER_STATUS_DECISION;
 }
 
-const DecisionResult: FC<DecisionResultProps> = ({ result }) => {
+const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps) => {
   let statusIcon = <div />;
   switch (result) {
     case VOTE_DECISION.APPROVE:
