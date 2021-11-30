@@ -8,7 +8,7 @@ const AvatarImg = styled.img(() => ({
   width: 200,
   height: 200,
   top: "220px",
-  left: "30px",
+  left: "20px",
   borderRadius: 100,
   border: "1px black solid",
 }));

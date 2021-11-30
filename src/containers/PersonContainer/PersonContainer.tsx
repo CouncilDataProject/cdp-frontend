@@ -6,6 +6,7 @@ import { screenWidths } from "../../styles/mediaBreakpoints";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import PersonFullView from "./PersonFullView";
+import { getMostRecentRole, filterRolesByTitle } from "../../models/util/RoleUtilities";
 
 export interface PersonContainerProps extends PersonPageData {
   /** Any extra info */
@@ -14,7 +15,14 @@ export interface PersonContainerProps extends PersonPageData {
 
 const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonContainerProps) => {
   const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.largeMobile})` });
+  const currentRole = getMostRecentRole(roles);
+  let rolesAsCurrentRole = 1;
+  if (currentRole.title) {
+    rolesAsCurrentRole = filterRolesByTitle(roles, currentRole.title).length;
+  }
+
   useDocumentTitle(person.name);
+
   return (
     <div>
       {isMobile && (
@@ -22,11 +30,11 @@ const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonConta
           personName={person.name!}
           personPictureSrc={""}
           personIsActive={person.is_active!}
-          seatName={"<NOT YET IN MODELS>"}
-          seatElectoralArea={"<NOT YET IN MODELS>"}
+          seatName={person.seatName || "No Seat"}
+          seatElectoralArea={person.seatElectoralArea || "No Electoral Area"}
           seatPictureSrc={undefined}
-          chairedBodyNames={"<NOT YET IN MODELS>"}
-          tenureStatus={"<NOT YET IN MODELS>"}
+          chairedBodyNames={currentRole.title || ""}
+          tenureStatus={`${rolesAsCurrentRole}`}
           billsSponsored={0}
         />
       )}
