@@ -1,6 +1,6 @@
-import React, { FC, useCallback } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 import { useAppConfigContext } from "../../app";
 import EventService from "../../networking/EventService";
@@ -22,6 +22,14 @@ const EventPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   // Get the app config context
   const { firebaseConfig } = useAppConfigContext();
+  //Get the query
+  const location = useLocation<{ query: string }>();
+  const searchQuery = useMemo(() => {
+    if (location.state) {
+      return location.state.query;
+    }
+    return "";
+  }, [location.state]);
 
   const fetchEventData = useCallback(async () => {
     const eventService = new EventService(firebaseConfig);
@@ -115,7 +123,7 @@ const EventPage: FC = () => {
 
   return (
     <FetchDataContainer isLoading={eventDataState.isLoading} error={eventDataState.error}>
-      {eventDataState.data && <EventContainer {...eventDataState.data} />}
+      {eventDataState.data && <EventContainer {...eventDataState.data} searchQuery={searchQuery} />}
     </FetchDataContainer>
   );
 };

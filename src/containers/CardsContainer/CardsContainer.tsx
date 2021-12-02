@@ -31,11 +31,16 @@ export interface CardsContainerProps {
 const CardsContainer: FC<CardsContainerProps> = ({ cards }: CardsContainerProps) => {
   return (
     <Container>
-      {cards.map(({ link, jsx }) => {
+      {cards.map(({ link, jsx, searchQuery }) => {
         return (
           <div key={link}>
             <Link
-              to={link}
+              to={{
+                pathname: link,
+                state: {
+                  query: searchQuery || "",
+                },
+              }}
               style={{
                 textDecoration: "none",
                 color: colors.black,

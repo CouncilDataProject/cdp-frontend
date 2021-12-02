@@ -169,6 +169,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
               excerpt={renderableEvent.selectedContextSpan}
             />
           ),
+          searchQuery: searchQueryRef.current,
         };
       });
       return (
