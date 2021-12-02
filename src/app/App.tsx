@@ -8,7 +8,7 @@ import useDocumentTitle from "../hooks/useDocumentTitle";
 import { Header } from "../components/Layout/Header";
 import { Footer } from "../components/Layout/Footer";
 import { HomePage } from "../pages/HomePage";
-import { SearchPage } from "../pages/SearchPage";
+/* import { SearchPage } from "../pages/SearchPage"; */
 import { SearchEventsPage } from "../pages/SearchEventsPage";
 import { EventPage } from "../pages/EventPage";
 import { EventsPage } from "../pages/EventsPage";
@@ -58,9 +58,9 @@ function App() {
               <Route exact path="/">
                 <HomePage />
               </Route>
-              <Route exact path="/search">
+              {/* <Route exact path="/search">
                 <SearchPage />
-              </Route>
+              </Route> */}
               <Route exact path={`/${SEARCH_TYPE.EVENT}`}>
                 <EventsPage />
               </Route>

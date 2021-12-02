@@ -2,13 +2,14 @@ import React, { ChangeEventHandler, FC, FormEventHandler, useState } from "react
 import { useHistory } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { SEARCH_TYPE, SearchState } from "../../../pages/SearchPage/types";
+import { SearchEventsState } from "../../../pages/SearchEventsPage/types";
+import { SEARCH_TYPE } from "../../../pages/SearchPage/types";
 
-import { FiltersContainer } from "../../Filters/FiltersContainer";
-import { FilterPopup } from "../../Filters/FilterPopup";
+/* import { FiltersContainer } from "../../Filters/FiltersContainer";
+import { FilterPopup } from "../../Filters/FilterPopup"; */
 import useFilter from "../../Filters/useFilter";
 import { FilterState } from "../../Filters/reducer";
-import { SelectTextFilterOptions } from "../../Filters/SelectTextFilterOptions";
+/* import { SelectTextFilterOptions } from "../../Filters/SelectTextFilterOptions"; */
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { strings } from "../../../assets/LocalizedStrings";
 
@@ -59,12 +60,12 @@ const SearchExampleTopic = styled.p`
   }
 `;
 
-const AdvancedOptionsBtn = styled.button`
-  @media (min-width: ${screenWidths.tablet}) {
-    /**Make the advanced options button appear last*/
-    order: 1;
-  }
-`;
+//const AdvancedOptionsBtn = styled.button`
+//  @media (min-width: ${screenWidths.tablet}) {
+//    /**Make the advanced options button appear last*/
+//    order: 1;
+//  }
+//`;
 
 export const searchTypeOptions = [
   {
@@ -103,8 +104,8 @@ const exampleSearchQuery = EXAMPLE_TOPICS[Math.floor(Math.random() * EXAMPLE_TOP
 
 const HomeSearchBar: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [showFilters, setShowFilters] = useState<boolean>(false);
-  const history = useHistory<SearchState>();
+  /* const [showFilters, setShowFilters] = useState<boolean>(false); */
+  const history = useHistory<SearchEventsState>();
   const searchTypeFilter = useFilter<boolean>({
     name: "Search Type",
     initialState: intialSearchTyperFilterState,
@@ -117,11 +118,13 @@ const HomeSearchBar: FC = () => {
     event.preventDefault();
     const queryParams = `?q=${searchQuery.trim().replace(/\s+/g, "+")}`;
     history.push({
-      pathname: "/search",
+      pathname: `/${SEARCH_TYPE.EVENT}/search`,
       search: queryParams,
       state: {
         query: searchQuery.trim(),
-        searchTypes: searchTypeFilter.state as Record<SEARCH_TYPE, boolean>,
+        /* searchTypes: searchTypeFilter.state as Record<SEARCH_TYPE, boolean>, */
+        committees: {},
+        dateRange: {},
       },
     });
   };
@@ -129,7 +132,7 @@ const HomeSearchBar: FC = () => {
   const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
     setSearchQuery(event.target.value);
 
-  const onClickFilters = () => setShowFilters((showFilters) => !showFilters);
+  /* const onClickFilters = () => setShowFilters((showFilters) => !showFilters); */
 
   return (
     <div>
@@ -158,7 +161,7 @@ const HomeSearchBar: FC = () => {
         </SearchContainer>
       </form>
 
-      <FiltersContainer>
+      {/* <FiltersContainer>
         <AdvancedOptionsBtn
           className="mzp-c-button mzp-t-secondary"
           onClick={onClickFilters}
@@ -187,7 +190,7 @@ const HomeSearchBar: FC = () => {
             </FilterPopup>
           )}
         </div>
-      </FiltersContainer>
+      </FiltersContainer> */}
     </div>
   );
 };
