@@ -2,6 +2,7 @@
 
 [![Build Status](https://github.com/CouncilDataProject/cdp-frontend/workflows/Build%20Main/badge.svg)](https://github.com/CouncilDataProject/cdp-frontend/actions)
 [![Documentation](https://github.com/CouncilDataProject/cdp-frontend/workflows/Documentation/badge.svg)](https://CouncilDataProject.github.io/cdp-frontend)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.03904/status.svg)](https://doi.org/10.21105/joss.03904)
 
 The Council Data Project UI component library and exportable web app used by CDP instances.
 
@@ -30,6 +31,27 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for information related to development of
 ### Styling
 
 When developing new components, please first see the [recommendations from our UX team](https://docs.google.com/presentation/d/15rkic20QV6GU0_nL-8zHIgcw8-o1bCQIiYMsY2j6qFg/edit?usp=sharing) for guidance. Additionally, we utilize Mozilla's [Protocol](https://github.com/mozilla/protocol/) for styling each component, please try to use `protocol` wherever possible.
+
+## Citation
+
+If you have found CDP software, data, or ideas useful in your own work, please consider citing us:
+
+Brown et al., (2021). Council Data Project: Software for Municipal Data Collection, Analysis, and Publication. Journal of Open Source Software, 6(68), 3904, https://doi.org/10.21105/joss.03904
+
+```bibtex
+@article{Brown2021,
+  doi = {10.21105/joss.03904},
+  url = {https://doi.org/10.21105/joss.03904},
+  year = {2021},
+  publisher = {The Open Journal},
+  volume = {6},
+  number = {68},
+  pages = {3904},
+  author = {Jackson Maxfield Brown and To Huynh and Isaac Na and Brian Ledbetter and Hawk Ticehurst and Sarah Liu and Emily Gilles and Katlyn M. f. Greene and Sung Cho and Shak Ragoler and Nicholas Weber},
+  title = {{Council Data Project: Software for Municipal Data Collection, Analysis, and Publication}},
+  journal = {Journal of Open Source Software}
+}
+```
 
 ## License
 
