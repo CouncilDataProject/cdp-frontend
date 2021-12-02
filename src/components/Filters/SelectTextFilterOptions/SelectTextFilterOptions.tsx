@@ -95,7 +95,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
                 type="checkbox"
                 name={option.name}
                 id={`form-checkbox-control-${option.name}`}
-                checked={state[option.name]}
+                checked={state[option.name] || false}
                 disabled={option.disabled}
                 onChange={onChange}
               />

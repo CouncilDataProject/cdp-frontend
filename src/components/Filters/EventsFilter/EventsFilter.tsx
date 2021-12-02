@@ -1,29 +1,14 @@
 import React, { FC, useState } from "react";
-import styled from "@emotion/styled";
 
 import Body from "../../../models/Body";
 
+import { FiltersContainer } from "../FiltersContainer";
 import { FilterPopup } from "../FilterPopup";
 import { Filter } from "../useFilter";
 import { SelectDateRange } from "../SelectDateRange";
 import { SelectSorting } from "../SelectSorting";
 import { SortOption } from "../SelectSorting/getSortingText";
 import { SelectTextFilterOptions } from "../SelectTextFilterOptions";
-
-import { screenWidths } from "../../../styles/mediaBreakpoints";
-
-const Filters = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  gap: 4,
-  [`@media (min-width:${screenWidths.tablet})`]: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    "& > div:last-of-type": {
-      marginLeft: "auto",
-    },
-  },
-});
 
 interface EventsFilterProps {
   allBodies: Body[];
@@ -57,7 +42,7 @@ const EventsFilter: FC<EventsFilterProps> = ({
   };
 
   return (
-    <Filters>
+    <FiltersContainer>
       <div>
         <FilterPopup
           name={committeeFilter.name}
@@ -114,7 +99,7 @@ const EventsFilter: FC<EventsFilterProps> = ({
           />
         </FilterPopup>
       </div>
-    </Filters>
+    </FiltersContainer>
   );
 };
 

@@ -124,6 +124,8 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
     return errors;
   }, [hasRequiredError, hasLimitError, name, limit]);
 
+  const onClose = () => setPopupIsOpen(false);
+
   const togglePopupIsOpen = () => {
     setPopupIsOpen((prev) => !prev);
   };
@@ -147,6 +149,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
         context={mountNodeRef.current || undefined}
         on="click"
         open={popupIsOpen}
+        onClose={onClose}
         pinned={true}
         offset={[0, -5]}
         position="bottom left"
