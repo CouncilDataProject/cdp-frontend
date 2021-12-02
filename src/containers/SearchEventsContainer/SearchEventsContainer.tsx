@@ -56,7 +56,11 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   });
   const sortFilter = useFilter<string>({
     name: "Sort",
-    initialState: { by: "pureRelevance", order: ORDER_DIRECTION.desc, label: "Most relevant" },
+    initialState: {
+      by: "datetimeWeightedRelevance",
+      order: ORDER_DIRECTION.desc,
+      label: "Most relevant first",
+    },
     defaultDataValue: "",
     textRepFunction: getSortingText,
   });
@@ -195,12 +199,12 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         allBodies={bodies}
         filters={[committeeFilter, dateRangeFilter, sortFilter]}
         sortOptions={[
-          { by: "pureRelevance", order: ORDER_DIRECTION.desc, label: "Most relevant" },
           {
             by: "datetimeWeightedRelevance",
             order: ORDER_DIRECTION.desc,
-            label: "Most relevant (weighted)",
+            label: "Most relevant first",
           },
+          { by: "pureRelevance", order: ORDER_DIRECTION.desc, label: "Closest match first" },
           { by: "event.event_datetime", order: ORDER_DIRECTION.desc, label: "Newest first" },
           { by: "event.event_datetime", order: ORDER_DIRECTION.asc, label: "Oldest first" },
         ]}

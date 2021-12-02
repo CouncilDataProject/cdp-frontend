@@ -46,8 +46,8 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
       ? eventSearchService.searchEvents(query)
       : Promise.resolve([]);
     const [matchingEvents] = await Promise.all([matchingEventsPromise]);
-    //sort matching events by pure relevance with order desc
-    matchingEvents.sort((a, b) => b.pureRelevance - a.pureRelevance);
+    //sort matching events by weighted relevance with order desc
+    matchingEvents.sort((a, b) => b.datetimeWeightedRelevance - a.datetimeWeightedRelevance);
     //TODO: add matching legislations
 
     const renderableEventsPromise = Promise.all(
