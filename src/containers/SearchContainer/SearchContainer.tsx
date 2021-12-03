@@ -112,6 +112,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
             committee={renderableEvent.event.body?.name as string}
             tags={renderableEvent.keyGrams}
             excerpt={renderableEvent.selectedContextSpan}
+            //TODO: add the gram and queryRef.current
           />
         ),
       };

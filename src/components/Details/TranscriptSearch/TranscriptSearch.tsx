@@ -91,6 +91,9 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
 
   //Update the visible sentences as the searched query changes
   const visibleSentences = useMemo(() => {
+    if (!searchedTerm.trim()) {
+      return sentences;
+    }
     const cleanedQuery = cleanText(searchedTerm);
     const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
     if (!cleanedQuery || tokenizedQuery.length === 0) {
@@ -105,9 +108,7 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
     <Container>
       <TitleContainer>
         <div>{strings.search_transcript}</div>
-        {searchedTerm && (
-          <div>{strings.number_of_results.replace("{number}", `${visibleSentences.length}`)}</div>
-        )}
+        <div>{strings.number_of_results.replace("{number}", `${visibleSentences.length}`)}</div>
       </TitleContainer>
       <form className="mzp-c-form" role="search" onSubmit={onSearch}>
         <input

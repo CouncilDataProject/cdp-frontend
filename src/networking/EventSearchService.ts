@@ -24,6 +24,7 @@ class MatchingEvent {
   pureRelevance: number;
   datetimeWeightedRelevance: number;
   containedGrams: string[];
+  selectedGram: string;
   selectedContextSpan: string;
 
   constructor(
@@ -31,12 +32,14 @@ class MatchingEvent {
     pureRelevance: number,
     datetimeWeightedRelevance: number,
     containedGrams: string[],
+    selectedGram: string,
     selectedContextSpan: string
   ) {
     this.eventRef = `${COLLECTION_NAME.Event}/${eventId}`;
     this.pureRelevance = pureRelevance;
     this.datetimeWeightedRelevance = datetimeWeightedRelevance;
     this.containedGrams = containedGrams;
+    this.selectedGram = selectedGram;
     this.selectedContextSpan = selectedContextSpan;
   }
 }
@@ -51,6 +54,7 @@ export class RenderableEvent {
   pureRelevance: number;
   datetimeWeightedRelevance: number;
   containedGrams: string[];
+  selectedGram: string;
   selectedContextSpan: string;
   keyGrams: string[];
   staticThumbnailURL: string;
@@ -61,6 +65,7 @@ export class RenderableEvent {
     pureRelevance: number,
     datetimeWeightedRelevance: number,
     containedGrams: string[],
+    selectedGram: string,
     selectedContextSpan: string,
     keyGrams: string[],
     staticThumbnailURL: string,
@@ -70,6 +75,7 @@ export class RenderableEvent {
     this.pureRelevance = pureRelevance;
     this.datetimeWeightedRelevance = datetimeWeightedRelevance;
     this.containedGrams = containedGrams;
+    this.selectedGram = selectedGram;
     this.selectedContextSpan = selectedContextSpan;
     this.keyGrams = keyGrams;
     this.staticThumbnailURL = staticThumbnailURL;
@@ -185,10 +191,10 @@ export default class EventSearchService {
 
           // Unpack matchingGram to protect from undefined
           let selectedContextSpan = "";
-          if (matchingGramWithHighestValue && matchingGramWithHighestValue.context_span) {
-            selectedContextSpan = matchingGramWithHighestValue.context_span;
-          } else {
-            selectedContextSpan = "";
+          let selectedGram = "";
+          if (matchingGramWithHighestValue) {
+            selectedContextSpan = matchingGramWithHighestValue?.context_span || "";
+            selectedGram = matchingGramWithHighestValue?.unstemmed_gram || "";
           }
 
           // Get grams found in event from query
@@ -205,6 +211,7 @@ export default class EventSearchService {
               sumBy(matchingIndexedEventGrams, "value"),
               sumBy(matchingIndexedEventGrams, "datetime_weighted_value"),
               containedGrams,
+              selectedGram,
               selectedContextSpan
             )
           );
@@ -256,6 +263,7 @@ export default class EventSearchService {
           matchingEvent.pureRelevance,
           matchingEvent.datetimeWeightedRelevance,
           matchingEvent.containedGrams,
+          matchingEvent.selectedGram,
           matchingEvent.selectedContextSpan,
           keyUnstemmedGrams,
           staticThumbnailPathURL,
