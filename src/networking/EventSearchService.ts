@@ -12,6 +12,7 @@ import Event from "../models/Event";
 import { createError } from "../utils/createError";
 import { getStorage, ref, getDownloadURL } from "@firebase/storage";
 import { FirebaseConfig } from "../app/AppConfigContext";
+import cleanText from "../utils/cleanText";
 
 /**
  * The primary return of searchEvents.
@@ -104,23 +105,10 @@ export default class EventSearchService {
    * Returns as an array of string instead of string to pass into ngrams
    */
   cleanText(query: string): string[] {
-    // Replace new line and tab characters with a space
-    let cleanedQuery = query.replace(/[\t\n]+/g, " ");
-
-    // Replace common strings used by documents on backend
-    // Not _really_ needed here but a nice safety measure to match the alg
-    cleanedQuery = cleanedQuery.replace(/[\-\-]/, " ");
-
-    // Same as Python standard punctuation string
-    cleanedQuery = cleanedQuery.replace(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g, "");
-
-    // Remove extra spaces
-    cleanedQuery = cleanedQuery.replace(/\s{2,}/g, " ");
-
-    // Remove leading and trailing spaces
+    const cleanedQuery = cleanText(query);
     // Remove stopwords
     // Return as list of terms
-    return removeStopwords(cleanedQuery.trim().split(" "));
+    return removeStopwords(cleanedQuery.split(" "));
   }
 
   getStemmedGrams(query: string): string[] {

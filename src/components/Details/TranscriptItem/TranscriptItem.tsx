@@ -1,7 +1,9 @@
-import React, { FC, RefObject, RefAttributes, useRef, useImperativeHandle } from "react";
+import React, { FC, RefObject, RefAttributes, useRef, useImperativeHandle, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import { Popup } from "semantic-ui-react";
+import { stem } from "stemr";
+import { removeStopwords } from "stopword";
 import styled from "@emotion/styled";
 
 import { strings } from "../../../assets/LocalizedStrings";
@@ -10,6 +12,7 @@ import DocumentTextIcon from "../../Shared/DocumentTextIcon";
 import PlayIcon from "../../Shared/PlayIcon";
 
 import { fontSizes } from "../../../styles/fonts";
+import cleanText from "../../../utils/cleanText";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 
@@ -131,15 +134,30 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
     </DefaultAvatarContainer>
   );
 
+  const searchWords = useMemo(() => {
+    const cleanedQuery = cleanText(searchQuery || "");
+    const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
+    if (!cleanedQuery || tokenizedQuery.length === 0) {
+      // no query or valid tokens to highlight
+      return [];
+    }
+    const stemmedQuery = tokenizedQuery.map((token) => stem(token));
+    // highlight the token or the stem, but only if it's the start of the text or has a preceding whitespace
+    const regExps = tokenizedQuery.map(
+      (token, i) => new RegExp(`(^|\\s|-)(${token}|${stemmedQuery[i]})`, "g")
+    );
+    if (searchQuery && searchQuery.trim().length > 0) {
+      // highlight the original query too
+      regExps.push(new RegExp(searchQuery.trim(), "g"));
+    }
+    return regExps;
+  }, [searchQuery]);
+
   return (
     <div ref={transcriptItemRef}>
       <Item>
         <Text>
-          <Highlighter
-            searchWords={(searchQuery?.trim() || "").split(/\s+/g)}
-            autoEscape={true}
-            textToHighlight={text}
-          />
+          <Highlighter caseSensitive={false} searchWords={searchWords} textToHighlight={text} />
         </Text>
         <Container hasMultipleActions={handleJumpToTranscript !== undefined}>
           <Speaker>
