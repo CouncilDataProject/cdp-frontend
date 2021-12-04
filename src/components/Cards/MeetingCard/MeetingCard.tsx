@@ -1,9 +1,11 @@
 import React, { useMemo } from "react";
 import styled from "@emotion/styled";
 import Highlighter from "react-highlight-words";
+import { removeStopwords } from "stopword";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { strings } from "../../../assets/LocalizedStrings";
+import cleanText from "../../../utils/cleanText";
 
 export type MeetingCardProps = {
   /** The static poster image src of the event */
@@ -52,11 +54,16 @@ const MeetingCard = ({
   const tagString = tags.map((tag) => tag.toLowerCase()).join(TAG_CONNECTOR);
 
   const searchWords = useMemo(() => {
-    const words = [query || "", gram || ""].filter((el) => el.length > 0);
-    if (words.length === 0) {
+    const cleanedQuery = cleanText(query || "");
+    // Phrases that should be highlighted in the excerpt
+    const phrases = removeStopwords(cleanedQuery.split(" "));
+    if (gram && gram.length > 0) {
+      phrases.push(gram);
+    }
+    if (phrases.length === 0) {
       return [];
     }
-    return [new RegExp(`\\b(${words.join("|")})`, "g")];
+    return [new RegExp(`\\b(${phrases.join("|")})`, "g")];
   }, [query, gram]);
 
   return (
