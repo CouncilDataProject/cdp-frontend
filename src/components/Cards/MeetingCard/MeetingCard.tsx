@@ -52,8 +52,12 @@ const MeetingCard = ({
   const tagString = tags.map((tag) => tag.toLowerCase()).join(TAG_CONNECTOR);
 
   const searchWords = useMemo(() => {
-    return [gram || "", query || ""].filter((el) => el.length > 0);
-  }, [gram, query]);
+    const words = [query || "", gram || ""].filter((el) => el.length > 0);
+    if (words.length === 0) {
+      return [];
+    }
+    return [new RegExp(`\\b(${words.join("|")})`, "g")];
+  }, [query, gram]);
 
   return (
     <Meeting className="mzp-c-card mzp-has-aspect-16-9">
@@ -75,7 +79,6 @@ const MeetingCard = ({
               }}
             >
               <Highlighter
-                autoEscape={true}
                 caseSensitive={false}
                 searchWords={searchWords}
                 textToHighlight={`"${excerpt}"`}

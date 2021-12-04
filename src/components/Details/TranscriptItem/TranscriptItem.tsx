@@ -142,9 +142,9 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
       return [];
     }
     const stemmedQuery = tokenizedQuery.map((token) => stem(token));
-    // highlight the token or the stem, but only if it's the start of the text or has a preceding whitespace
+    // highlight the token or the stem
     const regExps = tokenizedQuery.map(
-      (token, i) => new RegExp(`(^|\\s|-)(${token}|${stemmedQuery[i]})`, "g")
+      (token, i) => new RegExp(`\\b(${token}|${stemmedQuery[i]})`, "g")
     );
     if (searchQuery && searchQuery.trim().length > 0) {
       // highlight the original query too
