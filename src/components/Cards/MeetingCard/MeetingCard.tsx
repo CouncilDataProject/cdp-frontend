@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "@emotion/styled";
+import Highlighter from "react-highlight-words";
+import { removeStopwords } from "stopword";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { strings } from "../../../assets/LocalizedStrings";
+import cleanText from "../../../utils/cleanText";
 
 export type MeetingCardProps = {
   /** The static poster image src of the event */
@@ -19,6 +22,10 @@ export type MeetingCardProps = {
   tags: string[];
   /** A context span if the event was found through searching */
   excerpt?: string;
+  /** The highest value gram of the context span */
+  gram?: string;
+  /** The query used to find this meeting */
+  query?: string;
 };
 
 const Meeting = styled.section({
@@ -41,8 +48,23 @@ const MeetingCard = ({
   committee,
   tags,
   excerpt,
+  gram,
+  query,
 }: MeetingCardProps) => {
   const tagString = tags.map((tag) => tag.toLowerCase()).join(TAG_CONNECTOR);
+
+  const searchWords = useMemo(() => {
+    const cleanedQuery = cleanText(query || "");
+    // Phrases that should be highlighted in the excerpt
+    const phrases = removeStopwords(cleanedQuery.split(" "));
+    if (gram && gram.length > 0) {
+      phrases.push(gram);
+    }
+    if (phrases.length === 0) {
+      return [];
+    }
+    return [new RegExp(`\\b(${phrases.join("|")})`, "g")];
+  }, [query, gram]);
 
   return (
     <Meeting className="mzp-c-card mzp-has-aspect-16-9">
@@ -55,15 +77,21 @@ const MeetingCard = ({
           <div className="mzp-c-card-tag">{strings.committee}</div>
           <h2 className="mzp-c-card-title">{meetingDate}</h2>
           <p className="mzp-c-card-desc">{committee}</p>
-          {excerpt ? (
+          {excerpt && (
             <p
               className="mzp-c-card-desc"
               style={{
                 fontStyle: "italic",
                 marginTop: "1rem",
               }}
-            >{`"${excerpt}"`}</p>
-          ) : null}
+            >
+              <Highlighter
+                caseSensitive={false}
+                searchWords={searchWords}
+                textToHighlight={`"${excerpt}"`}
+              />
+            </p>
+          )}
           <p className="mzp-c-card-meta">{strings.keywords}</p>
           <p className="mzp-c-card-desc">{tagString}</p>
         </div>

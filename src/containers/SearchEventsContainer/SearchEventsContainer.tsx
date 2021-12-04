@@ -167,8 +167,11 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
               committee={renderableEvent.event.body?.name as string}
               tags={renderableEvent.keyGrams}
               excerpt={renderableEvent.selectedContextSpan}
+              gram={renderableEvent.selectedGram}
+              query={searchQueryRef.current}
             />
           ),
+          searchQuery: searchQueryRef.current,
         };
       });
       return (

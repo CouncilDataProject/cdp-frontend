@@ -12,6 +12,7 @@ import Event from "../models/Event";
 import { createError } from "../utils/createError";
 import { getStorage, ref, getDownloadURL } from "@firebase/storage";
 import { FirebaseConfig } from "../app/AppConfigContext";
+import cleanText from "../utils/cleanText";
 
 /**
  * The primary return of searchEvents.
@@ -23,6 +24,7 @@ class MatchingEvent {
   pureRelevance: number;
   datetimeWeightedRelevance: number;
   containedGrams: string[];
+  selectedGram: string;
   selectedContextSpan: string;
 
   constructor(
@@ -30,12 +32,14 @@ class MatchingEvent {
     pureRelevance: number,
     datetimeWeightedRelevance: number,
     containedGrams: string[],
+    selectedGram: string,
     selectedContextSpan: string
   ) {
     this.eventRef = `${COLLECTION_NAME.Event}/${eventId}`;
     this.pureRelevance = pureRelevance;
     this.datetimeWeightedRelevance = datetimeWeightedRelevance;
     this.containedGrams = containedGrams;
+    this.selectedGram = selectedGram;
     this.selectedContextSpan = selectedContextSpan;
   }
 }
@@ -50,6 +54,7 @@ export class RenderableEvent {
   pureRelevance: number;
   datetimeWeightedRelevance: number;
   containedGrams: string[];
+  selectedGram: string;
   selectedContextSpan: string;
   keyGrams: string[];
   staticThumbnailURL: string;
@@ -60,6 +65,7 @@ export class RenderableEvent {
     pureRelevance: number,
     datetimeWeightedRelevance: number,
     containedGrams: string[],
+    selectedGram: string,
     selectedContextSpan: string,
     keyGrams: string[],
     staticThumbnailURL: string,
@@ -69,6 +75,7 @@ export class RenderableEvent {
     this.pureRelevance = pureRelevance;
     this.datetimeWeightedRelevance = datetimeWeightedRelevance;
     this.containedGrams = containedGrams;
+    this.selectedGram = selectedGram;
     this.selectedContextSpan = selectedContextSpan;
     this.keyGrams = keyGrams;
     this.staticThumbnailURL = staticThumbnailURL;
@@ -104,23 +111,10 @@ export default class EventSearchService {
    * Returns as an array of string instead of string to pass into ngrams
    */
   cleanText(query: string): string[] {
-    // Replace new line and tab characters with a space
-    let cleanedQuery = query.replace(/[\t\n]+/g, " ");
-
-    // Replace common strings used by documents on backend
-    // Not _really_ needed here but a nice safety measure to match the alg
-    cleanedQuery = cleanedQuery.replace(/[\-\-]/, " ");
-
-    // Same as Python standard punctuation string
-    cleanedQuery = cleanedQuery.replace(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g, "");
-
-    // Remove extra spaces
-    cleanedQuery = cleanedQuery.replace(/\s{2,}/g, " ");
-
-    // Remove leading and trailing spaces
+    const cleanedQuery = cleanText(query);
     // Remove stopwords
     // Return as list of terms
-    return removeStopwords(cleanedQuery.trim().split(" "));
+    return removeStopwords(cleanedQuery.split(" "));
   }
 
   getStemmedGrams(query: string): string[] {
@@ -197,10 +191,10 @@ export default class EventSearchService {
 
           // Unpack matchingGram to protect from undefined
           let selectedContextSpan = "";
-          if (matchingGramWithHighestValue && matchingGramWithHighestValue.context_span) {
-            selectedContextSpan = matchingGramWithHighestValue.context_span;
-          } else {
-            selectedContextSpan = "";
+          let selectedGram = "";
+          if (matchingGramWithHighestValue) {
+            selectedContextSpan = matchingGramWithHighestValue?.context_span || "";
+            selectedGram = matchingGramWithHighestValue?.unstemmed_gram || "";
           }
 
           // Get grams found in event from query
@@ -217,6 +211,7 @@ export default class EventSearchService {
               sumBy(matchingIndexedEventGrams, "value"),
               sumBy(matchingIndexedEventGrams, "datetime_weighted_value"),
               containedGrams,
+              selectedGram,
               selectedContextSpan
             )
           );
@@ -268,6 +263,7 @@ export default class EventSearchService {
           matchingEvent.pureRelevance,
           matchingEvent.datetimeWeightedRelevance,
           matchingEvent.containedGrams,
+          matchingEvent.selectedGram,
           matchingEvent.selectedContextSpan,
           keyUnstemmedGrams,
           staticThumbnailPathURL,

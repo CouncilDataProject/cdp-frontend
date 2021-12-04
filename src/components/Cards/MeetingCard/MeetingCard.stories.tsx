@@ -30,4 +30,5 @@ meetingSearchResult.args = {
   tags: ["bike", "adu", "accessories", "rental"],
   excerpt:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce interdum, lorem eget vestibulum tincidunt, augue eros gravida lectus, ut efficitur neque nisi eu metus.",
+  gram: "ipsum",
 };
