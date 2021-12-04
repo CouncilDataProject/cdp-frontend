@@ -32,7 +32,7 @@ describe("FilterPopup", () => {
       </FilterPopup>
     );
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(0);
-    filterPopupMount.find("TriggerButton").simulate("click");
+    filterPopupMount.find("button.mzp-t-lg").simulate("click");
     expect(setPopupIsOpenMock).toHaveBeenCalledTimes(1);
   });
 
