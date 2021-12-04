@@ -56,8 +56,12 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
             <CDPLogo>
               <a
                 href="https://councildataproject.org"
-                className="cdp-icon-black-bg-transparent-size-64"
+                className="cdp-icon-black-bg-transparent-size-256"
                 title={strings.council_data_project}
+                style={{
+                  maxHeight: "64px",
+                  maxWidth: "64px",
+                }}
               >
                 {strings.council_data_project}
               </a>
