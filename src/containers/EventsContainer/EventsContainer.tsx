@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useMemo, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import { useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
@@ -28,6 +29,7 @@ import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
 import { FETCH_CARDS_BATCH_SIZE } from "../../constants/ProjectConstants";
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
   const { firebaseConfig } = useAppConfigContext();
@@ -81,9 +83,10 @@ const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
     [firebaseConfig, committeeFilter.state, dateRangeFilter.state, sortFilter.state]
   );
 
+  const isDesktop = useMediaQuery({ query: `(min-width: ${screenWidths.desktop})` });
   const [state, dispatch] = useFetchEvents(
     {
-      batchSize: FETCH_CARDS_BATCH_SIZE,
+      batchSize: FETCH_CARDS_BATCH_SIZE - (isDesktop ? 1 : 0),
       events: [],
       fetchEvents: true,
       showMoreEvents: false,

@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useMemo, useState, useRef } from "react";
 import { orderBy } from "lodash";
+import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
@@ -29,6 +30,7 @@ import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
 import { FETCH_CARDS_BATCH_SIZE } from "../../constants/ProjectConstants";
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   searchEventsState,
@@ -117,9 +119,10 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     return Promise.resolve(filteredEvents);
   }, [searchQuery, committeeFilter.state, dateRangeFilter.state, sortFilter.state, firebaseConfig]);
 
+  const isDesktop = useMediaQuery({ query: `(min-width: ${screenWidths.desktop})` });
   const [state, dispatch] = useSearchCards<RenderableEvent>(
     {
-      batchSize: FETCH_CARDS_BATCH_SIZE,
+      batchSize: FETCH_CARDS_BATCH_SIZE - (isDesktop ? 1 : 0),
       visibleCount: 0,
       cards: [],
       fetchCards: true,

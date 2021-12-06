@@ -46,7 +46,7 @@ const LegislationCard: FC<LegislationCardProps> = ({
   }
 
   return (
-    <section className="mzp-c-card mzp-has-aspect-16-9">
+    <section className="mzp-c-card mzp-c-card-medium mzp-has-aspect-16-9">
       <div className="mzp-c-card-block-link">
         <div className="mzp-c-card-content">
           <h2 className="mzp-c-card-title">{name}</h2>
