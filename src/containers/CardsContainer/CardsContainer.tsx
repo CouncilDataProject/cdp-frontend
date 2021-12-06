@@ -9,18 +9,15 @@ import { fontSizes } from "../../styles/fonts";
 import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const Container = styled.div({
-  display: "flex",
-  flexDirection: "row",
-  flexWrap: "wrap",
-  rowGap: 64,
-  "& > div": {
-    width: "100%",
-  },
+  display: "grid",
+  gap: 64,
+  gridTemplateColumns: "1fr",
   [`@media (min-width:${screenWidths.tablet})`]: {
     justifyContent: "space-between",
-    "& > div": {
-      width: "35%",
-    },
+    gridTemplateColumns: "repeat(2, auto)",
+  },
+  [`@media (min-width:${screenWidths.desktop})`]: {
+    gridTemplateColumns: "repeat(3, auto)",
   },
 });
 
