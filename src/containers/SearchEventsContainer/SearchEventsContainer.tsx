@@ -6,7 +6,7 @@ import { Loader } from "semantic-ui-react";
 import { useAppConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import useSearchCards, { SearchCardsActionType } from "../../hooks/useSearchCards";
-import { ORDER_DIRECTION } from "../../networking/constants";
+import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
 import EventSearchService, { RenderableEvent } from "../../networking/EventSearchService";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
@@ -53,6 +53,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     initialState: searchEventsState.committees,
     defaultDataValue: false,
     textRepFunction: getCheckboxText,
+    limit: OR_QUERY_LIMIT_NUM,
   });
   const sortFilter = useFilter<string>({
     name: "Sort",
