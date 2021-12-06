@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useMemo, useState, useRef } from "react";
+import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
@@ -16,14 +17,14 @@ import FetchCardsStatus from "../../components/Shared/FetchCardsStatus";
 import PageContainer from "../../components/Shared/PageContainer";
 import SearchBar from "../../components/Shared/SearchBar";
 import SearchPageTitle from "../../components/Shared/SearchPageTitle";
+import { CARDS_COLUMN_NUM } from "../CardsContainer/CardsContainer";
 import useFetchData, { FetchDataActionType } from "../FetchDataContainer/useFetchData";
 import SearchResultContainer from "./SearchResultContainer";
 import { SearchContainerData, SearchData } from "./types";
 import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 
 import { strings } from "../../assets/LocalizedStrings";
-
-const SEARCH_RESULT_NUM = 4;
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContainerData) => {
   const { firebaseConfig } = useAppConfigContext();
@@ -40,6 +41,8 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
 
   useDocumentTitle(queryRef.current ? `${strings.search} -- ${queryRef.current}` : strings.search);
 
+  const isDesktop = useMediaQuery({ query: `(min-width: ${screenWidths.desktop})` });
+  const searchResultsNum = (isDesktop ? CARDS_COLUMN_NUM.desktop : CARDS_COLUMN_NUM.tablet) * 2;
   const fetchSearchData = useCallback(async () => {
     const eventSearchService = new EventSearchService(firebaseConfig);
     const matchingEventsPromise = searchTypeFilter.state.events
@@ -52,7 +55,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
 
     const renderableEventsPromise = Promise.all(
       matchingEvents
-        .slice(0, SEARCH_RESULT_NUM)
+        .slice(0, searchResultsNum)
         .map((matchingEvent) => eventSearchService.getRenderableEvent(matchingEvent))
     );
     const [renderableEvents] = await Promise.all([renderableEventsPromise]);
@@ -64,7 +67,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
         events: renderableEvents,
       },
     });
-  }, [query, searchTypeFilter.state, firebaseConfig]);
+  }, [query, searchTypeFilter.state, firebaseConfig, searchResultsNum]);
 
   const { state, dispatch } = useFetchData<SearchData>(
     {

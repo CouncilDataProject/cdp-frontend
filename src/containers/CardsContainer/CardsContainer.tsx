@@ -8,16 +8,21 @@ import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
 import { screenWidths } from "../../styles/mediaBreakpoints";
 
+export enum CARDS_COLUMN_NUM {
+  tablet = 2,
+  desktop = 3,
+}
+
 const Container = styled.div({
   display: "grid",
   gap: 64,
   gridTemplateColumns: "1fr",
   [`@media (min-width:${screenWidths.tablet})`]: {
     justifyContent: "space-between",
-    gridTemplateColumns: "repeat(2, auto)",
+    gridTemplateColumns: `repeat(${CARDS_COLUMN_NUM.tablet}, auto)`,
   },
   [`@media (min-width:${screenWidths.desktop})`]: {
-    gridTemplateColumns: "repeat(3, auto)",
+    gridTemplateColumns: `repeat(${CARDS_COLUMN_NUM.desktop}, auto)`,
   },
 });
 
