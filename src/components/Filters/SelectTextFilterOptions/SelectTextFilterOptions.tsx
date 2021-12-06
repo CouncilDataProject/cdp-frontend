@@ -2,6 +2,8 @@ import React, { ChangeEvent, Dispatch, FunctionComponent, useMemo } from "react"
 
 import { FilterState } from "../reducer";
 
+import Form from "../Shared/Form";
+
 import isSubstring from "../../../utils/isSubstring";
 
 import "@mozilla-protocol/core/protocol/css/protocol.css";
@@ -71,7 +73,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   }, [options, optionQuery, setOptionQuery]);
 
   return (
-    <form className="mzp-c-form">
+    <Form className="mzp-c-form">
       {options.length > 5 && setOptionQuery && (
         <div className="mzp-c-field mzp-l-stretch">
           <label className="mzp-c-field-label" htmlFor="form-input-control-search-filter">
@@ -109,7 +111,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
           ))}
         </div>
       </fieldset>
-    </form>
+    </Form>
   );
 };
 
