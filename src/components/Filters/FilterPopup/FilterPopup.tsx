@@ -32,7 +32,6 @@ TriggerButton.displayName = "TriggerButton";
 
 const StyledPopup = styled(Popup)({
   // limit the width of the popup
-  minWidth: "300px !important",
   maxWidth: "100% !important",
   boxShadow: "none !important",
   border: "2px solid #9595a2 !important",
@@ -61,6 +60,7 @@ const ButtonContainer = styled.div({
   display: "flex",
   justifyContent: "space-between",
   padding: ".833em 0 0",
+  minWidth: "256px",
 });
 ButtonContainer.displayName = "ButtonContainer";
 
