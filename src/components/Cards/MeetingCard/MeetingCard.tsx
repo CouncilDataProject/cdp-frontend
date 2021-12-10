@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import Highlighter from "react-highlight-words";
 import { removeStopwords } from "stopword";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { strings } from "../../../assets/LocalizedStrings";
 import cleanText from "../../../utils/cleanText";
 

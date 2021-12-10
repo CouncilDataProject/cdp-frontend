@@ -7,7 +7,6 @@ import useMediaQuery from "react-responsive";
 import { screenWidths } from "../../styles/mediaBreakpoints";
 import { MATTER_STATUS_DECISION } from "../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../constants/ProjectConstants";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { strings } from "../../assets/LocalizedStrings";
 
 interface DecisionResultProps {

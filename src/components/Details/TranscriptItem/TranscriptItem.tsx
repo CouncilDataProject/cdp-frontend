@@ -14,8 +14,6 @@ import PlayIcon from "../../Shared/PlayIcon";
 import { fontSizes } from "../../../styles/fonts";
 import cleanText from "../../../utils/cleanText";
 
-import "@mozilla-protocol/core/protocol/css/protocol.css";
-
 const Item = styled.div({
   display: "grid",
   gridTemplateColumns: "1fr",

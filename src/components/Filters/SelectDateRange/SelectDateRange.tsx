@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FunctionComponent } from "react";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { FilterState } from "../reducer";
 import Form from "../Shared/Form";
 

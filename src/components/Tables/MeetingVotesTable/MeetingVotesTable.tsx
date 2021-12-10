@@ -4,7 +4,6 @@ import { EmptyRow } from "../EmptyRow";
 import { ReactiveTable } from "../ReactiveTable";
 import { MeetingVote } from "../../Shared/Types/MeetingVote";
 import { strings } from "../../../assets/LocalizedStrings";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 export type MeetingVotesTableProps = {
   /** an array of Votes */

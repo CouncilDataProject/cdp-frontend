@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 const PersonStatus = styled.div({
   float: "right",

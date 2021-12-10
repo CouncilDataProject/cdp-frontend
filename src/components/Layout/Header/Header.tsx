@@ -6,8 +6,6 @@ import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 
-import "@councildataproject/cdp-design/dist/images.css";
-
 const CDPLogo = styled.div({
   float: "left",
   marginRight: "48px",
