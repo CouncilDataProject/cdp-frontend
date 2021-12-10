@@ -13,10 +13,6 @@ import { FilterState } from "../../Filters/reducer";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { strings } from "../../../assets/LocalizedStrings";
 
-import "@councildataproject/cdp-design/dist/colors.css";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
-import "@mozilla-protocol/core/protocol/css/protocol-components.css";
-
 const EXAMPLE_TOPICS = [
   "minimum wage",
   "police budget",

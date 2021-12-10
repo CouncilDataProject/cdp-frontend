@@ -3,7 +3,6 @@ import DecisionResult from "../../Shared/DecisionResult";
 import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import useMediaQuery from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { ReactiveTableRow } from "../ReactiveTableRow";

@@ -1,7 +1,5 @@
 import React from "react";
 
-import "@councildataproject/cdp-design/dist/colors.css";
-
 const ChevronDownIcon = () => {
   return (
     <svg

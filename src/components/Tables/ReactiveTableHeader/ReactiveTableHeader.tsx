@@ -1,7 +1,6 @@
 import React from "react";
 import useMediaQuery from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type ReactiveTableHeaderProps = {
   /** column names */

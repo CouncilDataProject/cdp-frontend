@@ -4,7 +4,6 @@ import { FilterState } from "../reducer";
 
 import isSubstring from "../../../utils/isSubstring";
 
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 
 /**The type of of a filter option. */

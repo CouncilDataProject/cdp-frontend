@@ -7,8 +7,6 @@ import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 import { strings } from "../../../assets/LocalizedStrings";
 
-import "@mozilla-protocol/core/protocol/css/protocol.css";
-
 const StatusIconContainer = styled.div({
   float: "right",
   marginRight: 8,

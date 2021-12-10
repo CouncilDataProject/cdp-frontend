@@ -8,7 +8,6 @@ import { ReactiveTableRow } from "../ReactiveTableRow";
 import useMediaQuery from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { strings } from "../../../assets/LocalizedStrings";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { Link } from "react-router-dom";
 
 type MeetingVotesTableRowProps = {

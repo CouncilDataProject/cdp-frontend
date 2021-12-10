@@ -1,5 +1,4 @@
 import React, { FormEvent, FunctionComponent } from "react";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { FilterState } from "../reducer";
 import { SortOption } from "./getSortingText";
 

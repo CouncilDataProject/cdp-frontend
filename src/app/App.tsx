@@ -20,7 +20,10 @@ import { SEARCH_TYPE } from "../pages/SearchPage/types";
 import { strings } from "../assets/LocalizedStrings";
 import { screenWidths } from "../styles/mediaBreakpoints";
 
+import "@councildataproject/cdp-design/dist/images.css";
+import "@councildataproject/cdp-design/dist/colors.css";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
+import "@mozilla-protocol/core/protocol/css/protocol-components.css";
 import "semantic-ui-css/semantic.min.css";
 
 const FlexContainer = styled.div({

@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { strings } from "../../../assets/LocalizedStrings";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 interface Link {
   /*Displayed string represents the link*/

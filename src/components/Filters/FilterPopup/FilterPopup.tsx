@@ -15,8 +15,6 @@ import ChevronDownIcon from "../../Shared/ChevronDownIcon";
 
 import { strings } from "../../../assets/LocalizedStrings";
 
-import "@mozilla-protocol/core/protocol/css/protocol.css";
-
 const TriggerButton = styled.button({
   display: "flex",
   justifyContent: "space-between",

@@ -1,7 +1,6 @@
 import React from "react";
 import { ReactiveTableHeader } from "../ReactiveTableHeader";
 import { EmptyRow } from "../EmptyRow";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type RowRenderFunction = (rowData: any, index: number) => JSX.Element;
 

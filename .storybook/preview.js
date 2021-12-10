@@ -1,6 +1,8 @@
 import React from "react";
 import { themes } from "@storybook/theming";
 import { StaticRouter } from 'react-router-dom';
+import "@councildataproject/cdp-design/dist/images.css";
+import "@mozilla-protocol/core/protocol/css/protocol.css";
 import "semantic-ui-css/semantic.min.css";
 
 export const decorators = [
