@@ -1,7 +1,6 @@
 import React from "react";
 import Person from "../../models/Person";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 export type PersonContainerProps = {
   /** The person's data */

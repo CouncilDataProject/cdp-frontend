@@ -4,8 +4,6 @@ import { FilterState } from "../reducer";
 
 import isSubstring from "../../../utils/isSubstring";
 
-import "@mozilla-protocol/core/protocol/css/protocol-components.css";
-
 /**The type of of a filter option. */
 interface FilterOption {
   /**The name of the filter option. E.g. A Council Commitee's name is the id of the commitee. */
