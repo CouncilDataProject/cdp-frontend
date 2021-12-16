@@ -1,14 +1,27 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
 
+import useDocumentTitle from "../../hooks/useDocumentTitle";
+
 import { HomeSearchBar } from "../../components/Layout/HomeSearchBar";
 
-import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { strings } from "../../assets/LocalizedStrings";
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const Container = styled.div({
-  display: "grid",
-  gridTemplateColumns: "1fr",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  flex: 1,
+  "& > *": {
+    width: "100%",
+  },
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    "& > *": {
+      width: "75%",
+    },
+  },
 });
 
 const HomePage: FC = () => {
