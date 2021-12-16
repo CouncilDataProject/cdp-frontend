@@ -41,6 +41,8 @@ const Main = styled.main({
   flex: 1,
   // Align center across the horizontal axis
   alignSelf: "center",
+  display: "flex",
+  flexDirection: "column",
   [`@media (min-width:${screenWidths.tablet})`]: {
     padding: "32px",
     maxWidth: "1280px",
