@@ -14,22 +14,21 @@ export interface FilterAction<T> {
 }
 
 /**Create a filterReducer to manage filter's state.*/
-const createFilterReducer = <T>() => (
-  state: FilterState<T>,
-  action: FilterAction<T>
-): FilterState<T> => {
-  switch (action.type) {
-    case FILTER_UPDATE:
-      return { ...state, [action.payload.keyName as string]: action.payload.dataValue as T };
-    case FILTER_CLEAR:
-      const newState = { ...state };
-      Object.keys(newState).forEach(
-        (keyName) => (newState[keyName] = action.payload.dataValue as T)
-      );
-      return newState;
-    default:
-      return state;
-  }
-};
+const createFilterReducer =
+  <T>() =>
+  (state: FilterState<T>, action: FilterAction<T>): FilterState<T> => {
+    switch (action.type) {
+      case FILTER_UPDATE:
+        return { ...state, [action.payload.keyName as string]: action.payload.dataValue as T };
+      case FILTER_CLEAR:
+        const newState = { ...state };
+        Object.keys(newState).forEach(
+          (keyName) => (newState[keyName] = action.payload.dataValue as T)
+        );
+        return newState;
+      default:
+        return state;
+    }
+  };
 
 export default createFilterReducer;

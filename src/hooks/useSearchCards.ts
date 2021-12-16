@@ -26,46 +26,45 @@ export interface SearchCardsState<T> {
   error: Error | null;
 }
 
-const createSearchCardsReducer = <T>() => (
-  state: SearchCardsState<T>,
-  action: SearchCardsAction<T>
-): SearchCardsState<T> => {
-  switch (action.type) {
-    case SearchCardsActionType.FAILURE: {
-      return {
-        ...state,
-        error: action.payload,
-        fetchCards: false,
-      };
+const createSearchCardsReducer =
+  <T>() =>
+  (state: SearchCardsState<T>, action: SearchCardsAction<T>): SearchCardsState<T> => {
+    switch (action.type) {
+      case SearchCardsActionType.FAILURE: {
+        return {
+          ...state,
+          error: action.payload,
+          fetchCards: false,
+        };
+      }
+      case SearchCardsActionType.FETCH_CARDS: {
+        return {
+          ...state,
+          error: null,
+          fetchCards: true,
+        };
+      }
+      case SearchCardsActionType.FETCH_CARDS_SUCCESS: {
+        const nextVisibleCount = Math.min(state.batchSize, action.payload.length);
+        return {
+          ...state,
+          cards: action.payload,
+          visibleCount: nextVisibleCount,
+          fetchCards: false,
+        };
+      }
+      case SearchCardsActionType.SHOW_MORE_CARDS: {
+        const nextVisibleCount = Math.min(state.batchSize + state.visibleCount, state.cards.length);
+        return {
+          ...state,
+          visibleCount: nextVisibleCount,
+        };
+      }
+      default: {
+        return state;
+      }
     }
-    case SearchCardsActionType.FETCH_CARDS: {
-      return {
-        ...state,
-        error: null,
-        fetchCards: true,
-      };
-    }
-    case SearchCardsActionType.FETCH_CARDS_SUCCESS: {
-      const nextVisibleCount = Math.min(state.batchSize, action.payload.length);
-      return {
-        ...state,
-        cards: action.payload,
-        visibleCount: nextVisibleCount,
-        fetchCards: false,
-      };
-    }
-    case SearchCardsActionType.SHOW_MORE_CARDS: {
-      const nextVisibleCount = Math.min(state.batchSize + state.visibleCount, state.cards.length);
-      return {
-        ...state,
-        visibleCount: nextVisibleCount,
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+  };
 
 export default function useSearchCards<T>(
   initialState: SearchCardsState<T>,
