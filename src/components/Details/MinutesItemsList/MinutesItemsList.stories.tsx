@@ -14,11 +14,11 @@ export const minutesItemsList = Template.bind({});
 minutesItemsList.args = {
   minutesItems: [
     {
-      item: "Approval of the minutes",
+      name: "Approval of the minutes",
     },
     {
-      item: "Council briefing minutes (2019)",
-      docs: [
+      name: "Council briefing minutes (2019)",
+      documents: [
         {
           url: "http://google.com",
           label: "Meeting transcript",
@@ -30,14 +30,15 @@ minutesItemsList.args = {
       ],
     },
     {
-      item: "President's report",
+      name: "President's report",
     },
     {
-      item: "Preview of today's city council actions, council and regional committees",
+      name: "Preview of today's city council actions, council and regional committees",
     },
     {
-      item: "Inf 1579",
-      docs: [
+      name: "Inf 1579",
+      description: "Inf 1579 description",
+      documents: [
         {
           url: "http://google.com",
           label: "A document",
@@ -45,7 +46,7 @@ minutesItemsList.args = {
       ],
     },
     {
-      item: "Executive session on Pending, Potential, or Actual Litigation",
+      name: "Executive session on Pending, Potential, or Actual Litigation",
     },
   ],
 };
