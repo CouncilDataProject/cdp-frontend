@@ -5,6 +5,7 @@ import MatterSponsor from "../../models/MatterSponsor";
 import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { CoverImage } from "./CoverImage";
 import { Biography } from "./Biography";
+import { getMostRecentRole } from "../../models/util/RoleUtilities";
 interface PersonFullViewProps {
   /** The person being displayed */
   person: Person;
@@ -18,11 +19,12 @@ const PersonFullView: FC<PersonFullViewProps> = ({
   mattersSponsored,
 }: PersonFullViewProps) => {
   const contactText = `Contact ${person.name}`;
+  const currentRole = getMostRecentRole(roles);
 
   return (
     <div>
       <h3>{person.name}</h3>
-      {person.seatName && <h4>{person.seatName}</h4>}
+      {currentRole.seat?.name && <h4>{currentRole.seat?.name}</h4>}
       <CoverImage person={person} />
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div

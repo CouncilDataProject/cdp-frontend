@@ -14,10 +14,10 @@ export default class MatterSponsorService extends ModelService {
 
   /*
   @param the id of the person
-  @return all roles held by the person, ordered most-recent first
+  @return all matters sponsored by the person
   */
   async getMattersSponsoredByPersonId(personId: string): Promise<MatterSponsor[]> {
-    const networkQueryResponse = this.networkService.getDocuments(COLLECTION_NAME.Role, [
+    const networkQueryResponse = this.networkService.getDocuments(COLLECTION_NAME.MatterSponsor, [
       where(
         REF_PROPERTY_NAME.MatterSponsorPersonRef,
         WHERE_OPERATOR.eq,

@@ -4,7 +4,7 @@ import MatterSponsor from "../../models/MatterSponsor";
 import ordinalSuffix from "../../utils/ordinalSuffix";
 import { filterRolesByTitle, ROLE_TITLE, getMostRecentRole } from "../../models/util/RoleUtilities";
 
-function WriteBiography(
+function writeBiography(
   person: Person,
   roles: Role[],
   municipality: any,
@@ -83,4 +83,4 @@ function WriteBiography(
   };
 }
 
-export { WriteBiography };
+export { writeBiography };

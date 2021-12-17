@@ -32,7 +32,9 @@ const CoverImage: FC<CoverImageProps> = ({ person }: CoverImageProps) => {
           src={person.seatPicture?.uri}
           alt={`${person.seatName} - ${person.seatElectoralArea}`}
         />
-        {person.picture && <AvatarImage personImageUri={person.picture?.uri} />}
+        {person.picture && (
+          <AvatarImage personImageUri={person.picture?.uri} personName={person.name} />
+        )}
       </div>
     );
   } else {
@@ -46,7 +48,7 @@ const CoverImage: FC<CoverImageProps> = ({ person }: CoverImageProps) => {
           src={defaultCover}
           alt={`Default Image, no Elector Seat Image Available`}
         />
-        <AvatarImage personImageUri={person.picture?.uri} />
+        <AvatarImage personImageUri={person.picture?.uri} personName={person.name} />
       </div>
     );
   }

@@ -3,7 +3,7 @@ import Person from "../../models/Person";
 import Role from "../../models/Role";
 import MatterSponsor from "../../models/MatterSponsor";
 import { useAppConfigContext } from "../../app/AppConfigContext";
-import { WriteBiography } from "./WriteBiography";
+import { writeBiography } from "./WriteBiography";
 
 interface BiographyProps {
   /** The person being displayed */
@@ -16,7 +16,7 @@ interface BiographyProps {
 
 const Biography: FC<BiographyProps> = ({ person, roles, mattersSponsored }: BiographyProps) => {
   const { municipality } = useAppConfigContext();
-  const { bioText, introText } = WriteBiography(person, roles, municipality, mattersSponsored);
+  const { bioText, introText } = writeBiography(person, roles, municipality, mattersSponsored);
   const linkText = `Visit ${person.name}'s website`;
 
   return (

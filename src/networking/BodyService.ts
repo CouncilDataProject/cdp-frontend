@@ -1,7 +1,8 @@
-import { orderBy } from "@firebase/firestore";
+import { orderBy, where } from "@firebase/firestore";
 
 import ModelService from "./ModelService";
-import { COLLECTION_NAME } from "./PopulationOptions";
+import { COLLECTION_NAME, REF_PROPERTY_NAME } from "./PopulationOptions";
+import { WHERE_OPERATOR } from "./constants";
 
 import Body from "../models/Body";
 import { FirebaseConfig } from "../app/AppConfigContext";
@@ -11,9 +12,11 @@ export default class BodyService extends ModelService {
     super(COLLECTION_NAME.Body, firebaseConfig);
   }
 
-  async getBodyByName(name: string): Promise<Body> {
-    const networkQueryResponse = this.networkService.getDocument(name, COLLECTION_NAME.Body);
-    return this.createModel(networkQueryResponse, Body, `getBodyByName(${name})`);
+  async getBodiesByName(name: string): Promise<Body[]> {
+    const networkQueryResponse = this.networkService.getDocuments(COLLECTION_NAME.Body, [
+      where("name", WHERE_OPERATOR.eq, name),
+    ]);
+    return this.createModels(networkQueryResponse, Body, `getBodyByName(${name})`);
   }
 
   async getAllBodies(): Promise<Body[]> {
