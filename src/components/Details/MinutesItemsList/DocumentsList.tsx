@@ -12,11 +12,8 @@ const Summary = styled.summary({
   color: colors.dark_blue,
   display: "flex",
   alignItems: "center",
-  "&::before": {
+  "&::before, &::marker": {
     // remove mozilla protocol +/- icon
-    content: "none",
-  },
-  "&::marker": {
     // remove triangle marker
     content: "none",
   },
