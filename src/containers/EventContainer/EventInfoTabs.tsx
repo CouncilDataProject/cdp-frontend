@@ -41,8 +41,9 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
   const minutesItems = eventMinutesItems.map(({ minutes_item }, i) => {
     const files = eventMinutesItemsFiles[i];
     return {
-      item: minutes_item?.name as string,
-      docs:
+      name: minutes_item?.name as string,
+      description: minutes_item?.description,
+      documents:
         files && files.length > 0
           ? files.map(({ name, uri }) => {
               return {
