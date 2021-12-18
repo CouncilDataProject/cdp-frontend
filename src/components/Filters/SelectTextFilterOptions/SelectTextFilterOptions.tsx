@@ -1,10 +1,20 @@
 import React, { ChangeEvent, Dispatch, FunctionComponent, useMemo } from "react";
+import styled from "@emotion/styled";
 
 import { FilterState } from "../reducer";
 
 import Form from "../Shared/Form";
 
 import isSubstring from "../../../utils/isSubstring";
+
+const CheckboxLabel = styled.label({
+  "&::after": {
+    // center and fix the checkmark for the checkbox
+    // box-sizing: border-box (set by semantic-ui-css) on this pseudo element
+    // is causing the checkmark to have the wrong position and size
+    boxSizing: "unset",
+  },
+});
 
 /**The type of of a filter option. */
 interface FilterOption {
@@ -98,12 +108,12 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
                 disabled={option.disabled}
                 onChange={onChange}
               />
-              <label
+              <CheckboxLabel
                 className="mzp-c-choice-label"
                 htmlFor={`form-checkbox-control-${option.name}`}
               >
                 {option.label}
-              </label>
+              </CheckboxLabel>
             </div>
           ))}
         </div>
