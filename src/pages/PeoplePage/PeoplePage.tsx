@@ -1,13 +1,9 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useCallback } from "react";
 import { useAppConfigContext } from "../../app";
-import useFetchData, {
-  FetchDataActionType,
-} from "../../containers/FetchDataContainer/useFetchData";
+import useFetchData from "../../containers/FetchDataContainer/useFetchData";
 import FetchDataContainer from "../../containers/FetchDataContainer/FetchDataContainer";
 import { PeopleContainer } from "../../containers/PeopleContainer";
 import { PeoplePageData } from "../../containers/PeopleContainer/types";
-import { filterRolesByTitle, ROLE_TITLE } from "../../models/util/RoleUtilities";
-import { createError } from "../../utils/createError";
 import RoleService from "../../networking/RoleService";
 import PersonService from "../../networking/PersonService";
 
@@ -15,45 +11,30 @@ const PeoplePage: FC = () => {
   // Get the app config context
   const { firebaseConfig } = useAppConfigContext();
 
-  // Initialize the state of fetching the people's data
-  const { state: peopleDataState, dispatch: personDataDispatch } = useFetchData<PeoplePageData>({
-    isLoading: false,
-  });
-
-  useEffect(() => {
-    const rolesService = new RoleService(firebaseConfig);
+  const fetchPeopleData = useCallback(async () => {
     const personService = new PersonService(firebaseConfig);
-    let didCancel = false;
+    const roleService = new RoleService(firebaseConfig);
 
-    const fetchPersonData = async () => {
-      personDataDispatch({ type: FetchDataActionType.FETCH_INIT });
+    const currentPeople = await roleService.getCurrentRoles();
+    const allPeople = await personService.getAllPeople();
 
-      try {
-        const currentPeople = await rolesService.getCurrentRoles();
-        const allPeople = await personService.getAllPeople();
-        if (!didCancel) {
-          personDataDispatch({
-            type: FetchDataActionType.FETCH_SUCCESS,
-            payload: {
-              currentPeople: filterRolesByTitle(currentPeople, ROLE_TITLE.COUNCILMEMBER),
-              allPeople,
-            },
-          });
-        }
-      } catch (err) {
-        if (!didCancel) {
-          const error = createError(err);
-          personDataDispatch({ type: FetchDataActionType.FETCH_FAILURE, payload: error });
-        }
-      }
+    const payload: PeoplePageData = {
+      currentPeople,
+      allPeople,
     };
 
-    fetchPersonData();
+    return payload;
+  }, [firebaseConfig]);
 
-    return () => {
-      didCancel = true;
-    };
-  }, []);
+  // Initialize the state of fetching the person's data
+  const { state: peopleDataState } = useFetchData<PeoplePageData>(
+    {
+      isLoading: true,
+      error: null,
+      hasFetchRequest: true,
+    },
+    fetchPeopleData
+  );
 
   return (
     <FetchDataContainer isLoading={peopleDataState.isLoading} error={peopleDataState.error}>

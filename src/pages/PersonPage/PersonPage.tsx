@@ -43,7 +43,7 @@ const PersonPage: FC = () => {
   // Initialize the state of fetching the person's data
   const { state: personDataState } = useFetchData<PersonPageData>(
     {
-      isLoading: false,
+      isLoading: true,
       error: null,
       hasFetchRequest: true,
     },
