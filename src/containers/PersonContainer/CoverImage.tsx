@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
 import Person from "../../models/Person";
+import Role from "../../models/Role";
 import { AvatarImage } from "./AvatarImage";
 
 const EXAMPLE_COVER_VIEWS: string[] = [
@@ -13,32 +14,31 @@ const EXAMPLE_COVER_VIEWS: string[] = [
 
 const CoverImg = styled.img(() => ({
   objectFit: "cover",
-  height: 250,
-  maxHeight: "40%",
-  width: "100%",
+  width: 1400,
+  height: 400,
 }));
 
 interface CoverImageProps {
   /** The person being displayed */
   person: Person;
+  /** The current role of the person being displayed */
+  currentRole: Role;
 }
 
-const CoverImage: FC<CoverImageProps> = ({ person }: CoverImageProps) => {
-  if (person.seatPicture?.uri) {
+const CoverImage: FC<CoverImageProps> = ({ person, currentRole }: CoverImageProps) => {
+  if (currentRole.seat?.image?.uri) {
     return (
       <div>
         <CoverImg
           className="mzp-c-card-image"
-          src={person.seatPicture?.uri}
-          alt={`${person.seatName} - ${person.seatElectoralArea}`}
+          src={currentRole.seat?.image?.uri}
+          alt={`${currentRole.seat?.electoral_area}`}
         />
-        {person.picture && (
-          <AvatarImage personImageUri={person.picture?.uri} personName={person.name} />
-        )}
+        <AvatarImage personImageUri={person.picture?.uri} personName={person.name} />
       </div>
     );
   } else {
-    const defaultCover = `/images/${
+    const defaultCover = `public/images/${
       EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)]
     }.jpg`;
     return (
