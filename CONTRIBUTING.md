@@ -30,7 +30,7 @@ To set up your environment you'll need to install:
 
 - Install the project depedencies:
     ```
-    $ npm i
+    $ npm ci
     ```
 
 - Create a branch for local development:

@@ -4,12 +4,12 @@
  */
 import { initializeApp, FirebaseOptions } from "firebase/app";
 import {
-  FirebaseFirestore,
+  Firestore,
   getFirestore,
   getDoc,
   doc,
   initializeFirestore,
-  Settings,
+  FirestoreSettings,
   collection,
   query,
   getDocs,
@@ -33,12 +33,12 @@ import { createError } from "../utils/createError";
 
 export class NetworkService {
   private static instance: NetworkService;
-  private static db: FirebaseFirestore;
+  private static db: Firestore;
   /**
    * The NetworkService's constructor should always be private to prevent direct
    * construction calls with the `new` operator.
    */
-  private constructor(firebaseOptions: FirebaseOptions, settings: Settings) {
+  private constructor(firebaseOptions: FirebaseOptions, settings: FirestoreSettings) {
     // initialize firebase
     const firebaseApp = initializeApp(firebaseOptions);
     initializeFirestore(firebaseApp, settings);
@@ -52,14 +52,17 @@ export class NetworkService {
    * just one instance of each subclass around.
    */
 
-  public static getInstance(firebaseOptions: FirebaseOptions, settings: Settings): NetworkService {
+  public static getInstance(
+    firebaseOptions: FirebaseOptions,
+    settings: FirestoreSettings
+  ): NetworkService {
     if (!NetworkService.instance) {
       NetworkService.instance = new NetworkService(firebaseOptions, settings);
     }
     return NetworkService.instance;
   }
 
-  public static getDb(): FirebaseFirestore {
+  public static getDb(): Firestore {
     return NetworkService.db;
   }
 

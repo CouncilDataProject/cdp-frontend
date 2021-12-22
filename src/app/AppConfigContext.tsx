@@ -1,12 +1,12 @@
 import React, { createContext, ReactNode, FC, useContext } from "react";
 import { FirebaseOptions } from "@firebase/app";
-import { Settings } from "@firebase/firestore";
+import { FirestoreSettings } from "@firebase/firestore";
 
 export interface FirebaseConfig {
   /** Firebase options to initialize firebase app */
   options: FirebaseOptions;
   /** Settings to intialize firestore */
-  settings: Settings;
+  settings: FirestoreSettings;
 }
 
 export interface AppConfig {

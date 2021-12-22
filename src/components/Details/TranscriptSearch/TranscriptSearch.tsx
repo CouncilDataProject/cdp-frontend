@@ -1,13 +1,15 @@
-import React, { ChangeEventHandler, FC, useState, useMemo } from "react";
+import React, { ChangeEventHandler, FC, useState, useMemo, FormEventHandler } from "react";
 import styled from "@emotion/styled";
-import { strings } from "../../../assets/LocalizedStrings";
-import TranscriptItems from "./TranscriptItems";
+import { stem } from "stemr";
+import { removeStopwords } from "stopword";
 
+import TranscriptItems from "./TranscriptItems";
 import { SentenceWithSessionIndex } from "../../../containers/EventContainer/types";
 
+import { strings } from "../../../assets/LocalizedStrings";
 import { fontSizes } from "../../../styles/fonts";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
-import isSubstring from "../../../utils/isSubstring";
+import cleanText from "../../../utils/cleanText";
 
 const Container = styled.div({
   display: "flex",
@@ -65,23 +67,50 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
   jumpToVideoClip,
   jumpToTranscript,
 }: TranscriptSearchProps) => {
+  // Update the query in the search bar as the user types
   const [searchTerm, setSearchTerm] = useState<string>(searchQuery);
-  const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) =>
+  const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setSearchTerm(event.target.value);
+  };
 
+  // The query after a search form submit
+  const [searchedTerm, setSearchedTerm] = useState(searchQuery);
+  const onSearch: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    setSearchedTerm(searchTerm);
+  };
+
+  const stemmedSentences = useMemo(() => {
+    return sentences.map(({ text }) => {
+      const cleanedText = cleanText(text);
+      const tokens = removeStopwords(cleanedText.split(" "));
+      const stems = tokens.map((token) => stem(token).toLowerCase());
+      return new Set(stems);
+    });
+  }, [sentences]);
+
+  //Update the visible sentences as the searched query changes
   const visibleSentences = useMemo(() => {
-    return sentences.filter(({ text }) => isSubstring(text, searchTerm));
-  }, [sentences, searchTerm]);
+    if (!searchedTerm.trim()) {
+      return sentences;
+    }
+    const cleanedQuery = cleanText(searchedTerm);
+    const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
+    if (!cleanedQuery || tokenizedQuery.length === 0) {
+      // empty query or no valid tokens to search
+      return [];
+    }
+    const stemmedQuery = tokenizedQuery.map((token) => stem(token).toLowerCase());
+    return sentences.filter((_, i) => stemmedQuery.some((q) => stemmedSentences[i].has(q)));
+  }, [sentences, stemmedSentences, searchedTerm]);
 
   return (
     <Container>
       <TitleContainer>
         <div>{strings.search_transcript}</div>
-        {searchTerm && (
-          <div>{strings.number_of_results.replace("{number}", `${visibleSentences.length}`)}</div>
-        )}
+        <div>{strings.number_of_results.replace("{number}", `${visibleSentences.length}`)}</div>
       </TitleContainer>
-      <form className="mzp-c-form" role="search">
+      <form className="mzp-c-form" role="search" onSubmit={onSearch}>
         <input
           style={{ width: "100%" }}
           type="search"
@@ -92,7 +121,7 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
       </form>
       <TranscriptContainer hasSearchResults={visibleSentences.length !== 0}>
         <TranscriptItems
-          searchQuery={searchTerm}
+          searchQuery={searchedTerm}
           sentences={visibleSentences}
           jumpToVideoClip={jumpToVideoClip}
           jumpToTranscript={jumpToTranscript}

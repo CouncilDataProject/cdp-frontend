@@ -4,6 +4,7 @@ module.exports = {
       "plugin:@typescript-eslint/recommended",
       "prettier",
       "prettier/@typescript-eslint",
+      "plugin:react-hooks/recommended",
   ],
   "env": {
       "mocha": true

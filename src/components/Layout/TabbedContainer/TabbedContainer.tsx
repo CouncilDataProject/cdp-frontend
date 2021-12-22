@@ -1,7 +1,6 @@
 import React, { useState, FunctionComponent } from "react";
 import { Tab } from "./Tab";
 import styled from "@emotion/styled";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 const TabHeaderContainer = styled.div({
   display: "flex",

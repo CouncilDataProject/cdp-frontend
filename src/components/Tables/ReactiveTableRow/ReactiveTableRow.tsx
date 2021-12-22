@@ -3,7 +3,6 @@ import { EmptyRow } from "../EmptyRow";
 import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { STYLES } from "../../../constants/StyleConstants";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type ReactiveTableRowProps = {
   /** the index of the row */

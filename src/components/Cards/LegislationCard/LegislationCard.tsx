@@ -7,8 +7,6 @@ import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
 import { strings } from "../../../assets/LocalizedStrings";
 
-import "@mozilla-protocol/core/protocol/css/protocol.css";
-
 const StatusIconContainer = styled.div({
   float: "right",
   marginRight: 8,
@@ -46,7 +44,7 @@ const LegislationCard: FC<LegislationCardProps> = ({
   }
 
   return (
-    <section className="mzp-c-card mzp-has-aspect-16-9">
+    <section className="mzp-c-card mzp-c-card-medium mzp-has-aspect-16-9">
       <div className="mzp-c-card-block-link">
         <div className="mzp-c-card-content">
           <h2 className="mzp-c-card-title">{name}</h2>

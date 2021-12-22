@@ -1,5 +1,4 @@
 import React from "react";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 type EmptyRowProps = {
   /** the index of this row */

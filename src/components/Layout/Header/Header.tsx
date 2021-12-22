@@ -6,8 +6,6 @@ import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 
-import "@councildataproject/cdp-design/dist/images.css";
-
 const CDPLogo = styled.div({
   float: "left",
   marginRight: "48px",
@@ -56,8 +54,12 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
             <CDPLogo>
               <a
                 href="https://councildataproject.org"
-                className="cdp-icon-black-bg-transparent-size-64"
+                className="cdp-icon-black-bg-transparent-size-256"
                 title={strings.council_data_project}
+                style={{
+                  maxHeight: "64px",
+                  maxWidth: "64px",
+                }}
               >
                 {strings.council_data_project}
               </a>

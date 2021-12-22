@@ -1,7 +1,17 @@
-import React, { FC, RefObject, RefAttributes, useRef, useImperativeHandle } from "react";
+import React, {
+  FC,
+  RefObject,
+  RefAttributes,
+  useRef,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react";
 import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import { Popup } from "semantic-ui-react";
+import { stem } from "stemr";
+import { removeStopwords } from "stopword";
 import styled from "@emotion/styled";
 
 import { strings } from "../../../assets/LocalizedStrings";
@@ -9,17 +19,18 @@ import DefaultAvatar from "../../Shared/DefaultAvatar";
 import DocumentTextIcon from "../../Shared/DocumentTextIcon";
 import PlayIcon from "../../Shared/PlayIcon";
 
+import colors from "../../../styles/colors";
 import { fontSizes } from "../../../styles/fonts";
+import cleanText from "../../../utils/cleanText";
 
-import "@mozilla-protocol/core/protocol/css/protocol.css";
-
-const Item = styled.div({
+const Item = styled.div<{ isJumpedTo: boolean }>((props) => ({
   display: "grid",
   gridTemplateColumns: "1fr",
   rowGap: 8,
   padding: "8px 16px",
   backgroundColor: "white",
-});
+  borderLeft: `4px solid ${props.isJumpedTo ? colors.dark_blue : "transparent"}`,
+}));
 
 const Text = styled.div({
   fontSize: fontSizes.font_size_5,
@@ -109,11 +120,16 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
   handleJumpToTranscript,
   componentRef,
 }: TranscriptItemProps) => {
+  const [isJumpedTo, setIsJumpedTo] = useState(false);
   const transcriptItemRef = useRef<HTMLDivElement>(null);
   useImperativeHandle(componentRef, () => ({
     /**Implements componentRef.scrollIntoView by using the inner ref transcriptItemRef */
     scrollIntoView: () => {
       transcriptItemRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setIsJumpedTo(true);
+      setTimeout(() => {
+        setIsJumpedTo(false);
+      }, 5000);
     },
   }));
 
@@ -131,62 +147,75 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
     </DefaultAvatarContainer>
   );
 
+  const searchWords = useMemo(() => {
+    const cleanedQuery = cleanText(searchQuery || "");
+    const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
+    if (!cleanedQuery || tokenizedQuery.length === 0) {
+      // no query or valid tokens to highlight
+      return [];
+    }
+    const stemmedQuery = tokenizedQuery.map((token) => stem(token));
+    // highlight the token or the stem
+    const regExps = tokenizedQuery.map(
+      (token, i) => new RegExp(`\\b(${token}|${stemmedQuery[i]})`, "g")
+    );
+    if (searchQuery && searchQuery.trim().length > 0) {
+      // highlight the original query too
+      regExps.push(new RegExp(searchQuery.trim(), "g"));
+    }
+    return regExps;
+  }, [searchQuery]);
+
   return (
-    <div ref={transcriptItemRef}>
-      <Item>
-        <Text>
-          <Highlighter
-            searchWords={(searchQuery?.trim() || "").split(/\s+/g)}
-            autoEscape={true}
-            textToHighlight={text}
+    <Item isJumpedTo={isJumpedTo} ref={transcriptItemRef}>
+      <Text>
+        <Highlighter caseSensitive={false} searchWords={searchWords} textToHighlight={text} />
+      </Text>
+      <Container hasMultipleActions={handleJumpToTranscript !== undefined}>
+        <Speaker>
+          {avatar}
+          <div>
+            {name}
+            <p>{`${strings.session} ${sessionIndex + 1}`}</p>
+            <p>{startTime}</p>
+          </div>
+        </Speaker>
+        <div>
+          <Popup
+            position="top right"
+            content={strings.jump_to_sentence_video}
+            size="mini"
+            trigger={
+              <Button
+                aria-label={strings.jump_to_sentence_video}
+                className="mzp-c-button mzp-t-neutral"
+                onClick={handleJumpToVideoClip}
+              >
+                <PlayIcon />
+              </Button>
+            }
           />
-        </Text>
-        <Container hasMultipleActions={handleJumpToTranscript !== undefined}>
-          <Speaker>
-            {avatar}
-            <div>
-              {name}
-              <p>{`${strings.session} ${sessionIndex + 1}`}</p>
-              <p>{startTime}</p>
-            </div>
-          </Speaker>
+        </div>
+        {handleJumpToTranscript && (
           <div>
             <Popup
               position="top right"
-              content={strings.jump_to_sentence_video}
+              content={strings.jump_to_sentence_transcript}
               size="mini"
               trigger={
                 <Button
-                  aria-label={strings.jump_to_sentence_video}
+                  aria-label={strings.jump_to_sentence_transcript}
                   className="mzp-c-button mzp-t-neutral"
-                  onClick={handleJumpToVideoClip}
+                  onClick={handleJumpToTranscript}
                 >
-                  <PlayIcon />
+                  <DocumentTextIcon />
                 </Button>
               }
             />
           </div>
-          {handleJumpToTranscript && (
-            <div>
-              <Popup
-                position="top right"
-                content={strings.jump_to_sentence_transcript}
-                size="mini"
-                trigger={
-                  <Button
-                    aria-label={strings.jump_to_sentence_transcript}
-                    className="mzp-c-button mzp-t-neutral"
-                    onClick={handleJumpToTranscript}
-                  >
-                    <DocumentTextIcon />
-                  </Button>
-                }
-              />
-            </div>
-          )}
-        </Container>
-      </Item>
-    </div>
+        )}
+      </Container>
+    </Item>
   );
 };
 

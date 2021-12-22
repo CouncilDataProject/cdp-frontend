@@ -15,8 +15,6 @@ import ChevronDownIcon from "../../Shared/ChevronDownIcon";
 
 import { strings } from "../../../assets/LocalizedStrings";
 
-import "@mozilla-protocol/core/protocol/css/protocol.css";
-
 const TriggerButton = styled.button({
   display: "flex",
   justifyContent: "space-between",
@@ -32,7 +30,6 @@ TriggerButton.displayName = "TriggerButton";
 
 const StyledPopup = styled(Popup)({
   // limit the width of the popup
-  minWidth: "300px !important",
   maxWidth: "100% !important",
   boxShadow: "none !important",
   border: "2px solid #9595a2 !important",
@@ -61,6 +58,7 @@ const ButtonContainer = styled.div({
   display: "flex",
   justifyContent: "space-between",
   padding: ".833em 0 0",
+  minWidth: "256px",
 });
 ButtonContainer.displayName = "ButtonContainer";
 
@@ -124,6 +122,8 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
     return errors;
   }, [hasRequiredError, hasLimitError, name, limit]);
 
+  const onClose = () => setPopupIsOpen(false);
+
   const togglePopupIsOpen = () => {
     setPopupIsOpen((prev) => !prev);
   };
@@ -147,6 +147,7 @@ const FilterPopup: FunctionComponent<FilterPopupProps> = ({
         context={mountNodeRef.current || undefined}
         on="click"
         open={popupIsOpen}
+        onClose={onClose}
         pinned={true}
         offset={[0, -5]}
         position="bottom left"

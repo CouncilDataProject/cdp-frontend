@@ -2,10 +2,9 @@ import React, { ChangeEvent, Dispatch, FunctionComponent, useMemo } from "react"
 
 import { FilterState } from "../reducer";
 
-import isSubstring from "../../../utils/isSubstring";
+import Form from "../Shared/Form";
 
-import "@mozilla-protocol/core/protocol/css/protocol.css";
-import "@mozilla-protocol/core/protocol/css/protocol-components.css";
+import isSubstring from "../../../utils/isSubstring";
 
 /**The type of of a filter option. */
 interface FilterOption {
@@ -71,7 +70,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
   }, [options, optionQuery, setOptionQuery]);
 
   return (
-    <form className="mzp-c-form">
+    <Form className="mzp-c-form">
       {options.length > 5 && setOptionQuery && (
         <div className="mzp-c-field mzp-l-stretch">
           <label className="mzp-c-field-label" htmlFor="form-input-control-search-filter">
@@ -95,7 +94,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
                 type="checkbox"
                 name={option.name}
                 id={`form-checkbox-control-${option.name}`}
-                checked={state[option.name]}
+                checked={state[option.name] || false}
                 disabled={option.disabled}
                 onChange={onChange}
               />
@@ -109,7 +108,7 @@ const SelectTextFilterOptions: FunctionComponent<SelectTextFilterOptionsProps> =
           ))}
         </div>
       </fieldset>
-    </form>
+    </Form>
   );
 };
 

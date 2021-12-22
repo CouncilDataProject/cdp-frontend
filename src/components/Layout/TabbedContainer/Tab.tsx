@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from "react";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import styled from "@emotion/styled";
 import { STYLES } from "../../../constants/StyleConstants";
 

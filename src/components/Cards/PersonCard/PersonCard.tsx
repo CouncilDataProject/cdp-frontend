@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 
 const PersonStatus = styled.div({
   float: "right",
@@ -63,7 +62,7 @@ const PersonCard: FC<PersonCardProps> = ({
   const seatHasPicture = seatPictureSrc !== undefined;
 
   return (
-    <section className="mzp-c-card mzp-has-aspect-16-9">
+    <section className="mzp-c-card mzp-c-card-medium mzp-has-aspect-16-9">
       <div className="mzp-c-card-block-link">
         <div className="mzp-c-card-media-wrapper">
           <Img

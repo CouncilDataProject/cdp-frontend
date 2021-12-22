@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FunctionComponent } from "react";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { FilterState } from "../reducer";
+import Form from "../Shared/Form";
 
 export interface SelectDateRangeProps {
   /**The date range state. */
@@ -21,7 +21,7 @@ const SelectDateRange: FunctionComponent<SelectDateRangeProps> = ({
   };
 
   return (
-    <form className="mzp-c-form">
+    <Form className="mzp-c-form">
       <div className="mzp-c-field">
         <label className="mzp-c-field-label" htmlFor="form-input-control-start-date">
           From
@@ -48,7 +48,7 @@ const SelectDateRange: FunctionComponent<SelectDateRangeProps> = ({
           onChange={onChange}
         ></input>
       </div>
-    </form>
+    </Form>
   );
 };
 

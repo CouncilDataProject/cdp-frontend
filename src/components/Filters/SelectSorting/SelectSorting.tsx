@@ -1,7 +1,7 @@
 import React, { FormEvent, FunctionComponent } from "react";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { FilterState } from "../reducer";
 import { SortOption } from "./getSortingText";
+import Form from "../Shared/Form";
 
 export interface SelectSortingProps {
   /**The list of sort options. */
@@ -35,8 +35,8 @@ const SelectSorting: FunctionComponent<SelectSortingProps> = ({
   };
 
   return (
-    <form className="mzp-c-form">
-      <fieldset style={{ marginBottom: "0" }}>
+    <Form className="mzp-c-form">
+      <fieldset className="mzp-c-field-set">
         <div className="mzp-c-choices">
           {sortOptions.map((sortOption) => (
             <div key={sortOption.label} className="mzp-c-choice">
@@ -58,7 +58,7 @@ const SelectSorting: FunctionComponent<SelectSortingProps> = ({
           ))}
         </div>
       </fieldset>
-    </form>
+    </Form>
   );
 };
 
