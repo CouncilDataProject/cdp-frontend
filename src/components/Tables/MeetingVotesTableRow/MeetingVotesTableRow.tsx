@@ -94,7 +94,7 @@ const MeetingVotesTableRow = ({
   columnDistribution,
 }: MeetingVotesTableRowProps) => {
   const [expanded, setExpanded] = useState(false);
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
+  const isMobile = Boolean(useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` }));
 
   return (
     <ReactiveTableRow

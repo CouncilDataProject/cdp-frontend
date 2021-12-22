@@ -1,7 +1,7 @@
 import { orderBy, where } from "@firebase/firestore";
 
 import ModelService from "./ModelService";
-import { COLLECTION_NAME, REF_PROPERTY_NAME } from "./PopulationOptions";
+import { COLLECTION_NAME } from "./PopulationOptions";
 import { WHERE_OPERATOR } from "./constants";
 
 import Body from "../models/Body";
