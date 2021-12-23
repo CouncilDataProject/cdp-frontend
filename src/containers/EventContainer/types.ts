@@ -9,17 +9,19 @@ export interface SentenceWithSessionIndex extends Sentence {
   session_index: number;
 }
 
+export interface EventMinutesItemWithFiles extends EventMinutesItem {
+  files?: EventMinutesItemFile[];
+}
+
 export interface EventData {
   /**The event */
   event: Event;
   /** Session of the event */
   sessions: Session[];
   /** Sentences for the event */
-  sentences: SentenceWithSessionIndex[];
+  sentences?: SentenceWithSessionIndex[];
   /** Event minutes items of the event */
-  eventMinutesItems: EventMinutesItem[];
-  /** Event minutes items files */
-  eventMinutesItemsFiles: EventMinutesItemFile[][];
+  eventMinutesItems: EventMinutesItemWithFiles[];
   /** Votes for the event */
-  votes: Vote[][];
+  votes: Vote[];
 }

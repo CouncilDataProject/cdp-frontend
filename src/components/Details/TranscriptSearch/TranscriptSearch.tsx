@@ -51,7 +51,7 @@ export interface TranscriptSearchProps {
   /**The search query */
   searchQuery: string;
   /**The sentences of the transcript */
-  sentences: SentenceWithSessionIndex[];
+  sentences?: SentenceWithSessionIndex[];
   /**Callback to play video clip */
   jumpToVideoClip(sessionIndex: number, startTime: number): void;
   /**Callback to jump to sentence in the full transcript component */
@@ -81,44 +81,56 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
   };
 
   const stemmedSentences = useMemo(() => {
-    return sentences.map(({ text }) => {
-      const cleanedText = cleanText(text);
-      const tokens = removeStopwords(cleanedText.split(" "));
-      const stems = tokens.map((token) => stem(token).toLowerCase());
-      return new Set(stems);
-    });
+    if (sentences) {
+      return sentences.map(({ text }) => {
+        const cleanedText = cleanText(text);
+        const tokens = removeStopwords(cleanedText.split(" "));
+        const stems = tokens.map((token) => stem(token).toLowerCase());
+        return new Set(stems);
+      });
+    }
+    return [];
   }, [sentences]);
 
   //Update the visible sentences as the searched query changes
   const visibleSentences = useMemo(() => {
-    if (!searchedTerm.trim()) {
-      return sentences;
+    if (sentences) {
+      if (!searchedTerm.trim()) {
+        return sentences;
+      }
+      const cleanedQuery = cleanText(searchedTerm);
+      const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
+      if (!cleanedQuery || tokenizedQuery.length === 0) {
+        // empty query or no valid tokens to search
+        return [];
+      }
+      const stemmedQuery = tokenizedQuery.map((token) => stem(token).toLowerCase());
+      return sentences.filter((_, i) => stemmedQuery.some((q) => stemmedSentences[i].has(q)));
     }
-    const cleanedQuery = cleanText(searchedTerm);
-    const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
-    if (!cleanedQuery || tokenizedQuery.length === 0) {
-      // empty query or no valid tokens to search
-      return [];
-    }
-    const stemmedQuery = tokenizedQuery.map((token) => stem(token).toLowerCase());
-    return sentences.filter((_, i) => stemmedQuery.some((q) => stemmedSentences[i].has(q)));
+    return [];
   }, [sentences, stemmedSentences, searchedTerm]);
 
   return (
     <Container>
       <TitleContainer>
         <div>{strings.search_transcript}</div>
-        <div>{strings.number_of_results.replace("{number}", `${visibleSentences.length}`)}</div>
+        <div>
+          {sentences
+            ? strings.number_of_results.replace("{number}", `${visibleSentences.length}`)
+            : "Fetching transcript..."}
+        </div>
       </TitleContainer>
-      <form className="mzp-c-form" role="search" onSubmit={onSearch}>
-        <input
-          style={{ width: "100%" }}
-          type="search"
-          placeholder={strings.search_transcript_placeholder}
-          value={searchTerm}
-          onChange={onSearchChange}
-        />
-      </form>
+      {sentences && (
+        <form className="mzp-c-form" role="search" onSubmit={onSearch}>
+          <input
+            style={{ width: "100%" }}
+            type="search"
+            placeholder={strings.search_transcript_placeholder}
+            value={searchTerm}
+            onChange={onSearchChange}
+          />
+        </form>
+      )}
       <TranscriptContainer hasSearchResults={visibleSentences.length !== 0}>
         <TranscriptItems
           searchQuery={searchedTerm}

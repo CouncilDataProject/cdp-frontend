@@ -55,7 +55,7 @@ manySentences.args = {
     session_index: 0,
     index: i,
     start_time: i,
-    text: `This is a sentence${i}.`,
+    text: `This is a sentence ${i}.`,
     speaker_name: "Lisa Herbold",
     speaker_id: "lisa-herbold",
     speaker_index: 0,
