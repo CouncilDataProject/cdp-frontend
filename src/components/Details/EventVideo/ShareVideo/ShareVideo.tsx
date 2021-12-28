@@ -151,7 +151,7 @@ const ShareVideo: FC<ShareVideoProps> = ({ sessionNum, getCurrentTime }: ShareVi
     const shareLink = `${document.location.href.split("#")[0]}#${
       location.pathname
     }?s=${sessionNum}`;
-    return timePointState.isActive && !isNaN(totalSeconds)
+    return timePointState.isActive && totalSeconds
       ? `${shareLink}&t=${totalSeconds}`
       : `${shareLink}`;
   }, [timePointState.value, timePointState.isActive, sessionNum, location]);

@@ -29,6 +29,8 @@ for (let sessionIndex = 0; sessionIndex < 2; sessionIndex++) {
 
 export const event = Template.bind({});
 event.args = {
+  initialSession: 0,
+  initialSeconds: 123,
   event: {
     body: { name: "City Council" },
     event_datetime: new Date(),
