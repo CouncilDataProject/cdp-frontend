@@ -1,13 +1,13 @@
-import React, { createRef, FC, useState, useRef, useEffect } from "react";
-
+import React, { createRef, FC, useState, useRef, useEffect, useMemo, useCallback } from "react";
 import styled from "@emotion/styled";
+
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 import { EventVideoRef } from "../../components/Details/EventVideo/EventVideo";
 import { TranscriptSearch } from "../../components/Details/TranscriptSearch";
 import { TranscriptItemRef } from "../../components/Details/TranscriptItem/TranscriptItem";
 import SessionsVideos from "./SessionsVideos";
 import EventInfoTabs from "./EventInfoTabs";
-import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { EventData } from "./types";
 
 import { screenWidths } from "../../styles/mediaBreakpoints";
@@ -61,7 +61,6 @@ const EventContainer: FC<EventContainerProps> = ({
   sessions,
   sentences,
   eventMinutesItems,
-  eventMinutesItemsFiles,
   votes,
   searchQuery,
 }: EventContainerProps) => {
@@ -82,39 +81,47 @@ const EventContainer: FC<EventContainerProps> = ({
 
   // Create EventVideoRefs to create jumpToVideoClip callback
   const sessionVideoRefs = useRef(sessions.map(() => createRef<EventVideoRef>()));
-  const jumpToVideoClip = (nextSessionIndex: number, startTime: number) => {
-    setCurrentSession((prevSessionIndex) => {
-      if (prevSessionIndex !== nextSessionIndex) {
-        // If jumping to video clip of different video, pause the previous video player
-        sessionVideoRefs.current[prevSessionIndex].current?.pause();
-      }
-      return nextSessionIndex;
-    });
-    sessionVideoRefs.current[nextSessionIndex].current?.seekTo(startTime);
-  };
+  const jumpToVideoClip = useCallback(
+    (nextSessionIndex: number, startTime: number) => {
+      setCurrentSession((prevSessionIndex) => {
+        if (prevSessionIndex !== nextSessionIndex) {
+          // If jumping to video clip of different video, pause the previous video player
+          sessionVideoRefs.current[prevSessionIndex].current?.pause();
+        }
+        return nextSessionIndex;
+      });
+      sessionVideoRefs.current[nextSessionIndex].current?.seekTo(startTime);
+    },
+    [sessionVideoRefs]
+  );
 
   //Create the TranscriptItemsRefs to create jumpToTranscript callback
-  const transcriptItemsRefs = useRef(sentences.map(() => createRef<TranscriptItemRef>()));
+  const transcriptItemsRefs = useMemo(() => {
+    return (sentences || []).map(() => createRef<TranscriptItemRef>());
+  }, [sentences]);
   const [currentTranscriptItem, setCurrentTranscriptItem] = useState<number>();
-  const jumpToTranscript = (sentenceIndex: number) => {
-    if (currentInfoTab !== 1) {
-      // Select the full transcript tab
-      setCurrentInfoTab(1);
-      // Set the index of the transcript item to scroll to
-      setCurrentTranscriptItem(sentenceIndex);
-    } else {
-      // Full transcript tab is already selected, just scroll to the item
-      transcriptItemsRefs.current[sentenceIndex].current?.scrollIntoView();
-    }
-  };
+  const jumpToTranscript = useCallback(
+    (sentenceIndex: number) => {
+      if (currentInfoTab !== 1) {
+        // Select the full transcript tab
+        setCurrentInfoTab(1);
+        // Set the index of the transcript item to scroll to
+        setCurrentTranscriptItem(sentenceIndex);
+      } else {
+        // Full transcript tab is already selected, just scroll to the item
+        transcriptItemsRefs[sentenceIndex].current?.scrollIntoView();
+      }
+    },
+    [transcriptItemsRefs, currentInfoTab]
+  );
   useEffect(() => {
     if (currentInfoTab === 1 && currentTranscriptItem !== undefined) {
       // Full transcript tab is now selected, scroll to the item
-      transcriptItemsRefs.current[currentTranscriptItem].current?.scrollIntoView();
+      transcriptItemsRefs[currentTranscriptItem].current?.scrollIntoView();
       // Reset the current transcript item index
       setCurrentTranscriptItem(undefined);
     }
-  }, [currentInfoTab, currentTranscriptItem]);
+  }, [currentInfoTab, currentTranscriptItem, transcriptItemsRefs]);
 
   return (
     <Container>
@@ -149,9 +156,8 @@ const EventContainer: FC<EventContainerProps> = ({
           currentInfoTab={currentInfoTab}
           setCurrentInfoTab={setCurrentInfoTab}
           sentences={sentences}
-          transcriptItemsRefs={transcriptItemsRefs.current}
+          transcriptItemsRefs={transcriptItemsRefs}
           eventMinutesItems={eventMinutesItems}
-          eventMinutesItemsFiles={eventMinutesItemsFiles}
           votes={votes}
           jumpToVideoClip={jumpToVideoClip}
         />

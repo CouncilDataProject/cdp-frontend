@@ -51,46 +51,44 @@ event.args = {
       minutes_item: { name: "test" },
     },
     {
+      id: "test2",
       minutes_item: { name: "test2", description: "test desc", matter: { id: "matter-id" } },
       decision: MATTER_STATUS_DECISION.REJECTED,
+      files: [
+        {
+          name: "file name",
+          uri: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
+        },
+      ],
     },
   ],
-  eventMinutesItemsFiles: [
-    [],
-    [
-      {
-        name: "file name",
-        uri: "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-      },
-    ],
-  ],
   votes: [
-    [],
-    [
-      {
+    {
+      id: "1",
+      decision: VOTE_DECISION.APPROVE,
+      person: {
         id: "1",
-        decision: VOTE_DECISION.APPROVE,
-        person: {
-          id: "1",
-          name: "person name 1",
-        },
+        name: "person name 1",
       },
-      {
+      event_minutes_item_ref: "test2",
+    },
+    {
+      id: "2",
+      decision: VOTE_DECISION.REJECT,
+      person: {
         id: "2",
-        decision: VOTE_DECISION.REJECT,
-        person: {
-          id: "2",
-          name: "person name 2",
-        },
+        name: "person name 2",
       },
-      {
+      event_minutes_item_ref: "test2",
+    },
+    {
+      id: "3",
+      decision: VOTE_DECISION.REJECT,
+      person: {
         id: "3",
-        decision: VOTE_DECISION.REJECT,
-        person: {
-          id: "3",
-          name: "person name 3",
-        },
+        name: "person name 3",
       },
-    ],
+      event_minutes_item_ref: "test2",
+    },
   ],
 };
