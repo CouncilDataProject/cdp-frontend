@@ -36,7 +36,11 @@ const SessionVideos: FC<SessionVideosProps> = ({
         pane: {
           key: `session_index_${session.session_index}`,
           content: (
-            <EventVideo uri={session.video_uri as string} componentRef={eventVideoRefs[i]} />
+            <EventVideo
+              sessionNum={i}
+              uri={session.video_uri as string}
+              componentRef={eventVideoRefs[i]}
+            />
           ),
         },
       };

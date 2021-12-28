@@ -1,9 +1,4 @@
-/**
- * Pad the number with 0 if it is < 10.
- */
-function pad(num: number) {
-  return `${num}`.padStart(2, "0");
-}
+import padNumWithZero from "./padNumWithZero";
 
 /**
  *
@@ -16,7 +11,7 @@ function secondsToHHMMSS(sec_num: number) {
   const minutes = Math.floor((sec_int - hours * 3600) / 60);
   const seconds = sec_int - hours * 3600 - minutes * 60;
 
-  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+  return `${padNumWithZero(hours)}:${padNumWithZero(minutes)}:${padNumWithZero(seconds)}`;
 }
 
 export default secondsToHHMMSS;

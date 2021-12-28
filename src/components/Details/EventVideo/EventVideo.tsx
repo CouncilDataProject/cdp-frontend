@@ -1,6 +1,7 @@
-import React, { FC, RefObject, useEffect, useImperativeHandle, useRef } from "react";
-
+import React, { FC, RefObject, useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import videojs, { VideoJsPlayer } from "video.js";
+
+import { ShareVideo } from "./ShareVideo";
 
 import { strings } from "../../../assets/LocalizedStrings";
 
@@ -29,6 +30,8 @@ export interface EventVideoRef {
 }
 
 export interface EventVideoProps {
+  /**The session number of the video */
+  sessionNum: number;
   /**The source uri of the video */
   uri: string;
   /**Event video Transcript reference */
@@ -38,6 +41,7 @@ export interface EventVideoProps {
 }
 
 const EventVideo: FC<EventVideoProps> = ({
+  sessionNum,
   uri,
   componentRef,
   initialSeconds,
@@ -56,10 +60,21 @@ const EventVideo: FC<EventVideoProps> = ({
     /**Implement componentRef.pause by using videoJsPlayerRef.pause method */
     pause: () => videoJsPlayerRef.current?.pause(),
   }));
+
+  const getCurrentTime = useCallback(
+    () => (videoJsPlayerRef.current ? videoJsPlayerRef.current.currentTime() : 0),
+    []
+  );
+
   const VideoHtml = () => (
-    <div data-vjs-player>
-      <video ref={videoRef} className="video-js vjs-big-play-centered vjs-theme-cdp" />
-    </div>
+    <>
+      <div style={{ display: "flex", flexDirection: "row-reverse" }}>
+        <ShareVideo sessionNum={sessionNum} getCurrentTime={getCurrentTime} />
+      </div>
+      <div data-vjs-player>
+        <video ref={videoRef} className="video-js vjs-big-play-centered vjs-theme-cdp" />
+      </div>
+    </>
   );
 
   useEffect(() => {
