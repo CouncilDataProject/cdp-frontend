@@ -29,8 +29,7 @@ type MeetingVotesTableRowProps = {
   columnDistribution: string[];
 };
 
-function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[]) {
-  const isMobile = Boolean(useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` }));
+function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[], isMobile: boolean) {
   if (isExpanded) {
     return (
       <React.Fragment>
@@ -94,7 +93,7 @@ const MeetingVotesTableRow = ({
   columnDistribution,
 }: MeetingVotesTableRowProps) => {
   const [expanded, setExpanded] = useState(false);
-  const isMobile = Boolean(useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` }));
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   return (
     <ReactiveTableRow
@@ -111,7 +110,7 @@ const MeetingVotesTableRow = ({
         {!isMobile && <p>{legislationDescription}</p>}
       </div>
       <DecisionResult result={councilDecision} />
-      {VoteCell(expanded, votes)}
+      {VoteCell(expanded, votes, isMobile)}
     </ReactiveTableRow>
   );
 };

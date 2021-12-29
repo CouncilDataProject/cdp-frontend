@@ -29,7 +29,7 @@ const PeoplePage: FC = () => {
   // Initialize the state of fetching the person's data
   const { state: peopleDataState } = useFetchData<PeoplePageData>(
     {
-      isLoading: true,
+      isLoading: false,
       error: null,
       hasFetchRequest: true,
     },

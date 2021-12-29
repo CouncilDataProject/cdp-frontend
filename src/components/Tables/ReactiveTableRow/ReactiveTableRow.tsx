@@ -25,7 +25,7 @@ const ReactiveTableRow = ({
   onClick,
 }: ReactiveTableRowProps) => {
   const backgroundColor = index % 2 === 0 ? STYLES.COLORS.EVEN_CELL : STYLES.COLORS.ODD_CELL;
-  const isMobile = Boolean(useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` }));
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   if (!children || children.length === 0) {
     return <EmptyRow index={index} />;

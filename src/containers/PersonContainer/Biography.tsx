@@ -16,7 +16,7 @@ interface BiographyProps {
 
 const Biography: FC<BiographyProps> = ({ person, roles, mattersSponsored }: BiographyProps) => {
   const { municipality } = useAppConfigContext();
-  const { bioText, introText } = writeBiography(person, roles, municipality, mattersSponsored);
+  const { bioText, introText } = writeBiography(person, roles, municipality.name, mattersSponsored);
   const linkText = `Visit ${person.name}'s website`;
 
   return (

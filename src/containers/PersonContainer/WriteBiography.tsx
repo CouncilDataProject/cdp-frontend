@@ -7,7 +7,7 @@ import { filterRolesByTitle, ROLE_TITLE, getMostRecentRole } from "../../models/
 function writeBiography(
   person: Person,
   roles: Role[],
-  municipality: any,
+  municipalityName: string,
   mattersSponsored: MatterSponsor[]
 ) {
   const currentRole = getMostRecentRole(roles);
@@ -46,7 +46,7 @@ function writeBiography(
     ? [person.name.substring(person.name.lastIndexOf(" ") + 1, person.name.length)]
     : "Unknown Name";
   const addressName = `${currentRole.title} ${lastName}`;
-  const introText = `${addressName} is the ${currentRole.title} of ${municipality.name}'s ${currentRole.seat?.name}(${currentRole.seat?.electoral_area}).`;
+  const introText = `${addressName} is the ${currentRole.title} of ${municipalityName}'s ${currentRole.seat?.name}(${currentRole.seat?.electoral_area}).`;
   /* 
     The second paragraph.
   */
