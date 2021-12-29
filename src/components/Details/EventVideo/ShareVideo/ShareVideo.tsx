@@ -77,11 +77,11 @@ const ShareVideoModal = styled(Modal)({
 });
 
 interface ShareVideoProps {
-  sessionNum: number;
+  sessionIndex: number;
   getCurrentTime(): number;
 }
 
-const ShareVideo: FC<ShareVideoProps> = ({ sessionNum, getCurrentTime }: ShareVideoProps) => {
+const ShareVideo: FC<ShareVideoProps> = ({ sessionIndex, getCurrentTime }: ShareVideoProps) => {
   // A reference to the html element where the modal is mounted
   const mountNodeRef = useRef<HTMLDivElement>(null);
   // A reference to the share link url html element
@@ -150,11 +150,11 @@ const ShareVideo: FC<ShareVideoProps> = ({ sessionNum, getCurrentTime }: ShareVi
     const totalSeconds = timePointToSeconds(timePointState.value);
     const shareLink = `${document.location.href.split("#")[0]}#${
       location.pathname
-    }?s=${sessionNum}`;
+    }?s=${sessionIndex}`;
     return timePointState.isActive && totalSeconds
       ? `${shareLink}&t=${totalSeconds}`
       : `${shareLink}`;
-  }, [timePointState.value, timePointState.isActive, sessionNum, location]);
+  }, [timePointState.value, timePointState.isActive, sessionIndex, location]);
 
   return (
     <>
