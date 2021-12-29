@@ -8,7 +8,7 @@ export type VotingTableProps = {
   /** the name of the legislator */
   name: string;
   /** an array of Votes */
-  votesPage: object[];
+  votesPage: any[];
 };
 
 /*

@@ -23,43 +23,44 @@ export type FetchDataAction<T> =
   | { type: FetchDataActionType.FETCH_SUCCESS; payload: T }
   | { type: FetchDataActionType.FETCH };
 
-const createFetchDataReducer =
-  <T>() =>
-  (state: FetchDataState<T>, action: FetchDataAction<T>): FetchDataState<T> => {
-    switch (action.type) {
-      case FetchDataActionType.FETCH_INIT: {
-        return {
-          ...state,
-          isLoading: true,
-          error: null,
-        };
-      }
-      case FetchDataActionType.FETCH_SUCCESS: {
-        return {
-          ...state,
-          isLoading: false,
-          data: action.payload,
-          hasFetchRequest: false,
-        };
-      }
-      case FetchDataActionType.FETCH_FAILURE: {
-        return {
-          ...state,
-          isLoading: false,
-          error: action.payload,
-          hasFetchRequest: false,
-        };
-      }
-      case FetchDataActionType.FETCH: {
-        return {
-          ...state,
-          hasFetchRequest: true,
-        };
-      }
-      default:
-        return state;
+const createFetchDataReducer = <T>() => (
+  state: FetchDataState<T>,
+  action: FetchDataAction<T>
+): FetchDataState<T> => {
+  switch (action.type) {
+    case FetchDataActionType.FETCH_INIT: {
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
     }
-  };
+    case FetchDataActionType.FETCH_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload,
+        hasFetchRequest: false,
+      };
+    }
+    case FetchDataActionType.FETCH_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+        hasFetchRequest: false,
+      };
+    }
+    case FetchDataActionType.FETCH: {
+      return {
+        ...state,
+        hasFetchRequest: true,
+      };
+    }
+    default:
+      return state;
+  }
+};
 
 export default function useFetchData<T>(
   initialState: FetchDataState<T>,

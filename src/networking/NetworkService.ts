@@ -111,16 +111,22 @@ export class NetworkService {
         if (populationOptions && populationOptions.toPopulate) {
           const cascade: Promise<NetworkResponse>[] = [];
           const refsToPopulate: string[] = [];
-          populationOptions.toPopulate.forEach((docRefToPopulate: Populate) => {
-            const refValueToPopulate = data[docRefToPopulate.refName].id;
-            const refsCollection = getCollectionForReference(docRefToPopulate.refName);
-            if (refValueToPopulate && refsCollection) {
-              cascade.push(
-                this.getDocument(refValueToPopulate, refsCollection, docRefToPopulate.cascade)
-              );
-              refsToPopulate.push(docRefToPopulate.refName);
-            }
-          });
+          populationOptions.toPopulate
+            .filter((docRefToPopulate: Populate) => {
+              // this may not exist because some documents may have optionally populated refs
+              return data[docRefToPopulate.refName];
+            })
+            .forEach((docRefToPopulate: Populate) => {
+              // these will not be null
+              const refValueToPopulate = data[docRefToPopulate.refName].id;
+              const refsCollection = getCollectionForReference(docRefToPopulate.refName);
+              if (refValueToPopulate && refsCollection) {
+                cascade.push(
+                  this.getDocument(refValueToPopulate, refsCollection, docRefToPopulate.cascade)
+                );
+                refsToPopulate.push(docRefToPopulate.refName);
+              }
+            });
           return this.collateDocumentData(cascade, refsToPopulate, response);
         } else {
           return Promise.resolve(response);

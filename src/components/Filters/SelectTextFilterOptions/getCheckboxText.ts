@@ -9,9 +9,8 @@ import { FilterState } from "../reducer";
  * @returns {string} The text representation.
  */
 const getCheckboxText = (checkboxes: FilterState<boolean>, defaultText: string): string => {
-  const numberOfSelectedCheckbox = Object.values(checkboxes).filter(
-    (dataValue) => dataValue
-  ).length;
+  const numberOfSelectedCheckbox = Object.values(checkboxes).filter((dataValue) => dataValue)
+    .length;
   const textRep = numberOfSelectedCheckbox
     ? `${defaultText} : ${numberOfSelectedCheckbox}`
     : defaultText;

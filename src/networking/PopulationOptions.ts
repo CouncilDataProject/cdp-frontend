@@ -7,9 +7,12 @@ export enum COLLECTION_NAME {
   IndexedEventGram = "indexed_event_gram",
   Matter = "matter",
   MatterFile = "matter_file",
+  MatterSponsor = "matter_sponsor",
   MatterStatus = "matter_status",
   MinutesItem = "minutes_item",
   Person = "person",
+  Role = "role",
+  Seat = "seat",
   Session = "session",
   Transcript = "transcript",
   Vote = "vote",
@@ -26,8 +29,14 @@ export enum REF_PROPERTY_NAME {
   MatterFileMatterRef = "matter_ref",
   MatterStatusEventMinutesItemRef = "event_minutes_item_ref",
   MatterStatusMatterRef = "matter_ref",
+  MatterSponsorMatterRef = "matter_ref",
+  MatterSponsorPersonRef = "person_ref",
   MinutesItemMatterRef = "matter_ref",
   PersonPictureRef = "picture_ref",
+  RoleBodyRef = "body_ref",
+  RolePersonRef = "person_ref",
+  RoleSeatRef = "seat_ref",
+  SeatImageRef = "image_ref",
   SessionEventRef = "event_ref",
   TranscriptFileRef = "file_ref",
   TranscriptSessionRef = "session_ref",
@@ -39,8 +48,6 @@ export enum REF_PROPERTY_NAME {
 
 export function getCollectionForReference(reference: string): COLLECTION_NAME | undefined {
   switch (reference) {
-    case REF_PROPERTY_NAME.PersonPictureRef:
-      return COLLECTION_NAME.File;
     case REF_PROPERTY_NAME.EventBodyRef:
       return COLLECTION_NAME.Body;
     case REF_PROPERTY_NAME.EventHoverThumbnailRef:
@@ -61,9 +68,21 @@ export function getCollectionForReference(reference: string): COLLECTION_NAME | 
       return COLLECTION_NAME.EventMinutesItem;
     case REF_PROPERTY_NAME.MatterStatusMatterRef:
       return COLLECTION_NAME.Matter;
+    case REF_PROPERTY_NAME.MatterSponsorMatterRef:
+      return COLLECTION_NAME.Matter;
+    case REF_PROPERTY_NAME.MatterSponsorPersonRef:
+      return COLLECTION_NAME.Person;
     case REF_PROPERTY_NAME.MinutesItemMatterRef:
       return COLLECTION_NAME.Matter;
     case REF_PROPERTY_NAME.PersonPictureRef:
+      return COLLECTION_NAME.File;
+    case REF_PROPERTY_NAME.RoleBodyRef:
+      return COLLECTION_NAME.Body;
+    case REF_PROPERTY_NAME.RolePersonRef:
+      return COLLECTION_NAME.Person;
+    case REF_PROPERTY_NAME.RoleSeatRef:
+      return COLLECTION_NAME.Seat;
+    case REF_PROPERTY_NAME.SeatImageRef:
       return COLLECTION_NAME.File;
     case REF_PROPERTY_NAME.SessionEventRef:
       return COLLECTION_NAME.Event;

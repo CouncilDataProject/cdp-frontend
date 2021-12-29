@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import AdoptedIcon from "./AdoptedIcon";
 import RejectedIcon from "./RejectedIcon";
 import InProgressIcon from "./InProgressIcon";
 import AbstainIcon from "../Shared/AbstainIcon";
-import useMediaQuery from "react-responsive";
+import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../styles/mediaBreakpoints";
 import { MATTER_STATUS_DECISION } from "../../constants/ProjectConstants";
 import { VOTE_DECISION } from "../../constants/ProjectConstants";
@@ -14,7 +14,7 @@ interface DecisionResultProps {
   result: VOTE_DECISION | MATTER_STATUS_DECISION;
 }
 
-const DecisionResult = ({ result }: DecisionResultProps) => {
+const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps) => {
   let statusIcon = <div />;
   switch (result) {
     case VOTE_DECISION.APPROVE:
@@ -39,7 +39,7 @@ const DecisionResult = ({ result }: DecisionResultProps) => {
       break;
   }
 
-  const isMobile = new useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   if (isMobile) {
     return (
@@ -79,6 +79,6 @@ const DecisionResult = ({ result }: DecisionResultProps) => {
   );
 };
 DecisionResult.defaultProps = {
-  result: "In Progress",
+  result: MATTER_STATUS_DECISION.IN_PROGRESS,
 };
 export default DecisionResult;

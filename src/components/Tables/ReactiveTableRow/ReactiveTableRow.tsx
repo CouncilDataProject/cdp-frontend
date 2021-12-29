@@ -1,6 +1,6 @@
 import React from "react";
 import { EmptyRow } from "../EmptyRow";
-import useMediaQuery from "react-responsive";
+import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { STYLES } from "../../../constants/StyleConstants";
 
@@ -25,11 +25,11 @@ const ReactiveTableRow = ({
   onClick,
 }: ReactiveTableRowProps) => {
   const backgroundColor = index % 2 === 0 ? STYLES.COLORS.EVEN_CELL : STYLES.COLORS.ODD_CELL;
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   if (!children || children.length === 0) {
     return <EmptyRow index={index} />;
   }
-  const isMobile = new useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
   if (isMobile) {
     return (
       <div
