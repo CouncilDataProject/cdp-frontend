@@ -50,7 +50,8 @@ const EventPage: FC = () => {
     return [s, t].map((el) => {
       if (el !== null && typeof el === "string") {
         const n = parseFloat(el);
-        return isNaN(n) ? 0 : n;
+        const isInvalid = isNaN(n) || n < 0;
+        return isInvalid ? 0 : Math.floor(n);
       } else {
         return 0;
       }
