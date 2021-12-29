@@ -1,16 +1,25 @@
 /*
-  name?: string,
-  external_source_id?: string,
-  electoral_area?: string,
-  electoral_type?: string,
-  image_ref?: string,
-  image?: File,
+  matter?: Matter;
+  matter_ref?: string;
+  person?: Person;
+  person_ref?: string;
+  external_source_id?: string;
 */
-const basicMatter = {
-  name: "basicMatter Name",
-  matter_type: "basicMatter type",
-  title: "basicMatter title",
-  external_source_id: "basicMatter-fake-external-id",
+import { basicMatter } from "./matter";
+const basicMatterSponsor = {
+  matter: undefined,
+  matter_ref: "basicMatterSponsor matter ref id",
+  person: undefined,
+  person_ref: "basicMatterSponsor person ref id",
+  external_source_id: "basicMatterSponsor external source id",
 };
 
-export { basicMatter };
+const populatedMatterMatterSponsor = {
+  matter: basicMatter,
+  matter_ref: "populatedMatterMatterSponsor matter ref id",
+  person: undefined,
+  person_ref: "populatedMatterMatterSponsor person ref id",
+  external_source_id: "populatedMatterMatterSponsor external source id",
+};
+
+export { basicMatterSponsor, populatedMatterMatterSponsor };
