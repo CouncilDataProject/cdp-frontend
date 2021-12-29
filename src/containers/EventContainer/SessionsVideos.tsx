@@ -14,6 +14,7 @@ interface SessionVideosProps {
   eventVideoRefs: RefObject<EventVideoRef>[];
   sessions: Session[];
   currentSession: number;
+  initialSeconds: number;
   setCurrentSession: Dispatch<SetStateAction<number>>;
 }
 
@@ -21,6 +22,7 @@ const SessionVideos: FC<SessionVideosProps> = ({
   eventVideoRefs,
   sessions,
   currentSession,
+  initialSeconds,
   setCurrentSession,
 }: SessionVideosProps) => {
   const onSessionChange = (_: any, data: TabProps) =>
@@ -29,26 +31,27 @@ const SessionVideos: FC<SessionVideosProps> = ({
       eventVideoRefs[prevSessionIndex].current?.pause();
       return data.activeIndex as number;
     });
+
   const panes = useRef(
     sessions.map((session, i) => {
       return {
         menuItem: `${strings.session} ${i + 1}`,
         pane: {
-          key: `session_index_${session.session_index}`,
+          key: `session_index_${i + 1}`,
           content: (
-            <EventVideo uri={session.video_uri as string} componentRef={eventVideoRefs[i]} />
+            <EventVideo
+              sessionIndex={i}
+              initialSeconds={i === currentSession ? initialSeconds : 0}
+              uri={session.video_uri as string}
+              componentRef={eventVideoRefs[i]}
+            />
           ),
         },
       };
     })
   );
 
-  let breakpoint = undefined;
-  if (sessions.length > 3) {
-    breakpoint = screenWidths.largeMobile;
-  } else if (sessions.length > 2) {
-    breakpoint = screenWidths.smallMobile;
-  }
+  const breakpoint = sessions.length > 3 ? screenWidths.largeMobile : screenWidths.smallMobile;
 
   return (
     <ResponsiveTab

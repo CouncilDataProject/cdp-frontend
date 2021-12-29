@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useMemo, useEffect } from "react";
+import queryString from "query-string";
 import { useParams, useLocation } from "react-router-dom";
 
 import Event from "../../models/Event";
@@ -43,6 +44,19 @@ const EventPage: FC = () => {
     }
     return "";
   }, [location.state]);
+
+  const [initialSession, initialSeconds] = useMemo(() => {
+    const { s, t } = queryString.parse(location.search);
+    return [s, t].map((el) => {
+      if (el !== null && typeof el === "string") {
+        const n = parseFloat(el);
+        const isInvalid = isNaN(n) || n < 0;
+        return isInvalid ? 0 : Math.floor(n);
+      } else {
+        return 0;
+      }
+    });
+  }, [location.search]);
 
   const fetchEvent = useCallback(async () => {
     const eventService = new EventService(firebaseConfig);
@@ -206,6 +220,10 @@ const EventPage: FC = () => {
           {...eventData}
           sentences={sentencesDataState.data}
           searchQuery={searchQuery}
+          initialSession={
+            initialSession > 0 && initialSession < eventData.sessions.length ? initialSession : 0
+          }
+          initialSeconds={initialSeconds}
         />
       )}
     </FetchDataContainer>

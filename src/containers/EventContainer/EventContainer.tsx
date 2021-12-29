@@ -52,6 +52,10 @@ const TranscriptSearchContainer = styled.div({
 });
 
 export interface EventContainerProps extends EventData {
+  /** The initial session video*/
+  initialSession: number;
+  /** The initial current time of the intial session video */
+  initialSeconds: number;
   /** The search query used to find the event */
   searchQuery?: string;
 }
@@ -62,6 +66,8 @@ const EventContainer: FC<EventContainerProps> = ({
   sentences,
   eventMinutesItems,
   votes,
+  initialSession,
+  initialSeconds,
   searchQuery,
 }: EventContainerProps) => {
   useDocumentTitle(
@@ -75,7 +81,7 @@ const EventContainer: FC<EventContainerProps> = ({
   );
 
   // The current video session that is visible
-  const [currentSession, setCurrentSession] = useState<number>(0);
+  const [currentSession, setCurrentSession] = useState<number>(initialSession);
   // The current selected tab - minutes items list, full transcript, or votes
   const [currentInfoTab, setCurrentInfoTab] = useState<number>(0);
 
@@ -140,6 +146,7 @@ const EventContainer: FC<EventContainerProps> = ({
           eventVideoRefs={sessionVideoRefs.current}
           sessions={sessions}
           currentSession={currentSession}
+          initialSeconds={initialSeconds}
           setCurrentSession={setCurrentSession}
         />
       </SessionsContainer>
