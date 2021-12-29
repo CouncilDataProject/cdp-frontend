@@ -13,7 +13,6 @@ const ShareBtn = styled.button({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  marginBottom: 4,
   columnGap: 4,
   border: 0,
   padding: "8px 16px",

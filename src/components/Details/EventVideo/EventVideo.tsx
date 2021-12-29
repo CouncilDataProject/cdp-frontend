@@ -68,7 +68,7 @@ const EventVideo: FC<EventVideoProps> = ({
 
   const VideoHtml = () => (
     <>
-      <div style={{ display: "flex", flexDirection: "row-reverse" }}>
+      <div style={{ display: "flex", flexDirection: "row-reverse", marginBottom: 4 }}>
         <ShareVideo sessionIndex={sessionIndex} getCurrentTime={getCurrentTime} />
       </div>
       <div data-vjs-player>
