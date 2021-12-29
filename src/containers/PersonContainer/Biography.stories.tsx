@@ -7,11 +7,11 @@ import {
   expired_chair,
   recent_chair,
 } from "../../stories/model-mocks/role";
-import { basicMatterSponsor } from "../../stories/model-mocks/matterSponsor";
+import { basicMatter } from "../../stories/model-mocks/matterSponsor";
 
 export default {
   component: Biography,
-  title: "Library/Containers/Biography",
+  title: "Library/Containers/Person/Biography",
 } as Meta;
 
 const Template: Story<BiographyProps> = (args) => <Biography {...args} />;
@@ -20,5 +20,5 @@ export const basicBio = Template.bind({});
 basicBio.args = {
   person: basicPerson,
   roles: [ten_years_councilmember, expired_chair, recent_chair],
-  mattersSponsored: [basicMatterSponsor],
+  mattersSponsored: [basicMatter],
 };

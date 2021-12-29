@@ -48,8 +48,6 @@ export enum REF_PROPERTY_NAME {
 
 export function getCollectionForReference(reference: string): COLLECTION_NAME | undefined {
   switch (reference) {
-    case REF_PROPERTY_NAME.PersonPictureRef:
-      return COLLECTION_NAME.File;
     case REF_PROPERTY_NAME.EventBodyRef:
       return COLLECTION_NAME.Body;
     case REF_PROPERTY_NAME.EventHoverThumbnailRef:

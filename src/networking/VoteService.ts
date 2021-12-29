@@ -35,8 +35,6 @@ export default class VoteService extends ModelService {
   }
 
   async getFullyPopulatedVotesByPersonId(personId: string): Promise<Vote[]> {
-    const populatePerson = new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.VotePersonRef);
-
     const populateMatter = new Populate(COLLECTION_NAME.Matter, REF_PROPERTY_NAME.VoteMatterRef);
 
     const populateEventBody = new Populate(COLLECTION_NAME.Body, REF_PROPERTY_NAME.EventBodyRef);
@@ -62,12 +60,7 @@ export default class VoteService extends ModelService {
           doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
         ),
       ],
-      new PopulationOptions([
-        populatePerson,
-        populateMatter,
-        populateEvent,
-        populateEventMinutesItem,
-      ])
+      new PopulationOptions([populateMatter, populateEvent, populateEventMinutesItem])
     );
     return this.createModels(
       networkQueryResponse,

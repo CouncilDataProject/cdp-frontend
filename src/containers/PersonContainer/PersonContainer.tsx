@@ -4,7 +4,6 @@ import { PersonPageData } from "./types";
 import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../styles/mediaBreakpoints";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import PersonFullView from "./PersonFullView";
 import { getMostRecentRole, filterRolesByTitle } from "../../models/util/RoleUtilities";
 
@@ -24,7 +23,7 @@ const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonConta
   useDocumentTitle(person.name);
 
   return (
-    <div>
+    <div key={person.id}>
       {isMobile && (
         <PersonCard
           personName={person.name!}

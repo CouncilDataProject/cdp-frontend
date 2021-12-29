@@ -26,7 +26,7 @@ const AvatarImage: FC<AvatarImageProps> = ({ personImageUri, personName }: Avata
         style={avatarGeneralStyle}
         className="mzp-c-card-image"
         src={personImageUri}
-        alt={`person of ${personName}`}
+        alt={`Picture of ${personName}`}
       />
     );
   } else {

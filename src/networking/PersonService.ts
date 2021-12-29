@@ -14,9 +14,8 @@ export default class PersonService extends ModelService {
   }
 
   async getPersonById(personId: string): Promise<Person> {
-    console.log(`fetching id: ${personId}`);
     const populatePersonAvatar = new Populate(
-      COLLECTION_NAME.Person,
+      COLLECTION_NAME.File,
       REF_PROPERTY_NAME.PersonPictureRef
     );
     const networkResponse = this.networkService.getDocument(

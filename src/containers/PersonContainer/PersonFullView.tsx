@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import Person from "../../models/Person";
 import Role from "../../models/Role";
 import MatterSponsor from "../../models/MatterSponsor";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import { CoverImage } from "./CoverImage";
 import { Biography } from "./Biography";
 import { getMostRecentRole } from "../../models/util/RoleUtilities";

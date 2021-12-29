@@ -25,10 +25,12 @@ const PersonPage: FC = () => {
     const matterSponsorService = new MatterSponsorService(firebaseConfig);
     const roleService = new RoleService(firebaseConfig);
 
-    const person = await personService.getPersonById(id);
-    const votes = await voteService.getFullyPopulatedVotesByPersonId(id);
-    const mattersSponsored = await matterSponsorService.getMattersSponsoredByPersonId(id);
-    const roles = await roleService.getPopulatedRolesByPersonId(id);
+    const [person, votes, mattersSponsored, roles] = await Promise.all([
+      personService.getPersonById(id),
+      voteService.getFullyPopulatedVotesByPersonId(id),
+      matterSponsorService.getMattersSponsoredByPersonId(id),
+      roleService.getPopulatedRolesByPersonId(id),
+    ]);
 
     const payload: PersonPageData = {
       person,

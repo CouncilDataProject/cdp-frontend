@@ -1,6 +1,5 @@
 import React from "react";
 import { PeoplePageData } from "./types";
-import "@mozilla-protocol/core/protocol/css/protocol.css";
 import Person from "../../models/Person";
 import { Link } from "react-router-dom";
 export interface PeopleContainerProps extends PeoplePageData {

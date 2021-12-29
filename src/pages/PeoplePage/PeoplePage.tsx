@@ -15,8 +15,10 @@ const PeoplePage: FC = () => {
     const personService = new PersonService(firebaseConfig);
     const roleService = new RoleService(firebaseConfig);
 
-    const currentPeople = await roleService.getCurrentRoles();
-    const allPeople = await personService.getAllPeople();
+    const [currentPeople, allPeople] = await Promise.all([
+      roleService.getCurrentRoles(),
+      personService.getAllPeople(),
+    ]);
 
     const payload: PeoplePageData = {
       currentPeople,

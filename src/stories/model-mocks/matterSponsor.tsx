@@ -6,11 +6,11 @@
   image_ref?: string,
   image?: File,
 */
-const basicMatterSponsor = {
-  name: "Matter",
-  external_source_id: "basicMatterSponsor-fake-external-id",
-  electoral_area: "basicMatterSponsor test electoral area",
-  electoral_type: "basicMatterSponsor electoral type",
+const basicMatter = {
+  name: "basicMatter Name",
+  matter_type: "basicMatter type",
+  title: "basicMatter title",
+  external_source_id: "basicMatter-fake-external-id",
 };
 
-export { basicMatterSponsor };
+export { basicMatter };
