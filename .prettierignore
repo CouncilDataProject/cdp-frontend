@@ -1,2 +1,3 @@
-# Ignore all SVG files
+# Ignore all image files
 *.svg
+*.jpg
