@@ -47,6 +47,8 @@ Use `npm run storybook` to see your changes to individual components as you work
 
 If you are creating new components, add new Storybook files to accompany them.
 
+If your work is integrated into the example app, use `npm run start:app` to see your changes in the app as you work. Optionally, use `npm run preview:app` to see your changes in production mode.
+
 ## Checking Your Work
 
 - When you're done making changes, check that your changes pass linting, formatting,
@@ -59,9 +61,9 @@ tests, and that the package builds:
     $ npm run localize
     ```
 
-## Deploying Your Storybook Docs Site
+## Deploying Your Storybook Docs Site or Example App
 
-You can also build and deploy the Storybook docs website to your forked repo's GitHub Pages for a live preview of your changes that can be shared with others.
+You can also build and deploy the Storybook docs website or the example app to your forked repo's GitHub Pages for a live preview of your changes that can be shared with others.
 
 _Note: If you're working on component features or bug fixes we will ask for this link to view your work._
 
@@ -70,7 +72,14 @@ npm run build-storybook-docs
 npm run deploy-storybook-docs
 ```
 
-Once deployed, the site should be viewable at the following link: https://{your-github-username}.github.io/cdp-frontend/
+If your work is on components that is integrated into the example app, you can build and deploy the example app instead of the Storybook docs website.
+
+```
+npm run build:app
+npm run deploy:app
+```
+
+Once deployed, the site or app should be viewable at the following link: https://{your-github-username}.github.io/cdp-frontend/
 
 The first time you deploy the docs site, navigating to this link will likely result in a 401 error. This is because GitHub Pages defaults to private visibility. To change this:
 
