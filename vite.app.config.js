@@ -15,12 +15,6 @@ const resolveFixup = {
 };
 
 export default defineConfig({
-  server: {
-    fs: {
-      // Allow serving files(index-react.tsx) from one level up to the project root
-      allow: [".."],
-    },
-  },
   optimizeDeps: {
     esbuildOptions: {
       plugins: [resolveFixup],
