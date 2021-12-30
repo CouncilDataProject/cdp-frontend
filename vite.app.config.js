@@ -15,7 +15,6 @@ const resolveFixup = {
 };
 
 export default defineConfig({
-  base: "/cdp-frontend/",
   server: {
     fs: {
       // Allow serving files(index-react.tsx) from one level up to the project root
