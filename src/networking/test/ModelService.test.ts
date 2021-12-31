@@ -2,16 +2,19 @@ import { NetworkResponse, ResponseData } from "../NetworkResponse";
 import Event from "../../models/Event";
 import EventService from "../EventService";
 import firestoreTimestampToDate from "../../utils/firestoreTimestampToDate";
-import { Timestamp } from "firebase/firestore";
+import { Timestamp, doc, getFirestore } from "firebase/firestore";
+import { COLLECTION_NAME } from "../PopulationOptions";
 
 describe("ModelService", () => {
   const eventService = new EventService({ options: { projectId: "test" }, settings: {} });
+  const bodyReference = doc(getFirestore(), COLLECTION_NAME.Body, "test_body_ref_id");
   describe("createModel", () => {
+    const time = new Timestamp(100000, 150000);
     const mockData: ResponseData = {
       agenda_uri: "test",
       id: "testID",
-      body_ref: { id: "test_body_ref_id" },
-      event_datetime: new Timestamp(100000, 150000),
+      body_ref: bodyReference,
+      event_datetime: time,
     };
     test("Dynamically creates database model", async () => {
       const createModelResponse = await eventService.createModel(
@@ -23,7 +26,7 @@ describe("ModelService", () => {
         agenda_uri: "test",
         id: "testID",
         body_ref: "test_body_ref_id",
-        event_datetime: firestoreTimestampToDate(new Timestamp(100000, 150000)),
+        event_datetime: firestoreTimestampToDate(time),
       });
     });
     test("Dynamically creates database model of correct class", async () => {

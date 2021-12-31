@@ -34,7 +34,6 @@ export default class ModelService {
   ): Promise<Model> {
     try {
       const { data, error } = await networkResponse;
-
       if (error) {
         throw error;
       }

@@ -20,7 +20,6 @@ class Event implements Model {
 
   constructor(jsonData: ResponseData) {
     this.id = jsonData["id"];
-    console.log(`Attempting to create Event with data: ${JSON.stringify(jsonData, null, 2)}`);
     this.event_datetime = firestoreTimestampToDate(jsonData["event_datetime"]);
     this.body_ref = jsonData["body_ref"].id;
 
