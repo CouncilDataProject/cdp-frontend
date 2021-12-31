@@ -4,12 +4,18 @@ import Person from "../../models/Person";
 import Role from "../../models/Role";
 import { AvatarImage } from "./AvatarImage";
 
-const EXAMPLE_COVER_VIEWS: string[] = [
-  "dave-hoefler-reduced-1",
-  "dave-hoefler-reduced-2",
-  "dave-hoefler-reduced-3",
-  "dave-hoefler-reduced-4",
-  "dave-hoefler-reduced-5",
+import exampleCover1 from "../../assets/images/dave-hoefler-reduced-1.jpg";
+import exampleCover2 from "../../assets/images/dave-hoefler-reduced-2.jpg";
+import exampleCover3 from "../../assets/images/dave-hoefler-reduced-3.jpg";
+import exampleCover4 from "../../assets/images/dave-hoefler-reduced-4.jpg";
+import exampleCover5 from "../../assets/images/dave-hoefler-reduced-5.jpg";
+
+const EXAMPLE_COVER_VIEWS = [
+  exampleCover1,
+  exampleCover2,
+  exampleCover3,
+  exampleCover4,
+  exampleCover5,
 ];
 
 const CoverImg = styled.img(() => ({
@@ -38,9 +44,8 @@ const CoverImage: FC<CoverImageProps> = ({ person, currentRole }: CoverImageProp
       </div>
     );
   } else {
-    const defaultCover = `public/images/${
-      EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)]
-    }.jpg`;
+    const defaultCover =
+      EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)];
     return (
       <div>
         <CoverImg

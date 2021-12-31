@@ -8,12 +8,12 @@ ReactDOM.render(
       appConfig={{
         firebaseConfig: {
           options: {
-            projectId: "cdp-test-deployment-435b5309",
+            projectId: "cdp-seattle-staging-dbengvtn",
           },
           settings: {},
         },
         municipality: {
-          name: "Test Deployment",
+          name: "Seattle Test",
           footerLinksSections: [],
         },
       }}

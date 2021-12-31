@@ -5,6 +5,7 @@ node_modules
 lib
 es
 dist
+build
 type-declarations
 dist-docs
 coverage
