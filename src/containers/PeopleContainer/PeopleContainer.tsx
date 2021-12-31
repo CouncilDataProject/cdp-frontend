@@ -8,15 +8,11 @@ export interface PeopleContainerProps extends PeoplePageData {
 }
 
 function renderLinkCard(person: Person) {
-  if (person.id) {
-    return (
-      <div>
-        <Link to={`/people/${person.id}`}>{person.name}</Link>
-      </div>
-    );
-  } else {
-    return null;
-  }
+  return (
+    <div>
+      <Link to={`/people/${person.id}`}>{person.name}</Link>
+    </div>
+  );
 }
 
 const PersonContainer = ({ currentPeople, allPeople }: PeopleContainerProps) => {

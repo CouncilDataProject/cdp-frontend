@@ -32,7 +32,7 @@ export default class EventMinutesItemFileService extends ModelService {
         networkQueryResponse,
         EventMinutesItemFile,
         `getEventMinutesItemFilesByEventMinutesItemId(${eventMinutesItemId})`
-      );
+      ) as Promise<EventMinutesItemFile[]>;
     } catch (e) {
       // Didn't find any files for event minutes item, return empty list is OK
       return Promise.resolve([]);

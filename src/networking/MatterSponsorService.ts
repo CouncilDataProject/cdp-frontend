@@ -42,6 +42,6 @@ export default class MatterSponsorService extends ModelService {
       networkQueryResponse,
       MatterSponsor,
       `getMattersSponsoredByPersonId(${personId})`
-    );
+    ) as Promise<MatterSponsor[]>;
   }
 }

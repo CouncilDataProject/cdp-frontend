@@ -6,11 +6,11 @@ import { Model } from "./Model";
 import { DocumentReference } from "@firebase/firestore";
 
 class Event implements Model {
-  id?: string;
+  id: string;
   agenda_uri?: string;
-  body_ref?: string;
+  body_ref: string;
   body?: Body;
-  event_datetime?: Date;
+  event_datetime: Date;
   external_source_id?: string;
   hover_thumbnail_ref?: string;
   hover_thumbnail?: File;
@@ -19,9 +19,7 @@ class Event implements Model {
   static_thumbnail?: File;
 
   constructor(jsonData: ResponseData) {
-    if (jsonData["id"]) {
-      this.id = jsonData["id"];
-    }
+    this.id = jsonData["id"];
 
     if (jsonData["agenda_uri"]) {
       this.agenda_uri = jsonData["agenda_uri"];
@@ -31,17 +29,13 @@ class Event implements Model {
       this.minutes_uri = jsonData["minutes_uri"];
     }
 
-    if (jsonData["body_ref"]) {
-      if (jsonData["body_ref"] instanceof DocumentReference) {
-        this.body_ref = jsonData["body_ref"].id;
-      } else if (typeof jsonData["body_ref"] === "object") {
-        this.body = new Body(jsonData["body_ref"]);
-      }
+    this.body_ref = jsonData["body_ref"].id;
+
+    if (typeof jsonData["body_ref"] === "object") {
+      this.body = new Body(jsonData["body_ref"]);
     }
 
-    if (jsonData["event_datetime"]) {
-      this.event_datetime = firestoreTimestampToDate(jsonData["event_datetime"]);
-    }
+    this.event_datetime = firestoreTimestampToDate(jsonData["event_datetime"]);
 
     if (jsonData["external_source_id"]) {
       this.external_source_id = jsonData["external_source_id"];

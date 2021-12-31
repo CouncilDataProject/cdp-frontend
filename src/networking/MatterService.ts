@@ -10,6 +10,10 @@ export default class MatterService extends ModelService {
 
   async getMatterById(matterId: string): Promise<Matter> {
     const networkResponse = this.networkService.getDocument(matterId, COLLECTION_NAME.Matter);
-    return this.createModel(networkResponse, Matter, `getMatterById(${matterId})`);
+    return this.createModel(
+      networkResponse,
+      Matter,
+      `getMatterById(${matterId})`
+    ) as Promise<Matter>;
   }
 }

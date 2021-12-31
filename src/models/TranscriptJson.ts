@@ -25,6 +25,7 @@ export interface Word {
 }
 
 export default class TranscriptJson implements Model {
+  id: string;
   confidence?: number;
   generator?: string;
   session_datetime?: Date;
@@ -33,6 +34,8 @@ export default class TranscriptJson implements Model {
   annotations?: any;
 
   constructor(jsonData: ResponseData) {
+    this.id = jsonData["id"];
+
     if (jsonData["confidence"]) {
       this.confidence = jsonData["confidence"];
     }

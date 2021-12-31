@@ -16,13 +16,15 @@ export default class BodyService extends ModelService {
     const networkQueryResponse = this.networkService.getDocuments(COLLECTION_NAME.Body, [
       where("name", WHERE_OPERATOR.eq, name),
     ]);
-    return this.createModels(networkQueryResponse, Body, `getBodyByName(${name})`);
+    return this.createModels(networkQueryResponse, Body, `getBodyByName(${name})`) as Promise<
+      Body[]
+    >;
   }
 
   async getAllBodies(): Promise<Body[]> {
     const networkQueryResponse = this.networkService.getDocuments(COLLECTION_NAME.Body, [
       orderBy("name"),
     ]);
-    return this.createModels(networkQueryResponse, Body, `getAllBodies()`);
+    return this.createModels(networkQueryResponse, Body, `getAllBodies()`) as Promise<Body[]>;
   }
 }
