@@ -3,6 +3,7 @@ import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import File from "./File";
 import Session from "./Session";
 import { Model } from "./Model";
+import { DocumentReference } from "firebase/firestore";
 export default class Transcript implements Model {
   id: string;
   confidence: number;
@@ -21,11 +22,17 @@ export default class Transcript implements Model {
     this.file_ref = jsonData["file_ref"].id;
     this.session_ref = jsonData["session_ref"].id;
 
-    if (typeof jsonData["file_ref"] === "object") {
+    if (
+      typeof jsonData["file_ref"] === "object" &&
+      !(jsonData["file_ref"] instanceof DocumentReference)
+    ) {
       this.file = new File(jsonData["file_ref"]);
     }
 
-    if (typeof jsonData["session_ref"] === "object") {
+    if (
+      typeof jsonData["session_ref"] === "object" &&
+      !(jsonData["session_ref"] instanceof DocumentReference)
+    ) {
       this.session = new Session(jsonData["session_ref"]);
     }
   }

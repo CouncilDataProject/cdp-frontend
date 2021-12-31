@@ -7,11 +7,15 @@ export default class Body implements Model {
   end_datetime?: Date;
   external_source_id?: string;
   is_active: boolean;
-  name?: string;
+  name: string;
   start_datetime: Date;
 
   constructor(jsonData: ResponseData) {
     this.id = jsonData["id"];
+    this.is_active = jsonData["is_active"];
+    this.start_datetime = firestoreTimestampToDate(jsonData["start_datetime"]);
+    this.name = jsonData["name"];
+
     if (jsonData["description"]) {
       this.description = jsonData["description"];
     }
@@ -20,11 +24,6 @@ export default class Body implements Model {
     }
     if (jsonData["external_source_id"]) {
       this.external_source_id = jsonData["external_source_id"];
-    }
-    this.is_active = jsonData["is_active"];
-    this.start_datetime = firestoreTimestampToDate(jsonData["start_datetime"]);
-    if (jsonData["name"]) {
-      this.name = jsonData["name"];
     }
   }
 }

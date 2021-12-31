@@ -20,6 +20,9 @@ class Event implements Model {
 
   constructor(jsonData: ResponseData) {
     this.id = jsonData["id"];
+    console.log(`Attempting to create Event with data: ${JSON.stringify(jsonData, null, 2)}`);
+    this.event_datetime = firestoreTimestampToDate(jsonData["event_datetime"]);
+    this.body_ref = jsonData["body_ref"].id;
 
     if (jsonData["agenda_uri"]) {
       this.agenda_uri = jsonData["agenda_uri"];
@@ -29,13 +32,12 @@ class Event implements Model {
       this.minutes_uri = jsonData["minutes_uri"];
     }
 
-    this.body_ref = jsonData["body_ref"].id;
-
-    if (typeof jsonData["body_ref"] === "object") {
+    if (
+      typeof jsonData["body_ref"] === "object" &&
+      !(jsonData["body_ref"] instanceof DocumentReference)
+    ) {
       this.body = new Body(jsonData["body_ref"]);
     }
-
-    this.event_datetime = firestoreTimestampToDate(jsonData["event_datetime"]);
 
     if (jsonData["external_source_id"]) {
       this.external_source_id = jsonData["external_source_id"];

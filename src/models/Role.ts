@@ -34,7 +34,10 @@ export default class Role implements Model {
       this.end_datetime = firestoreTimestampToDate(jsonData["end_datetime"]);
     }
 
-    if (typeof jsonData["person_ref"] === "object") {
+    if (
+      typeof jsonData["person_ref"] === "object" &&
+      !(jsonData["person_ref"] instanceof DocumentReference)
+    ) {
       this.person = new Person(jsonData["person_ref"]);
     }
 
@@ -46,7 +49,10 @@ export default class Role implements Model {
       }
     }
 
-    if (typeof jsonData["seat_ref"] === "object") {
+    if (
+      typeof jsonData["seat_ref"] === "object" &&
+      !(jsonData["seat_ref"] instanceof DocumentReference)
+    ) {
       this.seat = new Seat(jsonData["seat_ref"]);
     }
 

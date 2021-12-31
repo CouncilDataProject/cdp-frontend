@@ -1,7 +1,7 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import Event from "./Event";
 import { Model } from "./Model";
-
+import { DocumentReference } from "firebase/firestore";
 export default class IndexedEventGram implements Model {
   id: string;
   context_span: string;
@@ -21,7 +21,10 @@ export default class IndexedEventGram implements Model {
     this.unstemmed_gram = jsonData["unstemmed_gram"];
     this.value = jsonData["value"];
 
-    if (typeof jsonData["event_ref"] === "object") {
+    if (
+      typeof jsonData["event_ref"] === "object" &&
+      !(jsonData["event_ref"] instanceof DocumentReference)
+    ) {
       this.event = new Event(jsonData["event_ref"]);
     }
   }

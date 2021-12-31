@@ -2,6 +2,7 @@ import { ResponseData } from "../networking/NetworkResponse";
 import { Model } from "./Model";
 import Matter from "./Matter";
 import Person from "./Person";
+import { DocumentReference } from "firebase/firestore";
 export default class MatterSponsor implements Model {
   id: string;
   matter?: Matter;
@@ -19,11 +20,17 @@ export default class MatterSponsor implements Model {
       this.external_source_id = jsonData["external_source_id"];
     }
 
-    if (typeof jsonData["person_ref"] === "object") {
+    if (
+      typeof jsonData["person_ref"] === "object" &&
+      !(jsonData["person_ref"] instanceof DocumentReference)
+    ) {
       this.person = new Person(jsonData["person_ref"]);
     }
 
-    if (typeof jsonData["matter_ref"] === "object") {
+    if (
+      typeof jsonData["matter_ref"] === "object" &&
+      !(jsonData["matter_ref"] instanceof DocumentReference)
+    ) {
       this.matter = new Matter(jsonData["matter_ref"]);
     }
   }

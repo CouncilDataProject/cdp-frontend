@@ -15,6 +15,7 @@ export enum COLLECTION_NAME {
   Seat = "seat",
   Session = "session",
   Transcript = "transcript",
+  TranscriptJSON = "transcript_json",
   Vote = "vote",
 }
 

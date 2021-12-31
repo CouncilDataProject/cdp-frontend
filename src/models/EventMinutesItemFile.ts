@@ -1,6 +1,7 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import EventMinutesItem from "./EventMinutesItem";
 import { Model } from "./Model";
+import { DocumentReference } from "firebase/firestore";
 export default class EventMinutesItemFile implements Model {
   id: string;
   event_minutes_item_ref: string;
@@ -14,7 +15,10 @@ export default class EventMinutesItemFile implements Model {
 
     this.event_minutes_item_ref = jsonData["event_minutes_item_ref"].id;
 
-    if (typeof jsonData["event_minutes_item_ref"] === "object") {
+    if (
+      typeof jsonData["event_minutes_item_ref"] === "object" &&
+      !(jsonData["event_minutes_item_ref"] instanceof DocumentReference)
+    ) {
       this.event_minutes_item = new EventMinutesItem(jsonData["event_minutes_item_ref"]);
     }
 

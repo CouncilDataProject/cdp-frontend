@@ -25,35 +25,21 @@ export interface Word {
 }
 
 export default class TranscriptJson implements Model {
-  id: string;
-  confidence?: number;
-  generator?: string;
+  confidence: number;
+  generator: string;
   session_datetime?: Date;
-  created_datetime?: Date;
-  sentences?: Sentence[];
+  created_datetime: Date;
+  sentences: Sentence[];
   annotations?: any;
 
   constructor(jsonData: ResponseData) {
-    this.id = jsonData["id"];
-
-    if (jsonData["confidence"]) {
-      this.confidence = jsonData["confidence"];
-    }
-
-    if (jsonData["generator"]) {
-      this.generator = jsonData["generator"];
-    }
+    this.confidence = jsonData["confidence"];
+    this.generator = jsonData["generator"];
+    this.created_datetime = firestoreTimestampToDate(jsonData["created_datetime"]);
+    this.sentences = jsonData["sentences"];
 
     if (jsonData["session_datetime"]) {
       this.session_datetime = firestoreTimestampToDate(jsonData["session_datetime"]);
-    }
-
-    if (jsonData["created_datetime"]) {
-      this.created_datetime = firestoreTimestampToDate(jsonData["created_datetime"]);
-    }
-
-    if (jsonData["sentences"]) {
-      this.sentences = jsonData["sentences"];
     }
 
     if (jsonData["annotations"]) {

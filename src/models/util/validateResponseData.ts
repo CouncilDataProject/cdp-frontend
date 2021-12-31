@@ -4,7 +4,7 @@ import { COLLECTION_NAME } from "../../networking/PopulationOptions";
 function getRequiredProperties(forCollection: COLLECTION_NAME): string[] {
   switch (forCollection) {
     case COLLECTION_NAME.Body:
-      return ["id", "is_active", "start_datetime"];
+      return ["id", "is_active", "start_datetime", "name"];
     case COLLECTION_NAME.Event:
       return ["id", "body_ref", "event_datetime"];
     case COLLECTION_NAME.EventMinutesItem:
@@ -43,10 +43,10 @@ function getRequiredProperties(forCollection: COLLECTION_NAME): string[] {
       return ["id", "event_ref", "session_datetime", "session_index", "video_uri"];
     case COLLECTION_NAME.Transcript:
       return ["id", "confidence", "created", "generator", "file_ref", "session_ref"];
+    case COLLECTION_NAME.TranscriptJSON:
+      return ["confidence", "generator", "created_datetime", "sentences"];
     case COLLECTION_NAME.Vote:
-      return ["id", "event_minutes_item_ref", "event_ref", "matter_ref", "person_ref"];
-    default:
-      return ["id"];
+      return ["id", "event_minutes_item_ref", "event_ref", "matter_ref", "person_ref", "decision"];
   }
 }
 
@@ -68,10 +68,10 @@ export default function (
     }
   } catch (error) {
     if (error instanceof Error) {
-      error.message = `_validateResponseData_${error.message}`;
+      error.message = `validateResponseData_${error.message}`;
       return error;
     } else {
-      return new Error(`_validateResponseData_somehow threw a incorrectly-typed error`);
+      return new Error(`validateResponseData_somehow threw a incorrectly-typed error`);
     }
   }
 }

@@ -6,7 +6,7 @@ import { COLLECTION_NAME } from "./PopulationOptions";
 
 export default class TranscriptJsonService extends ModelService {
   constructor(firebaseConfig: FirebaseConfig) {
-    super(COLLECTION_NAME.Transcript, firebaseConfig);
+    super(COLLECTION_NAME.TranscriptJSON, firebaseConfig);
   }
 
   async download(uri: string): Promise<TranscriptJson> {

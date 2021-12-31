@@ -2,6 +2,7 @@ import { ResponseData } from "../networking/NetworkResponse";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import Event from "./Event";
 import { Model } from "./Model";
+import { DocumentReference } from "firebase/firestore";
 export default class Session implements Model {
   id: string;
   caption_uri?: string;
@@ -23,7 +24,10 @@ export default class Session implements Model {
       this.caption_uri = jsonData["caption_uri"];
     }
 
-    if (typeof jsonData["event_ref"] === "object") {
+    if (
+      typeof jsonData["event_ref"] === "object" &&
+      !(jsonData["event_ref"] instanceof DocumentReference)
+    ) {
       this.event = new Event(jsonData["event_ref"]);
     }
 

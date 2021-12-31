@@ -33,7 +33,10 @@ export default class MatterStatus implements Model {
       this.external_source_id = jsonData["external_source_id"];
     }
 
-    if (typeof jsonData["matter_ref"] === "object") {
+    if (
+      typeof jsonData["matter_ref"] === "object" &&
+      !(jsonData["matter_ref"] instanceof DocumentReference)
+    ) {
       this.matter = new Matter(jsonData["matter_ref"]);
     }
   }
