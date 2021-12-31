@@ -3,44 +3,37 @@ import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import File from "./File";
 import Session from "./Session";
 import { Model } from "./Model";
-import { DocumentReference } from "@firebase/firestore";
-
+import { DocumentReference } from "firebase/firestore";
 export default class Transcript implements Model {
-  id?: string;
-  confidence?: number;
-  created?: Date;
-  file_ref?: string;
+  id: string;
+  confidence: number;
+  created: Date;
+  generator: string;
+  file_ref: string;
   file?: File;
-  session_ref?: string;
+  session_ref: string;
   session?: Session;
 
   constructor(jsonData: ResponseData) {
-    if (jsonData["id"]) {
-      this.id = jsonData["id"];
+    this.id = jsonData["id"];
+    this.confidence = jsonData["confidence"];
+    this.generator = jsonData["generator"];
+    this.created = firestoreTimestampToDate(jsonData["created"]);
+    this.file_ref = jsonData["file_ref"].id;
+    this.session_ref = jsonData["session_ref"].id;
+
+    if (
+      typeof jsonData["file_ref"] === "object" &&
+      !(jsonData["file_ref"] instanceof DocumentReference)
+    ) {
+      this.file = new File(jsonData["file_ref"]);
     }
 
-    if (jsonData["confidence"]) {
-      this.confidence = jsonData["confidence"];
-    }
-
-    if (jsonData["created"]) {
-      this.created = firestoreTimestampToDate(jsonData["created"]);
-    }
-
-    if (jsonData["file_ref"]) {
-      if (jsonData["file_ref"] instanceof DocumentReference) {
-        this.file_ref = jsonData["file_ref"].id;
-      } else if (typeof jsonData["file_ref"] === "object") {
-        this.file = new File(jsonData["file_ref"]);
-      }
-    }
-
-    if (jsonData["session_ref"]) {
-      if (jsonData["session_ref"] instanceof DocumentReference) {
-        this.session_ref = jsonData["session_ref"].id;
-      } else if (typeof jsonData["session_ref"] === "object") {
-        this.session = new Session(jsonData["session_ref"]);
-      }
+    if (
+      typeof jsonData["session_ref"] === "object" &&
+      !(jsonData["session_ref"] instanceof DocumentReference)
+    ) {
+      this.session = new Session(jsonData["session_ref"]);
     }
   }
 }

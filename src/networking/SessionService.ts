@@ -22,6 +22,10 @@ export default class SessionService extends ModelService {
       ),
       orderBy("session_index"),
     ]);
-    return this.createModels(networkQueryResponse, Session, `getSessionsByEventId(${eventId})`);
+    return this.createModels(
+      networkQueryResponse,
+      Session,
+      `getSessionsByEventId(${eventId})`
+    ) as Promise<Session[]>;
   }
 }

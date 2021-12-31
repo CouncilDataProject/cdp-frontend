@@ -26,9 +26,9 @@ const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonConta
     <div key={person.id}>
       {isMobile && (
         <PersonCard
-          personName={person.name!}
+          personName={person.name}
           personPictureSrc={""}
-          personIsActive={person.is_active!}
+          personIsActive={person.is_active}
           seatName={currentRole.seat?.name || "No name"}
           seatElectoralArea={currentRole.seat?.electoral_area || "No Electoral Area"}
           seatPictureSrc={currentRole.seat?.image?.uri}

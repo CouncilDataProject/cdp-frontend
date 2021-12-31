@@ -23,12 +23,16 @@ export default class PersonService extends ModelService {
       COLLECTION_NAME.Person,
       new PopulationOptions([populatePersonAvatar])
     );
-    return this.createModel(networkResponse, Person, `getPersonById(${personId})`);
+    return this.createModel(
+      networkResponse,
+      Person,
+      `getPersonById(${personId})`
+    ) as Promise<Person>;
   }
 
   async getAllPeople(): Promise<Person[]> {
     const networkResponse = this.networkService.getDocuments(COLLECTION_NAME.Person, []);
 
-    return this.createModels(networkResponse, Person, `getAllPeople`);
+    return this.createModels(networkResponse, Person, `getAllPeople`) as Promise<Person[]>;
   }
 }

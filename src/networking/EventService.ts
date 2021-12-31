@@ -46,7 +46,7 @@ export default class EventService extends ModelService {
       COLLECTION_NAME.Event,
       new PopulationOptions([new Populate(COLLECTION_NAME.Body, REF_PROPERTY_NAME.EventBodyRef)])
     );
-    return this.createModel(networkResponse, Event, `getEventById(${eventId})`);
+    return this.createModel(networkResponse, Event, `getEventById(${eventId})`) as Promise<Event>;
   }
 
   async getFullEventById(eventId: string): Promise<Event> {
@@ -60,7 +60,11 @@ export default class EventService extends ModelService {
       ])
     );
 
-    return this.createModel(networkResponse, Event, `getFullEventById(${eventId})`);
+    return this.createModel(
+      networkResponse,
+      Event,
+      `getFullEventById(${eventId})`
+    ) as Promise<Event>;
   }
 
   async getEvents(
@@ -120,7 +124,7 @@ export default class EventService extends ModelService {
       `getEvents([${bodyIds}], ${JSON.stringify(dateRange)}, ${JSON.stringify(sort)}, ${
         startAfterEventDate?.toISOString
       }})`
-    );
+    ) as Promise<Event[]>;
   }
 
   async getRenderableEvent(event: Event): Promise<RenderableEvent> {

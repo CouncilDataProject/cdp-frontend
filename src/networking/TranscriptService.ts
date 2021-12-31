@@ -38,6 +38,6 @@ export default class TranscriptService extends ModelService {
       networkQueryResponse,
       Transcript,
       `getTranscriptBySessionId(${sessionId})`
-    );
+    ) as Promise<Transcript[]>;
   }
 }

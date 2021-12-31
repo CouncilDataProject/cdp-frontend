@@ -20,7 +20,11 @@ export default class IndexedEventGramService extends ModelService {
       where("stemmed_gram", WHERE_OPERATOR.eq, stemmedGram),
     ]);
 
-    return this.createModels(networkResponse, IndexedEventGram, `getMatchingGrams(${stemmedGram})`);
+    return this.createModels(
+      networkResponse,
+      IndexedEventGram,
+      `getMatchingGrams(${stemmedGram})`
+    ) as Promise<IndexedEventGram[]>;
   }
 
   async getKeyGramsForEvent(eventRef: string): Promise<IndexedEventGram[]> {
@@ -30,6 +34,10 @@ export default class IndexedEventGramService extends ModelService {
       limit(5),
     ]);
 
-    return this.createModels(networkResponse, IndexedEventGram, `getKeyGramsForEvent(${eventRef})`);
+    return this.createModels(
+      networkResponse,
+      IndexedEventGram,
+      `getKeyGramsForEvent(${eventRef})`
+    ) as Promise<IndexedEventGram[]>;
   }
 }

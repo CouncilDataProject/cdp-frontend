@@ -4,25 +4,23 @@ import { Model } from "./Model";
 import { DocumentReference } from "@firebase/firestore";
 
 class Person implements Model {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
   email?: string;
   phone?: string;
   website?: string;
-  router_string?: string;
+  router_string: string;
   picture_ref?: string; // reference field
   picture?: File;
-  is_active?: boolean;
+  is_active: boolean;
   external_source_id?: string;
 
   constructor(jsonData: ResponseData) {
-    if (jsonData["id"]) {
-      this.id = jsonData["id"];
-    }
+    this.id = jsonData["id"];
+    this.is_active = jsonData["is_active"];
+    this.name = jsonData["name"];
+    this.router_string = jsonData["router_string"];
 
-    if (jsonData["name"]) {
-      this.name = jsonData["name"];
-    }
     if (jsonData["email"]) {
       this.email = jsonData["email"];
     }
@@ -35,20 +33,12 @@ class Person implements Model {
       this.website = jsonData["website"];
     }
 
-    if (jsonData["router_string"]) {
-      this.router_string = jsonData["router_string"];
-    }
-
     if (jsonData["picture_ref"]) {
       if (jsonData["picture_ref"] instanceof DocumentReference) {
         this.picture_ref = jsonData["picture_ref"].id;
       } else if (typeof jsonData["picture_ref"] === "object") {
         this.picture = new File(jsonData["picture_ref"]);
       }
-    }
-
-    if (jsonData["is_active"]) {
-      this.is_active = jsonData["is_active"];
     }
 
     if (jsonData["external_source_id"]) {

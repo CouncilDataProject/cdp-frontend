@@ -1,20 +1,21 @@
 import { ResponseData } from "../networking/NetworkResponse";
 import { Model } from "./Model";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
-
 export default class Body implements Model {
-  id?: string;
+  id: string;
   description?: string;
   end_datetime?: Date;
   external_source_id?: string;
-  is_active?: boolean;
-  name?: string;
-  start_datetime?: Date;
+  is_active: boolean;
+  name: string;
+  start_datetime: Date;
 
   constructor(jsonData: ResponseData) {
-    if (jsonData["id"]) {
-      this.id = jsonData["id"];
-    }
+    this.id = jsonData["id"];
+    this.is_active = jsonData["is_active"];
+    this.start_datetime = firestoreTimestampToDate(jsonData["start_datetime"]);
+    this.name = jsonData["name"];
+
     if (jsonData["description"]) {
       this.description = jsonData["description"];
     }
@@ -23,15 +24,6 @@ export default class Body implements Model {
     }
     if (jsonData["external_source_id"]) {
       this.external_source_id = jsonData["external_source_id"];
-    }
-    if (jsonData["is_active"]) {
-      this.is_active = jsonData["is_active"];
-    }
-    if (jsonData["start_datetime"]) {
-      this.start_datetime = firestoreTimestampToDate(jsonData["start_datetime"]);
-    }
-    if (jsonData["name"]) {
-      this.name = jsonData["name"];
     }
   }
 }

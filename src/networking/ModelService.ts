@@ -1,18 +1,20 @@
 import { FirebaseConfig } from "../app/AppConfigContext";
 import { NetworkResponse, NetworkQueryResponse } from "./NetworkResponse";
 import { NetworkService } from "./NetworkService";
+import validateResponseData from "../models/util/validateResponseData";
 
 import { ModelConstructor, Model } from "../models/Model";
 
 import { createError } from "../utils/createError";
 import { NoDocumentsError } from "./NetworkResponse";
+import { COLLECTION_NAME } from "./PopulationOptions";
 
 export default class ModelService {
   networkService: NetworkService;
-  private modelName: string;
+  private modelName: COLLECTION_NAME;
   private serviceName: string;
 
-  constructor(modelName: string, firebaseConfig: FirebaseConfig) {
+  constructor(modelName: COLLECTION_NAME, firebaseConfig: FirebaseConfig) {
     this.networkService = NetworkService.getInstance(
       firebaseConfig.options,
       firebaseConfig.settings
@@ -32,13 +34,17 @@ export default class ModelService {
   ): Promise<Model> {
     try {
       const { data, error } = await networkResponse;
-
       if (error) {
         throw error;
       }
 
       if (!data) {
         throw new Error(`No ${this.modelName} found.`);
+      }
+
+      const validationError = validateResponseData(data, this.modelName);
+      if (validationError) {
+        throw validationError;
       }
 
       return Promise.resolve(new model(data));
@@ -69,7 +75,14 @@ export default class ModelService {
         throw new Error(`No ${this.modelName}s found.`);
       }
 
-      const models = data.map((datum) => new model(datum));
+      const models = data.map((datum) => {
+        const validationError = validateResponseData(datum, this.modelName);
+        if (validationError) {
+          throw validationError;
+        }
+        return new model(datum);
+      });
+
       return Promise.resolve(models);
     } catch (err) {
       const error = createError(err);

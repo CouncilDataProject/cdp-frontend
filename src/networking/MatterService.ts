@@ -5,11 +5,15 @@ import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class MatterService extends ModelService {
   constructor(firebaseConfig: FirebaseConfig) {
-    super(COLLECTION_NAME.Person, firebaseConfig);
+    super(COLLECTION_NAME.Matter, firebaseConfig);
   }
 
   async getMatterById(matterId: string): Promise<Matter> {
     const networkResponse = this.networkService.getDocument(matterId, COLLECTION_NAME.Matter);
-    return this.createModel(networkResponse, Matter, `getMatterById(${matterId})`);
+    return this.createModel(
+      networkResponse,
+      Matter,
+      `getMatterById(${matterId})`
+    ) as Promise<Matter>;
   }
 }

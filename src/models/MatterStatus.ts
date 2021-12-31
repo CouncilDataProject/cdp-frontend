@@ -6,19 +6,20 @@ import { Model } from "./Model";
 import { DocumentReference } from "@firebase/firestore";
 
 export default class MatterStatus implements Model {
-  id?: string;
+  id: string;
   event_minutes_item_ref?: string;
   event_minutes_item?: EventMinutesItem;
   external_source_id?: string;
-  matter_ref?: string;
+  matter_ref: string;
   matter?: Matter;
-  status?: string;
-  update_datetime?: Date;
+  status: string;
+  update_datetime: Date;
 
   constructor(jsonData: ResponseData) {
-    if (jsonData["id"]) {
-      this.id = jsonData["id"];
-    }
+    this.id = jsonData["id"];
+    this.matter_ref = jsonData["matter_ref"].id;
+    this.status = jsonData["status"];
+    this.update_datetime = firestoreTimestampToDate(jsonData["update_datetime"]);
 
     if (jsonData["event_minutes_item_ref"]) {
       if (jsonData["event_minutes_item_ref"] instanceof DocumentReference) {
@@ -32,20 +33,11 @@ export default class MatterStatus implements Model {
       this.external_source_id = jsonData["external_source_id"];
     }
 
-    if (jsonData["matter_ref"]) {
-      if (jsonData["matter_ref"] instanceof DocumentReference) {
-        this.matter_ref = jsonData["matter_ref"].id;
-      } else if (typeof jsonData["matter_ref"] === "object") {
-        this.matter = new Matter(jsonData["matter_ref"]);
-      }
-    }
-
-    if (jsonData["status"]) {
-      this.status = jsonData["status"];
-    }
-
-    if (jsonData["update_datetime"]) {
-      this.update_datetime = firestoreTimestampToDate(jsonData["update_datetime"]);
+    if (
+      typeof jsonData["matter_ref"] === "object" &&
+      !(jsonData["matter_ref"] instanceof DocumentReference)
+    ) {
+      this.matter = new Matter(jsonData["matter_ref"]);
     }
   }
 }

@@ -44,6 +44,6 @@ export default class EventMinutesItemService extends ModelService {
       networkQueryResponse,
       EventMinutesItem,
       `getEventMinutesItemsByEventId(${eventId})`
-    );
+    ) as Promise<EventMinutesItem[]>;
   }
 }

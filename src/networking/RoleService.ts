@@ -31,7 +31,11 @@ export default class RoleService extends ModelService {
       ),
       orderBy("start_datetime", ORDER_DIRECTION.desc),
     ]);
-    return this.createModels(networkQueryResponse, Role, `getSessionsByPersonId(${personId})`);
+    return this.createModels(
+      networkQueryResponse,
+      Role,
+      `getSessionsByPersonId(${personId})`
+    ) as Promise<Role[]>;
   }
 
   async getPopulatedRolesByPersonId(personId: string): Promise<Role[]> {
@@ -55,7 +59,7 @@ export default class RoleService extends ModelService {
       networkQueryResponse,
       Role,
       `getPopulatedRolesByPersonId(${personId})`
-    );
+    ) as Promise<Role[]>;
   }
 
   async getCurrentRoles(): Promise<Role[]> {
@@ -66,6 +70,6 @@ export default class RoleService extends ModelService {
       [where("end_datetime", WHERE_OPERATOR.eq, null)],
       new PopulationOptions([populatePersonRef])
     );
-    return this.createModels(networkQueryResponse, Role, `getCurrentRoles`);
+    return this.createModels(networkQueryResponse, Role, `getCurrentRoles`) as Promise<Role[]>;
   }
 }
