@@ -14,7 +14,7 @@ import MatterSponsor from "../models/MatterSponsor";
 
 export default class MatterSponsorService extends ModelService {
   constructor(firebaseConfig: FirebaseConfig) {
-    super(COLLECTION_NAME.Role, firebaseConfig);
+    super(COLLECTION_NAME.MatterSponsor, firebaseConfig);
   }
 
   /*

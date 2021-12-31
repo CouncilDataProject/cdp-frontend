@@ -106,6 +106,9 @@ export class NetworkService {
           );
         }
         const data: ResponseData = docSnap.data();
+        if (!data) {
+          return Promise.reject(new Error("No data on docSnap."));
+        }
         data.id = docSnap.id;
         response.data = data;
         if (populationOptions && populationOptions.toPopulate) {
@@ -133,6 +136,7 @@ export class NetworkService {
         }
       })
       .catch((error) => {
+        error.message = `_getDocument_${error.message}`;
         response.error = error;
         return Promise.resolve(response);
       });
@@ -158,6 +162,9 @@ export class NetworkService {
       querySnapshot.forEach((doc) => {
         //Get the data for each doc
         const docData = doc.data();
+        if (!docData) {
+          return Promise.reject(new Error("No data on docSnap."));
+        }
         docData.id = doc.id;
         querySnapshotData.push(docData);
       });

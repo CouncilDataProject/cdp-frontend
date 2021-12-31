@@ -54,15 +54,24 @@ export default function (
   responseData: ResponseData,
   modelName: COLLECTION_NAME
 ): Error | undefined {
-  // the model must have all its required properties or the ResponseData being used to generate it will be invalid
-  const requiredProperties = getRequiredProperties(modelName);
+  try {
+    // the model must have all its required properties or the ResponseData being used to generate it will be invalid
+    const requiredProperties = getRequiredProperties(modelName);
 
-  const requiredPropertiesUnfulfilled = requiredProperties.filter((property) => {
-    return !responseData.hasOwnProperty(property);
-  });
-  if (requiredPropertiesUnfulfilled.length > 0) {
-    return new Error(`Missing properties: ${JSON.stringify(requiredPropertiesUnfulfilled)}`);
-  } else {
-    return;
+    const requiredPropertiesUnfulfilled = requiredProperties.filter((property) => {
+      return !responseData.hasOwnProperty(property);
+    });
+    if (requiredPropertiesUnfulfilled.length > 0) {
+      throw new Error(`Missing properties: ${JSON.stringify(requiredPropertiesUnfulfilled)}`);
+    } else {
+      return; // there is no error, the JSON has been validated
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      error.message = `_validateResponseData_${error.message}`;
+      return error;
+    } else {
+      return new Error(`_validateResponseData_somehow threw a incorrectly-typed error`);
+    }
   }
 }

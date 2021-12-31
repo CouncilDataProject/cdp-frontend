@@ -5,7 +5,7 @@ import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class MatterService extends ModelService {
   constructor(firebaseConfig: FirebaseConfig) {
-    super(COLLECTION_NAME.Person, firebaseConfig);
+    super(COLLECTION_NAME.Matter, firebaseConfig);
   }
 
   async getMatterById(matterId: string): Promise<Matter> {
