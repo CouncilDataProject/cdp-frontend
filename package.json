@@ -23,7 +23,7 @@
     "deploy:app": "gh-pages -d build",
     "preview:app": "vite preview -c vite.app.config.js --base /cdp-frontend/",
     "build:lib": "vite build -c vite.lib.config.js",
-    "build": "npm-run-all --print-label clean --parallel build:app build:lib generateTypes",
+    "build": "npm-run-all --print-label clean --parallel typeCheck build:app build:lib generateTypes",
     "clean": "rimraf build dist type-declarations",
     "format": "prettier --write src/**/*",
     "checkFormat": "prettier --check src/**/*.tsx",
