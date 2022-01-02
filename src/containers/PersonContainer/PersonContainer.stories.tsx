@@ -23,6 +23,7 @@ const Template: Story<PersonContainerProps> = (args) => <PersonContainer {...arg
 export const personWithoutVotes = Template.bind({});
 personWithoutVotes.args = {
   person: basicPerson,
+  votes: [],
   roles: [ten_years_councilmember, expired_chair, recent_chair],
   mattersSponsored: [basicMatterSponsor, populatedMatterMatterSponsor],
 };
