@@ -2,24 +2,22 @@ import React, { FC, Dispatch, SetStateAction, RefObject, useMemo } from "react";
 
 import { TabProps } from "semantic-ui-react";
 
-import Vote from "../../models/Vote";
-
 import { TranscriptFull } from "../../components/Details/TranscriptFull";
 import { TranscriptItemRef } from "../../components/Details/TranscriptItem/TranscriptItem";
 import { MinutesItemsList } from "../../components/Details/MinutesItemsList";
 import { MeetingVotesTable } from "../../components/Tables/MeetingVotesTable";
 import ResponsiveTab from "../../components/Shared/ResponsiveTab";
-import { EventMinutesItemWithFiles, SentenceWithSessionIndex } from "./types";
+import { ECEventMinutesItem, ECSentence, ECVote } from "./types";
 
 import { strings } from "../../assets/LocalizedStrings";
 
 interface EventInfoTabsProps {
   currentInfoTab: number;
   setCurrentInfoTab: Dispatch<SetStateAction<number>>;
-  sentences?: SentenceWithSessionIndex[];
+  sentences?: ECSentence[];
   transcriptItemsRefs: RefObject<TranscriptItemRef>[];
-  eventMinutesItems: EventMinutesItemWithFiles[];
-  votes: Vote[];
+  eventMinutesItems: ECEventMinutesItem[];
+  votes: ECVote[];
   jumpToVideoClip(sessionIndex: number, startTime: number): void;
 }
 
@@ -43,8 +41,8 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
           files && files.length > 0
             ? files.map(({ name, uri }) => {
                 return {
-                  label: name as string,
-                  url: uri as string,
+                  label: name,
+                  url: uri,
                 };
               })
             : undefined,
@@ -54,17 +52,17 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
 
   const votesByEventMinutesItemDict = useMemo(() => {
     return votes.reduce((dict, vote) => {
-      if (!Object.keys(dict).includes(vote.event_minutes_item_ref as string)) {
-        dict[vote.event_minutes_item_ref as string] = [];
+      if (!Object.keys(dict).includes(vote.event_minutes_item_ref)) {
+        dict[vote.event_minutes_item_ref] = [];
       }
-      dict[vote.event_minutes_item_ref as string].push(vote);
+      dict[vote.event_minutes_item_ref].push(vote);
       return dict;
-    }, {} as Record<string, Vote[]>);
+    }, {} as Record<string, ECVote[]>);
   }, [votes]);
 
   const votesByEventMinutesItem = useMemo(() => {
     return eventMinutesItems.map((eventMinutesItem) => {
-      return votesByEventMinutesItemDict[eventMinutesItem.id as string] || [];
+      return votesByEventMinutesItemDict[eventMinutesItem.id] || [];
     });
   }, [votesByEventMinutesItemDict, eventMinutesItems]);
 
@@ -77,7 +75,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
           matter: {
             name: minutes_item?.name,
             description: minutes_item?.description,
-            id: minutes_item?.matter?.id,
+            id: minutes_item?.matter_ref,
           },
           council_decision: decision,
           votes: votesForEventMinutesItem.map(({ person, decision, id }) => {

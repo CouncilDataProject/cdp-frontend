@@ -1,3 +1,5 @@
+import Matter from "../../models/Matter";
+
 /*
   id?: string;
   external_source_id?: string;
@@ -5,7 +7,7 @@
   name?: string;
   title?: string;
 */
-const basicMatter = {
+const basicMatter: Matter = {
   id: "matter id",
   external_source_id: "basicMatter external source id",
   matter_type: "basicMatter type",

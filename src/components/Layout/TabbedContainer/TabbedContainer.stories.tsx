@@ -12,7 +12,7 @@ const Template: Story<TabbedContainerProps> = (args) => <TabbedContainer {...arg
 
 export const tabbedContainer = Template.bind({});
 tabbedContainer.args = {
-  tabLabels: (["Minutes and Documents", "Full Transcript", "Votes"] as unknown) as JSX.Element[],
+  tabLabels: ["Minutes and Documents", "Full Transcript", "Votes"] as unknown as JSX.Element[],
   children: [
     <p key={1}>Contents of Page 1</p>,
     <p key={2}>Contents of Page 2</p>,

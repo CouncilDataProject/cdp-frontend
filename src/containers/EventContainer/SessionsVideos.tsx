@@ -2,17 +2,16 @@ import React, { FC, RefObject, Dispatch, SetStateAction, useRef } from "react";
 
 import { TabProps } from "semantic-ui-react";
 
-import Session from "../../models/Session";
-
 import EventVideo, { EventVideoRef } from "../../components/Details/EventVideo/EventVideo";
 import ResponsiveTab from "../../components/Shared/ResponsiveTab";
+import { ECSession } from "./types";
 
 import { screenWidths } from "../../styles/mediaBreakpoints";
 import { strings } from "../../assets/LocalizedStrings";
 
 interface SessionVideosProps {
   eventVideoRefs: RefObject<EventVideoRef>[];
-  sessions: Session[];
+  sessions: ECSession[];
   currentSession: number;
   initialSeconds: number;
   setCurrentSession: Dispatch<SetStateAction<number>>;
