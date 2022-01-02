@@ -16,10 +16,7 @@ import VoteService from "../../networking/VoteService";
 import TranscriptJsonService from "../../networking/TranscriptJsonService";
 
 import { EventContainer } from "../../containers/EventContainer";
-import {
-  SentenceWithSessionIndex,
-  EventMinutesItemWithFiles,
-} from "../../containers/EventContainer/types";
+import { ECSentence, ECEventMinutesItem } from "../../containers/EventContainer/types";
 import { FetchDataContainer } from "../../containers/FetchDataContainer";
 import useFetchData, {
   FetchDataActionType,
@@ -93,7 +90,7 @@ const EventPage: FC = () => {
       })
     );
   }, [firebaseConfig, id]);
-  const { state: eventMinutesItemsDataState } = useFetchData<EventMinutesItemWithFiles[]>(
+  const { state: eventMinutesItemsDataState } = useFetchData<ECEventMinutesItem[]>(
     { ...initialFetchDataState },
     fetchMinutesItemsWithFiles
   );
@@ -122,7 +119,7 @@ const EventPage: FC = () => {
         })
       );
       // Unpack sentences from all transcripts
-      const sentences: SentenceWithSessionIndex[] = [];
+      const sentences: ECSentence[] = [];
       transcriptJsons.forEach((transcriptJson, sessionIndex) => {
         transcriptJson?.sentences?.forEach((sentence) => {
           sentences.push({
@@ -135,7 +132,7 @@ const EventPage: FC = () => {
             speaker_index: sentence.speaker_index,
             speaker_id: undefined,
             speaker_pictureSrc: undefined,
-          } as SentenceWithSessionIndex);
+          } as ECSentence);
         });
       });
       return Promise.resolve(sentences);
@@ -143,9 +140,10 @@ const EventPage: FC = () => {
 
     return Promise.resolve([]);
   }, [firebaseConfig, sessionsDataState.data]);
-  const { state: sentencesDataState, dispatch: sentencesDataDispatch } = useFetchData<
-    SentenceWithSessionIndex[]
-  >({ ...initialFetchDataState, hasFetchRequest: false }, fetchSentences);
+  const { state: sentencesDataState, dispatch: sentencesDataDispatch } = useFetchData<ECSentence[]>(
+    { ...initialFetchDataState, hasFetchRequest: false },
+    fetchSentences
+  );
   useEffect(() => {
     if (sessionsDataState.data) {
       // fetch sentences after sessions are fetched

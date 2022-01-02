@@ -4,7 +4,7 @@ import { Story, Meta } from "@storybook/react";
 import EventContainer, { EventContainerProps } from "./EventContainer";
 
 import { MATTER_STATUS_DECISION, VOTE_DECISION } from "../../constants/ProjectConstants";
-import { SentenceWithSessionIndex } from "./types";
+import { ECSentence } from "./types";
 
 export default {
   component: EventContainer,
@@ -13,7 +13,7 @@ export default {
 
 const Template: Story<EventContainerProps> = (args) => <EventContainer {...args} />;
 
-const sentences: SentenceWithSessionIndex[] = [];
+const sentences: ECSentence[] = [];
 for (let sessionIndex = 0; sessionIndex < 2; sessionIndex++) {
   for (let sentenceIndex = 0; sentenceIndex < 10; sentenceIndex++) {
     sentences.push({
@@ -37,24 +37,25 @@ event.args = {
   },
   sessions: [
     {
+      id: "s1",
       video_uri: "https://video.seattle.gov/media/council/council_113020_2022091V.mp4",
       session_index: 1,
-      session_datetime: new Date(0),
     },
     {
+      id: "s2",
       video_uri: "https://video.seattle.gov/media/council/econ_090821_2602120V.mp4",
       session_index: 2,
-      session_datetime: new Date(3600000),
     },
   ],
   sentences: sentences,
   eventMinutesItems: [
     {
+      id: "test1",
       minutes_item: { name: "test" },
     },
     {
       id: "test2",
-      minutes_item: { name: "test2", description: "test desc", matter: { id: "matter-id" } },
+      minutes_item: { name: "test2", description: "test desc", matter_ref: "matter-id" },
       decision: MATTER_STATUS_DECISION.REJECTED,
       files: [
         {

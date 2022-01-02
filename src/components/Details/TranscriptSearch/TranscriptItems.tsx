@@ -11,11 +11,11 @@ import {
 import { TranscriptItem } from "../TranscriptItem";
 
 import secondsToHHMMSS from "../../../utils/secondsToHHMMSS";
-import { SentenceWithSessionIndex } from "../../../containers/EventContainer/types";
+import { ECSentence } from "../../../containers/EventContainer/types";
 
 interface TranscriptItemsProps {
   searchQuery: string;
-  sentences: SentenceWithSessionIndex[];
+  sentences: ECSentence[];
   jumpToVideoClip(sessionIndex: number, startTime: number): void;
   jumpToTranscript(sentenceIndex: number): void;
 }

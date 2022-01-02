@@ -4,7 +4,7 @@ import { stem } from "stemr";
 import { removeStopwords } from "stopword";
 
 import TranscriptItems from "./TranscriptItems";
-import { SentenceWithSessionIndex } from "../../../containers/EventContainer/types";
+import { ECSentence } from "../../../containers/EventContainer/types";
 
 import { strings } from "../../../assets/LocalizedStrings";
 import { fontSizes } from "../../../styles/fonts";
@@ -51,7 +51,7 @@ export interface TranscriptSearchProps {
   /**The search query */
   searchQuery: string;
   /**The sentences of the transcript */
-  sentences?: SentenceWithSessionIndex[];
+  sentences?: ECSentence[];
   /**Callback to play video clip */
   jumpToVideoClip(sessionIndex: number, startTime: number): void;
   /**Callback to jump to sentence in the full transcript component */
