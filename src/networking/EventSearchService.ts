@@ -10,7 +10,6 @@ import { sumBy, maxBy } from "lodash";
 import EventService from "./EventService";
 import Event from "../models/Event";
 import { createError } from "../utils/createError";
-import { getStorage, ref, getDownloadURL } from "@firebase/storage";
 import { FirebaseConfig } from "../app/AppConfigContext";
 import cleanText from "../utils/cleanText";
 
@@ -251,11 +250,15 @@ export default class EventSearchService {
       }, [] as string[]);
 
       // Get https storage URLs
-      const storage = getStorage();
-      const staticThumbnailPathRef = ref(storage, event.static_thumbnail?.uri);
-      const hoverThumbnailPathRef = ref(storage, event.hover_thumbnail?.uri);
-      const staticThumbnailPathURL = await getDownloadURL(staticThumbnailPathRef);
-      const hoverThumbnailPathURL = await getDownloadURL(hoverThumbnailPathRef);
+      const [staticThumbnailPathURL, hoverThumbnailPathURL] = await Promise.all(
+        [event.static_thumbnail, event.hover_thumbnail].map((file) => {
+          if (file) {
+            return this.networkService.getDownloadUrl(file.uri);
+          } else {
+            return Promise.resolve("");
+          }
+        })
+      );
 
       return Promise.resolve(
         new RenderableEvent(

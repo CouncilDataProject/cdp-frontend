@@ -12,36 +12,15 @@ import { ORDER_DIRECTION, WHERE_OPERATOR } from "./constants";
 
 import Role from "../models/Role";
 import { FirebaseConfig } from "../app/AppConfigContext";
+import { ROLE_TITLE } from "../models/util/RoleUtilities";
 
 export default class RoleService extends ModelService {
   constructor(firebaseConfig: FirebaseConfig) {
     super(COLLECTION_NAME.Role, firebaseConfig);
   }
 
-  /*
-  @param the id of the person
-  @return all roles held by the person, ordered most-recent first
-  */
-  async getRolesByPersonId(personId: string): Promise<Role[]> {
-    const networkQueryResponse = this.networkService.getDocuments(COLLECTION_NAME.Role, [
-      where(
-        REF_PROPERTY_NAME.RolePersonRef,
-        WHERE_OPERATOR.eq,
-        doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
-      ),
-      orderBy("start_datetime", ORDER_DIRECTION.desc),
-    ]);
-    return this.createModels(
-      networkQueryResponse,
-      Role,
-      `getSessionsByPersonId(${personId})`
-    ) as Promise<Role[]>;
-  }
-
   async getPopulatedRolesByPersonId(personId: string): Promise<Role[]> {
     const populateBodyRef = new Populate(COLLECTION_NAME.Body, REF_PROPERTY_NAME.RoleBodyRef);
-
-    const populateSeatRef = new Populate(COLLECTION_NAME.Seat, REF_PROPERTY_NAME.RoleSeatRef);
 
     const networkQueryResponse = this.networkService.getDocuments(
       COLLECTION_NAME.Role,
@@ -53,12 +32,35 @@ export default class RoleService extends ModelService {
         ),
         orderBy("start_datetime", ORDER_DIRECTION.desc),
       ],
-      new PopulationOptions([populateBodyRef, populateSeatRef])
+      new PopulationOptions([populateBodyRef])
     );
     return this.createModels(
       networkQueryResponse,
       Role,
       `getPopulatedRolesByPersonId(${personId})`
+    ) as Promise<Role[]>;
+  }
+
+  async getCouncilMemberRolesByPersonId(personId: string): Promise<Role[]> {
+    const populateSeatRef = new Populate(COLLECTION_NAME.Seat, REF_PROPERTY_NAME.RoleSeatRef);
+
+    const networkQueryResponse = this.networkService.getDocuments(
+      COLLECTION_NAME.Role,
+      [
+        where(
+          REF_PROPERTY_NAME.RolePersonRef,
+          WHERE_OPERATOR.eq,
+          doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
+        ),
+        where("title", WHERE_OPERATOR.eq, ROLE_TITLE.COUNCILMEMBER),
+        orderBy("start_datetime", ORDER_DIRECTION.desc),
+      ],
+      new PopulationOptions([populateSeatRef])
+    );
+    return this.createModels(
+      networkQueryResponse,
+      Role,
+      `getCouncilMemberRolesByPersonId(${personId})`
     ) as Promise<Role[]>;
   }
 

@@ -8,15 +8,28 @@ import { writeBiography } from "./WriteBiography";
 interface BiographyProps {
   /** The person being displayed */
   person: Person;
+  /** The person's councilmember roles */
+  councilMemberRoles: Role[];
   /** The person's roles */
   roles: Role[];
   /** The legislation or matters sponsored by this person */
   mattersSponsored: MatterSponsor[];
 }
 
-const Biography: FC<BiographyProps> = ({ person, roles, mattersSponsored }: BiographyProps) => {
+const Biography: FC<BiographyProps> = ({
+  person,
+  councilMemberRoles,
+  roles,
+  mattersSponsored,
+}: BiographyProps) => {
   const { municipality } = useAppConfigContext();
-  const { bioText, introText } = writeBiography(person, roles, municipality.name, mattersSponsored);
+  const { bioText, introText } = writeBiography(
+    person,
+    councilMemberRoles,
+    roles,
+    municipality.name,
+    mattersSponsored
+  );
   const linkText = `Visit ${person.name}'s website`;
 
   return (

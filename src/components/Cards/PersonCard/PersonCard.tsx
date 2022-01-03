@@ -31,7 +31,7 @@ export interface PersonCardProps {
   /** The person's name */
   personName: string;
   /** The person's picture */
-  personPictureSrc: string;
+  personPictureSrc?: string;
   /** Is the person a current councilmember? */
   personIsActive: boolean;
   /** The seat's name */
@@ -65,13 +65,15 @@ const PersonCard: FC<PersonCardProps> = ({
     <section className="mzp-c-card mzp-c-card-medium mzp-has-aspect-16-9">
       <div className="mzp-c-card-block-link">
         <div className="mzp-c-card-media-wrapper">
-          <Img
-            className="mzp-c-card-image"
-            src={personPictureSrc}
-            width={seatHasPicture ? "40%" : "100%"}
-            left="0"
-            alt={personName}
-          />
+          {personPictureSrc && (
+            <Img
+              className="mzp-c-card-image"
+              src={personPictureSrc}
+              width={seatHasPicture ? "40%" : "100%"}
+              left="0"
+              alt={personName}
+            />
+          )}
           {seatHasPicture && (
             <Img
               className="mzp-c-card-image"

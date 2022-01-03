@@ -22,6 +22,7 @@ const Template: Story<BiographyProps> = (args) => <Biography {...args} />;
 export const basicBio = Template.bind({});
 basicBio.args = {
   person: basicPerson,
-  roles: [ten_years_councilmember, expired_chair, recent_chair],
+  councilMemberRoles: [ten_years_councilmember],
+  roles: [expired_chair, recent_chair],
   mattersSponsored: [populatedMatterMatterSponsor, basicMatterSponsor],
 };

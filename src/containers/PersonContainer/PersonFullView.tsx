@@ -4,27 +4,37 @@ import Role from "../../models/Role";
 import MatterSponsor from "../../models/MatterSponsor";
 import { CoverImage } from "./CoverImage";
 import { Biography } from "./Biography";
-import { getMostRecentRole } from "../../models/util/RoleUtilities";
+
 interface PersonFullViewProps {
   /** The person being displayed */
   person: Person;
+  councilMemberRoles: Role[];
   roles: Role[];
   mattersSponsored: MatterSponsor[];
+  personPictureSrc?: string;
+  seatPictureSrc?: string;
 }
 
 const PersonFullView: FC<PersonFullViewProps> = ({
   person,
+  councilMemberRoles,
   roles,
   mattersSponsored,
+  personPictureSrc,
+  seatPictureSrc,
 }: PersonFullViewProps) => {
   const contactText = `Contact ${person.name}`;
-  const currentRole = getMostRecentRole(roles);
-
+  const mostRecentCouncilMemberRole = councilMemberRoles[0];
   return (
     <div>
       <h3>{person.name}</h3>
-      {currentRole.seat?.name && <h4>{currentRole.seat?.name}</h4>}
-      <CoverImage person={person} currentRole={currentRole} />
+      {mostRecentCouncilMemberRole.seat?.name && <h4>{mostRecentCouncilMemberRole.seat?.name}</h4>}
+      <CoverImage
+        personName={person.name}
+        personPictureSrc={personPictureSrc}
+        seatPictureSrc={seatPictureSrc}
+        electoralArea={mostRecentCouncilMemberRole.seat?.electoral_area}
+      />
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div
           style={{
@@ -40,7 +50,12 @@ const PersonFullView: FC<PersonFullViewProps> = ({
           {person.email && <p className="mzp-c-card-desc">{person.email}</p>}
           {person.phone && <p className="mzp-c-card-desc">{person.phone}</p>}
         </div>
-        <Biography person={person} roles={roles} mattersSponsored={mattersSponsored} />
+        <Biography
+          person={person}
+          councilMemberRoles={councilMemberRoles}
+          roles={roles}
+          mattersSponsored={mattersSponsored}
+        />
       </div>
     </div>
   );

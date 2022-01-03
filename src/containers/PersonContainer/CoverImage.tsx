@@ -1,7 +1,5 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
-import Person from "../../models/Person";
-import Role from "../../models/Role";
 import { AvatarImage } from "./AvatarImage";
 
 import exampleCover1 from "../../assets/images/dave-hoefler-reduced-1.jpg";
@@ -25,38 +23,31 @@ const CoverImg = styled.img(() => ({
 }));
 
 interface CoverImageProps {
-  /** The person being displayed */
-  person: Person;
-  /** The current role of the person being displayed */
-  currentRole: Role;
+  personName: string;
+  personPictureSrc?: string;
+  seatPictureSrc?: string;
+  electoralArea?: string;
 }
 
-const CoverImage: FC<CoverImageProps> = ({ person, currentRole }: CoverImageProps) => {
-  if (currentRole.seat?.image?.uri) {
-    return (
-      <div>
-        <CoverImg
-          className="mzp-c-card-image"
-          src={currentRole.seat?.image?.uri}
-          alt={`${currentRole.seat?.electoral_area}`}
-        />
-        <AvatarImage personImageUri={person.picture?.uri} personName={person.name} />
-      </div>
-    );
-  } else {
-    const defaultCover =
-      EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)];
-    return (
-      <div>
-        <CoverImg
-          className="mzp-c-card-image"
-          src={defaultCover}
-          alt={`Default Image, no Elector Seat Image Available`}
-        />
-        <AvatarImage personImageUri={person.picture?.uri} personName={person.name} />
-      </div>
-    );
-  }
+const CoverImage: FC<CoverImageProps> = ({
+  personName,
+  personPictureSrc,
+  seatPictureSrc,
+  electoralArea,
+}: CoverImageProps) => {
+  return (
+    <div>
+      <CoverImg
+        className="mzp-c-card-image"
+        src={
+          seatPictureSrc ||
+          EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)]
+        }
+        alt={`${electoralArea || "Default Image, no Elector Seat Image Available"}`}
+      />
+      <AvatarImage personPictureSrc={personPictureSrc} personName={personName} />
+    </div>
+  );
 };
 
 export { CoverImage };

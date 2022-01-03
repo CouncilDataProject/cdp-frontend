@@ -2,15 +2,16 @@ import Person from "../../models/Person";
 import Role from "../../models/Role";
 import MatterSponsor from "../../models/MatterSponsor";
 import ordinalSuffix from "../../utils/ordinalSuffix";
-import { filterRolesByTitle, ROLE_TITLE, getMostRecentRole } from "../../models/util/RoleUtilities";
+import { filterRolesByTitle, ROLE_TITLE } from "../../models/util/RoleUtilities";
 
 function writeBiography(
   person: Person,
+  councilMemberRoles: Role[],
   roles: Role[],
   municipalityName: string,
   mattersSponsored: MatterSponsor[]
 ) {
-  const currentRole = getMostRecentRole(roles);
+  const mostRecentCouncilMemberRole = councilMemberRoles[0];
   // names of the bodies that the person is a part of
   const chairBodyNames = filterRolesByTitle(roles, ROLE_TITLE.CHAIR)
     .filter((role) => {
@@ -35,24 +36,20 @@ function writeBiography(
     .map((role) => {
       return role.body?.name || "Unknown Board";
     });
-  let rolesAsCurrentRole = 1;
-  if (currentRole.title) {
-    rolesAsCurrentRole = filterRolesByTitle(roles, currentRole.title).length;
-  }
   /* 
     The first paragraph.
   */
   const lastName = person.name
     ? [person.name.substring(person.name.lastIndexOf(" ") + 1, person.name.length)]
     : "Unknown Name";
-  const addressName = `${currentRole.title} ${lastName}`;
-  const introText = `${addressName} is the ${currentRole.title} of ${municipalityName}'s ${currentRole.seat?.name}(${currentRole.seat?.electoral_area}).`;
+  const addressName = `${mostRecentCouncilMemberRole.title} ${lastName}`;
+  const introText = `${addressName} is the ${mostRecentCouncilMemberRole.title} of ${municipalityName}'s ${mostRecentCouncilMemberRole.seat?.name}(${mostRecentCouncilMemberRole.seat?.electoral_area}).`;
   /* 
     The second paragraph.
   */
 
   const termsSentence = `${addressName} is serving their ${ordinalSuffix(
-    rolesAsCurrentRole
+    councilMemberRoles.length
   )} term.`;
   const chairsSentence =
     chairBodyNames.length > 0
