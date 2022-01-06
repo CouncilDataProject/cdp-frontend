@@ -2,6 +2,8 @@ import path from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
+import { dependencies } from "./package.json"
+
 export default defineConfig({
   plugins: [
     react({
@@ -21,7 +23,7 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ["react"],
+      external: [...Object.keys(dependencies), "react"],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
