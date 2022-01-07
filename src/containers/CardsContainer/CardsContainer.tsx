@@ -19,10 +19,10 @@ const Container = styled.div({
   gridTemplateColumns: "1fr",
   [`@media (min-width:${screenWidths.tablet})`]: {
     justifyContent: "space-between",
-    gridTemplateColumns: `repeat(${CARDS_COLUMN_NUM.tablet}, auto)`,
+    gridTemplateColumns: `repeat(${CARDS_COLUMN_NUM.tablet}, 1fr)`,
   },
   [`@media (min-width:${screenWidths.desktop})`]: {
-    gridTemplateColumns: `repeat(${CARDS_COLUMN_NUM.desktop}, auto)`,
+    gridTemplateColumns: `repeat(${CARDS_COLUMN_NUM.desktop}, 1fr)`,
   },
 });
 
