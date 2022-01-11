@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import TranscriptItem, { TranscriptItemRef } from "../TranscriptItem/TranscriptItem";
 
-import { SentenceWithSessionIndex } from "../../../containers/EventContainer/types";
+import { ECSentence } from "../../../containers/EventContainer/types";
 import secondsToHHMMSS from "../../../utils/secondsToHHMMSS";
 
 const TranscripItems = styled.div({
@@ -14,7 +14,7 @@ const TranscripItems = styled.div({
 
 export interface TranscriptFullProps {
   /**The sentences of the transcript */
-  sentences: SentenceWithSessionIndex[];
+  sentences: ECSentence[];
   /**List of transcript item React references */
   transcriptItemsRefs: RefObject<TranscriptItemRef>[];
   /**Callback to play video clip */

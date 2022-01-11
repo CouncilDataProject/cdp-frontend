@@ -30,14 +30,8 @@ export default class EventMinutesItemService extends ModelService {
         orderBy("index"),
       ],
       new PopulationOptions([
-        //populate the minutes item along with its matter ref
-        new Populate(
-          COLLECTION_NAME.MinutesItem,
-          REF_PROPERTY_NAME.EventMinutesItemMinutesItemRef,
-          new PopulationOptions([
-            new Populate(COLLECTION_NAME.Matter, REF_PROPERTY_NAME.MinutesItemMatterRef),
-          ])
-        ),
+        //populate the minutes item
+        new Populate(COLLECTION_NAME.MinutesItem, REF_PROPERTY_NAME.EventMinutesItemMinutesItemRef),
       ])
     );
     return this.createModels(

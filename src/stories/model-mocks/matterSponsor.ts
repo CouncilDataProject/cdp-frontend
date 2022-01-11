@@ -1,3 +1,6 @@
+import MatterSponsor from "../../models/MatterSponsor";
+import { basicMatter } from "./matter";
+
 /*
   matter?: Matter;
   matter_ref?: string;
@@ -5,8 +8,8 @@
   person_ref?: string;
   external_source_id?: string;
 */
-import { basicMatter } from "./matter";
-const basicMatterSponsor = {
+const basicMatterSponsor: MatterSponsor = {
+  id: "basic-matter-sponsor",
   matter: undefined,
   matter_ref: "basicMatterSponsor matter ref id",
   person: undefined,
@@ -14,7 +17,8 @@ const basicMatterSponsor = {
   external_source_id: "basicMatterSponsor external source id",
 };
 
-const populatedMatterMatterSponsor = {
+const populatedMatterMatterSponsor: MatterSponsor = {
+  id: "populated-matter-sponsor",
   matter: basicMatter,
   matter_ref: "populatedMatterMatterSponsor matter ref id",
   person: undefined,

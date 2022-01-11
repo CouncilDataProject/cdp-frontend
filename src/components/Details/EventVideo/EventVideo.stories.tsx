@@ -14,5 +14,5 @@ export const eventVideo = Template.bind({});
 eventVideo.args = {
   uri: "https://video.seattle.gov/media/council/council_113020_2022091V.mp4",
   componentRef: createRef<EventVideoRef>(),
-  sessionNum: 0,
+  sessionIndex: 0,
 };

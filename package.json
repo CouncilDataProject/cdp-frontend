@@ -4,7 +4,7 @@
     "node": "12.22.x",
     "npm": "6.x"
   },
-  "version": "3.0.0",
+  "version": "3.0.2",
   "description": "Front-end tooling library for React components for CDP instance deployments.",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
@@ -23,7 +23,7 @@
     "deploy:app": "gh-pages -d build",
     "preview:app": "vite preview -c vite.app.config.js --base /cdp-frontend/",
     "build:lib": "vite build -c vite.lib.config.js",
-    "build": "npm-run-all --print-label clean --parallel build:app build:lib generateTypes",
+    "build": "npm-run-all --print-label clean --parallel typeCheck build:app build:lib generateTypes",
     "clean": "rimraf build dist type-declarations",
     "format": "prettier --write src/**/*",
     "checkFormat": "prettier --check src/**/*.tsx",

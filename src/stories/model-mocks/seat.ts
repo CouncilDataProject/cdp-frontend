@@ -1,6 +1,8 @@
+import Seat from "../../models/Seat";
 import { mockImageFile } from "./file";
 
-const basicSeat = {
+const basicSeat: Seat = {
+  id: "basic-seat",
   name: "Splendid Test Seat",
   electoral_area: "Shady Pines Test Neighborhood",
   image_ref: "mock-image-ref-to-electoral-seat-pic",

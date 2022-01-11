@@ -8,12 +8,12 @@ ReactDOM.render(
       appConfig={{
         firebaseConfig: {
           options: {
-            projectId: "cdp-king-county-b656c71b",
+            projectId: "cdp-seattle-staging-dbengvtn",
           },
           settings: {},
         },
         municipality: {
-          name: "King County",
+          name: "Seattle Staging",
           footerLinksSections: [],
         },
       }}
