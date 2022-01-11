@@ -16,7 +16,8 @@ const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonConta
   const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.largeMobile})` });
   const currentRole = getMostRecentRole(roles);
   let rolesAsCurrentRole = 1;
-  if (currentRole.title) {
+
+  if (currentRole && currentRole.title) {
     rolesAsCurrentRole = filterRolesByTitle(roles, currentRole.title).length;
   }
 
@@ -29,10 +30,10 @@ const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonConta
           personName={person.name}
           personPictureSrc={""}
           personIsActive={person.is_active}
-          seatName={currentRole.seat?.name || "No name"}
-          seatElectoralArea={currentRole.seat?.electoral_area || "No Electoral Area"}
-          seatPictureSrc={currentRole.seat?.image?.uri}
-          chairedBodyNames={currentRole.title || ""}
+          seatName={currentRole?.seat?.name || "No name"}
+          seatElectoralArea={currentRole?.seat?.electoral_area || "No Electoral Area"}
+          seatPictureSrc={currentRole?.seat?.image?.uri}
+          chairedBodyNames={currentRole?.title || ""}
           tenureStatus={`${rolesAsCurrentRole}`}
           billsSponsored={0}
         />
@@ -41,7 +42,7 @@ const PersonContainer = ({ person, votes, roles, mattersSponsored }: PersonConta
         <PersonFullView person={person} roles={roles} mattersSponsored={mattersSponsored} />
       )}
       <br />
-      {votes && <VotingTable name={person.name || "No Name Found"} votesPage={votes as any} />}
+      {votes && <VotingTable name={person.name} votesPage={votes} />}
     </div>
   );
 };

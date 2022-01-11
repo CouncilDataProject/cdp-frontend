@@ -47,12 +47,13 @@ const VotingTable = ({ name, votesPage }: VotingTableProps) => {
     if (!vote.matter || !vote.decision || !vote.event) return renderEmpty(index);
     const legislationName = vote.matter.name;
     const voteDecision = vote.decision;
-    const councilDecision = vote.council_decision;
+    console.log(`What is vote: ${JSON.stringify(vote)}`);
+    const councilDecision = vote.event_minutes_item?.decision;
     const legislationLink = `/matters/${vote.matter.id}`;
     const tags = vote.matter.keywords;
-    const meetingDate = vote.event.date;
+    const meetingDate = vote.event.event_datetime;
     const meetingLink = `/events/${vote.event.id}`;
-    const committeeName = vote.event.body_name;
+    const committeeName = vote.event.body.name;
     return (
       <VotingTableRow
         key={`voting-table-row-${index}`}

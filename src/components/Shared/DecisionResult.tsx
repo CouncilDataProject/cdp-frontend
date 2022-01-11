@@ -5,13 +5,16 @@ import InProgressIcon from "./InProgressIcon";
 import AbstainIcon from "../Shared/AbstainIcon";
 import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../styles/mediaBreakpoints";
-import { MATTER_STATUS_DECISION } from "../../constants/ProjectConstants";
-import { VOTE_DECISION } from "../../constants/ProjectConstants";
+import {
+  MATTER_STATUS_DECISION,
+  EVENT_MINUTES_ITEM_DECISION,
+  VOTE_DECISION,
+} from "../../constants/ProjectConstants";
 import { strings } from "../../assets/LocalizedStrings";
 
 interface DecisionResultProps {
   /**Result of the vote or council decision.  This is an enum value, you can see the enumeration in ProjectConstants */
-  result: VOTE_DECISION | MATTER_STATUS_DECISION;
+  result: VOTE_DECISION | MATTER_STATUS_DECISION | EVENT_MINUTES_ITEM_DECISION;
 }
 
 const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps) => {
@@ -34,6 +37,9 @@ const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps
       break;
     case MATTER_STATUS_DECISION.IN_PROGRESS:
       statusIcon = <InProgressIcon />;
+      break;
+    case EVENT_MINUTES_ITEM_DECISION.PASSED:
+      statusIcon = <AdoptedIcon />;
       break;
     default:
       break;

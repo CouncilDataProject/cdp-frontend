@@ -10,6 +10,12 @@ export enum MATTER_STATUS_DECISION {
   IN_PROGRESS = "In Progress",
 }
 
+export enum EVENT_MINUTES_ITEM_DECISION {
+  PASSED = "Passed",
+  REJECTED = "Rejected",
+  IN_PROGRESS = "In Progress",
+}
+
 export const SUPPORTED_LANGUAGES = ["en", "de", "es"];
 
 export const FETCH_CARDS_BATCH_SIZE = 10;

@@ -23,7 +23,7 @@ const PersonFullView: FC<PersonFullViewProps> = ({
   return (
     <div>
       <h3>{person.name}</h3>
-      {currentRole.seat?.name && <h4>{currentRole.seat?.name}</h4>}
+      {currentRole?.seat?.name && <h4>{currentRole?.seat?.name}</h4>}
       <CoverImage person={person} currentRole={currentRole} />
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div

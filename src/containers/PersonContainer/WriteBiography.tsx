@@ -36,8 +36,8 @@ function writeBiography(
       return role.body?.name || "Unknown Board";
     });
   let rolesAsCurrentRole = 1;
-  if (currentRole.title) {
-    rolesAsCurrentRole = filterRolesByTitle(roles, currentRole.title).length;
+  if (currentRole?.title) {
+    rolesAsCurrentRole = filterRolesByTitle(roles, currentRole?.title).length;
   }
   /* 
     The first paragraph.
@@ -45,8 +45,8 @@ function writeBiography(
   const lastName = person.name
     ? [person.name.substring(person.name.lastIndexOf(" ") + 1, person.name.length)]
     : "Unknown Name";
-  const addressName = `${currentRole.title} ${lastName}`;
-  const introText = `${addressName} is the ${currentRole.title} of ${municipalityName}'s ${currentRole.seat?.name}(${currentRole.seat?.electoral_area}).`;
+  const addressName = `${currentRole?.title} ${lastName}`;
+  const introText = `${addressName} is the ${currentRole?.title} of ${municipalityName}'s ${currentRole?.seat?.name}(${currentRole?.seat?.electoral_area}).`;
   /* 
     The second paragraph.
   */
