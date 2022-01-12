@@ -25,7 +25,7 @@ SingleLegislationVote.args = {
         name: "IRC 188",
       },
       date: new Date(),
-      council_decision: "Adopted",
+      council_decision: "Passed",
       votes: [
         {
           name: "Alice",
@@ -87,7 +87,7 @@ SingleBrokenLegislationRow.args = {
         name: "IRC 189",
       },
       date: new Date(),
-      council_decision: "Adopted",
+      council_decision: "Passed",
       votes: [
         {
           name: "Alice",
@@ -152,7 +152,7 @@ SingleBrokenLegislationRow.args = {
         name: "IRC 200",
       },
       date: new Date(),
-      council_decision: "Adopted",
+      council_decision: "Passed",
       votes: [
         {
           name: "Alice",
@@ -218,7 +218,7 @@ SingleBrokenLegislationRow.args = {
         name: "IRC 201",
       },
       date: new Date(),
-      council_decision: "Rejected",
+      council_decision: "Failed",
       votes: [
         {
           name: "Alice",
@@ -289,7 +289,7 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 189",
       },
       date: new Date(),
-      council_decision: "Adopted",
+      council_decision: "Passed",
       votes: [
         {
           name: "Alice",
@@ -354,7 +354,7 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 200",
       },
       date: new Date(),
-      council_decision: "Adopted",
+      council_decision: "Passed",
       votes: [
         {
           name: "Alice",

@@ -21,25 +21,20 @@ const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps
   let statusIcon = <div />;
   switch (result) {
     case VOTE_DECISION.APPROVE:
+    case EVENT_MINUTES_ITEM_DECISION.PASSED:
+    case MATTER_STATUS_DECISION.ADOPTED:
       statusIcon = <AdoptedIcon />;
       break;
+    case EVENT_MINUTES_ITEM_DECISION.FAILED:
     case VOTE_DECISION.REJECT:
+    case MATTER_STATUS_DECISION.REJECTED:
       statusIcon = <RejectedIcon />;
       break;
     case VOTE_DECISION.ABSTAIN:
       statusIcon = <AbstainIcon />;
       break;
-    case MATTER_STATUS_DECISION.REJECTED:
-      statusIcon = <RejectedIcon />;
-      break;
-    case MATTER_STATUS_DECISION.ADOPTED:
-      statusIcon = <AdoptedIcon />;
-      break;
     case MATTER_STATUS_DECISION.IN_PROGRESS:
       statusIcon = <InProgressIcon />;
-      break;
-    case EVENT_MINUTES_ITEM_DECISION.PASSED:
-      statusIcon = <AdoptedIcon />;
       break;
     default:
       break;

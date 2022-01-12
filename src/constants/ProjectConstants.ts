@@ -12,8 +12,7 @@ export enum MATTER_STATUS_DECISION {
 
 export enum EVENT_MINUTES_ITEM_DECISION {
   PASSED = "Passed",
-  REJECTED = "Rejected",
-  IN_PROGRESS = "In Progress",
+  FAILED = "Failed",
 }
 
 export const SUPPORTED_LANGUAGES = ["en", "de", "es"];

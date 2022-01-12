@@ -1,17 +1,11 @@
 import Vote from "../../models/Vote";
+import { basicPassEventMinutesItem, basicFailEventMinutesItem } from "./eventMinutesItem";
 
 const vote: Vote = {
   id: "vote-1",
   decision: "Approve",
   event_minutes_item_ref: "emi_ref",
-  event_minutes_item: {
-    id: "event_minutes_item_test_1",
-    decision: "Rejected",
-    event_ref: "unpopulated",
-    external_source_id: "external_source_id_test",
-    index: 0,
-    minutes_item_ref: "unpopulated",
-  },
+  event_minutes_item: basicPassEventMinutesItem,
   event_ref: "event_ref",
   event: {
     id: "event_test_string_1",
@@ -69,13 +63,7 @@ const voteList = [
       hover_thumbnail_ref: "beac68321431",
       static_thumbnail_ref: "9b8285f74dee",
     },
-    event_minutes_item: {
-      id: "6e58df20b7d2",
-      decision: "Passed",
-      event_ref: "9409f4d1ea09",
-      index: 10,
-      minutes_item_ref: "a5dae0358d16",
-    },
+    event_minutes_item: basicFailEventMinutesItem,
     external_source_id: "71708",
     in_majority: true,
     matter: {
@@ -111,13 +99,7 @@ const voteList = [
       hover_thumbnail_ref: "e5f6c0cfa3c3",
       static_thumbnail_ref: "33d0ab4c2d57",
     },
-    event_minutes_item: {
-      id: "3f7fff017660",
-      decision: "Passed",
-      event_ref: "4bf610d2947e",
-      index: 8,
-      minutes_item_ref: "f8f243934834",
-    },
+    event_minutes_item: basicPassEventMinutesItem,
     external_source_id: "68102",
     in_majority: true,
     matter: {

@@ -47,7 +47,6 @@ const VotingTable = ({ name, votesPage }: VotingTableProps) => {
     if (!vote.matter || !vote.decision || !vote.event) return renderEmpty(index);
     const legislationName = vote.matter.name;
     const voteDecision = vote.decision;
-    console.log(`What is vote: ${JSON.stringify(vote)}`);
     const councilDecision = vote.event_minutes_item?.decision;
     const legislationLink = `/matters/${vote.matter.id}`;
     const tags = vote.matter.keywords;

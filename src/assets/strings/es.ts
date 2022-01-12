@@ -53,6 +53,7 @@ const es = {
   agenda: "Agenda",
   session: "Sesión",
   passed: "Passed",
+  failed: "Failed",
 };
 
 export default es;
