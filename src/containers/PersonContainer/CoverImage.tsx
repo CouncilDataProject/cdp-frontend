@@ -32,7 +32,7 @@ interface CoverImageProps {
 }
 
 const CoverImage: FC<CoverImageProps> = ({ person, currentRole }: CoverImageProps) => {
-  if (currentRole.seat?.image?.uri) {
+  if (currentRole?.seat?.image?.uri) {
     return (
       <div>
         <CoverImg

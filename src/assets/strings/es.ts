@@ -52,6 +52,8 @@ const es = {
   transcript: "Transcripción",
   agenda: "Agenda",
   session: "Sesión",
+  passed: "Passed",
+  failed: "Failed",
 };
 
 export default es;
