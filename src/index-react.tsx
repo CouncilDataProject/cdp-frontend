@@ -13,7 +13,7 @@ ReactDOM.render(
           settings: {},
         },
         municipality: {
-          name: "Seattle Test",
+          name: "Seattle Staging",
           footerLinksSections: [],
         },
       }}
