@@ -24,7 +24,7 @@ export default class Role implements Model {
     this.person_ref = jsonData["person_ref"].id;
     this.seat_ref = jsonData["seat_ref"].id;
     this.start_datetime = firestoreTimestampToDate(jsonData["start_datetime"]);
-    if (jsonData["title"] && jsonData["title"] in ROLE_TITLE) {
+    if (jsonData["title"] && Object.values(ROLE_TITLE).includes(jsonData["title"])) {
       this.title = jsonData["title"];
     } else {
       this.title = ROLE_TITLE.MEMBER;

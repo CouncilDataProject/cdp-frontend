@@ -11,6 +11,7 @@ import {
 } from "../../stories/model-mocks/matterSponsor";
 import { basicPerson } from "../../stories/model-mocks/person";
 import { vote } from "../../stories/model-mocks/vote";
+import { mockImageUrl } from "../../stories/model-mocks/imageUrl";
 import PersonContainer, { PersonContainerProps } from "./PersonContainer";
 
 export default {
@@ -24,14 +25,20 @@ export const personWithoutVotes = Template.bind({});
 personWithoutVotes.args = {
   person: basicPerson,
   votes: [],
-  roles: [ten_years_councilmember, expired_chair, recent_chair],
+  councilMemberRoles: [ten_years_councilmember],
+  roles: [expired_chair, recent_chair],
   mattersSponsored: [basicMatterSponsor, populatedMatterMatterSponsor],
+  personPictureSrc: mockImageUrl(400, 400, "Avatar Face"),
+  seatPictureSrc: mockImageUrl(1400, 800, "Electoral Seat"),
 };
 
 export const standardLayout = Template.bind({});
 standardLayout.args = {
   person: basicPerson,
-  roles: [ten_years_councilmember, expired_chair, recent_chair],
+  councilMemberRoles: [ten_years_councilmember],
+  roles: [expired_chair, recent_chair],
   mattersSponsored: [populatedMatterMatterSponsor],
   votes: [vote],
+  personPictureSrc: mockImageUrl(400, 400, "Avatar Face"),
+  seatPictureSrc: mockImageUrl(1400, 800, "Electoral Seat"),
 };

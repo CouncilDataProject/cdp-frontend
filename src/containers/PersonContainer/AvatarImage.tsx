@@ -9,23 +9,21 @@ const avatarGeneralStyle: React.CSSProperties = {
   top: "400px",
   left: "190px",
   borderRadius: 100,
-  backgroundColor: "white",
-  border: "1px black solid",
 };
 interface AvatarImageProps {
-  /** The uri of the avatar of the person being displayed */
-  personImageUri?: string;
+  /** The src of the avatar of the person being displayed */
+  personPictureSrc?: string;
   /** The name of the person being displayed (for alt) */
-  personName?: string;
+  personName: string;
 }
 
-const AvatarImage: FC<AvatarImageProps> = ({ personImageUri, personName }: AvatarImageProps) => {
-  if (personImageUri) {
+const AvatarImage: FC<AvatarImageProps> = ({ personPictureSrc, personName }: AvatarImageProps) => {
+  if (personPictureSrc) {
     return (
       <img
         style={avatarGeneralStyle}
         className="mzp-c-card-image"
-        src={personImageUri}
+        src={personPictureSrc}
         alt={`Picture of ${personName}`}
       />
     );

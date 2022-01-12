@@ -12,6 +12,9 @@ import { PersonPageData } from "../../containers/PersonContainer/types";
 import VoteService from "../../networking/VoteService";
 import MatterSponsorService from "../../networking/MatterSponsorService";
 import RoleService from "../../networking/RoleService";
+import FileService from "../../networking/FileService";
+
+import { ROLE_TITLE } from "../../models/util/RoleUtilities";
 
 const PersonPage: FC = () => {
   // Get the id the person, provided the route is `persons/:id`
@@ -24,19 +27,44 @@ const PersonPage: FC = () => {
     const voteService = new VoteService(firebaseConfig);
     const matterSponsorService = new MatterSponsorService(firebaseConfig);
     const roleService = new RoleService(firebaseConfig);
+    const fileService = new FileService(firebaseConfig);
+    const { networkService } = fileService;
 
-    const [person, votes, mattersSponsored, roles] = await Promise.all([
+    const [person, votes, mattersSponsored, councilMemberRoles, roles] = await Promise.all([
       personService.getPersonById(id),
       voteService.getFullyPopulatedVotesByPersonId(id),
       matterSponsorService.getMattersSponsoredByPersonId(id),
+      roleService.getCouncilMemberRolesByPersonId(id),
       roleService.getPopulatedRolesByPersonId(id),
     ]);
+
+    if (councilMemberRoles.length === 0) {
+      throw new Error(`${person.name} is not a ${ROLE_TITLE.COUNCILMEMBER}`);
+    }
+
+    const pictureSrcPromises: Promise<string | undefined>[] = [
+      person.picture
+        ? networkService.getDownloadUrl(person.picture.uri)
+        : Promise.resolve(undefined),
+    ];
+
+    if (councilMemberRoles[0].seat && councilMemberRoles[0].seat.image_ref) {
+      const seatImage = await fileService.getFileById(councilMemberRoles[0].seat.image_ref);
+      pictureSrcPromises.push(networkService.getDownloadUrl(seatImage.uri));
+    } else {
+      pictureSrcPromises.push(Promise.resolve(undefined));
+    }
+
+    const [personPictureSrc, seatPictureSrc] = await Promise.all(pictureSrcPromises);
 
     const payload: PersonPageData = {
       person,
       votes,
       mattersSponsored,
       roles,
+      personPictureSrc,
+      seatPictureSrc,
+      councilMemberRoles,
     };
 
     return payload;

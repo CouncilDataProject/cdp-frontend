@@ -170,27 +170,29 @@ export class NetworkService {
       });
       if (populationOptions && populationOptions.toPopulate) {
         const collatePromises: Promise<NetworkResponse>[] = [];
-        querySnapshotData.forEach((doc) => {
+        for (const doc of querySnapshotData) {
           //Create cascade for each doc
           const cascade: Promise<NetworkResponse>[] = [];
           const refsToPopulate: string[] = [];
           const parent = new NetworkResponse();
           parent.data = doc;
-          populationOptions?.toPopulate?.forEach((docRefToPopulate: Populate) => {
-            //Get the document reference id
-            const refValueToPopulate = doc[docRefToPopulate.refName].id;
-            const refsCollection = getCollectionForReference(docRefToPopulate.refName);
-            if (refValueToPopulate && refsCollection) {
-              //Add population to cascade
-              cascade.push(
-                this.getDocument(refValueToPopulate, refsCollection, docRefToPopulate.cascade)
-              );
-              refsToPopulate.push(docRefToPopulate.refName);
-            }
-          });
+          populationOptions.toPopulate
+            .filter((docRefToPopulate) => doc[docRefToPopulate.refName])
+            .forEach((docRefToPopulate: Populate) => {
+              //Get the document reference id
+              const refValueToPopulate = doc[docRefToPopulate.refName].id;
+              const refsCollection = getCollectionForReference(docRefToPopulate.refName);
+              if (refValueToPopulate && refsCollection) {
+                //Add population to cascade
+                cascade.push(
+                  this.getDocument(refValueToPopulate, refsCollection, docRefToPopulate.cascade)
+                );
+                refsToPopulate.push(docRefToPopulate.refName);
+              }
+            });
           //Add collated document data promise for each doc
           collatePromises.push(this.collateDocumentData(cascade, refsToPopulate, parent));
-        });
+        }
         //Get all the network responses
         const networkRespones = await Promise.all(collatePromises);
         //Collect only the response data, each response data is non-null
@@ -211,11 +213,9 @@ export class NetworkService {
 
   /** Download json from the given uri in firestorage */
   async downloadJson(uri: string): Promise<NetworkResponse> {
-    const storage = getStorage();
-    const pathReference = ref(storage, uri);
     const response = new NetworkResponse();
     try {
-      const url = await getDownloadURL(pathReference);
+      const url = await this.getDownloadUrl(uri);
       const file = await fetch(url).then((res) => res.json());
       if (!file) {
         throw new Error(`No JSON found for uri: ${uri}`);
@@ -227,5 +227,12 @@ export class NetworkService {
     } finally {
       return Promise.resolve(response);
     }
+  }
+
+  /**Get the download URl */
+  async getDownloadUrl(uri: string): Promise<string> {
+    const storage = getStorage();
+    const pathReference = ref(storage, uri);
+    return await getDownloadURL(pathReference);
   }
 }

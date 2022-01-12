@@ -7,7 +7,6 @@ import {
   limit,
   startAfter,
 } from "@firebase/firestore";
-import { getStorage, ref, getDownloadURL } from "@firebase/storage";
 
 import { FirebaseConfig } from "../app/AppConfigContext";
 
@@ -140,11 +139,15 @@ export default class EventService extends ModelService {
         return list;
       }, [] as string[]);
       // Get https storage URLs
-      const storage = getStorage();
-      const staticThumbnailPathRef = ref(storage, event.static_thumbnail?.uri);
-      const hoverThumbnailPathRef = ref(storage, event.hover_thumbnail?.uri);
-      const staticThumbnailURL = await getDownloadURL(staticThumbnailPathRef);
-      const hoverThumbnailURL = await getDownloadURL(hoverThumbnailPathRef);
+      const [staticThumbnailURL, hoverThumbnailURL] = await Promise.all(
+        [event.static_thumbnail, event.hover_thumbnail].map((file) => {
+          if (file) {
+            return this.networkService.getDownloadUrl(file.uri);
+          } else {
+            return Promise.resolve("");
+          }
+        })
+      );
       return Promise.resolve({
         ...event,
         keyGrams,
