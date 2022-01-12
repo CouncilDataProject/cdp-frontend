@@ -58,7 +58,7 @@ const PersonContainer = ({
         />
       )}
       <br />
-      <VotingTable name={person.name} votesPage={votes as any} />
+      <VotingTable name={person.name} votesPage={votes} />
     </div>
   );
 };
