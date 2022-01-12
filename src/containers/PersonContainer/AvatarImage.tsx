@@ -9,8 +9,6 @@ const avatarGeneralStyle: React.CSSProperties = {
   top: "400px",
   left: "190px",
   borderRadius: 100,
-  backgroundColor: "white",
-  border: "1px black solid",
 };
 interface AvatarImageProps {
   /** The src of the avatar of the person being displayed */
