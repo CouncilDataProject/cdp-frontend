@@ -7,7 +7,7 @@ export interface Document {
   url: string;
 }
 
-export interface Item extends Pick<MinutesItem, "name" | "description"> {
+export interface Item extends Pick<MinutesItem, "name" | "description" | "matter_ref"> {
   /*Array of attachments for a given minutes item*/
   documents?: Document[];
 }

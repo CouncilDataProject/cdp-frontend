@@ -37,6 +37,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
       return {
         name: minutes_item?.name as string,
         description: minutes_item?.description,
+        matter_ref: minutes_item?.matter_ref,
         documents:
           files && files.length > 0
             ? files.map(({ name, uri }) => {
