@@ -63,6 +63,10 @@ function App() {
               font-size: 100%;
             }
 
+            body {
+              font-family: Inter, X-LocaleSpecific, sans-serif;
+            }
+
             * {
               box-sizing: initial;
             }

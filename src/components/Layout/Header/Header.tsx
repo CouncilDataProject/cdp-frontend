@@ -8,8 +8,6 @@ import { screenWidths } from "../../../styles/mediaBreakpoints";
 
 const CDPLogo = styled.div({
   float: "left",
-  maxHeight: "64px",
-  maxWidth: "64px",
   marginTop: "12px",
 });
 
@@ -53,8 +51,13 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
             >
               Menu
             </HamburgerMenuButton>
-            <CDPLogo className="cdp-icon-black-bg-transparent-size-256">
-              <a href="https://councildataproject.org" title={strings.council_data_project}>
+            <CDPLogo>
+              <a
+                className="cdp-icon-black-bg-transparent-size-256"
+                style={{ maxHeight: "64px", maxWidth: "64px" }}
+                href="https://councildataproject.org"
+                title={strings.council_data_project}
+              >
                 {strings.council_data_project}
               </a>
             </CDPLogo>
