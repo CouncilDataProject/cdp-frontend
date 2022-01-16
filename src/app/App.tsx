@@ -1,6 +1,7 @@
 import React from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "@emotion/styled";
+import { Global, css } from "@emotion/react";
 
 import { useAppConfigContext } from "./AppConfigContext";
 import useDocumentTitle from "../hooks/useDocumentTitle";
@@ -56,6 +57,21 @@ function App() {
   return (
     <>
       <Router basename="/">
+        <Global
+          styles={css`
+            html {
+              font-size: 100%;
+            }
+
+            body {
+              font-family: Inter, X-LocaleSpecific, sans-serif;
+            }
+
+            * {
+              box-sizing: initial;
+            }
+          `}
+        />
         <FlexContainer>
           <Header municipalityName={municipality.name} />
           <Main>
