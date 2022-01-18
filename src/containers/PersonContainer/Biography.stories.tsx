@@ -6,6 +6,7 @@ import {
   ten_years_councilmember,
   expired_chair,
   recent_chair,
+  varietyRoles,
 } from "../../stories/model-mocks/role";
 import {
   populatedMatterMatterSponsor,
@@ -19,10 +20,18 @@ export default {
 
 const Template: Story<BiographyProps> = (args) => <Biography {...args} />;
 
-export const basicBio = Template.bind({});
-basicBio.args = {
+export const noExtraRolesBio = Template.bind({});
+noExtraRolesBio.args = {
   person: basicPerson,
   councilMemberRoles: [ten_years_councilmember],
   roles: [expired_chair, recent_chair],
+  mattersSponsored: [populatedMatterMatterSponsor, basicMatterSponsor],
+};
+
+export const extensiveRolesBio = Template.bind({});
+extensiveRolesBio.args = {
+  person: basicPerson,
+  councilMemberRoles: [ten_years_councilmember],
+  roles: varietyRoles,
   mattersSponsored: [populatedMatterMatterSponsor, basicMatterSponsor],
 };

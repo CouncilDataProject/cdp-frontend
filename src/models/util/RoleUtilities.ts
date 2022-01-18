@@ -1,6 +1,7 @@
 import Role from "../Role";
 
 enum ROLE_TITLE {
+  ALTERNATE = "Alternate",
   CHAIR = "Chair",
   VICE_CHAIR = "Vice Chair",
   COUNCILMEMBER = "Councilmember",
@@ -12,6 +13,51 @@ function filterRolesByTitle(roles: Role[], title: ROLE_TITLE): Role[] {
   return roles.filter((role) => {
     return role.title === title;
   });
+}
+
+function getUniqueBodyRoles(roles: Role[]): Role[] {
+  const setOfBodies: any = {};
+  return roles.filter((role) => {
+    if (role.body?.id) {
+      if (setOfBodies[role.body.id] === true) {
+        return false;
+      } else {
+        setOfBodies[role.body.id] = true;
+        return true;
+      }
+    }
+  });
+}
+
+function getCurrentUniqueBodyRoles(roles: Role[]): Role[] {
+  return getUniqueBodyRoles(roles)
+    .filter((role) => {
+      if (role.title === ROLE_TITLE.COUNCILMEMBER) {
+        return false;
+      }
+      if (!role.end_datetime) {
+        return true;
+      } else {
+        if (role.end_datetime > new Date()) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    })
+    .sort((roleA: Role, roleB: Role) => {
+      if (roleA.title === ROLE_TITLE.CHAIR) {
+        return -1;
+      }
+      if (roleA.title === ROLE_TITLE.VICE_CHAIR && roleB.title !== ROLE_TITLE.CHAIR) {
+        return -1;
+      }
+      if (roleA.title === ROLE_TITLE.ALTERNATE && roleB.title !== ROLE_TITLE.MEMBER) {
+        return -1;
+      }
+
+      return 1;
+    });
 }
 
 function getMostRecentRole(roles: Role[]): Role {
@@ -38,4 +84,4 @@ function getMostRecentRole(roles: Role[]): Role {
   return roles[0];
 }
 
-export { ROLE_TITLE, filterRolesByTitle, getMostRecentRole };
+export { ROLE_TITLE, filterRolesByTitle, getCurrentUniqueBodyRoles };
