@@ -66,10 +66,6 @@ function App() {
             body {
               font-family: Inter, X-LocaleSpecific, sans-serif;
             }
-
-            * {
-              box-sizing: initial;
-            }
           `}
         />
         <FlexContainer>
