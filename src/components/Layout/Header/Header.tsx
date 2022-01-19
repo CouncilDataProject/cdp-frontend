@@ -6,6 +6,10 @@ import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 
+const Navigation = styled.div({
+  boxSizing: "initial",
+});
+
 const CDPLogo = styled.div({
   float: "left",
   marginTop: "12px",
@@ -41,7 +45,7 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
 
   return (
     <header>
-      <div className="mzp-c-navigation">
+      <Navigation className="mzp-c-navigation">
         <div className="mzp-c-navigation-l-content">
           <div className="mzp-c-navigation-container">
             <HamburgerMenuButton
@@ -91,7 +95,7 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
             </NavItems>
           </div>
         </div>
-      </div>
+      </Navigation>
     </header>
   );
 };
