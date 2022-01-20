@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
 
+import { useAppConfigContext } from "../../app/AppConfigContext";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 import { HomeSearchBar } from "../../components/Layout/HomeSearchBar";
@@ -27,9 +28,13 @@ const Container = styled.div({
 const HomePage: FC = () => {
   useDocumentTitle(strings.council_data_project);
 
+  const { municipality } = useAppConfigContext();
+
   return (
     <Container>
-      <h1 className="mzp-u-title-xs">{strings.search_city_council}</h1>
+      <h1 className="mzp-u-title-xs">
+        {strings.search_municipality_name.replace("{municipality_name}", municipality.name)}
+      </h1>
       <HomeSearchBar />
     </Container>
   );
