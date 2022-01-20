@@ -6,9 +6,13 @@ import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 
+const Navigation = styled.div({
+  boxSizing: "initial",
+});
+
 const CDPLogo = styled.div({
   float: "left",
-  marginRight: "48px",
+  marginTop: "12px",
 });
 
 const HamburgerMenuButton = styled.button({
@@ -41,7 +45,7 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
 
   return (
     <header>
-      <div className="mzp-c-navigation">
+      <Navigation className="mzp-c-navigation">
         <div className="mzp-c-navigation-l-content">
           <div className="mzp-c-navigation-container">
             <HamburgerMenuButton
@@ -53,13 +57,10 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
             </HamburgerMenuButton>
             <CDPLogo>
               <a
-                href="https://councildataproject.org"
                 className="cdp-icon-black-bg-transparent-size-256"
+                style={{ maxHeight: "64px", maxWidth: "64px" }}
+                href="https://councildataproject.org"
                 title={strings.council_data_project}
-                style={{
-                  maxHeight: "64px",
-                  maxWidth: "64px",
-                }}
               >
                 {strings.council_data_project}
               </a>
@@ -70,7 +71,7 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
               className="mzp-c-navigation-items"
               id="patterns.organisms.navigation.navigation"
             >
-              <div className="mzp-c-navigation-menu">
+              <div className="mzp-c-navigation-container">
                 <nav className="mzp-c-menu mzp-is-basic">
                   <ul className="mzp-c-menu-category-list">
                     <li className="mzp-c-menu-category">
@@ -94,7 +95,7 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
             </NavItems>
           </div>
         </div>
-      </div>
+      </Navigation>
     </header>
   );
 };
