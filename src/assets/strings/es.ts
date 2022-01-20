@@ -1,7 +1,7 @@
 const es = {
   number_approved: "{number} Aprobado",
   number_rejected: "{number} Rechazado",
-  number_abstained: "{number} se Abstuvo",
+  number_non_voting: "{number} Non-Voting",
   meeting_votes_caption: "Haga clic en cada fila para ver cómo votaron los miembros del consejo",
   legislation: "Legislación",
   council_decision: "Decisión del Consejo",
@@ -36,10 +36,17 @@ const es = {
   tools_license_prefix: "Council Data Project las herramientas tienen licencia bajo ",
   styled_using_prefix: "Diseñado usando ",
   artwork_provided_by_prefix: "Obra proporcionada por ",
+  passed: "Passed",
+  failed: "Failed",
   approve: "Aprobar",
   reject: "Rechazar",
+  abstain_approve: "Abstain (Approve)",
+  abstain_non_voting: "Abstain (Non-Voting)",
+  abstain_reject: "Abstain (Reject)",
+  absent_approve: "Absent (Approve)",
+  absent_non_voting: "Absent (Non-Voting)",
+  absent_reject: "Absent (Reject)",
   rejected: "Rechazado",
-  abstain: "Abstenerse",
   adopted: "Adoptado",
   in_progress: "En curso",
   example_prefix: "Ejemplo:",
@@ -52,8 +59,6 @@ const es = {
   transcript: "Transcripción",
   agenda: "Agenda",
   session: "Sesión",
-  passed: "Passed",
-  failed: "Failed",
 };
 
 export default es;
