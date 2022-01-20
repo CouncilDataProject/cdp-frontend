@@ -1,6 +1,8 @@
 import React from "react";
 import { Story, Meta } from "@storybook/react";
 
+import { EVENT_MINUTES_ITEM_DECISION, VOTE_DECISION } from "../../../models/constants";
+
 import MeetingVotesTable, { MeetingVotesTableProps } from "./MeetingVotesTable";
 
 export default {
@@ -9,6 +11,23 @@ export default {
 } as Meta;
 
 const Template: Story<MeetingVotesTableProps> = (args) => <MeetingVotesTable {...args} />;
+
+const persons = ["Alice", "Bob", "Charlie", "Denise", "Elton", "Floyd", "Gregory", "Haley", "Ivan"];
+const voteDecisions = Object.values(VOTE_DECISION);
+const councilDecisions = Object.values(EVENT_MINUTES_ITEM_DECISION);
+
+const genereateCouncilDecision = () =>
+  councilDecisions[Math.floor(Math.random() * councilDecisions.length)];
+const generateVotes = () => {
+  return persons.map((person) => {
+    return {
+      name: person,
+      personId: `${person}-id`,
+      decision: voteDecisions[Math.floor(Math.random() * voteDecisions.length)],
+      id: `${person}-vote`,
+    };
+  });
+};
 
 export const EmptyLegislationVoteTable = Template.bind({});
 EmptyLegislationVoteTable.args = {
@@ -25,54 +44,8 @@ SingleLegislationVote.args = {
         name: "IRC 188",
       },
       date: new Date(),
-      council_decision: "Passed",
-      votes: [
-        {
-          name: "Alice",
-          decision: "Approve",
-          id: "vote1",
-        },
-        {
-          name: "Bob",
-          decision: "Approve",
-          id: "vote2",
-        },
-        {
-          name: "Charlie",
-          decision: "Approve",
-          id: "vote3",
-        },
-        {
-          name: "Denise",
-          decision: "Reject",
-          id: "vote4",
-        },
-        {
-          name: "Elton",
-          decision: "Abstain (Non-Voting)",
-          id: "vote5",
-        },
-        {
-          name: "Floyd",
-          decision: "Reject",
-          id: "vote6",
-        },
-        {
-          name: "Gregory",
-          decision: "Approve",
-          id: "vote7",
-        },
-        {
-          name: "Haley",
-          decision: "Reject",
-          id: "vote8",
-        },
-        {
-          name: "Ivan",
-          decision: "Abstain",
-          id: "vote9",
-        },
-      ],
+      council_decision: genereateCouncilDecision(),
+      votes: generateVotes(),
     },
   ],
 };
@@ -87,63 +60,8 @@ SingleBrokenLegislationRow.args = {
         name: "IRC 189",
       },
       date: new Date(),
-      council_decision: "Passed",
-      votes: [
-        {
-          name: "Alice",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote1",
-        },
-        {
-          name: "Bob",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote2",
-        },
-        {
-          name: "Charlie",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote3",
-        },
-        {
-          name: "Denise",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote4",
-        },
-        {
-          name: "Elton",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote5",
-        },
-        {
-          name: "Floyd",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote6",
-        },
-        {
-          name: "Gregory",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote7",
-        },
-        {
-          name: "Haley",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote8",
-        },
-        {
-          name: "Ivan",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote9",
-        },
-      ],
+      council_decision: genereateCouncilDecision(),
+      votes: generateVotes(),
     },
     {
       matter: {
@@ -152,63 +70,8 @@ SingleBrokenLegislationRow.args = {
         name: "IRC 200",
       },
       date: new Date(),
-      council_decision: "Passed",
-      votes: [
-        {
-          name: "Alice",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote1",
-        },
-        {
-          name: "Bob",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote2",
-        },
-        {
-          name: "Charlie",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote3",
-        },
-        {
-          name: "Denise",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote4",
-        },
-        {
-          name: "Elton",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote5",
-        },
-        {
-          name: "Floyd",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote6",
-        },
-        {
-          name: "Gregory",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote7",
-        },
-        {
-          name: "Haley",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote8",
-        },
-        {
-          name: "Ivan",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote9",
-        },
-      ],
+      council_decision: genereateCouncilDecision(),
+      votes: generateVotes(),
     },
     { broken: "simulating a broken row due to missing or malformed data" },
     {
@@ -218,63 +81,8 @@ SingleBrokenLegislationRow.args = {
         name: "IRC 201",
       },
       date: new Date(),
-      council_decision: "Failed",
-      votes: [
-        {
-          name: "Alice",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote1",
-        },
-        {
-          name: "Bob",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote2",
-        },
-        {
-          name: "Charlie",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote3",
-        },
-        {
-          name: "Denise",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote4",
-        },
-        {
-          name: "Elton",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote5",
-        },
-        {
-          name: "Floyd",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote6",
-        },
-        {
-          name: "Gregory",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote7",
-        },
-        {
-          name: "Haley",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote8",
-        },
-        {
-          name: "Ivan",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote9",
-        },
-      ],
+      council_decision: genereateCouncilDecision(),
+      votes: generateVotes(),
     },
   ],
 };
@@ -289,63 +97,8 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 189",
       },
       date: new Date(),
-      council_decision: "Passed",
-      votes: [
-        {
-          name: "Alice",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote1",
-        },
-        {
-          name: "Bob",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote2",
-        },
-        {
-          name: "Charlie",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote3",
-        },
-        {
-          name: "Denise",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote4",
-        },
-        {
-          name: "Elton",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote5",
-        },
-        {
-          name: "Floyd",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote6",
-        },
-        {
-          name: "Gregory",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote7",
-        },
-        {
-          name: "Haley",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote8",
-        },
-        {
-          name: "Ivan",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote9",
-        },
-      ],
+      council_decision: genereateCouncilDecision(),
+      votes: generateVotes(),
     },
     {
       matter: {
@@ -354,63 +107,8 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 200",
       },
       date: new Date(),
-      council_decision: "Passed",
-      votes: [
-        {
-          name: "Alice",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote1",
-        },
-        {
-          name: "Bob",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote2",
-        },
-        {
-          name: "Charlie",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote3",
-        },
-        {
-          name: "Denise",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote4",
-        },
-        {
-          name: "Elton",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote5",
-        },
-        {
-          name: "Floyd",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote6",
-        },
-        {
-          name: "Gregory",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote7",
-        },
-        {
-          name: "Haley",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote8",
-        },
-        {
-          name: "Ivan",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote9",
-        },
-      ],
+      council_decision: genereateCouncilDecision(),
+      votes: generateVotes(),
     },
     {
       matter: {
@@ -419,63 +117,8 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 290",
       },
       date: new Date(),
-      council_decision: "In Progress",
-      votes: [
-        {
-          name: "Alice",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote1",
-        },
-        {
-          name: "Bob",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote2",
-        },
-        {
-          name: "Charlie",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote3",
-        },
-        {
-          name: "Denise",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote4",
-        },
-        {
-          name: "Elton",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote5",
-        },
-        {
-          name: "Floyd",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote6",
-        },
-        {
-          name: "Gregory",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote7",
-        },
-        {
-          name: "Haley",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote8",
-        },
-        {
-          name: "Ivan",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote9",
-        },
-      ],
+      council_decision: genereateCouncilDecision(),
+      votes: generateVotes(),
     },
     {
       matter: {
@@ -484,63 +127,8 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 201",
       },
       date: new Date(),
-      council_decision: "Rejected",
-      votes: [
-        {
-          name: "Alice",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote1",
-        },
-        {
-          name: "Bob",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote2",
-        },
-        {
-          name: "Charlie",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote3",
-        },
-        {
-          name: "Denise",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote4",
-        },
-        {
-          name: "Elton",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote5",
-        },
-        {
-          name: "Floyd",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote6",
-        },
-        {
-          name: "Gregory",
-          personId: "personId1",
-          decision: "Approve",
-          id: "vote7",
-        },
-        {
-          name: "Haley",
-          personId: "personId1",
-          decision: "Reject",
-          id: "vote8",
-        },
-        {
-          name: "Ivan",
-          personId: "personId1",
-          decision: "Abstain",
-          id: "vote9",
-        },
-      ],
+      council_decision: genereateCouncilDecision(),
+      votes: generateVotes(),
     },
   ],
 };
