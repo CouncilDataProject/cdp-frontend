@@ -10,9 +10,10 @@ import {
 } from "./PopulationOptions";
 import { ORDER_DIRECTION, WHERE_OPERATOR } from "./constants";
 
+import { ROLE_TITLE } from "../models/constants";
 import Role from "../models/Role";
+
 import { FirebaseConfig } from "../app/AppConfigContext";
-import { ROLE_TITLE } from "../models/util/RoleUtilities";
 
 export default class RoleService extends ModelService {
   constructor(firebaseConfig: FirebaseConfig) {

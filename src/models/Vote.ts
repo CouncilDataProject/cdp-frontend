@@ -5,9 +5,11 @@ import Event from "./Event";
 import Matter from "./Matter";
 import { Model } from "./Model";
 import { DocumentReference } from "firebase/firestore";
+import { VOTE_DECISION } from "./constants";
+
 export default class Vote implements Model {
   id: string;
-  decision: string;
+  decision: VOTE_DECISION;
   event_minutes_item_ref: string;
   event_minutes_item?: EventMinutesItem;
   event_ref: string;

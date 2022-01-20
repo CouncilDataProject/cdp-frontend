@@ -3,7 +3,7 @@ import { Story, Meta } from "@storybook/react";
 
 import EventContainer, { EventContainerProps } from "./EventContainer";
 
-import { MATTER_STATUS_DECISION, VOTE_DECISION } from "../../constants/ProjectConstants";
+import { EVENT_MINUTES_ITEM_DECISION, VOTE_DECISION } from "../../models/constants";
 import { ECSentence } from "./types";
 
 export default {
@@ -56,7 +56,7 @@ event.args = {
     {
       id: "test2",
       minutes_item: { name: "test2", description: "test desc", matter_ref: "matter-id" },
-      decision: MATTER_STATUS_DECISION.REJECTED,
+      decision: EVENT_MINUTES_ITEM_DECISION.FAILED,
       files: [
         {
           name: "file name",

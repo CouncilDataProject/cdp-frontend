@@ -2,7 +2,8 @@ import Person from "../../models/Person";
 import Role from "../../models/Role";
 import MatterSponsor from "../../models/MatterSponsor";
 import ordinalSuffix from "../../utils/ordinalSuffix";
-import { filterRolesByTitle, ROLE_TITLE } from "../../models/util/RoleUtilities";
+import { filterRolesByTitle } from "../../models/util/RoleUtilities";
+import { ROLE_TITLE } from "../../models/constants";
 
 function writeBiography(
   person: Person,

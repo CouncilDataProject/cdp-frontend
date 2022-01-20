@@ -49,7 +49,7 @@ SingleLegislationVote.args = {
         },
         {
           name: "Elton",
-          decision: "Abstain",
+          decision: "Abstain (Non-Voting)",
           id: "vote5",
         },
         {

@@ -1,9 +1,10 @@
 import Vote from "../../models/Vote";
+import { VOTE_DECISION, EVENT_MINUTES_ITEM_DECISION } from "../../models/constants";
 import { basicPassEventMinutesItem, basicFailEventMinutesItem } from "./eventMinutesItem";
 
 const vote: Vote = {
   id: "vote-1",
-  decision: "Approve",
+  decision: VOTE_DECISION.APPROVE,
   event_minutes_item_ref: "emi_ref",
   event_minutes_item: basicPassEventMinutesItem,
   event_ref: "event_ref",
@@ -38,14 +39,14 @@ const vote: Vote = {
   },
 };
 
-const voteList = [
+const voteList: Vote[] = [
   {
     id: "0ff26eda838f",
     event_minutes_item_ref: "6e58df20b7d2",
     event_ref: "9409f4d1ea09",
     matter_ref: "a5dae0358d16",
     person_ref: "051d21034209",
-    decision: "Approve",
+    decision: VOTE_DECISION.APPROVE,
     event: {
       id: "9409f4d1ea09",
       event_datetime: new Date("2021-09-14T21:00:00.000Z"),
@@ -81,7 +82,7 @@ const voteList = [
     event_ref: "4bf610d2947e",
     matter_ref: "f8f243934834",
     person_ref: "051d21034209",
-    decision: "Approve",
+    decision: VOTE_DECISION.APPROVE,
     event: {
       id: "4bf610d2947e",
       event_datetime: new Date("2021-09-14T21:00:00.000Z"),
@@ -117,7 +118,7 @@ const voteList = [
     event_ref: "4bf610d2947e",
     matter_ref: "00537b8c72c1",
     person_ref: "051d21034209",
-    decision: "Approve",
+    decision: VOTE_DECISION.APPROVE,
     event: {
       id: "4bf610d2947e",
       event_datetime: new Date("2021-09-14T21:00:00.000Z"),
@@ -137,7 +138,7 @@ const voteList = [
     },
     event_minutes_item: {
       id: "e69f7fb7ba0b",
-      decision: "Passed",
+      decision: EVENT_MINUTES_ITEM_DECISION.PASSED,
       event_ref: "4bf610d2947e",
       index: 9,
       minutes_item_ref: "00537b8c72c1",
@@ -158,7 +159,7 @@ const voteList = [
     event_ref: "9409f4d1ea09",
     matter_ref: "a5dae0358d16",
     person_ref: "051d21034209",
-    decision: "Approve",
+    decision: VOTE_DECISION.APPROVE,
     event: {
       id: "9409f4d1ea09",
       event_datetime: new Date("2021-12-08T22:00:00.000Z"),
@@ -178,7 +179,7 @@ const voteList = [
     },
     event_minutes_item: {
       id: "b8b014609e8a",
-      decision: "Passed",
+      decision: EVENT_MINUTES_ITEM_DECISION.PASSED,
       event_ref: "9409f4d1ea09",
       index: 9,
       minutes_item_ref: "a5dae0358d16",
@@ -196,14 +197,14 @@ const voteList = [
   },
 ];
 
-const voteListWithBrokenVote = [
+const voteListWithBrokenVote: Vote[] = [
   {
     id: "0ff26eda838f",
     event_minutes_item_ref: "6e58df20b7d2",
     event_ref: "9409f4d1ea09",
     matter_ref: "a5dae0358d16",
     person_ref: "051d21034209",
-    decision: "Approve",
+    decision: VOTE_DECISION.APPROVE,
     event: {
       id: "9409f4d1ea09",
       event_datetime: new Date("2021-12-08T22:00:00.000Z"),
@@ -223,7 +224,7 @@ const voteListWithBrokenVote = [
     },
     event_minutes_item: {
       id: "6e58df20b7d2",
-      decision: "Passed",
+      decision: EVENT_MINUTES_ITEM_DECISION.PASSED,
       event_ref: "9409f4d1ea09",
       index: 10,
       minutes_item_ref: "a5dae0358d16",
@@ -240,7 +241,12 @@ const voteListWithBrokenVote = [
     },
   },
   {
-    error: "This vote is broken.",
+    id: "broken-vote-id",
+    event_minutes_item_ref: "",
+    event_ref: "",
+    matter_ref: "",
+    person_ref: "",
+    decision: VOTE_DECISION.APPROVE,
   },
   {
     id: "54d8d3d81639",
@@ -248,7 +254,7 @@ const voteListWithBrokenVote = [
     event_ref: "4bf610d2947e",
     matter_ref: "00537b8c72c1",
     person_ref: "051d21034209",
-    decision: "Approve",
+    decision: VOTE_DECISION.APPROVE,
     event: {
       id: "4bf610d2947e",
       event_datetime: new Date("2021-09-14T21:00:00.000Z"),
@@ -268,7 +274,7 @@ const voteListWithBrokenVote = [
     },
     event_minutes_item: {
       id: "e69f7fb7ba0b",
-      decision: "Passed",
+      decision: EVENT_MINUTES_ITEM_DECISION.PASSED,
       event_ref: "4bf610d2947e",
       index: 9,
       minutes_item_ref: "00537b8c72c1",
@@ -289,7 +295,7 @@ const voteListWithBrokenVote = [
     event_ref: "9409f4d1ea09",
     matter_ref: "a5dae0358d16",
     person_ref: "051d21034209",
-    decision: "Approve",
+    decision: VOTE_DECISION.APPROVE,
     event: {
       id: "9409f4d1ea09",
       event_datetime: new Date("2021-09-14T21:00:00.000Z"),
@@ -309,7 +315,7 @@ const voteListWithBrokenVote = [
     },
     event_minutes_item: {
       id: "b8b014609e8a",
-      decision: "Passed",
+      decision: EVENT_MINUTES_ITEM_DECISION.PASSED,
       event_ref: "9409f4d1ea09",
       index: 9,
       minutes_item_ref: "a5dae0358d16",

@@ -14,7 +14,7 @@ import MatterSponsorService from "../../networking/MatterSponsorService";
 import RoleService from "../../networking/RoleService";
 import FileService from "../../networking/FileService";
 
-import { ROLE_TITLE } from "../../models/util/RoleUtilities";
+import { ROLE_TITLE } from "../../models/constants";
 
 const PersonPage: FC = () => {
   // Get the id the person, provided the route is `persons/:id`

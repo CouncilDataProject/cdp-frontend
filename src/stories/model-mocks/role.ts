@@ -1,5 +1,5 @@
 import Role from "../../models/Role";
-import { ROLE_TITLE } from "../../models/util/RoleUtilities";
+import { ROLE_TITLE } from "../../models/constants";
 import { basicBody } from "./body";
 import { basicSeat } from "./seat";
 

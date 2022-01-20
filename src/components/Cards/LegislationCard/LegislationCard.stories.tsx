@@ -2,7 +2,7 @@ import React from "react";
 import { Story, Meta } from "@storybook/react";
 
 import LegislationCard, { LegislationCardProps } from "./LegislationCard";
-import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
+import { MATTER_STATUS_DECISION } from "../../../models/constants";
 
 export default {
   component: LegislationCard,
