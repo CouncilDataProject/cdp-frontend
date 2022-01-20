@@ -1,7 +1,6 @@
 import React from "react";
 import DecisionResult from "../../Shared/DecisionResult";
-import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
-import { VOTE_DECISION } from "../../../constants/ProjectConstants";
+import { VOTE_DECISION, EVENT_MINUTES_ITEM_DECISION } from "../../../models/constants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
@@ -16,7 +15,7 @@ export type VotingTableRowProps = {
   /** the persons vote */
   voteDecision: VOTE_DECISION;
   /** the voting body decision */
-  councilDecision: MATTER_STATUS_DECISION;
+  councilDecision: EVENT_MINUTES_ITEM_DECISION;
   /** link to the detail page of the matter being voted on */
   legislationLink: string;
   /** words indicating the topic of the matter being voted on */

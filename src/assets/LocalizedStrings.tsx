@@ -39,10 +39,17 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   tools_license_prefix: string;
   styled_using_prefix: string;
   artwork_provided_by_prefix: string;
+  passed: string;
+  failed: string;
   approve: string;
   reject: string;
+  abstain_approve: string;
+  abstain_non_voting: string;
+  abstain_reject: string;
+  absent_approve: string;
+  absent_non_voting: string;
+  absent_reject: string;
   rejected: string;
-  abstain: string;
   adopted: string;
   in_progress: string;
   example_prefix: string;
@@ -54,7 +61,7 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   search_city_council: string;
   number_approved: string;
   number_rejected: string;
-  number_abstained: string;
+  number_non_voting: string;
   legislation: string;
   council_decision: string;
   votes: string;

@@ -1,4 +1,4 @@
-import { VOTE_DECISION } from "../../../constants/ProjectConstants";
+import { VOTE_DECISION } from "../../../models/constants";
 
 export type IndividualMeetingVote = {
   /** the voter's name */

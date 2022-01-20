@@ -2,7 +2,7 @@ import React from "react";
 import { Story, Meta } from "@storybook/react";
 
 import VotingTableRow, { VotingTableRowProps } from "./VotingTableRow";
-import { VOTE_DECISION, MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
+import { VOTE_DECISION, EVENT_MINUTES_ITEM_DECISION } from "../../../models/constants";
 
 export default {
   component: VotingTableRow,
@@ -17,7 +17,7 @@ SingleRow.args = {
   legislationLink: "https://www.google.com",
   index: 0,
   voteDecision: VOTE_DECISION.REJECT,
-  councilDecision: MATTER_STATUS_DECISION.ADOPTED,
+  councilDecision: EVENT_MINUTES_ITEM_DECISION.PASSED,
   legislationTags: ["bike", "example", "lanes", "rental"],
   meetingDate: new Date(),
   meetingLink: "https://www.google.com",

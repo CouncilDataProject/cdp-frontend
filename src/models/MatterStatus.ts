@@ -4,6 +4,7 @@ import EventMinutesItem from "./EventMinutesItem";
 import firestoreTimestampToDate from "../utils/firestoreTimestampToDate";
 import { Model } from "./Model";
 import { DocumentReference } from "@firebase/firestore";
+import { MATTER_STATUS_DECISION } from "./constants";
 
 export default class MatterStatus implements Model {
   id: string;
@@ -12,7 +13,7 @@ export default class MatterStatus implements Model {
   external_source_id?: string;
   matter_ref: string;
   matter?: Matter;
-  status: string;
+  status: MATTER_STATUS_DECISION;
   update_datetime: Date;
 
   constructor(jsonData: ResponseData) {

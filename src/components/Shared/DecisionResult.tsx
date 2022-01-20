@@ -9,7 +9,7 @@ import {
   MATTER_STATUS_DECISION,
   EVENT_MINUTES_ITEM_DECISION,
   VOTE_DECISION,
-} from "../../constants/ProjectConstants";
+} from "../../models/constants";
 import { strings } from "../../assets/LocalizedStrings";
 
 interface DecisionResultProps {
@@ -20,17 +20,22 @@ interface DecisionResultProps {
 const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps) => {
   let statusIcon = <div />;
   switch (result) {
-    case VOTE_DECISION.APPROVE:
     case EVENT_MINUTES_ITEM_DECISION.PASSED:
     case MATTER_STATUS_DECISION.ADOPTED:
+    case VOTE_DECISION.ABSENT_APPROVE:
+    case VOTE_DECISION.ABSTAIN_APPROVE:
+    case VOTE_DECISION.APPROVE:
       statusIcon = <AdoptedIcon />;
       break;
     case EVENT_MINUTES_ITEM_DECISION.FAILED:
-    case VOTE_DECISION.REJECT:
     case MATTER_STATUS_DECISION.REJECTED:
+    case VOTE_DECISION.ABSENT_REJECT:
+    case VOTE_DECISION.ABSTAIN_REJECT:
+    case VOTE_DECISION.REJECT:
       statusIcon = <RejectedIcon />;
       break;
-    case VOTE_DECISION.ABSTAIN:
+    case VOTE_DECISION.ABSENT_NON_VOTING:
+    case VOTE_DECISION.ABSTAIN_NON_VOTING:
       statusIcon = <AbstainIcon />;
       break;
     case MATTER_STATUS_DECISION.IN_PROGRESS:
@@ -41,6 +46,8 @@ const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps
   }
 
   const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
+  // remove `(` and `)`, replace ` ` and `-` with `_`
+  const decision = strings[result.toLowerCase().replace(/[()]/g, "").replace(/[ -]/g, "_")];
 
   if (isMobile) {
     return (
@@ -73,7 +80,7 @@ const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps
       </div>
       <div>
         <p className="mzp-c-card-desc" style={{ marginLeft: 8 }}>
-          {`${strings[result.toLowerCase().replace(" ", "_")]}`}
+          {decision}
         </p>
       </div>
     </div>

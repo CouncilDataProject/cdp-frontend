@@ -1,13 +1,5 @@
 import Role from "../Role";
-
-enum ROLE_TITLE {
-  ALTERNATE = "Alternate",
-  CHAIR = "Chair",
-  VICE_CHAIR = "Vice Chair",
-  COUNCILMEMBER = "Councilmember",
-  MEMBER = "Member",
-  COUNCIL_PRESIDENT = "Council President",
-}
+import { ROLE_TITLE } from "../constants";
 
 function filterRolesByTitle(roles: Role[], title: ROLE_TITLE): Role[] {
   return roles.filter((role) => {
@@ -84,4 +76,4 @@ function getMostRecentRole(roles: Role[]): Role {
   return roles[0];
 }
 
-export { ROLE_TITLE, filterRolesByTitle, getCurrentUniqueBodyRoles };
+export { filterRolesByTitle, getMostRecentRole, getCurrentUniqueBodyRoles };

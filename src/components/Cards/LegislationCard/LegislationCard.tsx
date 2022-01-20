@@ -4,7 +4,7 @@ import AdoptedIcon from "../../Shared/AdoptedIcon";
 import RejectedIcon from "../../Shared/RejectedIcon";
 import InProgressIcon from "../../Shared/InProgressIcon";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
-import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
+import { MATTER_STATUS_DECISION } from "../../../models/constants";
 import { strings } from "../../../assets/LocalizedStrings";
 
 const StatusIconContainer = styled.div({

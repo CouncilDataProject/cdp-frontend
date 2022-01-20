@@ -3,10 +3,11 @@ import Event from "./Event";
 import MinutesItem from "./MinutesItem";
 import { Model } from "./Model";
 import { DocumentReference } from "firebase/firestore";
+import { EVENT_MINUTES_ITEM_DECISION } from "./constants";
 
 export default class EventMinutesItem implements Model {
   id: string;
-  decision?: string;
+  decision?: EVENT_MINUTES_ITEM_DECISION;
   event_ref: string;
   event?: Event;
   external_source_id?: string;

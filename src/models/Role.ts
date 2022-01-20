@@ -5,7 +5,7 @@ import Person from "./Person";
 import { DocumentReference } from "@firebase/firestore";
 import Seat from "./Seat";
 import Body from "./Body";
-import { ROLE_TITLE } from "./util/RoleUtilities";
+import { ROLE_TITLE } from "./constants";
 export default class Role implements Model {
   id: string;
   title: ROLE_TITLE;
@@ -21,14 +21,10 @@ export default class Role implements Model {
 
   constructor(jsonData: ResponseData) {
     this.id = jsonData["id"];
+    this.title = jsonData["title"];
     this.person_ref = jsonData["person_ref"].id;
     this.seat_ref = jsonData["seat_ref"].id;
     this.start_datetime = firestoreTimestampToDate(jsonData["start_datetime"]);
-    if (jsonData["title"] && Object.values(ROLE_TITLE).includes(jsonData["title"])) {
-      this.title = jsonData["title"];
-    } else {
-      this.title = ROLE_TITLE.MEMBER;
-    }
 
     if (jsonData["end_datetime"]) {
       this.end_datetime = firestoreTimestampToDate(jsonData["end_datetime"]);

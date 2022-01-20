@@ -1,7 +1,7 @@
 const en = {
   number_approved: "{number} Approved",
   number_rejected: "{number} Rejected",
-  number_abstained: "{number} Abstained",
+  number_non_voting: "{number} Non-Voting",
   meeting_votes_caption: "Click each row to see how council members voted",
   legislation: "Legislation",
   council_decision: "Council Decision",
@@ -36,10 +36,17 @@ const en = {
   tools_license_prefix: "Council Data Project tools are licensed under ",
   styled_using_prefix: "Styled using ",
   artwork_provided_by_prefix: "Artwork provided by ",
+  passed: "Passed",
+  failed: "Failed",
   approve: "Approve",
   reject: "Reject",
+  abstain_approve: "Abstain (Approve)",
+  abstain_non_voting: "Abstain (Non-Voting)",
+  abstain_reject: "Abstain (Reject)",
+  absent_approve: "Absent (Approve)",
+  absent_non_voting: "Absent (Non-Voting)",
+  absent_reject: "Absent (Reject)",
   rejected: "Rejected",
-  abstain: "Abstain",
   adopted: "Adopted",
   in_progress: "In Progress",
   example_prefix: "Example: ",
@@ -52,8 +59,6 @@ const en = {
   transcript: "Transcript",
   agenda: "Agenda",
   session: "Session",
-  passed: "Passed",
-  failed: "Failed",
 };
 
 export default en;

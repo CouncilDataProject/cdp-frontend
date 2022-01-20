@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import DecisionResult from "../../Shared/DecisionResult";
-import { MATTER_STATUS_DECISION } from "../../../constants/ProjectConstants";
+import { EVENT_MINUTES_ITEM_DECISION, VOTE_DECISION } from "../../../models/constants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
 import { IndividualMeetingVote } from "../../Shared/Types/IndividualMeetingVote";
-import { VOTE_DECISION } from "../../../constants/ProjectConstants";
 import { ReactiveTableRow } from "../ReactiveTableRow";
 import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
@@ -18,7 +17,7 @@ type MeetingVotesTableRowProps = {
   /** the index of the row */
   index: number;
   /** the voting body decision */
-  councilDecision: MATTER_STATUS_DECISION;
+  councilDecision: EVENT_MINUTES_ITEM_DECISION;
   /** link to the detail page of the matter being voted on */
   legislationLink: string;
   /** vote results by individual members on the matter in this row */
@@ -57,15 +56,30 @@ function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[], isMobile:
   } else {
     let votesFor = 0;
     let votesAgainst = 0;
-    let votesAbstained = 0;
+    let nonVotes = 0;
     votes.forEach((vote) => {
-      if (vote.decision === VOTE_DECISION.APPROVE) votesFor++;
-      if (vote.decision === VOTE_DECISION.REJECT) votesAgainst++;
-      if (vote.decision === VOTE_DECISION.ABSTAIN) votesAbstained++;
+      if (
+        [
+          VOTE_DECISION.ABSENT_APPROVE,
+          VOTE_DECISION.ABSTAIN_APPROVE,
+          VOTE_DECISION.APPROVE,
+        ].includes(vote.decision)
+      )
+        votesFor++;
+      if (
+        [VOTE_DECISION.ABSENT_REJECT, VOTE_DECISION.ABSTAIN_REJECT, VOTE_DECISION.REJECT].includes(
+          vote.decision
+        )
+      )
+        votesAgainst++;
+      if (
+        [VOTE_DECISION.ABSENT_NON_VOTING, VOTE_DECISION.ABSTAIN_NON_VOTING].includes(vote.decision)
+      )
+        nonVotes++;
     });
     const votesForLabel = strings.number_approved.replace("{number}", `${votesFor}`);
     const votesAgainstLabel = strings.number_rejected.replace("{number}", `${votesAgainst}`);
-    const votesAbstainedLabel = strings.number_abstained.replace("{number}", `${votesAbstained}`);
+    const votesAbstainedLabel = strings.number_non_voting.replace("{number}", `${nonVotes}`);
     if (isMobile) {
       return (
         <div style={{ display: "flex", flexDirection: "column" }}>
