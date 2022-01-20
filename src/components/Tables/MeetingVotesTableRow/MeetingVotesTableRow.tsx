@@ -56,7 +56,7 @@ function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[], isMobile:
   } else {
     let votesFor = 0;
     let votesAgainst = 0;
-    let votesAbstained = 0;
+    let nonVotes = 0;
     votes.forEach((vote) => {
       if (
         [
@@ -75,11 +75,11 @@ function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[], isMobile:
       if (
         [VOTE_DECISION.ABSENT_NON_VOTING, VOTE_DECISION.ABSTAIN_NON_VOTING].includes(vote.decision)
       )
-        votesAbstained++;
+        nonVotes++;
     });
     const votesForLabel = strings.number_approved.replace("{number}", `${votesFor}`);
     const votesAgainstLabel = strings.number_rejected.replace("{number}", `${votesAgainst}`);
-    const votesAbstainedLabel = strings.number_abstained.replace("{number}", `${votesAbstained}`);
+    const votesAbstainedLabel = strings.number_non_voting.replace("{number}", `${nonVotes}`);
     if (isMobile) {
       return (
         <div style={{ display: "flex", flexDirection: "column" }}>
