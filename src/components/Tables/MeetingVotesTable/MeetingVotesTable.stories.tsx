@@ -16,7 +16,7 @@ const persons = ["Alice", "Bob", "Charlie", "Denise", "Elton", "Floyd", "Gregory
 const voteDecisions = Object.values(VOTE_DECISION);
 const councilDecisions = Object.values(EVENT_MINUTES_ITEM_DECISION);
 
-const genereateCouncilDecision = () =>
+const generateCouncilDecision = () =>
   councilDecisions[Math.floor(Math.random() * councilDecisions.length)];
 const generateVotes = () => {
   return persons.map((person) => {
@@ -44,7 +44,7 @@ SingleLegislationVote.args = {
         name: "IRC 188",
       },
       date: new Date(),
-      council_decision: genereateCouncilDecision(),
+      council_decision: generateCouncilDecision(),
       votes: generateVotes(),
     },
   ],
@@ -60,7 +60,7 @@ SingleBrokenLegislationRow.args = {
         name: "IRC 189",
       },
       date: new Date(),
-      council_decision: genereateCouncilDecision(),
+      council_decision: generateCouncilDecision(),
       votes: generateVotes(),
     },
     {
@@ -70,7 +70,7 @@ SingleBrokenLegislationRow.args = {
         name: "IRC 200",
       },
       date: new Date(),
-      council_decision: genereateCouncilDecision(),
+      council_decision: generateCouncilDecision(),
       votes: generateVotes(),
     },
     { broken: "simulating a broken row due to missing or malformed data" },
@@ -81,7 +81,7 @@ SingleBrokenLegislationRow.args = {
         name: "IRC 201",
       },
       date: new Date(),
-      council_decision: genereateCouncilDecision(),
+      council_decision: generateCouncilDecision(),
       votes: generateVotes(),
     },
   ],
@@ -97,7 +97,7 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 189",
       },
       date: new Date(),
-      council_decision: genereateCouncilDecision(),
+      council_decision: generateCouncilDecision(),
       votes: generateVotes(),
     },
     {
@@ -107,7 +107,7 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 200",
       },
       date: new Date(),
-      council_decision: genereateCouncilDecision(),
+      council_decision: generateCouncilDecision(),
       votes: generateVotes(),
     },
     {
@@ -117,7 +117,7 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 290",
       },
       date: new Date(),
-      council_decision: genereateCouncilDecision(),
+      council_decision: generateCouncilDecision(),
       votes: generateVotes(),
     },
     {
@@ -127,7 +127,7 @@ ManyLegislationRowsAndVotes.args = {
         name: "IRC 201",
       },
       date: new Date(),
-      council_decision: genereateCouncilDecision(),
+      council_decision: generateCouncilDecision(),
       votes: generateVotes(),
     },
   ],
