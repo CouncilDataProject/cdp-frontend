@@ -46,6 +46,8 @@ const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps
   }
 
   const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
+  // remove `(` and `)`, replace ` ` and `-` with `_`
+  const decision = strings[result.toLowerCase().replace(/[()]/g, "").replace(/[ -]/g, "_")];
 
   if (isMobile) {
     return (
@@ -78,7 +80,7 @@ const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps
       </div>
       <div>
         <p className="mzp-c-card-desc" style={{ marginLeft: 8 }}>
-          {`${strings[result.toLowerCase().replace(" ", "_")]}`}
+          {decision}
         </p>
       </div>
     </div>
@@ -88,4 +90,3 @@ DecisionResult.defaultProps = {
   result: MATTER_STATUS_DECISION.IN_PROGRESS,
 };
 export default DecisionResult;
-//NEED TO FIX STRINGS FOR RESULT
