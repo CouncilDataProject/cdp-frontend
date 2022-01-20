@@ -51,7 +51,7 @@ const es = {
   in_progress: "En curso",
   example_prefix: "Ejemplo:",
   search_topic_placeholder: "Buscar un tema ...",
-  search_city_council: "Buscar Ayuntamiento",
+  search_municipality_name: "Buscar {municipality_name}",
   events: "Eventos",
   links: "Enlaces",
   people: "Gente",

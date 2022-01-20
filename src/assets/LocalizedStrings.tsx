@@ -58,7 +58,7 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   events: string;
   people: string;
   council_data_project: string;
-  search_city_council: string;
+  search_municipality_name: string;
   number_approved: string;
   number_rejected: string;
   number_non_voting: string;
