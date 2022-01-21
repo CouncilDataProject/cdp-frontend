@@ -120,7 +120,10 @@ const MeetingVotesTableRow = ({
       }}
     >
       <div>
-        <Link to={legislationLink}>{legislationName}</Link>
+        {/* <Link to={legislationLink}>{legislationName}</Link> */}
+        <p className="mzp-c-card-desc" style={{ fontWeight: 600, marginBottom: 0 }}>
+          {legislationName}
+        </p>
         {!isMobile && <p>{legislationDescription}</p>}
       </div>
       <DecisionResult result={councilDecision} />

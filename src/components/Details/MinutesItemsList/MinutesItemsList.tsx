@@ -37,11 +37,11 @@ const MinutesItemsList: FC<MinutesItemsListProps> = ({ minutesItems }: MinutesIt
         return (
           <ListItem key={elem.name}>
             <div>{elem.name}</div>
-            {elem.matter_ref && (
+            {/* {elem.matter_ref && (
               <Link to={`/matters/${elem.matter_ref}`}>
                 {"Go to Full Legislation Details"} <ChevronDownIcon />
               </Link>
-            )}
+            )} */}
             {elem.description && <div>{elem.description}</div>}
             <DocumentsList documents={elem.documents} />
           </ListItem>
