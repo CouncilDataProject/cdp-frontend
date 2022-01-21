@@ -98,7 +98,7 @@ function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[], isMobile:
 
 const MeetingVotesTableRow = ({
   index,
-  legislationLink,
+  /* legislationLink, */
   legislationName,
   legislationDescription,
   councilDecision,

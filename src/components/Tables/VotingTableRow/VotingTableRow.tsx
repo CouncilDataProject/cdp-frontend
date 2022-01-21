@@ -34,7 +34,7 @@ export type VotingTableRowProps = {
 
 const VotingTableRow = ({
   index,
-  legislationLink,
+  /* legislationLink, */
   legislationName,
   legislationTags,
   voteDecision,

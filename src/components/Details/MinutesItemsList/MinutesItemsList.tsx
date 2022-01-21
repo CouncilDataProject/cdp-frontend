@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
+/* import { Link } from "react-router-dom"; */
 
 import DocumentsList from "./DocumentsList";
-import ChevronDownIcon from "../../Shared/ChevronDownIcon";
+/* import ChevronDownIcon from "../../Shared/ChevronDownIcon"; */
 
 import { Item } from "./types";
 
