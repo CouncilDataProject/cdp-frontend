@@ -34,7 +34,7 @@ export type VotingTableRowProps = {
 
 const VotingTableRow = ({
   index,
-  legislationLink,
+  /* legislationLink, */
   legislationName,
   legislationTags,
   voteDecision,
@@ -58,7 +58,10 @@ const VotingTableRow = ({
       columnDistribution={columnDistribution}
     >
       <React.Fragment>
-        <Link to={legislationLink}>{legislationName}</Link>
+        {/* <Link to={legislationLink}>{legislationName}</Link> */}
+        <p className="mzp-c-card-desc" style={{ fontWeight: 600, marginBottom: 0 }}>
+          {legislationName}
+        </p>
         {!isMobile && <p className="mzp-c-card-desc">{legislationTagsString}</p>}
       </React.Fragment>
       <DecisionResult result={voteDecision} />
