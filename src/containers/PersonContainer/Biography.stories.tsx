@@ -24,7 +24,7 @@ export const noExtraRolesBio = Template.bind({});
 noExtraRolesBio.args = {
   person: basicPerson,
   councilMemberRoles: [ten_years_councilmember],
-  roles: [expired_chair, recent_chair],
+  nonCouncilMemberRoles: { [ten_years_councilmember.id]: [[recent_chair], [expired_chair]] },
   mattersSponsored: [populatedMatterMatterSponsor, basicMatterSponsor],
 };
 
@@ -32,6 +32,6 @@ export const extensiveRolesBio = Template.bind({});
 extensiveRolesBio.args = {
   person: basicPerson,
   councilMemberRoles: [ten_years_councilmember],
-  roles: varietyRoles,
+  nonCouncilMemberRoles: { [ten_years_councilmember.id]: [varietyRoles, [expired_chair]] },
   mattersSponsored: [populatedMatterMatterSponsor, basicMatterSponsor],
 };

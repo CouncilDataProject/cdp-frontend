@@ -1,11 +1,39 @@
-import React from "react";
-import { PersonCard, VotingTable } from "../..";
-import { PersonPageData } from "./types";
-import { useMediaQuery } from "react-responsive";
-import { screenWidths } from "../../styles/mediaBreakpoints";
+import React, { useMemo } from "react";
+import styled from "@emotion/styled";
+
 import useDocumentTitle from "../../hooks/useDocumentTitle";
-import PersonFullView from "./PersonFullView";
-import ordinalSuffix from "../../utils/ordinalSuffix";
+
+import { getUniqueTermRoles, partitionNonTermRoles } from "../../models/util/RoleUtilities";
+
+import { VotingTable } from "../../components/Tables/VotingTable";
+import { Biography } from "./Biography";
+import { CoverImage } from "./CoverImage";
+import { PersonPageData } from "./types";
+
+import { fontSizes } from "../../styles/fonts";
+
+const Person = styled.div({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  rowGap: 64,
+});
+
+const PageTitle = styled.div({
+  marginBottom: 0,
+  "& > h1": {
+    display: "inline",
+    marginBottom: 0,
+  },
+  "& > span": {
+    marginLeft: 16,
+    padding: "0px 8px",
+    borderRadius: 4,
+    fontSize: fontSizes.font_size_7,
+  },
+  "& > p": {
+    fontSize: fontSizes.font_size_6,
+  },
+});
 
 export interface PersonContainerProps extends PersonPageData {
   /** Any extra info */
@@ -21,45 +49,46 @@ const PersonContainer = ({
   personPictureSrc,
   seatPictureSrc,
 }: PersonContainerProps) => {
-  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.largeMobile})` });
   const mostRecentCouncilMemberRole = councilMemberRoles[0];
+  const personIsActive =
+    !mostRecentCouncilMemberRole.end_datetime ||
+    mostRecentCouncilMemberRole.end_datetime > new Date();
+
+  const [termRoles, nonTermRoles] = useMemo(() => {
+    const termRoles = getUniqueTermRoles(councilMemberRoles);
+    const nonTermRoles = partitionNonTermRoles(roles, termRoles);
+    return [termRoles, nonTermRoles];
+  }, [roles, councilMemberRoles]);
 
   useDocumentTitle(person.name);
 
   return (
-    <div>
-      {isMobile ? (
-        <PersonCard
-          personName={person.name}
-          personPictureSrc={personPictureSrc}
-          personIsActive={
-            mostRecentCouncilMemberRole.end_datetime
-              ? mostRecentCouncilMemberRole.end_datetime > new Date()
-              : true
-          }
-          seatName={mostRecentCouncilMemberRole.seat?.name || "No name"}
-          seatElectoralArea={
-            mostRecentCouncilMemberRole.seat?.electoral_area || "No Electoral Area"
-          }
-          seatPictureSrc={seatPictureSrc}
-          /**TODO fix list of chaired bodies */
-          chairedBodyNames={""}
-          tenureStatus={`${ordinalSuffix(councilMemberRoles.length)} term`}
-          billsSponsored={mattersSponsored.length}
-        />
-      ) : (
-        <PersonFullView
-          person={person}
-          personPictureSrc={personPictureSrc}
-          seatPictureSrc={seatPictureSrc}
-          councilMemberRoles={councilMemberRoles}
-          roles={roles}
-          mattersSponsored={mattersSponsored}
-        />
-      )}
-      <br />
-      <VotingTable name={person.name} votesPage={votes} />
-    </div>
+    <Person>
+      <CoverImage
+        personName={person.name}
+        personPictureSrc={personPictureSrc}
+        seatPictureSrc={seatPictureSrc}
+        electoralArea={mostRecentCouncilMemberRole.seat?.electoral_area}
+      />
+      <PageTitle>
+        <h1 className="mzp-u-title-sm">{person.name}</h1>
+        <span className={personIsActive ? "cdp-bg-neon-green" : "cdp-bg-dark-grey"}>
+          {personIsActive ? "active" : "inactive"}
+        </span>
+        {mostRecentCouncilMemberRole.seat && (
+          <p className="mzp-c-card-desc">{`${mostRecentCouncilMemberRole.seat.name} // ${mostRecentCouncilMemberRole.seat.electoral_area}`}</p>
+        )}
+      </PageTitle>
+      <Biography
+        person={person}
+        councilMemberRoles={termRoles}
+        nonCouncilMemberRoles={nonTermRoles}
+        mattersSponsored={mattersSponsored}
+      />
+      <div>
+        <VotingTable name={person.name} votesPage={votes} />
+      </div>
+    </Person>
   );
 };
 

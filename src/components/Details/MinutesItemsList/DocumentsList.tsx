@@ -37,7 +37,7 @@ const DocumentsList: FC<DocumentsListProps> = ({ documents }: DocumentsListProps
     return null;
   }
   return (
-    <details open={isExpanded} onToggle={onToggleIsExpanded}>
+    <details onToggle={onToggleIsExpanded}>
       <Summary>
         {strings.see_documents}
         {isExpanded ? <MinusIcon /> : <PlusIcon />}

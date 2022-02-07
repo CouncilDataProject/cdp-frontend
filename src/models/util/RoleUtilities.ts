@@ -76,4 +76,77 @@ function getMostRecentRole(roles: Role[]): Role {
   return roles[0];
 }
 
-export { filterRolesByTitle, getMostRecentRole, getCurrentUniqueBodyRoles };
+function getUniqueTermRoles(roles: Role[]): Role[] {
+  function dateRangeKey(a: Date, b?: Date): string {
+    return `${a.toISOString()}${b?.toISOString()}`;
+  }
+
+  // unique the council member/president roles by start datetime and end datetime
+  const uniqueRoles = [
+    ...new Map(
+      roles.map((role) => [dateRangeKey(role.start_datetime, role.end_datetime), role])
+    ).values(),
+  ];
+
+  // recent roles first
+  return uniqueRoles.sort((a, b) => {
+    return b.start_datetime.getTime() - a.start_datetime.getTime();
+  });
+}
+
+/**
+ *
+ * @param roles All roles of a person
+ * @param termRoles Councilmember roles of a person. Only one role per term.
+ * @returns Non-councilmember roles partitioned by the role.id of `termRoles` and whether the role is active
+ */
+function partitionNonTermRoles(roles: Role[], termRoles: Role[]): Record<string, Role[][]> {
+  const nonTermRoles = roles.filter(
+    (role) => ![ROLE_TITLE.COUNCILMEMBER, ROLE_TITLE.COUNCILPRESIDENT].includes(role.title)
+  );
+
+  // sort by `nonTermRoleTitles`
+  const nonTermRoleTitles = [
+    ROLE_TITLE.CHAIR,
+    ROLE_TITLE.VICE_CHAIR,
+    ROLE_TITLE.MEMBER,
+    ROLE_TITLE.ALTERNATE,
+  ];
+  nonTermRoles.sort((a, b) => {
+    return nonTermRoleTitles.indexOf(a.title) - nonTermRoleTitles.indexOf(b.title);
+  });
+
+  // partition into active vs inactive roles
+  const partition = termRoles.reduce((obj, role) => {
+    // first list contains active roles, second list contains inactive roles
+    obj[role.id] = [[], []];
+    return obj;
+  }, {} as Record<string, Role[][]>);
+  const now = new Date();
+  for (const nonTermRole of nonTermRoles) {
+    const nonTermRoleEndDate = nonTermRole.end_datetime || now;
+    for (const termRole of termRoles) {
+      const termRoleEndDate = termRole.end_datetime || now;
+      if (nonTermRoleEndDate >= termRole.start_datetime && nonTermRoleEndDate <= termRoleEndDate) {
+        // the nonTermRole end date falls within the termRole date range
+        if (nonTermRoleEndDate > now) {
+          // active non term role
+          partition[termRole.id][0].push(nonTermRole);
+        } else {
+          // inactive non term role
+          partition[termRole.id][1].push(nonTermRole);
+        }
+      }
+    }
+  }
+
+  return partition;
+}
+
+export {
+  filterRolesByTitle,
+  getMostRecentRole,
+  getCurrentUniqueBodyRoles,
+  getUniqueTermRoles,
+  partitionNonTermRoles,
+};
