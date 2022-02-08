@@ -21,27 +21,26 @@ const Images = styled.div({
   position: "relative",
   "& img": {
     objectFit: "cover",
+  },
+  "& > img:first-of-type": {
+    // seat image has 100% width
     width: "100%",
   },
-  "& > div > img": {
-    height: "100%",
-    // circle the person image
-    borderRadius: "50%",
-  },
   [`@media (min-width:${screenWidths.tablet})`]: {
-    "& > img": {
+    "& > img:first-of-type": {
       // on tablet or above seat image's height == 400px
       height: 400,
     },
   },
 });
 
-const Avatar = styled.div({
+const Avatar = styled.img({
   position: "absolute",
   left: -5,
   bottom: -30,
   width: 100,
   height: 100,
+  borderRadius: "50%",
   [`@media (min-width:${screenWidths.tablet})`]: {
     left: -25,
     width: 200,
@@ -70,17 +69,15 @@ const CoverImage: FC<CoverImageProps> = ({
           seatPictureSrc ||
           EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)]
         }
-        alt={`${electoralArea || "Default Image, no Elector Seat Image Available"}`}
+        alt={`${electoralArea || ""}`}
       />
-      <Avatar>
-        {personPictureSrc && (
-          <img
-            className="mzp-c-card-image"
-            src={personPictureSrc}
-            alt={`Picture of ${personName}`}
-          />
-        )}
-      </Avatar>
+      {personPictureSrc && (
+        <Avatar
+          className="mzp-c-card-image"
+          src={personPictureSrc}
+          alt={`Picture of ${personName}`}
+        />
+      )}
     </Images>
   );
 };
