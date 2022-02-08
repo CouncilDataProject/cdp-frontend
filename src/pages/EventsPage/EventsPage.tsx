@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useMemo } from "react";
 import { useLocation } from "react-router-dom";
+import queryString from "query-string";
 
 import { useAppConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
@@ -22,8 +23,14 @@ const EventsPage: FC = () => {
     if (location.state) {
       return location.state;
     }
+
+    const { body } = queryString.parse(location.search);
+    const committees: Record<string, boolean> = {};
+    if (body && typeof body === "string") {
+      committees[body as string] = true;
+    }
     return {
-      committees: {},
+      committees,
     };
   }, [location]);
 

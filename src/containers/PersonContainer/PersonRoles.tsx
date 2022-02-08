@@ -61,6 +61,7 @@ const PersonRoles: FC<PersonRolesProps> = ({
                                   <Link
                                     to={{
                                       pathname: "/events",
+                                      search: `?body=${activeRole.body?.id}`,
                                       state: {
                                         committees: { [activeRole.body?.id as string]: true },
                                       },
@@ -88,6 +89,7 @@ const PersonRoles: FC<PersonRolesProps> = ({
                                   <Link
                                     to={{
                                       pathname: "/events",
+                                      search: `?body=${inactiveRole.body?.id}`,
                                       state: {
                                         committees: { [inactiveRole.body?.id as string]: true },
                                       },
