@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import Role from "../../models/Role";
 
 import Details from "../../components/Shared/Details";
-import { Ul, H2 } from "./styledComponents";
+import H2 from "../../components/Shared/H2";
+import Ul from "../../components/Shared/Ul";
+
 import { fontSizes } from "../../styles/fonts";
 
 interface PersonRolesProps {
@@ -24,7 +26,9 @@ const PersonRoles: FC<PersonRolesProps> = ({
   // councilMemberRoles is guaranteed to have > 0 roles
   return (
     <div>
-      <H2 className="mzp-u-title-xs">Terms</H2>
+      <H2 hasBorderBottom={true} className="mzp-u-title-xs">
+        Terms
+      </H2>
       <Ul gap={16}>
         {councilMemberRoles.map((role) => {
           const isCurrentRole = !role.end_datetime || role.end_datetime > new Date();

@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 
 import Person from "../../models/Person";
 
-import { H2 } from "./styledComponents";
+import H2 from "../../components/Shared/H2";
 
 import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
@@ -32,7 +32,9 @@ const ContactPerson: FC<ContactPersonProps> = ({ person }: ContactPersonProps) =
   if (person.phone || person.email || person.website) {
     return (
       <Contact>
-        <H2 className="mzp-u-title-xs">Contact</H2>
+        <H2 hasBorderBottom={true} className="mzp-u-title-xs">
+          Contact
+        </H2>
         {(person.phone || person.email) && (
           <address>
             {person.email && (

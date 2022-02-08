@@ -6,12 +6,12 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { getUniqueTermRoles, partitionNonTermRoles } from "../../models/util/RoleUtilities";
 
 import Details from "../../components/Shared/Details";
+import H2 from "../../components/Shared/H2";
 import { VotingTable } from "../../components/Tables/VotingTable";
 import ContactPerson from "./ContactPerson";
 import { CoverImage } from "./CoverImage";
 import MattersSponsored from "./MattersSponsored";
 import PersonRoles from "./PersonRoles";
-import { H2 } from "./styledComponents";
 import { PersonPageData } from "./types";
 
 import { fontSizes } from "../../styles/fonts";
@@ -110,6 +110,7 @@ const PersonContainer = ({
       <MattersSponsored mattersSponsored={mattersSponsored} />
       <div>
         <Details
+          hasBorderBottom={true}
           defaultOpen={false}
           summaryContent={
             <H2 className="mzp-u-title-xs" style={{ display: "inline" }}>

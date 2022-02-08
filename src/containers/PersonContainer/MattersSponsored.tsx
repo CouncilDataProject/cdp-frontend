@@ -3,7 +3,8 @@ import React, { FC } from "react";
 import MatterSponsor from "../../models/MatterSponsor";
 
 import Details from "../../components/Shared/Details";
-import { Ul, H2 } from "./styledComponents";
+import H2 from "../../components/Shared/H2";
+import Ul from "../../components/Shared/Ul";
 
 interface MattersSponsoredProps {
   mattersSponsored: MatterSponsor[];
@@ -19,6 +20,7 @@ const MattersSponsored: FC<MattersSponsoredProps> = ({
   return (
     <div style={{ marginTop: 16 }}>
       <Details
+        hasBorderBottom={true}
         defaultOpen={false}
         summaryContent={
           <H2 className="mzp-u-title-xs" style={{ display: "inline" }}>
