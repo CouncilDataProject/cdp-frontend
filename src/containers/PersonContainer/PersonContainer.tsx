@@ -41,15 +41,17 @@ const PageTitle = styled.h1({
     fontSize: "inherit",
     fontWeight: "inherit",
   },
+  "& > span:not(:first-of-type)": {
+    fontSize: fontSizes.font_size_7,
+  },
   "& > span:nth-of-type(2)": {
     marginLeft: 16,
     padding: "0px 8px",
     borderRadius: 4,
-    fontSize: fontSizes.font_size_7,
     fontWeight: 300,
   },
-  "& > p": {
-    fontSize: fontSizes.font_size_7,
+  "& > span:nth-of-type(3)": {
+    display: "block",
     fontWeight: 400,
   },
 });
@@ -95,7 +97,7 @@ const PersonContainer = ({
           {personIsActive ? "active" : "inactive"}
         </span>
         {mostRecentCouncilMemberRole.seat && (
-          <p>{`${mostRecentCouncilMemberRole.seat.name} // ${mostRecentCouncilMemberRole.seat.electoral_area}`}</p>
+          <span>{`${mostRecentCouncilMemberRole.seat.name} // ${mostRecentCouncilMemberRole.seat.electoral_area}`}</span>
         )}
       </PageTitle>
       <div>
