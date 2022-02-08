@@ -15,7 +15,7 @@ const LegislationIntroduction: FC<LegislationIntroductionProps> = ({
   return (
     <div>
       <h1 className="mzp-u-title-sm">{matterStatus.matter?.name}</h1>
-      <b className="mzp-u-body-sm">{matterStatus.matter?.title}</b>
+      <b>{matterStatus.matter?.title}</b>
       <div
         style={{
           display: "flex",

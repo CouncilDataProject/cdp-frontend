@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, StyleHTMLAttributes } from "react";
+import React, { CSSProperties, FC } from "react";
 import AdoptedIcon from "./AdoptedIcon";
 import RejectedIcon from "./RejectedIcon";
 import InProgressIcon from "./InProgressIcon";

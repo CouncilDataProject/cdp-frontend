@@ -29,10 +29,6 @@ class IndexedMatterGram implements Model {
     ) {
       this.matter = new Matter(jsonData["event_ref"]);
     }
-
-    if (jsonData["keywords"]) {
-      this.keywords = jsonData["keywords"];
-    }
   }
 }
 
