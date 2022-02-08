@@ -19,6 +19,20 @@ const Person = styled.div({
   display: "grid",
   gridTemplateColumns: "1fr",
   rowGap: 64,
+
+  "& > div:nth-of-type(2)": {
+    // grid container for `contact` and `terms` components
+    display: "grid",
+    rowGap: 64,
+    gridTemplateColumns: "1fr",
+  },
+
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    "& > div:nth-of-type(2)": {
+      gridTemplateColumns: "auto 1fr",
+      columnGap: 128,
+    },
+  },
 });
 
 const PageTitle = styled.h1({
@@ -37,16 +51,6 @@ const PageTitle = styled.h1({
   "& > p": {
     fontSize: fontSizes.font_size_7,
     fontWeight: 400,
-  },
-});
-
-const GridContainer = styled.div({
-  display: "grid",
-  rowGap: 64,
-  gridTemplateColumns: "1fr",
-  [`@media (min-width:${screenWidths.tablet})`]: {
-    gridTemplateColumns: "auto 1fr",
-    columnGap: 128,
   },
 });
 
@@ -94,10 +98,10 @@ const PersonContainer = ({
           <p>{`${mostRecentCouncilMemberRole.seat.name} // ${mostRecentCouncilMemberRole.seat.electoral_area}`}</p>
         )}
       </PageTitle>
-      <GridContainer>
+      <div>
         <ContactPerson person={person} />
         <PersonRoles councilMemberRoles={termRoles} nonCouncilMemberRoles={nonTermRoles} />
-      </GridContainer>
+      </div>
       <MattersSponsored mattersSponsored={mattersSponsored} />
       <div>
         <VotingTable name={person.name} votesPage={votes} />
