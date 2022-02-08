@@ -20,11 +20,7 @@ const MattersSponsored: FC<MattersSponsoredProps> = ({
     <div style={{ marginTop: 16 }}>
       <Details
         defaultOpen={false}
-        summaryContent={
-          <H2
-            style={{ display: "inline" }}
-          >{`${mattersSponsored.length} Legislations sponsored`}</H2>
-        }
+        summaryContent={<H2 style={{ display: "inline" }}>Legislations Sponsored</H2>}
         hiddenContent={
           <Ul gap={8}>
             {mattersSponsored.map((matterSponsored) => (
