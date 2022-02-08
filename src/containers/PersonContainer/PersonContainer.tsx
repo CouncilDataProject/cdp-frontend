@@ -5,11 +5,13 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 import { getUniqueTermRoles, partitionNonTermRoles } from "../../models/util/RoleUtilities";
 
+import Details from "../../components/Shared/Details";
 import { VotingTable } from "../../components/Tables/VotingTable";
 import ContactPerson from "./ContactPerson";
 import { CoverImage } from "./CoverImage";
 import MattersSponsored from "./MattersSponsored";
 import PersonRoles from "./PersonRoles";
+import { H2 } from "./styledComponents";
 import { PersonPageData } from "./types";
 
 import { fontSizes } from "../../styles/fonts";
@@ -107,7 +109,20 @@ const PersonContainer = ({
       </div>
       <MattersSponsored mattersSponsored={mattersSponsored} />
       <div>
-        <VotingTable name={person.name} votesPage={votes} />
+        <Details
+          defaultOpen={false}
+          summaryContent={
+            <H2 className="mzp-u-title-xs" style={{ display: "inline" }}>
+              {`${person.name}'s Voting Record`}
+            </H2>
+          }
+          hiddenContent={
+            <>
+              <br />
+              <VotingTable name={person.name} votesPage={votes} />{" "}
+            </>
+          }
+        />
       </div>
     </Person>
   );

@@ -41,13 +41,15 @@ const MeetingVotesTable = ({ votesPage }: MeetingVotesTableProps) => {
   }
 
   return (
-    <ReactiveTable
-      data={votesPage}
-      columnDistribution={COLUMN_DISTRIBUTION}
-      columnNames={COLUMN_NAMES}
-      caption={<p>{strings.meeting_votes_caption}</p>}
-      renderRow={renderRow}
-    />
+    <>
+      {<p>{strings.meeting_votes_caption}</p>}
+      <ReactiveTable
+        data={votesPage}
+        columnDistribution={COLUMN_DISTRIBUTION}
+        columnNames={COLUMN_NAMES}
+        renderRow={renderRow}
+      />
+    </>
   );
 };
 
