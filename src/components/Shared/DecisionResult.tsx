@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { CSSProperties, FC } from "react";
 import AdoptedIcon from "./AdoptedIcon";
 import RejectedIcon from "./RejectedIcon";
 import InProgressIcon from "./InProgressIcon";
@@ -15,9 +15,10 @@ import { strings } from "../../assets/LocalizedStrings";
 interface DecisionResultProps {
   /**Result of the vote or council decision.  This is an enum value, you can see the enumeration in ProjectConstants */
   result: VOTE_DECISION | MATTER_STATUS_DECISION | EVENT_MINUTES_ITEM_DECISION;
+  style?: CSSProperties;
 }
 
-const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps) => {
+const DecisionResult: FC<DecisionResultProps> = ({ result, style }: DecisionResultProps) => {
   let statusIcon = <div />;
   switch (result) {
     case EVENT_MINUTES_ITEM_DECISION.PASSED:
@@ -49,6 +50,14 @@ const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps
   // remove `(` and `)`, replace ` ` and `-` with `_`
   const decision = strings[result.toLowerCase().replace(/[()]/g, "").replace(/[ -]/g, "_")];
 
+  if (!style) {
+    style = {
+      display: "flex",
+      flex: 1,
+      alignItems: "center",
+    };
+  }
+
   if (isMobile) {
     return (
       <div
@@ -63,13 +72,7 @@ const DecisionResult: FC<DecisionResultProps> = ({ result }: DecisionResultProps
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flex: 1,
-        alignItems: "center",
-      }}
-    >
+    <div style={style}>
       <div
         style={{
           height: 24,
