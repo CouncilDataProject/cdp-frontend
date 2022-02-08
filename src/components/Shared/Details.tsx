@@ -13,17 +13,15 @@ interface DetailsProps {
   summaryContent: ReactNode;
   hiddenContent: ReactNode;
   defaultOpen: boolean;
-  onToggle?: () => void;
 }
 
 const Details: FC<DetailsProps> = ({
   summaryContent,
   hiddenContent,
   defaultOpen,
-  onToggle,
 }: DetailsProps) => {
   return (
-    <details open={defaultOpen} onToggle={onToggle}>
+    <details open={defaultOpen}>
       <Summary>{summaryContent}</Summary>
       {hiddenContent}
     </details>
