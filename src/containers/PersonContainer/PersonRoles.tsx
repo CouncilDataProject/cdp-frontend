@@ -9,6 +9,46 @@ import Ul from "../../components/Shared/Ul";
 
 import { fontSizes } from "../../styles/fonts";
 
+interface CommitteeMembershipProps {
+  roles: Role[];
+  defaultOpen: boolean;
+  title: string;
+}
+const CommitteeMembership: FC<CommitteeMembershipProps> = ({ roles, defaultOpen, title }) => {
+  if (roles.length === 0) {
+    return null;
+  }
+
+  return (
+    <li>
+      <Details
+        defaultOpen={defaultOpen}
+        summaryContent={<span>{title}</span>}
+        hiddenContent={
+          <Ul gap={4}>
+            {roles.map((role) => (
+              <li key={role.id}>
+                <strong>{`${role.title}: `}</strong>
+                <Link
+                  to={{
+                    pathname: "/events",
+                    search: `?body=${role.body?.id}`,
+                    state: {
+                      committees: { [role.body?.id as string]: true },
+                    },
+                  }}
+                >
+                  <strong>{`${role.body?.name}`}</strong>
+                </Link>
+              </li>
+            ))}
+          </Ul>
+        }
+      />
+    </li>
+  );
+};
+
 interface PersonRolesProps {
   /** The person's councilmember roles */
   councilMemberRoles: Role[];
@@ -48,62 +88,16 @@ const PersonRoles: FC<PersonRolesProps> = ({
                 }
                 hiddenContent={
                   <Ul gap={8}>
-                    {nonCouncilMemberRoles[role.id][0].length > 0 && (
-                      <li>
-                        <Details
-                          defaultOpen={isCurrentRole}
-                          summaryContent={<span>Committee Membership</span>}
-                          hiddenContent={
-                            <Ul gap={4}>
-                              {nonCouncilMemberRoles[role.id][0].map((activeRole) => (
-                                <li key={activeRole.id}>
-                                  <strong>{`${activeRole.title}: `}</strong>
-                                  <Link
-                                    to={{
-                                      pathname: "/events",
-                                      search: `?body=${activeRole.body?.id}`,
-                                      state: {
-                                        committees: { [activeRole.body?.id as string]: true },
-                                      },
-                                    }}
-                                  >
-                                    <strong>{`${activeRole.body?.name}`}</strong>
-                                  </Link>
-                                </li>
-                              ))}
-                            </Ul>
-                          }
-                        />
-                      </li>
-                    )}
-                    {nonCouncilMemberRoles[role.id][1].length > 0 && (
-                      <li>
-                        <Details
-                          defaultOpen={!isCurrentRole}
-                          summaryContent={<span>Former Committee Membership</span>}
-                          hiddenContent={
-                            <Ul gap={4}>
-                              {nonCouncilMemberRoles[role.id][1].map((inactiveRole) => (
-                                <li key={inactiveRole.id}>
-                                  <strong>{`${inactiveRole.title}: `}</strong>
-                                  <Link
-                                    to={{
-                                      pathname: "/events",
-                                      search: `?body=${inactiveRole.body?.id}`,
-                                      state: {
-                                        committees: { [inactiveRole.body?.id as string]: true },
-                                      },
-                                    }}
-                                  >
-                                    <strong>{`${inactiveRole.body?.name}`}</strong>
-                                  </Link>
-                                </li>
-                              ))}
-                            </Ul>
-                          }
-                        />
-                      </li>
-                    )}
+                    <CommitteeMembership
+                      roles={nonCouncilMemberRoles[role.id][0]}
+                      defaultOpen={isCurrentRole}
+                      title="Committee Membership"
+                    />
+                    <CommitteeMembership
+                      roles={nonCouncilMemberRoles[role.id][1]}
+                      defaultOpen={!isCurrentRole}
+                      title="Former Committee Membership"
+                    />
                   </Ul>
                 }
               />
