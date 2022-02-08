@@ -9,16 +9,10 @@ import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
 
 const Contact = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  rowGap: 32,
-  "& > address": {
-    display: "flex",
-    flexDirection: "column",
-    rowGap: 8,
+  "& > address > a:nth-of-type(2)": {
+    marginTop: 8,
   },
   "& a": {
-    fontSize: fontSizes.font_size_5,
     display: "flex",
     alignItems: "center",
     columnGap: 8,
@@ -38,7 +32,7 @@ const ContactPerson: FC<ContactPersonProps> = ({ person }: ContactPersonProps) =
   if (person.phone || person.email || person.website) {
     return (
       <Contact>
-        <H2>Contact</H2>
+        <H2 className="mzp-u-title-xs">Contact</H2>
         {(person.phone || person.email) && (
           <address>
             {person.email && (
@@ -84,14 +78,17 @@ const ContactPerson: FC<ContactPersonProps> = ({ person }: ContactPersonProps) =
           </address>
         )}
         {person.website && (
-          <a
-            className="mzp-c-cta-link"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={person.website}
-          >
-            {`Visit ${person.name}'s website`}
-          </a>
+          <>
+            <br />
+            <a
+              className="mzp-c-cta-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={person.website}
+            >
+              {`Visit ${person.name}'s website`}
+            </a>
+          </>
         )}
       </Contact>
     );

@@ -24,7 +24,7 @@ const PersonRoles: FC<PersonRolesProps> = ({
   // councilMemberRoles is guaranteed to have > 0 roles
   return (
     <div>
-      <H2>Terms</H2>
+      <H2 className="mzp-u-title-xs">Terms</H2>
       <Ul gap={16}>
         {councilMemberRoles.map((role) => {
           const isCurrentRole = !role.end_datetime || role.end_datetime > new Date();

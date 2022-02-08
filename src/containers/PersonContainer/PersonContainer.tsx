@@ -51,6 +51,7 @@ const PageTitle = styled.h1({
     fontWeight: 300,
   },
   "& > span:nth-of-type(3)": {
+    marginTop: 16,
     display: "block",
     fontWeight: 400,
   },
