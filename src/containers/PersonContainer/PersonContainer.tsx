@@ -6,12 +6,14 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { getUniqueTermRoles, partitionNonTermRoles } from "../../models/util/RoleUtilities";
 
 import { VotingTable } from "../../components/Tables/VotingTable";
-import { Biography } from "./Biography";
+import ContactPerson from "./ContactPerson";
 import { CoverImage } from "./CoverImage";
 import MattersSponsored from "./MattersSponsored";
+import PersonRoles from "./PersonRoles";
 import { PersonPageData } from "./types";
 
 import { fontSizes } from "../../styles/fonts";
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const Person = styled.div({
   display: "grid",
@@ -35,6 +37,16 @@ const PageTitle = styled.h1({
   "& > p": {
     fontSize: fontSizes.font_size_7,
     fontWeight: 400,
+  },
+});
+
+const GridContainer = styled.div({
+  display: "grid",
+  rowGap: 64,
+  gridTemplateColumns: "1fr",
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    gridTemplateColumns: "auto 1fr",
+    columnGap: 128,
   },
 });
 
@@ -82,12 +94,10 @@ const PersonContainer = ({
           <p>{`${mostRecentCouncilMemberRole.seat.name} // ${mostRecentCouncilMemberRole.seat.electoral_area}`}</p>
         )}
       </PageTitle>
-      <Biography
-        person={person}
-        councilMemberRoles={termRoles}
-        nonCouncilMemberRoles={nonTermRoles}
-        mattersSponsored={mattersSponsored}
-      />
+      <GridContainer>
+        <ContactPerson person={person} />
+        <PersonRoles councilMemberRoles={termRoles} nonCouncilMemberRoles={nonTermRoles} />
+      </GridContainer>
       <MattersSponsored mattersSponsored={mattersSponsored} />
       <div>
         <VotingTable name={person.name} votesPage={votes} />
