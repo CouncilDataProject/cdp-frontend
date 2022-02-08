@@ -6,6 +6,7 @@ const Summary = styled.summary({
     // remove mozilla protocol +/- icon
     content: "none",
   },
+  paddingRight: 0,
 });
 
 interface DetailsProps {

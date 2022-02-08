@@ -1,5 +1,6 @@
 import React, { FC, useMemo } from "react";
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 import Person from "../../models/Person";
 import Role from "../../models/Role";
@@ -7,7 +8,7 @@ import MatterSponsor from "../../models/MatterSponsor";
 
 import Details from "../../components/Shared/Details";
 
-import { TAG_CONNECTOR } from "../../constants/StyleConstants";
+import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
 import { screenWidths } from "../../styles/mediaBreakpoints";
 
@@ -28,9 +29,11 @@ const BiographyContainer = styled.div({
   },
 });
 
-const BioItem = styled.div({
-  fontSize: fontSizes.font_size_7,
+const BioItem = styled.h2({
+  marginBottom: 0,
+  fontSize: fontSizes.font_size_10,
   fontWeight: 600,
+  textDecoration: "underline",
 });
 
 const Ul = styled.ul<{ gap: number }>((props) => ({
@@ -44,9 +47,22 @@ const Ul = styled.ul<{ gap: number }>((props) => ({
 const Contact = styled.div({
   display: "flex",
   flexDirection: "column",
-  rowGap: 16,
+  rowGap: 32,
+  "& > address": {
+    display: "flex",
+    flexDirection: "column",
+    rowGap: 8,
+  },
   "& a": {
     fontSize: fontSizes.font_size_5,
+    display: "flex",
+    alignItems: "center",
+    columnGap: 8,
+  },
+  "& svg": {
+    width: fontSizes.font_size_5,
+    height: fontSizes.font_size_5,
+    color: colors.black,
   },
 });
 
@@ -79,12 +95,41 @@ const Biography: FC<BiographyProps> = ({
           <address>
             {person.email && (
               <a className="mzp-c-cta-link" href={`mailto:${person.email}`}>
+                <svg
+                  width={16}
+                  height={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
                 {person.email}
               </a>
             )}
-            <br />
             {person.phone && (
               <a className="mzp-c-cta-link" href={`tel:${person.phone}`}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
+                </svg>
                 {person.phone}
               </a>
             )}
@@ -121,7 +166,7 @@ const Biography: FC<BiographyProps> = ({
                 <Details
                   defaultOpen={isCurrentRole}
                   summaryContent={
-                    <span style={{ fontSize: fontSizes.font_size_5 }}>
+                    <span style={{ fontSize: fontSizes.font_size_6 }}>
                       <strong>{`${role.title}: `}</strong>{" "}
                       {`${role.seat?.name} // ${
                         role.seat?.electoral_area
@@ -136,13 +181,22 @@ const Biography: FC<BiographyProps> = ({
                         <li>
                           <Details
                             defaultOpen={isCurrentRole}
-                            summaryContent={<span>Active committees</span>}
+                            summaryContent={<span>Committee Membership</span>}
                             hiddenContent={
                               <Ul gap={4}>
                                 {nonCouncilMemberRoles[role.id][0].map((nonTermRole) => (
                                   <li key={nonTermRole.id}>
                                     <strong>{`${nonTermRole.title}: `}</strong>
-                                    {`${nonTermRole.body?.name}`}
+                                    <Link
+                                      to={{
+                                        pathname: "/events",
+                                        state: {
+                                          committees: { [nonTermRole.body?.id as string]: true },
+                                        },
+                                      }}
+                                    >
+                                      <strong>{`${nonTermRole.body?.name}`}</strong>
+                                    </Link>
                                   </li>
                                 ))}
                               </Ul>
@@ -154,15 +208,22 @@ const Biography: FC<BiographyProps> = ({
                         <li>
                           <Details
                             defaultOpen={!isCurrentRole}
-                            summaryContent={
-                              <span>{isCurrentRole ? "Inactive committees" : "Committees"}</span>
-                            }
+                            summaryContent={<span>Former Committee Membership</span>}
                             hiddenContent={
                               <Ul gap={4}>
                                 {nonCouncilMemberRoles[role.id][1].map((inactiveRole) => (
                                   <li key={inactiveRole.id}>
                                     <strong>{`${inactiveRole.title}: `}</strong>
-                                    {`${inactiveRole.body?.name}`}
+                                    <Link
+                                      to={{
+                                        pathname: "/events",
+                                        state: {
+                                          committees: { [inactiveRole.body?.id as string]: true },
+                                        },
+                                      }}
+                                    >
+                                      <strong>{`${inactiveRole.body?.name}`}</strong>
+                                    </Link>
                                   </li>
                                 ))}
                               </Ul>
@@ -186,13 +247,13 @@ const Biography: FC<BiographyProps> = ({
       return null;
     }
     return (
-      <div>
+      <div style={{ marginTop: 16 }}>
         <Details
           defaultOpen={false}
           summaryContent={
             <BioItem
               style={{ display: "inline" }}
-            >{`${mattersSponsored.length} legislation(s) sponsored`}</BioItem>
+            >{`${mattersSponsored.length} Legislations sponsored`}</BioItem>
           }
           hiddenContent={
             <Ul gap={8}>

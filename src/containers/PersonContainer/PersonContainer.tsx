@@ -18,20 +18,22 @@ const Person = styled.div({
   rowGap: 64,
 });
 
-const PageTitle = styled.div({
-  marginBottom: 0,
-  "& > h1": {
-    display: "inline",
-    marginBottom: 0,
+const PageTitle = styled.h1({
+  margin: 0,
+  "& > span:first-of-type": {
+    fontSize: "inherit",
+    fontWeight: "inherit",
   },
-  "& > span": {
+  "& > span:nth-of-type(2)": {
     marginLeft: 16,
     padding: "0px 8px",
     borderRadius: 4,
     fontSize: fontSizes.font_size_7,
+    fontWeight: 300,
   },
   "& > p": {
-    fontSize: fontSizes.font_size_6,
+    fontSize: fontSizes.font_size_7,
+    fontWeight: 400,
   },
 });
 
@@ -70,13 +72,13 @@ const PersonContainer = ({
         seatPictureSrc={seatPictureSrc}
         electoralArea={mostRecentCouncilMemberRole.seat?.electoral_area}
       />
-      <PageTitle>
-        <h1 className="mzp-u-title-sm">{person.name}</h1>
+      <PageTitle className="mzp-u-title-sm">
+        <span>{person.name}</span>
         <span className={personIsActive ? "cdp-bg-neon-green" : "cdp-bg-dark-grey"}>
           {personIsActive ? "active" : "inactive"}
         </span>
         {mostRecentCouncilMemberRole.seat && (
-          <p className="mzp-c-card-desc">{`${mostRecentCouncilMemberRole.seat.name} // ${mostRecentCouncilMemberRole.seat.electoral_area}`}</p>
+          <p>{`${mostRecentCouncilMemberRole.seat.name} // ${mostRecentCouncilMemberRole.seat.electoral_area}`}</p>
         )}
       </PageTitle>
       <Biography

@@ -31,7 +31,14 @@ import { strings } from "../../assets/LocalizedStrings";
 import { FETCH_CARDS_BATCH_SIZE } from "../../constants/ProjectConstants";
 import { screenWidths } from "../../styles/mediaBreakpoints";
 
-const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
+interface EventsContainerProps extends EventsData {
+  initialSelectedBodies: Record<string, boolean>;
+}
+
+const EventsContainer: FC<EventsContainerProps> = ({
+  bodies,
+  initialSelectedBodies,
+}: EventsContainerProps) => {
   const { firebaseConfig } = useAppConfigContext();
 
   const dateRangeFilter = useFilter<string>({
@@ -43,7 +50,7 @@ const EventsContainer: FC<EventsData> = ({ bodies }: EventsData) => {
   const committeeFilter = useFilter<boolean>({
     name: "Committee",
     initialState: bodies.reduce((obj, body) => {
-      obj[body.id as string] = false;
+      obj[body.id as string] = initialSelectedBodies[body.id as string] || false;
       return obj;
     }, {} as Record<string, boolean>),
     defaultDataValue: false,

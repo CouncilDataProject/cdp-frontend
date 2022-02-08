@@ -59,7 +59,8 @@ function App() {
       <Router basename="/">
         <Global
           styles={css`
-            html {
+            html,
+            body {
               font-size: 100%;
             }
 

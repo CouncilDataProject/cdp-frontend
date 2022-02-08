@@ -1,4 +1,5 @@
-import React, { FC, useCallback } from "react";
+import React, { FC, useCallback, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 
 import { useAppConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
@@ -15,6 +16,16 @@ import { strings } from "../../assets/LocalizedStrings";
 const EventsPage: FC = () => {
   const { firebaseConfig } = useAppConfigContext();
   useDocumentTitle(strings.events);
+
+  const location = useLocation<{ committees: Record<string, boolean> }>();
+  const eventsState = useMemo(() => {
+    if (location.state) {
+      return location.state;
+    }
+    return {
+      committees: {},
+    };
+  }, [location]);
 
   const fetchEventsData = useCallback(async () => {
     const bodyService = new BodyService(firebaseConfig);
@@ -33,7 +44,9 @@ const EventsPage: FC = () => {
 
   return (
     <FetchDataContainer isLoading={eventsDataState.isLoading} error={eventsDataState.error}>
-      {eventsDataState.data && <EventsContainer {...eventsDataState.data} />}
+      {eventsDataState.data && (
+        <EventsContainer {...eventsDataState.data} initialSelectedBodies={eventsState.committees} />
+      )}
     </FetchDataContainer>
   );
 };
