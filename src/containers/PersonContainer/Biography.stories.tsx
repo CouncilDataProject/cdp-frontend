@@ -8,10 +8,6 @@ import {
   recent_chair,
   varietyRoles,
 } from "../../stories/model-mocks/role";
-import {
-  populatedMatterMatterSponsor,
-  basicMatterSponsor,
-} from "../../stories/model-mocks/matterSponsor";
 
 export default {
   component: Biography,
@@ -25,7 +21,6 @@ noExtraRolesBio.args = {
   person: basicPerson,
   councilMemberRoles: [ten_years_councilmember],
   nonCouncilMemberRoles: { [ten_years_councilmember.id]: [[recent_chair], [expired_chair]] },
-  mattersSponsored: [populatedMatterMatterSponsor, basicMatterSponsor],
 };
 
 export const extensiveRolesBio = Template.bind({});
@@ -33,5 +28,4 @@ extensiveRolesBio.args = {
   person: basicPerson,
   councilMemberRoles: [ten_years_councilmember],
   nonCouncilMemberRoles: { [ten_years_councilmember.id]: [varietyRoles, [expired_chair]] },
-  mattersSponsored: [populatedMatterMatterSponsor, basicMatterSponsor],
 };

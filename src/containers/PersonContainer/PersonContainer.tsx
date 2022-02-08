@@ -8,6 +8,7 @@ import { getUniqueTermRoles, partitionNonTermRoles } from "../../models/util/Rol
 import { VotingTable } from "../../components/Tables/VotingTable";
 import { Biography } from "./Biography";
 import { CoverImage } from "./CoverImage";
+import MattersSponsored from "./MattersSponsored";
 import { PersonPageData } from "./types";
 
 import { fontSizes } from "../../styles/fonts";
@@ -87,6 +88,7 @@ const PersonContainer = ({
         nonCouncilMemberRoles={nonTermRoles}
         mattersSponsored={mattersSponsored}
       />
+      <MattersSponsored mattersSponsored={mattersSponsored} />
       <div>
         <VotingTable name={person.name} votesPage={votes} />
       </div>

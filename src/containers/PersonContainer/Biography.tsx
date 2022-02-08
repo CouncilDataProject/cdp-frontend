@@ -7,6 +7,7 @@ import Role from "../../models/Role";
 import MatterSponsor from "../../models/MatterSponsor";
 
 import Details from "../../components/Shared/Details";
+import { Ul, H2 } from "./styledComponents";
 
 import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
@@ -28,21 +29,6 @@ const BiographyContainer = styled.div({
     },
   },
 });
-
-const BioItem = styled.h2({
-  marginBottom: 0,
-  fontSize: fontSizes.font_size_10,
-  fontWeight: 600,
-  textDecoration: "underline",
-});
-
-const Ul = styled.ul<{ gap: number }>((props) => ({
-  marginLeft: 16,
-  marginBottom: 0,
-  "& > li": {
-    marginTop: props.gap,
-  },
-}));
 
 const Contact = styled.div({
   display: "flex",
@@ -85,13 +71,12 @@ const Biography: FC<BiographyProps> = ({
   person,
   councilMemberRoles,
   nonCouncilMemberRoles,
-  mattersSponsored,
 }: BiographyProps) => {
   const contactContent = useMemo(() => {
     if (person.email || person.phone || person.website) {
       return (
         <Contact>
-          <BioItem>Contact</BioItem>
+          <H2>Contact</H2>
           <address>
             {person.email && (
               <a className="mzp-c-cta-link" href={`mailto:${person.email}`}>
@@ -157,7 +142,7 @@ const Biography: FC<BiographyProps> = ({
     }
     return (
       <div>
-        <BioItem>Terms</BioItem>
+        <H2>Terms</H2>
         <Ul gap={16}>
           {councilMemberRoles.map((role) => {
             const isCurrentRole = !role.end_datetime || role.end_datetime > new Date();
@@ -242,43 +227,10 @@ const Biography: FC<BiographyProps> = ({
     );
   }, [nonCouncilMemberRoles, councilMemberRoles]);
 
-  const matterSponsoredContent = useMemo(() => {
-    if (mattersSponsored.length === 0) {
-      return null;
-    }
-    return (
-      <div style={{ marginTop: 16 }}>
-        <Details
-          defaultOpen={false}
-          summaryContent={
-            <BioItem
-              style={{ display: "inline" }}
-            >{`${mattersSponsored.length} Legislations sponsored`}</BioItem>
-          }
-          hiddenContent={
-            <Ul gap={8}>
-              {mattersSponsored.map((matterSponsor) => (
-                <li key={matterSponsor.id}>
-                  <dl>
-                    <dt>
-                      <strong>{matterSponsor.matter?.name}</strong>
-                    </dt>
-                    <dd>{matterSponsor.matter?.title}</dd>
-                  </dl>
-                </li>
-              ))}
-            </Ul>
-          }
-        />
-      </div>
-    );
-  }, [mattersSponsored]);
-
   return (
     <BiographyContainer>
       {contactContent}
       {rolesContent}
-      {matterSponsoredContent}
     </BiographyContainer>
   );
 };
