@@ -28,7 +28,10 @@ export const adopted = Template.bind({});
 adopted.args = {
   matterStatus: adoptedMatterStatus,
   event: basicEvent,
-  sponsors: [basicPerson],
+  sponsors: [
+    basicPerson,
+    { ...basicPerson, id: `${basicPerson.id}-2`, name: `${basicPerson.name} 2` },
+  ],
   document: basicDocument,
 };
 

@@ -99,7 +99,7 @@
     "react": "^16.8"
   },
   "dependencies": {
-    "@councildataproject/cdp-design": "^1.0.2",
+    "@councildataproject/cdp-design": "^1.0.4",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@mozilla-protocol/core": "^13.0.1",

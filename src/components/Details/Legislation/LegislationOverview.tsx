@@ -19,7 +19,7 @@ const Title = styled(H2)({
   justifyContent: "space-between",
   alignItems: "flex-end",
   "& > em": {
-    fontSize: fontSizes.font_size_5,
+    fontSize: fontSizes.font_size_6,
     fontWeight: 400,
   },
 });
@@ -27,26 +27,34 @@ const Title = styled(H2)({
 const SponsorLinks = styled.div({
   display: "flex",
   flexWrap: "wrap",
-  columnGap: 8,
 });
 
 const Dl = styled.dl({
+  fontSize: fontSizes.font_size_6,
   display: "flex",
   flexDirection: "column",
   rowGap: 16,
-  "& > div": {
+  "& > div:not(:nth-of-type(2))": {
     display: "flex",
     columnGap: 4,
     flexWrap: "wrap",
   },
+  "& > div:nth-of-type(2)": {
+    // add some more vertical space around the progress bar
+    margin: "16px 0",
+  },
+  "& > div:nth-of-type(2) > dt": {
+    // hide the dt for the progress bar
+    width: 0,
+    height: 0,
+    overflow: "hidden",
+  },
   "& dt": {
     fontWeight: 600,
   },
-});
-
-const Status = styled.div({
-  display: "flex",
-  columnGap: 4,
+  "& dd": {
+    fontWeight: 400,
+  },
 });
 
 export interface LegislationOverviewProps {
@@ -66,6 +74,11 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
   sponsors,
   document,
 }) => {
+  const links = sponsors.map((sponsor) => (
+    <Link key={sponsor.id} to={`/people/${sponsor.id}`}>
+      {sponsor.name}
+    </Link>
+  ));
   return (
     <div>
       <Title hasBorderBottom={true} className="mzp-u-title-xs">
@@ -76,12 +89,19 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
           year: "numeric",
         })}`}</em>
       </Title>
-      <Status>
-        <strong>Legislation Status:</strong> <DecisionResult result={matterStatus.status} />
-      </Status>
-      <br />
-      <ProgressBar status={matterStatus.status} />
       <Dl>
+        <div>
+          <dt>Legislation Status:</dt>
+          <dd>
+            <DecisionResult result={matterStatus.status} />
+          </dd>
+        </div>
+        <div>
+          <dt>Progress bar</dt>
+          <dd>
+            <ProgressBar status={matterStatus.status} />
+          </dd>
+        </div>
         <div>
           <dt>Latest Meeting:</dt>
           <dd>
@@ -106,11 +126,12 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
           <dt>Sponsored by:</dt>
           <dd>
             <SponsorLinks>
-              {sponsors.map((sponsor) => (
+              {sponsors.map((sponsor, i) => [
+                i > 0 && <span style={{ whiteSpace: "pre-wrap" }}>{",  "}</span>,
                 <Link key={sponsor.id} to={`/people/${sponsor.id}`}>
                   {sponsor.name}
-                </Link>
-              ))}
+                </Link>,
+              ])}
             </SponsorLinks>
           </dd>
         </div>

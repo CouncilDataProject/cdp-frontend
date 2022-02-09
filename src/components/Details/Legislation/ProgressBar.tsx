@@ -3,42 +3,91 @@ import styled from "@emotion/styled";
 
 import { MATTER_STATUS_DECISION } from "../../../models/constants";
 
-const Input = styled.input({
-  width: "100%",
-  backgroundColor: "yellow",
+const PROGRESS_BAR_HEIGHT = 29;
+const DOT_SIZE = 20;
+const DOT_MARGIN = 6;
+const MID_POINT = `calc(50% + ${DOT_MARGIN / 2}px + ${DOT_MARGIN + 2}px)`;
+
+const Progress = styled.div({
+  height: PROGRESS_BAR_HEIGHT,
+  position: "relative",
 });
 
-const ProgressUl = styled.ul({
+const Steps = styled.div<{ width: string; zIndex: number }>((props) => ({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  height: PROGRESS_BAR_HEIGHT,
+  width: props.width,
+  borderTopLeftRadius: "50em",
+  borderBottomLeftRadius: "50em",
+  borderTopRightRadius: "50em",
+  borderBottomRightRadius: "50em",
   display: "flex",
   justifyContent: "space-between",
-  listStyle: "none",
+  alignItems: "center",
+  zIndex: props.zIndex,
+  "& > div:first-of-type": {
+    marginLeft: DOT_MARGIN,
+  },
+  "& > div:last-of-type": {
+    marginRight: DOT_MARGIN,
+  },
+}));
+
+const Dot = styled.div({
+  width: DOT_SIZE,
+  height: DOT_SIZE,
+  borderRadius: "50%",
 });
+
+const Checkpoints = styled.div({
+  display: "flex",
+  justifyContent: "space-between",
+  "& > div": {
+    fontWeight: 500,
+  },
+});
+
+const MATTER_STATUS_DECISION_COLOR = {
+  [MATTER_STATUS_DECISION.ADOPTED]: ["cdp-bg-acceptance-green", "cdp-bg-light-acceptance_green"],
+  [MATTER_STATUS_DECISION.REJECTED]: ["cdp-bg-rejected-red", "cdp-bg-light-rejected_red"],
+  [MATTER_STATUS_DECISION.IN_PROGRESS]: [
+    "cdp-bg-in-progress_orange",
+    "cdp-bg-light-in_progress_orange",
+  ],
+};
 
 interface ProgressBarProps {
   status: MATTER_STATUS_DECISION;
 }
 
 const ProgressBar: FC<ProgressBarProps> = ({ status }: ProgressBarProps) => {
+  const completedColor = MATTER_STATUS_DECISION_COLOR[status];
+  const inProgress = status === MATTER_STATUS_DECISION.IN_PROGRESS;
+
   return (
-    <>
-      <Input
-        readOnly
-        aria-readonly
-        aria-label="Legislation status"
-        type="range"
-        min={0}
-        max={2}
-        step={1}
-        value={status === MATTER_STATUS_DECISION.IN_PROGRESS ? 1 : 2}
-      />
-      <ProgressUl>
-        <li>Introduced</li>
-        <li>{MATTER_STATUS_DECISION.IN_PROGRESS}</li>
-        <li>
-          {status === MATTER_STATUS_DECISION.IN_PROGRESS ? MATTER_STATUS_DECISION.ADOPTED : status}
-        </li>
-      </ProgressUl>
-    </>
+    <div>
+      <Progress>
+        <Steps className={completedColor[1]} width={inProgress ? MID_POINT : "100%"} zIndex={2}>
+          <Dot className={completedColor[0]} />
+          <Dot className={completedColor[0]} />
+          {!inProgress && <Dot className={completedColor[0]} />}
+        </Steps>
+        <Steps className="cdp-bg-light-neutral_grey" width="100%" zIndex={1}>
+          <Dot className="cdp-bg-neutral-grey" />
+          <Dot className="cdp-bg-neutral-grey" />
+          <Dot className="cdp-bg-neutral-grey" />
+        </Steps>
+      </Progress>
+      <Checkpoints>
+        <div>Introduced</div>
+        <div>{MATTER_STATUS_DECISION.IN_PROGRESS}</div>
+        <div style={{ opacity: inProgress ? "0.75" : "1" }}>
+          {inProgress ? MATTER_STATUS_DECISION.ADOPTED : status}
+        </div>
+      </Checkpoints>
+    </div>
   );
 };
 
