@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
 
@@ -41,7 +41,7 @@ export interface PersonCardProps {
   /** The picture of the seat's electoral area */
   seatPictureSrc?: string;
   /** The bodies that the person chairs */
-  chairedBodyNames: string;
+  chairedBodyNames: ReactNode;
   /** The person's tenure status */
   tenureStatus: string;
   /** The number of bills sponsored by the person */

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
-import { AvatarImage } from "./AvatarImage";
+
+import { screenWidths } from "../../styles/mediaBreakpoints";
 
 import exampleCover1 from "../../assets/images/dave-hoefler-reduced-1.jpg";
 import exampleCover2 from "../../assets/images/dave-hoefler-reduced-2.jpg";
@@ -16,11 +17,36 @@ const EXAMPLE_COVER_VIEWS = [
   exampleCover5,
 ];
 
-const CoverImg = styled.img(() => ({
-  objectFit: "cover",
-  width: 1400,
-  height: 400,
-}));
+const Images = styled.div({
+  position: "relative",
+  "& img": {
+    objectFit: "cover",
+  },
+  "& > img:first-of-type": {
+    // seat image has 100% width
+    width: "100%",
+  },
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    "& > img:first-of-type": {
+      // on tablet or above seat image's height == 400px
+      height: 400,
+    },
+  },
+});
+
+const Avatar = styled.img({
+  position: "absolute",
+  left: -5,
+  bottom: -30,
+  width: 100,
+  height: 100,
+  borderRadius: "50%",
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    left: -25,
+    width: 200,
+    height: 200,
+  },
+});
 
 interface CoverImageProps {
   personName: string;
@@ -35,18 +61,28 @@ const CoverImage: FC<CoverImageProps> = ({
   seatPictureSrc,
   electoralArea,
 }: CoverImageProps) => {
+  if (!personPictureSrc && !seatPictureSrc) {
+    return null;
+  }
+
   return (
-    <div>
-      <CoverImg
+    <Images>
+      <img
         className="mzp-c-card-image"
         src={
           seatPictureSrc ||
           EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)]
         }
-        alt={`${electoralArea || "Default Image, no Elector Seat Image Available"}`}
+        alt={`${electoralArea || ""}`}
       />
-      <AvatarImage personPictureSrc={personPictureSrc} personName={personName} />
-    </div>
+      {personPictureSrc && (
+        <Avatar
+          className="mzp-c-card-image"
+          src={personPictureSrc}
+          alt={`Picture of ${personName}`}
+        />
+      )}
+    </Images>
   );
 };
 

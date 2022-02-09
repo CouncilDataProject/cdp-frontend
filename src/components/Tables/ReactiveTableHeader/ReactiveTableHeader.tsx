@@ -1,6 +1,14 @@
 import React from "react";
+import styled from "@emotion/styled";
 import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
+import { fontSizes } from "../../../styles/fonts";
+
+const TableHeader = styled.div({
+  padding: 8,
+  fontSize: fontSizes.font_size_6,
+  fontWeight: 600,
+});
 
 type ReactiveTableHeaderProps = {
   /** column names */
@@ -20,7 +28,7 @@ const ReactiveTableHeader = ({ columnNames, columnDistribution }: ReactiveTableH
           const width = columnDistribution[index] || 0;
           return (
             <div key={columnName} style={{ width }}>
-              <h6>{columnName}</h6>
+              <TableHeader>{columnName}</TableHeader>
             </div>
           );
         })}

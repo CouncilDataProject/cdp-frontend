@@ -76,7 +76,6 @@ const VotingTable = ({ name, votesPage }: VotingTableProps) => {
       data={votesPage}
       columnDistribution={COLUMN_DISTRIBUTION}
       columnNames={COLUMN_NAMES}
-      caption={<p>{`${name}'s Voting Record`}</p>}
       renderRow={renderRow}
     />
   );

@@ -14,8 +14,6 @@ import MatterSponsorService from "../../networking/MatterSponsorService";
 import RoleService from "../../networking/RoleService";
 import FileService from "../../networking/FileService";
 
-import { ROLE_TITLE } from "../../models/constants";
-
 const PersonPage: FC = () => {
   // Get the id the person, provided the route is `persons/:id`
   const { id } = useParams<{ id: string }>();
@@ -38,17 +36,17 @@ const PersonPage: FC = () => {
       roleService.getPopulatedRolesByPersonId(id),
     ]);
 
-    if (councilMemberRoles.length === 0) {
-      throw new Error(`${person.name} is not a ${ROLE_TITLE.COUNCILMEMBER}`);
-    }
-
     const pictureSrcPromises: Promise<string | undefined>[] = [
       person.picture
         ? networkService.getDownloadUrl(person.picture.uri)
         : Promise.resolve(undefined),
     ];
 
-    if (councilMemberRoles[0].seat && councilMemberRoles[0].seat.image_ref) {
+    if (
+      councilMemberRoles.length > 0 &&
+      councilMemberRoles[0].seat &&
+      councilMemberRoles[0].seat.image_ref
+    ) {
       const seatImage = await fileService.getFileById(councilMemberRoles[0].seat.image_ref);
       pictureSrcPromises.push(networkService.getDownloadUrl(seatImage.uri));
     } else {

@@ -3,7 +3,7 @@ export enum ROLE_TITLE {
   CHAIR = "Chair",
   COUNCILMEMBER = "Councilmember",
   MEMBER = "Member",
-  PRESIDENT = "Council President",
+  COUNCILPRESIDENT = "Council President",
   VICE_CHAIR = "Vice Chair",
 }
 

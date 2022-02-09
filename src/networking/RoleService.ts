@@ -53,7 +53,7 @@ export default class RoleService extends ModelService {
           WHERE_OPERATOR.eq,
           doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
         ),
-        where("title", WHERE_OPERATOR.eq, ROLE_TITLE.COUNCILMEMBER),
+        where("title", WHERE_OPERATOR.in, [ROLE_TITLE.COUNCILMEMBER, ROLE_TITLE.COUNCILPRESIDENT]),
         orderBy("start_datetime", ORDER_DIRECTION.desc),
       ],
       new PopulationOptions([populateSeatRef])
