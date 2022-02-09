@@ -59,15 +59,15 @@ interface PersonRolesProps {
 }
 
 const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: PersonRolesProps) => {
-  if (allRoles.length === 0) {
-    return null;
-  }
-
   const [termRoles, partitionedNonTermRoles, nonTermRoles] = useMemo(() => {
     const termRoles = getUniqueTermRoles(councilMemberRoles);
     const [partition, nonTermRoles] = partitionNonTermRoles(allRoles, termRoles);
     return [termRoles, partition, nonTermRoles];
   }, [councilMemberRoles, allRoles]);
+
+  if (allRoles.length === 0) {
+    return null;
+  }
 
   if (termRoles.length === 0 && nonTermRoles.length > 0) {
     return (
