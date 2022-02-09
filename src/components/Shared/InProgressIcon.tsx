@@ -3,7 +3,7 @@ import React from "react";
 const InProgressIcon = () => {
   return (
     <svg
-      className="cdp-dark-blue"
+      className="cdp-in-progress_orange"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

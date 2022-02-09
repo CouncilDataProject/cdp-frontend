@@ -3,7 +3,7 @@ import React from "react";
 const AdoptedIcon = () => {
   return (
     <svg
-      className="cdp-neon-green"
+      className="cdp-acceptance-green"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
