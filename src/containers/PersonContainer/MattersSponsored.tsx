@@ -23,7 +23,7 @@ const MattersSponsored: FC<MattersSponsoredProps> = ({
         hasBorderBottom={true}
         defaultOpen={false}
         summaryContent={
-          <H2 className="mzp-u-title-xs" style={{ display: "inline" }}>
+          <H2 className="mzp-u-title-xs" isInline={true}>
             Legislations Sponsored
           </H2>
         }

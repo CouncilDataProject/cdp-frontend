@@ -1,9 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 
 import useDocumentTitle from "../../hooks/useDocumentTitle";
-
-import { getUniqueTermRoles, partitionNonTermRoles } from "../../models/util/RoleUtilities";
 
 import Details from "../../components/Shared/Details";
 import H2 from "../../components/Shared/H2";
@@ -21,20 +19,6 @@ const Person = styled.div({
   display: "grid",
   gridTemplateColumns: "1fr",
   rowGap: 64,
-
-  "& > div:nth-of-type(2)": {
-    // grid container for `contact` and `terms` components
-    display: "grid",
-    rowGap: 64,
-    gridTemplateColumns: "1fr",
-  },
-
-  [`@media (min-width:${screenWidths.tablet})`]: {
-    "& > div:nth-of-type(2)": {
-      gridTemplateColumns: "auto 1fr",
-      columnGap: 128,
-    },
-  },
 });
 
 const PageTitle = styled.h1({
@@ -59,6 +43,16 @@ const PageTitle = styled.h1({
   },
 });
 
+const ContactAndRoles = styled.div<{ isVisible: boolean }>((props) => ({
+  display: props.isVisible ? "grid" : "none",
+  rowGap: 64,
+  gridTemplateColumns: "1fr",
+  [`@media (min-width:${screenWidths.tablet})`]: {
+    gridTemplateColumns: "auto 1fr",
+    columnGap: 128,
+  },
+}));
+
 export interface PersonContainerProps extends PersonPageData {
   /** Any extra info */
   searchQuery?: string;
@@ -73,16 +67,13 @@ const PersonContainer = ({
   personPictureSrc,
   seatPictureSrc,
 }: PersonContainerProps) => {
-  const mostRecentCouncilMemberRole = councilMemberRoles[0];
+  const mostRecentCouncilMemberRole =
+    councilMemberRoles.length > 0 ? councilMemberRoles[0] : undefined;
   const personIsActive =
-    !mostRecentCouncilMemberRole.end_datetime ||
-    mostRecentCouncilMemberRole.end_datetime > new Date();
-
-  const [termRoles, nonTermRoles] = useMemo(() => {
-    const termRoles = getUniqueTermRoles(councilMemberRoles);
-    const nonTermRoles = partitionNonTermRoles(roles, termRoles);
-    return [termRoles, nonTermRoles];
-  }, [roles, councilMemberRoles]);
+    !mostRecentCouncilMemberRole?.end_datetime ||
+    mostRecentCouncilMemberRole?.end_datetime > new Date();
+  const hasContact = person.phone || person.email || person.website ? true : false;
+  const hasRoles = roles.length > 0;
 
   useDocumentTitle(person.name);
 
@@ -92,28 +83,30 @@ const PersonContainer = ({
         personName={person.name}
         personPictureSrc={personPictureSrc}
         seatPictureSrc={seatPictureSrc}
-        electoralArea={mostRecentCouncilMemberRole.seat?.electoral_area}
+        electoralArea={mostRecentCouncilMemberRole?.seat?.electoral_area}
       />
       <PageTitle className="mzp-u-title-sm">
         <span>{person.name}</span>
-        <span className={personIsActive ? "cdp-bg-neon-green" : "cdp-bg-dark-grey"}>
-          {personIsActive ? "active" : "inactive"}
-        </span>
-        {mostRecentCouncilMemberRole.seat && (
-          <span>{`${mostRecentCouncilMemberRole.seat.name} // ${mostRecentCouncilMemberRole.seat.electoral_area}`}</span>
+        {mostRecentCouncilMemberRole && (
+          <span className={personIsActive ? "cdp-bg-neon-green" : "cdp-bg-dark-grey"}>
+            {personIsActive ? "active" : "inactive"}
+          </span>
+        )}
+        {mostRecentCouncilMemberRole?.seat && (
+          <span>{`${mostRecentCouncilMemberRole?.seat.name} // ${mostRecentCouncilMemberRole.seat.electoral_area}`}</span>
         )}
       </PageTitle>
-      <div>
+      <ContactAndRoles isVisible={hasContact || hasRoles}>
         <ContactPerson person={person} />
-        <PersonRoles councilMemberRoles={termRoles} nonCouncilMemberRoles={nonTermRoles} />
-      </div>
+        <PersonRoles councilMemberRoles={councilMemberRoles} allRoles={roles} />
+      </ContactAndRoles>
       <MattersSponsored mattersSponsored={mattersSponsored} />
       <div>
         <Details
           hasBorderBottom={true}
           defaultOpen={false}
           summaryContent={
-            <H2 className="mzp-u-title-xs" style={{ display: "inline" }}>
+            <H2 className="mzp-u-title-xs" isInline={true}>
               {`${person.name}'s Voting Record`}
             </H2>
           }

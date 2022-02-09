@@ -61,6 +61,10 @@ const CoverImage: FC<CoverImageProps> = ({
   seatPictureSrc,
   electoralArea,
 }: CoverImageProps) => {
+  if (!personPictureSrc && !seatPictureSrc) {
+    return null;
+  }
+
   return (
     <Images>
       <img

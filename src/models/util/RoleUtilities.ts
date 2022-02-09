@@ -98,9 +98,12 @@ function getUniqueTermRoles(roles: Role[]): Role[] {
  *
  * @param roles All roles of a person
  * @param termRoles Councilmember roles of a person. Only one role per term.
- * @returns Non-councilmember roles partitioned by the role.id of `termRoles` and whether the role is active
+ * @returns Non-councilmember roles partitioned by the role.id of `termRoles` and whether the role is active.
  */
-function partitionNonTermRoles(roles: Role[], termRoles: Role[]): Record<string, Role[][]> {
+function partitionNonTermRoles(
+  roles: Role[],
+  termRoles: Role[]
+): [Record<string, Role[][]>, Role[]] {
   const nonTermRoles = roles.filter(
     (role) => ![ROLE_TITLE.COUNCILMEMBER, ROLE_TITLE.COUNCILPRESIDENT].includes(role.title)
   );
@@ -140,7 +143,7 @@ function partitionNonTermRoles(roles: Role[], termRoles: Role[]): Record<string,
     }
   }
 
-  return partition;
+  return [partition, nonTermRoles];
 }
 
 export {

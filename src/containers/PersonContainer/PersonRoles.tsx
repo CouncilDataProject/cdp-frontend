@@ -1,7 +1,8 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 import Role from "../../models/Role";
+import { getUniqueTermRoles, partitionNonTermRoles } from "../../models/util/RoleUtilities";
 
 import Details from "../../components/Shared/Details";
 import H2 from "../../components/Shared/H2";
@@ -10,67 +11,86 @@ import Ul from "../../components/Shared/Ul";
 import { fontSizes } from "../../styles/fonts";
 
 interface CommitteeMembershipProps {
+  hasBorderBottom: boolean;
   roles: Role[];
   defaultOpen: boolean;
-  title: string;
+  title: ReactNode;
 }
-const CommitteeMembership: FC<CommitteeMembershipProps> = ({ roles, defaultOpen, title }) => {
-  if (roles.length === 0) {
-    return null;
-  }
-
+const CommitteeMembership: FC<CommitteeMembershipProps> = ({
+  hasBorderBottom,
+  roles,
+  defaultOpen,
+  title,
+}) => {
   return (
-    <li>
-      <Details
-        defaultOpen={defaultOpen}
-        summaryContent={<span>{title}</span>}
-        hiddenContent={
-          <Ul gap={4}>
-            {roles.map((role) => (
-              <li key={role.id}>
-                <strong>{`${role.title}: `}</strong>
-                <Link
-                  to={{
-                    pathname: "/events",
-                    search: `?body=${role.body?.id}`,
-                    state: {
-                      committees: { [role.body?.id as string]: true },
-                    },
-                  }}
-                >
-                  <strong>{`${role.body?.name}`}</strong>
-                </Link>
-              </li>
-            ))}
-          </Ul>
-        }
-      />
-    </li>
+    <Details
+      hasBorderBottom={hasBorderBottom}
+      defaultOpen={defaultOpen}
+      summaryContent={title}
+      hiddenContent={
+        <Ul gap={4}>
+          {roles.map((role) => (
+            <li key={role.id}>
+              <strong>{`${role.title}: `}</strong>
+              <Link
+                to={{
+                  pathname: "/events",
+                  search: `?body=${role.body?.id}`,
+                  state: {
+                    committees: { [role.body?.id as string]: true },
+                  },
+                }}
+              >
+                <strong>{`${role.body?.name}`}</strong>
+              </Link>
+            </li>
+          ))}
+        </Ul>
+      }
+    />
   );
 };
 
 interface PersonRolesProps {
   /** The person's councilmember roles */
   councilMemberRoles: Role[];
-  /** The person's non councilmember roles, partitioned by concilmember roles' date range
-   * and whether the role is active or inactive.
-   * The first list of roles are active, while the second list of roles are inactive.
-   */
-  nonCouncilMemberRoles: Record<string, Role[][]>;
+  /** All of the person's roles */
+  allRoles: Role[];
 }
 
-const PersonRoles: FC<PersonRolesProps> = ({
-  councilMemberRoles,
-  nonCouncilMemberRoles,
-}: PersonRolesProps) => {
-  // councilMemberRoles is guaranteed to have > 0 roles
+const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: PersonRolesProps) => {
+  if (allRoles.length === 0) {
+    return null;
+  }
+
+  const [termRoles, partitionedNonTermRoles, nonTermRoles] = useMemo(() => {
+    const termRoles = getUniqueTermRoles(councilMemberRoles);
+    const [partition, nonTermRoles] = partitionNonTermRoles(allRoles, termRoles);
+    return [termRoles, partition, nonTermRoles];
+  }, [councilMemberRoles, allRoles]);
+
+  if (termRoles.length === 0 && nonTermRoles.length > 0) {
+    return (
+      <CommitteeMembership
+        hasBorderBottom={true}
+        roles={nonTermRoles}
+        defaultOpen={false}
+        title={
+          <H2 isInline={true} className="mzp-u-title-xs">
+            Committees
+          </H2>
+        }
+      />
+    );
+  }
+
   return (
     <div>
       <H2 hasBorderBottom={true} className="mzp-u-title-xs">
         Terms
       </H2>
       <Ul gap={16}>
-        {councilMemberRoles.map((role) => {
+        {termRoles.map((role) => {
           const isCurrentRole = !role.end_datetime || role.end_datetime > new Date();
           return (
             <li key={role.id}>
@@ -88,16 +108,26 @@ const PersonRoles: FC<PersonRolesProps> = ({
                 }
                 hiddenContent={
                   <Ul gap={8}>
-                    <CommitteeMembership
-                      roles={nonCouncilMemberRoles[role.id][0]}
-                      defaultOpen={isCurrentRole}
-                      title="Committee Membership"
-                    />
-                    <CommitteeMembership
-                      roles={nonCouncilMemberRoles[role.id][1]}
-                      defaultOpen={!isCurrentRole}
-                      title="Former Committee Membership"
-                    />
+                    {partitionedNonTermRoles[role.id][0].length > 0 && (
+                      <li>
+                        <CommitteeMembership
+                          hasBorderBottom={false}
+                          roles={partitionedNonTermRoles[role.id][0]}
+                          defaultOpen={isCurrentRole}
+                          title="Committee Membership"
+                        />
+                      </li>
+                    )}
+                    {partitionedNonTermRoles[role.id][1].length > 0 && (
+                      <li>
+                        <CommitteeMembership
+                          hasBorderBottom={false}
+                          roles={partitionedNonTermRoles[role.id][1]}
+                          defaultOpen={!isCurrentRole}
+                          title="Former Committee Membership"
+                        />
+                      </li>
+                    )}
                   </Ul>
                 }
               />
