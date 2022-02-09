@@ -58,7 +58,7 @@ const Dl = styled.dl({
 });
 
 export interface LegislationOverviewProps {
-  /** The latest matter of the matter */
+  /** The latest matter status of the matter */
   matterStatus: MatterStatus;
   /** The latest event where the matter was a minutes item */
   event: Event;
@@ -73,16 +73,11 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
   event,
   sponsors,
   document,
-}) => {
-  const links = sponsors.map((sponsor) => (
-    <Link key={sponsor.id} to={`/people/${sponsor.id}`}>
-      {sponsor.name}
-    </Link>
-  ));
+}: LegislationOverviewProps) => {
   return (
     <div>
       <Title hasBorderBottom={true} className="mzp-u-title-xs">
-        <span>Legislation Overview</span>{" "}
+        <span>Legislation Overview</span>
         <em>{`Last Updated ${matterStatus.update_datetime.toLocaleDateString("en-US", {
           month: "long",
           day: "numeric",
