@@ -79,6 +79,13 @@ const de = {
   former_committee_membership: "Ehemalige Ausschussmitgliedschaft",
   committees: "Ausschüsse",
   visit_persons_website: "Besuchen Sie {person_name}s Website",
+  alternate: "Wechseln",
+  councilmember: "Stadtrat/in",
+  member: "Mitglied",
+  councilpresident: "Präsident des Rates",
+  vice_chair: "Stellvertretender Vorsitzender",
+  active: "aktiv",
+  inactive: "inaktiv",
 };
 
 export default de;

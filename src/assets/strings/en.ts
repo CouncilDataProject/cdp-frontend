@@ -78,6 +78,13 @@ const en = {
   former_committee_membership: "Former Committee Membership",
   committees: "Committees",
   visit_persons_website: "Visit {person_name}'s website",
+  alternate: "Alternate",
+  councilmember: "Councilmember",
+  member: "Member",
+  councilpresident: "Council President",
+  vice_chair: "Vice Chair",
+  active: "active",
+  inactive: "inactive",
 };
 
 export default en;

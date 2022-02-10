@@ -1,6 +1,5 @@
 import * as Languages from "./strings";
 import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
-import { StringNullableChain } from "lodash";
 /**
  * When adding strings:
  * all keys should be snake case: like_this
@@ -91,6 +90,13 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   former_committee_membership: string;
   committees: string;
   visit_persons_website: string;
+  alternate: string;
+  councilmember: string;
+  member: string;
+  councilpresident: string;
+  vice_chair: string;
+  active: string;
+  inactive: string;
 }
 
 export const strings: MasterStringsList = new LocalizedStrings({

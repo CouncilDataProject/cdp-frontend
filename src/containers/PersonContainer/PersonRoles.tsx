@@ -32,7 +32,7 @@ const CommitteeMembership: FC<CommitteeMembershipProps> = ({
         <Ul gap={4}>
           {roles.map((role) => (
             <li key={role.id}>
-              <strong>{`${role.title}: `}</strong>
+              <strong>{`${strings[role.title.toLowerCase()]}: `}</strong>
               <Link
                 to={{
                   pathname: "/events",
