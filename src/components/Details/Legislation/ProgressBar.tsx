@@ -6,7 +6,7 @@ import { MATTER_STATUS_DECISION } from "../../../models/constants";
 const PROGRESS_BAR_HEIGHT = 29;
 const DOT_SIZE = 20;
 const DOT_MARGIN = 6;
-const MID_POINT = `calc(50% + ${DOT_MARGIN / 2}px + ${DOT_MARGIN + 2}px)`;
+const MID_POINT = `calc(50% + ${DOT_SIZE / 2}px + ${DOT_MARGIN + 2}px)`;
 
 const Progress = styled.div({
   height: PROGRESS_BAR_HEIGHT,
