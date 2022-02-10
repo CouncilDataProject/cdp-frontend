@@ -5,6 +5,7 @@ import MatterSponsor from "../../models/MatterSponsor";
 import Details from "../../components/Shared/Details";
 import H2 from "../../components/Shared/H2";
 import Ul from "../../components/Shared/Ul";
+import { strings } from "../../assets/LocalizedStrings";
 
 interface MattersSponsoredProps {
   mattersSponsored: MatterSponsor[];
@@ -24,7 +25,7 @@ const MattersSponsored: FC<MattersSponsoredProps> = ({
         defaultOpen={false}
         summaryContent={
           <H2 className="mzp-u-title-xs" isInline={true}>
-            Legislations Sponsored
+            {strings.legislation_sponsored}
           </H2>
         }
         hiddenContent={
