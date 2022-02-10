@@ -16,7 +16,7 @@ import LegislationIntroduction, { LegislationIntroductionProps } from "./Legisla
 
 export default {
   component: LegislationIntroduction,
-  title: "Library/Details/Legislation Introduction",
+  title: "Library/Details/Legislation/Introduction",
 } as Meta;
 
 const approvalProps: LegislationIntroductionProps = {

@@ -3,7 +3,7 @@ import React from "react";
 const RejectedIcon = () => {
   return (
     <svg
-      className="cdp-red"
+      className="cdp-rejected-red"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
