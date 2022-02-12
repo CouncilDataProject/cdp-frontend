@@ -1,6 +1,8 @@
 import Vote from "../../models/Vote";
 import { VOTE_DECISION, EVENT_MINUTES_ITEM_DECISION } from "../../models/constants";
 import { basicPassEventMinutesItem, basicFailEventMinutesItem } from "./eventMinutesItem";
+import { basicPerson } from "./person";
+import { basicEvent } from "./event";
 
 const vote: Vote = {
   id: "vote-1",
@@ -333,4 +335,46 @@ const voteListWithBrokenVote: Vote[] = [
   },
 ];
 
-export { vote, voteList, voteListWithBrokenVote };
+function generatePopulatedVoteList(winningSide: VOTE_DECISION): Vote[] {
+  const VOTE_LIST_SIZE = 9;
+  const voteList: Vote[] = [];
+  for (let i = 0; i <= VOTE_LIST_SIZE; i++) {
+    const person = Object.assign({}, basicPerson);
+    let decision: VOTE_DECISION = winningSide;
+    if (i % 7 === 0) {
+      decision = VOTE_DECISION.APPROVE;
+    }
+    if (i % 3 === 0) {
+      decision = VOTE_DECISION.REJECT;
+    }
+    if (i % 5 === 0) {
+      decision = VOTE_DECISION.ABSTAIN_NON_VOTING;
+    }
+    person.name = `Test Person ${i}`;
+    const vote = {
+      id: "0ff26eda838f",
+      event_minutes_item_ref: "6e58df20b7d2",
+      event_ref: "9409f4d1ea09",
+      matter_ref: "a5dae0358d16",
+      person_ref: "051d21034209",
+      person,
+      decision,
+      event: basicEvent,
+      event_minutes_item: basicFailEventMinutesItem,
+      external_source_id: "71708",
+      in_majority: true,
+      matter: {
+        id: "a5dae0358d16",
+        matter_type: "Resolution (Res)",
+        name: "Res 32029",
+        title:
+          "A RESOLUTION adopting General Rules and Procedures of the Seattle City Council; superseding Resolution 31920.",
+        external_source_id: "12263",
+      },
+    };
+    voteList.push(vote);
+  }
+  return voteList;
+}
+
+export { vote, voteList, voteListWithBrokenVote, generatePopulatedVoteList };
