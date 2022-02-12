@@ -1,9 +1,12 @@
 import React, { FC, useState } from "react";
 import styled from "@emotion/styled";
+import { useMediaQuery } from "react-responsive";
 
 import { VOTE_DECISION } from "../../../models/constants";
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 import Vote from "../../../models/Vote";
 import { Link } from "react-router-dom";
+import { compact } from "lodash";
 
 const ColorBar = styled.div<{ width: string; zIndex: number; height: number }>((props) => ({
   position: "absolute",
@@ -56,12 +59,17 @@ const ProgressBar: FC<VoteBarProps> = ({
       {vote.person?.name}
     </Link>
   ));
-
+  const compactForm = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
+  const directionality = compactForm ? "column" : "row";
+  const barSize = compactForm ? "100%" : "80%";
+  const textSize = compactForm ? "100%" : "20%";
   return (
     <div style={{ display: "flex", flexDirection: "column", marginTop: 16 }}>
-      <div style={{ display: "flex", flexDirection: "row", flex: 1, alignItems: "center" }}>
+      <div
+        style={{ display: "flex", flexDirection: directionality, flex: 1, alignItems: "center" }}
+      >
         <div
-          style={{ height, position: "relative", width: "80%", cursor: "pointer" }}
+          style={{ height, position: "relative", width: barSize, cursor: "pointer" }}
           onClick={() => {
             setExpanded(!expanded);
           }}
@@ -74,7 +82,7 @@ const ProgressBar: FC<VoteBarProps> = ({
           />
           <ColorBar className="cdp-bg-neutral-grey" width={`100%`} height={height} zIndex={1} />
         </div>
-        <b style={{ marginLeft: 16, width: "20%" }}>{label}</b>
+        <b style={{ marginLeft: 16, width: textSize }}>{label}</b>
       </div>
       {expanded && votesLinks}
     </div>
