@@ -87,7 +87,7 @@ const PersonCard: FC<PersonCardProps> = ({
         <div className="mzp-c-card-content">
           <h2 className="mzp-c-card-title">{personName}</h2>
           <PersonStatus className={personIsActive ? "cdp-bg-neon-green" : "cdp-bg-dark-grey"}>
-            {personIsActive ? "active" : "inactive"}
+            {personIsActive ? strings.active : strings.inactive}
           </PersonStatus>
           <p className="mzp-c-card-desc">
             {seatName} &bull; {seatElectoralArea}

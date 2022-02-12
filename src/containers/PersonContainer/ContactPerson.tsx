@@ -7,6 +7,7 @@ import H2 from "../../components/Shared/H2";
 
 import colors from "../../styles/colors";
 import { fontSizes } from "../../styles/fonts";
+import { strings } from "../../assets/LocalizedStrings";
 
 const Contact = styled.div({
   "& > address > a:nth-of-type(2)": {
@@ -33,7 +34,7 @@ const ContactPerson: FC<ContactPersonProps> = ({ person }: ContactPersonProps) =
     return (
       <Contact>
         <H2 hasBorderBottom={true} className="mzp-u-title-xs">
-          Contact
+          {strings.contact}
         </H2>
         {(person.phone || person.email) && (
           <address>
@@ -88,7 +89,7 @@ const ContactPerson: FC<ContactPersonProps> = ({ person }: ContactPersonProps) =
               rel="noopener noreferrer"
               href={person.website}
             >
-              {`Visit ${person.name}'s website`}
+              {strings.visit_persons_website.replace("{person_name}", person.name)}
             </a>
           </>
         )}
