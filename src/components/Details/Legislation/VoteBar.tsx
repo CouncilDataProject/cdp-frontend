@@ -1,11 +1,10 @@
 import React, { FC, useState } from "react";
 import styled from "@emotion/styled";
 import { useMediaQuery } from "react-responsive";
+import { Link } from "react-router-dom";
 
-import { VOTE_DECISION } from "../../../models/constants";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import Vote from "../../../models/Vote";
-import { Link } from "react-router-dom";
 import { strings } from "../../../assets/LocalizedStrings";
 
 const ColorBar = styled.div<{ width: string; zIndex: number; height: number }>((props) => ({

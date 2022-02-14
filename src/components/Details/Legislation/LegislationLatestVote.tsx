@@ -8,7 +8,6 @@ import { getVoteDistribution } from "../../Shared/util/voteDistribution";
 import { strings } from "../../../assets/LocalizedStrings";
 
 const VOTE_BAR_HEIGHT = 16;
-
 export interface LegislationLatestVoteProps {
   /** votes on the matter */
   votes: Vote[];
@@ -62,7 +61,7 @@ const LegislationLatestVote: FC<LegislationLatestVoteProps> = ({
         defaultOpen={false}
         summaryContent={
           <H2 className="mzp-u-title-xs" isInline={true}>
-            Latest Vote
+            {strings.latest_vote}
           </H2>
         }
         hiddenContent={<div style={{ display: "flex", flexDirection: "column" }}>{voteBars}</div>}
