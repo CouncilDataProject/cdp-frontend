@@ -8,6 +8,7 @@ const Summary = styled.summary<{ hasBorderBottom?: boolean }>((props) => ({
     // remove mozilla protocol +/- icon
     content: "none",
   },
+  cursor: "pointer",
   paddingRight: 0,
   paddingBottom: props.hasBorderBottom ? 8 : 0,
   borderBottom: props.hasBorderBottom ? `1px solid ${colors.grey}` : 0,

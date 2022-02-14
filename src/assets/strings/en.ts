@@ -85,6 +85,7 @@ const en = {
   vice_chair: "Vice Chair",
   active: "active",
   inactive: "inactive",
+  latest_vote: "Latest Vote",
 };
 
 export default en;

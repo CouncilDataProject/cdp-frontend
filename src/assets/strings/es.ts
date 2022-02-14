@@ -1,7 +1,7 @@
 const es = {
   number_approved: "{number} Aprobado",
   number_rejected: "{number} Rechazado",
-  number_non_voting: "{number} Non-Voting",
+  number_non_voting: "{number} sin derecho a voto",
   meeting_votes_caption: "Haga clic en cada fila para ver cómo votaron los miembros del consejo",
   legislation: "Legislación",
   council_decision: "Decisión del Consejo",
@@ -40,12 +40,12 @@ const es = {
   failed: "Fracasó",
   approve: "Aprobar",
   reject: "Rechazar",
-  abstain_approve: "Abstain (Approve)",
-  abstain_non_voting: "Abstain (Non-Voting)",
-  abstain_reject: "Abstain (Reject)",
-  absent_approve: "Absent (Approve)",
-  absent_non_voting: "Absent (Non-Voting)",
-  absent_reject: "Absent (Reject)",
+  abstain_approve: "Abstenerse (Aprobado)",
+  abstain_non_voting: "Abstenerse (sin derecho a voto)",
+  abstain_reject: "Abstenerse (Rechazado)",
+  absent_approve: "Ausente (Aprobado)",
+  absent_non_voting: "Ausente (sin derecho a voto)",
+  absent_reject: "Ausente (Rechazado)",
   rejected: "Rechazado",
   adopted: "Adoptado",
   in_progress: "En curso",
@@ -85,6 +85,7 @@ const es = {
   vice_chair: "Vicepresidente/a",
   active: "activo/a",
   inactive: "inactivo/a",
+  latest_vote: "Último Voto",
 };
 
 export default es;

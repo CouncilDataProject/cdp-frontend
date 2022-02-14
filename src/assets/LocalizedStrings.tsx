@@ -97,6 +97,7 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   vice_chair: string;
   active: string;
   inactive: string;
+  latest_vote: string;
 }
 
 export const strings: MasterStringsList = new LocalizedStrings({

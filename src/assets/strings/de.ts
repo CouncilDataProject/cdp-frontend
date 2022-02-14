@@ -1,7 +1,7 @@
 const de = {
   number_approved: "{number} Genehmigt",
   number_rejected: "{number} Abgelehnt",
-  number_non_voting: "{number} Non-Voting",
+  number_non_voting: "{number} Nicht-Abstimmen",
   meeting_votes_caption:
     "Klicken Sie auf jede Zeile, um zu sehen, wie die Ratsmitglieder abgestimmt haben",
   legislation: "Gesetzgebung",
@@ -41,12 +41,12 @@ const de = {
   failed: "Fehlgeschlagen",
   approve: "Genehmigen",
   reject: "Ablehnen",
-  abstain_approve: "Abstain (Approve)",
-  abstain_non_voting: "Abstain (Non-Voting)",
-  abstain_reject: "Abstain (Reject)",
-  absent_approve: "Absent (Approve)",
-  absent_non_voting: "Absent (Non-Voting)",
-  absent_reject: "Absent (Reject)",
+  abstain_approve: "Verzichten (Genehmigt)",
+  abstain_non_voting: "Verzichten (Nicht-Abstimmen)",
+  abstain_reject: "Verzichten (Abgelehnt)",
+  absent_approve: "Abwesend (Genehmigt)",
+  absent_non_voting: "Abwesend (Nicht-Abstimmen)",
+  absent_reject: "Abwesend (Abgelehnt)",
   rejected: "Abgelehnt",
   adopted: "Angenommen",
   in_progress: "In Bearbeitung",
@@ -86,6 +86,7 @@ const de = {
   vice_chair: "Stellvertretender Vorsitzender",
   active: "aktiv",
   inactive: "inaktiv",
+  latest_vote: "Letzte Abstimmung",
 };
 
 export default de;
