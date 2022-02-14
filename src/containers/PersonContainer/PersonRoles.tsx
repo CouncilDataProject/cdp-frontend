@@ -9,6 +9,7 @@ import H2 from "../../components/Shared/H2";
 import Ul from "../../components/Shared/Ul";
 
 import { fontSizes } from "../../styles/fonts";
+import { strings } from "../../assets/LocalizedStrings";
 
 interface CommitteeMembershipProps {
   hasBorderBottom: boolean;
@@ -31,7 +32,7 @@ const CommitteeMembership: FC<CommitteeMembershipProps> = ({
         <Ul gap={4}>
           {roles.map((role) => (
             <li key={role.id}>
-              <strong>{`${role.title}: `}</strong>
+              <strong>{`${strings[role.title.toLowerCase()]}: `}</strong>
               <Link
                 to={{
                   pathname: "/events",
@@ -77,7 +78,7 @@ const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: Per
         defaultOpen={false}
         title={
           <H2 isInline={true} className="mzp-u-title-xs">
-            Committees
+            {strings.committees}
           </H2>
         }
       />
@@ -87,7 +88,7 @@ const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: Per
   return (
     <div>
       <H2 hasBorderBottom={true} className="mzp-u-title-xs">
-        Terms
+        {strings.terms}
       </H2>
       <Ul gap={16}>
         {termRoles.map((role) => {
@@ -114,7 +115,7 @@ const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: Per
                           hasBorderBottom={false}
                           roles={partitionedNonTermRoles[role.id][0]}
                           defaultOpen={isCurrentRole}
-                          title="Committee Membership"
+                          title={strings.committee_membership}
                         />
                       </li>
                     )}
@@ -124,7 +125,7 @@ const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: Per
                           hasBorderBottom={false}
                           roles={partitionedNonTermRoles[role.id][1]}
                           defaultOpen={!isCurrentRole}
-                          title="Former Committee Membership"
+                          title={strings.former_committee_membership}
                         />
                       </li>
                     )}

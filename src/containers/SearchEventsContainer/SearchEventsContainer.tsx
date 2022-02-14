@@ -45,13 +45,13 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   );
 
   const dateRangeFilter = useFilter<string>({
-    name: "Date",
+    name: strings.date,
     initialState: searchEventsState.dateRange,
     defaultDataValue: "",
     textRepFunction: getDateText,
   });
   const committeeFilter = useFilter<boolean>({
-    name: "Committee",
+    name: strings.committee,
     initialState: searchEventsState.committees,
     defaultDataValue: false,
     textRepFunction: getCheckboxText,
@@ -62,7 +62,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     initialState: {
       by: "datetimeWeightedRelevance",
       order: ORDER_DIRECTION.desc,
-      label: "Most relevant first",
+      label: strings.most_relevant_first,
     },
     defaultDataValue: "",
     textRepFunction: getSortingText,
@@ -152,7 +152,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     } else if (state.error) {
       return <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>;
     } else if (state.cards.length === 0) {
-      return <FetchCardsStatus>No events found.</FetchCardsStatus>;
+      return <FetchCardsStatus>{strings.no_results_found}</FetchCardsStatus>;
     } else {
       const cards = state.cards.slice(0, state.visibleCount).map((renderableEvent) => {
         const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString("en-US", {
@@ -194,7 +194,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   return (
     <PageContainer>
       <SearchPageTitle>
-        <h1 className="mzp-u-title-sm">Event Search Results</h1>
+        <h1 className="mzp-u-title-sm">{strings.event_search_results}</h1>
         <SearchBar
           placeholder={strings.search_topic_placeholder}
           query={searchQuery}
@@ -209,18 +209,18 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
           {
             by: "datetimeWeightedRelevance",
             order: ORDER_DIRECTION.desc,
-            label: "Most relevant first",
+            label: strings.most_relevant_first,
           },
-          { by: "pureRelevance", order: ORDER_DIRECTION.desc, label: "Closest match first" },
-          { by: "event.event_datetime", order: ORDER_DIRECTION.desc, label: "Newest first" },
-          { by: "event.event_datetime", order: ORDER_DIRECTION.asc, label: "Oldest first" },
+          { by: "pureRelevance", order: ORDER_DIRECTION.desc, label: strings.closest_match_first },
+          { by: "event.event_datetime", order: ORDER_DIRECTION.desc, label: strings.newest_first },
+          { by: "event.event_datetime", order: ORDER_DIRECTION.asc, label: strings.oldest_first },
         ]}
         handlePopupClose={handleSearch}
       />
       {fetchEventsResult}
       <ShowMoreCards isVisible={showMoreEvents}>
         <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
-          Show more events
+          {strings.show_more}
         </button>
       </ShowMoreCards>
     </PageContainer>

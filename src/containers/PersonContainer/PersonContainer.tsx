@@ -14,6 +14,7 @@ import { PersonPageData } from "./types";
 
 import { fontSizes } from "../../styles/fonts";
 import { screenWidths } from "../../styles/mediaBreakpoints";
+import { strings } from "../../assets/LocalizedStrings";
 
 const Person = styled.div({
   display: "grid",
@@ -107,7 +108,7 @@ const PersonContainer = ({
           defaultOpen={false}
           summaryContent={
             <H2 className="mzp-u-title-xs" isInline={true}>
-              {`${person.name}'s Voting Record`}
+              {strings.persons_voting_record.replace("{person_name}", person.name)}
             </H2>
           }
           hiddenContent={

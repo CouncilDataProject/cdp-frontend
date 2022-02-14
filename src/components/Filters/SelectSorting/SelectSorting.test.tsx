@@ -6,6 +6,7 @@ import { ORDER_DIRECTION } from "../../../networking/constants";
 
 import { SortOption } from "./getSortingText";
 import SelectSorting, { SelectSortingProps } from "./SelectSorting";
+import { strings } from "../../../assets/LocalizedStrings";
 
 describe("SelectSorting", () => {
   let selectSorting: ShallowWrapper<SelectSortingProps>;
@@ -13,8 +14,8 @@ describe("SelectSorting", () => {
   const onPopupCloseMock = jest.fn();
   const sortOptions: SortOption[] = [
     { by: "value", order: ORDER_DIRECTION.desc, label: "Most relevant" },
-    { by: "date", order: ORDER_DIRECTION.desc, label: "Newest first" },
-    { by: "date", order: ORDER_DIRECTION.asc, label: "Oldest first" },
+    { by: "date", order: ORDER_DIRECTION.desc, label: strings.newest_first },
+    { by: "date", order: ORDER_DIRECTION.asc, label: strings.oldest_first },
   ];
 
   beforeEach(() => {

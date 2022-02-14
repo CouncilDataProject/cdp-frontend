@@ -42,13 +42,13 @@ const EventsContainer: FC<EventsContainerProps> = ({
   const { firebaseConfig } = useAppConfigContext();
 
   const dateRangeFilter = useFilter<string>({
-    name: "Date",
+    name: strings.date,
     initialState: { start: "", end: "" },
     defaultDataValue: "",
     textRepFunction: getDateText,
   });
   const committeeFilter = useFilter<boolean>({
-    name: "Committee",
+    name: strings.committee,
     initialState: bodies.reduce((obj, body) => {
       obj[body.id as string] = initialSelectedBodies[body.id as string] || false;
       return obj;
@@ -59,7 +59,11 @@ const EventsContainer: FC<EventsContainerProps> = ({
   });
   const sortFilter = useFilter<string>({
     name: "Sort",
-    initialState: { by: "event_datetime", order: ORDER_DIRECTION.desc, label: "Newest first" },
+    initialState: {
+      by: "event_datetime",
+      order: ORDER_DIRECTION.desc,
+      label: strings.newest_first,
+    },
     defaultDataValue: "",
     textRepFunction: getSortingText,
   });
@@ -134,7 +138,7 @@ const EventsContainer: FC<EventsContainerProps> = ({
     } else if (state.error) {
       return <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>;
     } else if (state.events.length === 0) {
-      return <FetchCardsStatus>No events found.</FetchCardsStatus>;
+      return <FetchCardsStatus>{strings.no_results_found}</FetchCardsStatus>;
     } else {
       const cards = state.events.map((event) => {
         const eventDateTimeStr = event.event_datetime?.toLocaleDateString("en-US", {
@@ -175,15 +179,15 @@ const EventsContainer: FC<EventsContainerProps> = ({
         allBodies={bodies}
         filters={[committeeFilter, dateRangeFilter, sortFilter]}
         sortOptions={[
-          { by: "event_datetime", order: ORDER_DIRECTION.desc, label: "Newest first" },
-          { by: "event_datetime", order: ORDER_DIRECTION.asc, label: "Oldest first" },
+          { by: "event_datetime", order: ORDER_DIRECTION.desc, label: strings.newest_first },
+          { by: "event_datetime", order: ORDER_DIRECTION.asc, label: strings.oldest_first },
         ]}
         handlePopupClose={handlePopupClose}
       />
       {fetchEventsResult}
       <ShowMoreCards isVisible={state.hasMoreEvents && !state.fetchEvents}>
         <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
-          <span>Show more events</span>
+          <span>{strings.show_more}</span>
           <Loader inline active={state.showMoreEvents} size="tiny" />
         </button>
       </ShowMoreCards>

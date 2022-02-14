@@ -53,7 +53,7 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
               aria-controls="patterns.organisms.navigation.navigation"
               onClick={() => setNavigationIsVisible((prev) => !prev)}
             >
-              Menu
+              {strings.menu}
             </HamburgerMenuButton>
             <CDPLogo>
               <a
