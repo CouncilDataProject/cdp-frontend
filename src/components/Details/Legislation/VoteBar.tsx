@@ -6,7 +6,7 @@ import { VOTE_DECISION } from "../../../models/constants";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import Vote from "../../../models/Vote";
 import { Link } from "react-router-dom";
-import { compact } from "lodash";
+import { strings } from "../../../assets/LocalizedStrings";
 
 const ColorBar = styled.div<{ width: string; zIndex: number; height: number }>((props) => ({
   position: "absolute",
@@ -24,20 +24,8 @@ const ColorBar = styled.div<{ width: string; zIndex: number; height: number }>((
   alignItems: "center",
   zIndex: props.zIndex,
 }));
-
-const VOTE_DECISION_COLOR = {
-  [VOTE_DECISION.APPROVE]: "cdp-bg-acceptance-green",
-  [VOTE_DECISION.ABSTAIN_APPROVE]: "cdp-bg-acceptance-green",
-  [VOTE_DECISION.ABSENT_APPROVE]: "cdp-bg-acceptance-green",
-  [VOTE_DECISION.ABSTAIN_NON_VOTING]: "cdp-bg-light-purple",
-  [VOTE_DECISION.ABSENT_NON_VOTING]: "cdp-bg-light-purple",
-  [VOTE_DECISION.ABSTAIN_REJECT]: "cdp-bg-rejected-red",
-  [VOTE_DECISION.ABSENT_REJECT]: "cdp-bg-rejected-red",
-  [VOTE_DECISION.REJECT]: "cdp-bg-rejected-red",
-};
-
 interface VoteBarProps {
-  status: VOTE_DECISION;
+  statusColor: string;
   votes: Vote[];
   percentage: number;
   height: number;
@@ -45,19 +33,32 @@ interface VoteBarProps {
 }
 
 const ProgressBar: FC<VoteBarProps> = ({
-  status,
+  statusColor,
   percentage,
   height,
   votes,
   label,
 }: VoteBarProps) => {
-  const completedColor = VOTE_DECISION_COLOR[status];
   const [expanded, setExpanded] = useState(false);
 
   const votesLinks = votes.map((vote, i) => (
-    <Link to={`/people/${vote.id}`} key={`${i}_${vote.id}_vote`} style={{ marginTop: 4 }}>
-      {vote.person?.name}
-    </Link>
+    <div key={`${i}_${vote.id}_vote`} style={{ marginTop: 4 }}>
+      <Link to={`/people/${vote.id}`} style={{ marginLeft: 12 }}>
+        {vote.person?.name}
+      </Link>
+      <b style={{ marginLeft: 8 }}>
+        {
+          strings[
+            vote.decision
+              .toLowerCase()
+              .replace(" ", "_")
+              .replace("-", "_")
+              .replace("(", "")
+              .replace(")", "")
+          ]
+        }
+      </b>
+    </div>
   ));
   const compactForm = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
   const directionality = compactForm ? "column" : "row";
@@ -74,12 +75,7 @@ const ProgressBar: FC<VoteBarProps> = ({
             setExpanded(!expanded);
           }}
         >
-          <ColorBar
-            className={completedColor}
-            width={`${percentage}%`}
-            height={height}
-            zIndex={2}
-          />
+          <ColorBar className={statusColor} width={`${percentage}%`} height={height} zIndex={2} />
           <ColorBar className="cdp-bg-neutral-grey" width={`100%`} height={height} zIndex={1} />
         </div>
         <b style={{ marginLeft: 16, width: textSize }}>{label}</b>

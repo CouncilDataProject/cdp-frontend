@@ -6,7 +6,6 @@ import H2 from "../../Shared/H2";
 import Details from "../../Shared/Details";
 import { getVoteDistribution } from "../../Shared/util/voteDistribution";
 import { strings } from "../../../assets/LocalizedStrings";
-import { VOTE_DECISION } from "../../../models/constants";
 
 const VOTE_BAR_HEIGHT = 16;
 
@@ -32,7 +31,7 @@ const LegislationLatestVote: FC<LegislationLatestVoteProps> = ({
   const voteBars: ReactNode[] = [
     <VoteBar
       key={"inFavorVoteBar"}
-      status={VOTE_DECISION.APPROVE}
+      statusColor={"cdp-bg-acceptance-green"}
       votes={inFavor}
       percentage={(inFavor.length / votes.length) * 100}
       height={VOTE_BAR_HEIGHT}
@@ -40,7 +39,7 @@ const LegislationLatestVote: FC<LegislationLatestVoteProps> = ({
     />,
     <VoteBar
       key={"againstVoteBar"}
-      status={VOTE_DECISION.REJECT}
+      statusColor={"cdp-bg-rejected-red"}
       votes={against}
       percentage={(against.length / votes.length) * 100}
       height={VOTE_BAR_HEIGHT}
@@ -48,7 +47,7 @@ const LegislationLatestVote: FC<LegislationLatestVoteProps> = ({
     />,
     <VoteBar
       key={"abstainedVoteBar"}
-      status={VOTE_DECISION.ABSTAIN_NON_VOTING}
+      statusColor={"cdp-bg-light-purple"}
       votes={abstained}
       percentage={(abstained.length / votes.length) * 100}
       height={VOTE_BAR_HEIGHT}
