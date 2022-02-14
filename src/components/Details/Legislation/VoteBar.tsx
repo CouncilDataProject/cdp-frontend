@@ -17,10 +17,6 @@ const ColorBar = styled.div<{ width: string; zIndex: number; height: number }>((
   borderBottomLeftRadius: "50em",
   borderTopRightRadius: "50em",
   borderBottomRightRadius: "50em",
-  display: "flex",
-  flex: 1,
-  justifyContent: "space-between",
-  alignItems: "center",
   zIndex: props.zIndex,
 }));
 interface VoteBarProps {
@@ -31,7 +27,7 @@ interface VoteBarProps {
   label: string;
 }
 
-const ProgressBar: FC<VoteBarProps> = ({
+const VoteBar: FC<VoteBarProps> = ({
   statusColor,
   percentage,
   height,
@@ -84,4 +80,4 @@ const ProgressBar: FC<VoteBarProps> = ({
   );
 };
 
-export default ProgressBar;
+export default VoteBar;
