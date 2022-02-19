@@ -57,7 +57,6 @@ export interface PersonContainerProps extends PersonPageData {
 }
 
 const PersonContainer = ({
-  //bodies,
   person,
   votes,
   roles,

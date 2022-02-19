@@ -29,7 +29,7 @@ const Placeholder = styled.div<{ isLoading: boolean }>((props) => ({
   },
   "& > div:nth-of-type(2)": {
     // the place holder ui is visible when content is loading
-    opacity: props.isLoading ? 1 : 0,
+    display: props.isLoading ? "block" : "none",
     width: "100%",
     height: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.11)",
