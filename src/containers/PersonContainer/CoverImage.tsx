@@ -1,5 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import styled from "@emotion/styled";
+
+import { FetchDataState } from "../FetchDataContainer/useFetchData";
+
+import PlaceholderWrapper from "../../components/Shared/PlaceHolder";
 
 import { screenWidths } from "../../styles/mediaBreakpoints";
 
@@ -17,27 +21,30 @@ const EXAMPLE_COVER_VIEWS = [
   exampleCover5,
 ];
 
+const EXAMPLE_COVER_VIEW =
+  EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)];
+
 const Images = styled.div({
   position: "relative",
+  height: 150,
   "& img": {
     objectFit: "cover",
   },
-  "& > img:first-of-type": {
-    // seat image has 100% width
-    width: "100%",
-  },
   [`@media (min-width:${screenWidths.tablet})`]: {
-    "& > img:first-of-type": {
-      // on tablet or above seat image's height == 400px
-      height: 400,
-    },
+    height: 400,
   },
 });
 
-const Avatar = styled.img({
+const Seat = styled.img({
+  width: "100%",
+  height: "100%",
+});
+
+const Avatar = styled.img<{ isLoading: boolean }>((props) => ({
+  visibility: props.isLoading ? "hidden" : "visible",
   position: "absolute",
   left: -5,
-  bottom: -30,
+  bottom: -35,
   width: 100,
   height: 100,
   borderRadius: "50%",
@@ -46,12 +53,12 @@ const Avatar = styled.img({
     width: 200,
     height: 200,
   },
-});
+}));
 
 interface CoverImageProps {
   personName: string;
-  personPictureSrc?: string;
-  seatPictureSrc?: string;
+  personPictureSrc: FetchDataState<string | null>;
+  seatPictureSrc: FetchDataState<string | null>;
   electoralArea?: string;
 }
 
@@ -61,25 +68,34 @@ const CoverImage: FC<CoverImageProps> = ({
   seatPictureSrc,
   electoralArea,
 }: CoverImageProps) => {
-  if (!personPictureSrc && !seatPictureSrc) {
-    return null;
-  }
+  const [personPictureSrcIsLoading, setPersonPictureSrcIsLoading] = useState(true);
+  const [seatPictureSrcIsLoading, setSeatPictureSrcIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (personPictureSrc.data === null) {
+      // the visibility of the seat picture is dependent on the visiblity of the person picture
+      // if there's no person picture (it's null), allow the seat picture to be visible
+      setPersonPictureSrcIsLoading(false);
+    }
+  }, [personPictureSrc.data]);
 
   return (
     <Images>
-      <img
-        className="mzp-c-card-image"
-        src={
-          seatPictureSrc ||
-          EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)]
-        }
-        alt={`${electoralArea || ""}`}
-      />
-      {personPictureSrc && (
-        <Avatar
+      <PlaceholderWrapper contentIsLoading={seatPictureSrcIsLoading || personPictureSrcIsLoading}>
+        <Seat
           className="mzp-c-card-image"
-          src={personPictureSrc}
+          src={seatPictureSrc.data === null ? EXAMPLE_COVER_VIEW : seatPictureSrc.data}
+          alt={`${electoralArea || ""}`}
+          onLoad={() => setSeatPictureSrcIsLoading(false)}
+        />
+      </PlaceholderWrapper>
+      {personPictureSrc.data && (
+        <Avatar
+          isLoading={seatPictureSrcIsLoading || personPictureSrcIsLoading}
+          className="mzp-c-card-image"
+          src={personPictureSrc.data}
           alt={`Picture of ${personName}`}
+          onLoad={() => setPersonPictureSrcIsLoading(false)}
         />
       )}
     </Images>

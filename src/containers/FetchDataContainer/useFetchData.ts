@@ -2,6 +2,12 @@ import { useReducer, useEffect } from "react";
 
 import { createError } from "../../utils/createError";
 
+export const initialFetchDataState = {
+  isLoading: false,
+  error: null,
+  hasFetchRequest: true,
+};
+
 export interface FetchDataState<T> {
   isLoading: boolean;
   data?: T;
@@ -74,6 +80,7 @@ export default function useFetchData<T>(
     const fetch = async () => {
       try {
         dispatch({ type: FetchDataActionType.FETCH_INIT });
+        console.log("fetching", new Date().toISOString());
         const data = await fetchData();
         if (!didCancel) {
           dispatch({ type: FetchDataActionType.FETCH_SUCCESS, payload: data });

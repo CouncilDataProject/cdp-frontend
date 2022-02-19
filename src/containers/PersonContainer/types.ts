@@ -3,19 +3,21 @@ import Person from "../../models/Person";
 import Role from "../../models/Role";
 import Vote from "../../models/Vote";
 
+import { FetchDataState } from "../FetchDataContainer/useFetchData";
+
 export interface PersonPageData {
-  /**The person */
+  /** The person */
   person: Person;
   /** Votes */
-  votes: Vote[];
+  votes: FetchDataState<Vote[]>;
   /** matters sponsored by the person */
-  mattersSponsored: MatterSponsor[];
+  mattersSponsored: FetchDataState<MatterSponsor[]>;
   /** roles held by the person with only body populated */
   roles: Role[];
   /** Councilmember roles with only seat populated */
   councilMemberRoles: Role[];
   /** Picture src of the person */
-  personPictureSrc?: string;
+  personPictureSrc: FetchDataState<string | null>;
   /** Picture of the seat for the person's recent councilmember role */
-  seatPictureSrc?: string;
+  seatPictureSrc: FetchDataState<string | null>;
 }

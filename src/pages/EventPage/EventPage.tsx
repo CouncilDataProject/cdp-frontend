@@ -19,14 +19,9 @@ import { EventContainer } from "../../containers/EventContainer";
 import { ECSentence, ECEventMinutesItem } from "../../containers/EventContainer/types";
 import { FetchDataContainer } from "../../containers/FetchDataContainer";
 import useFetchData, {
+  initialFetchDataState,
   FetchDataActionType,
 } from "../../containers/FetchDataContainer/useFetchData";
-
-const initialFetchDataState = {
-  isLoading: false,
-  error: null,
-  hasFetchRequest: true,
-};
 
 const EventPage: FC = () => {
   // Get the id the the event, provided the route is `events/:id`
