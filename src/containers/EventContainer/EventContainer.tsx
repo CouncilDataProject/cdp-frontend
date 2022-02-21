@@ -103,8 +103,8 @@ const EventContainer: FC<EventContainerProps> = ({
 
   //Create the TranscriptItemsRefs to create jumpToTranscript callback
   const transcriptItemsRefs = useMemo(() => {
-    return (sentences || []).map(() => createRef<TranscriptItemRef>());
-  }, [sentences]);
+    return (sentences.data || []).map(() => createRef<TranscriptItemRef>());
+  }, [sentences.data]);
   const [currentTranscriptItem, setCurrentTranscriptItem] = useState<number>();
   const jumpToTranscript = useCallback(
     (sentenceIndex: number) => {

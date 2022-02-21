@@ -2,6 +2,7 @@ import React, { FC, useMemo } from "react";
 
 import Vote from "../../models/Vote";
 
+import LazyFetchDataContainer from "../FetchDataContainer/LazyFetchDataContainer";
 import { FetchDataState } from "../FetchDataContainer/useFetchData";
 import Details from "../../components/Shared/Details";
 import H2 from "../../components/Shared/H2";
@@ -16,16 +17,16 @@ interface PersonVotesProps {
 
 const PersonVotes: FC<PersonVotesProps> = ({ personName, votes }: PersonVotesProps) => {
   const hiddenContent = useMemo(() => {
-    if (votes.isLoading) {
-      return <p>Fetching votes...</p>;
-    }
-    if (votes.error) {
-      return <p>{votes.error.message}</p>;
-    }
-    if (!votes.data || votes.data.length === 0) {
-      return <p>No votes found.</p>;
-    }
-    return <VotingTable name={personName} votesPage={votes.data} />;
+    return (
+      <LazyFetchDataContainer
+        data="votes"
+        isLoading={votes.isLoading}
+        error={votes.error}
+        notFound={!votes.data || votes.data.length === 0}
+      >
+        {votes.data && <VotingTable name={personName} votesPage={votes.data} />}
+      </LazyFetchDataContainer>
+    );
   }, [personName, votes]);
   return (
     <Details

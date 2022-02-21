@@ -189,7 +189,6 @@ const EventPage: FC = () => {
       sessionsDataState.error,
       eventMinutesItemsDataState.error,
       votesDataState.error,
-      sentencesDataState.error,
     ]
       .map((error) => error?.message || "")
       .filter((errorMsg) => errorMsg.length > 0);
@@ -203,7 +202,6 @@ const EventPage: FC = () => {
     sessionsDataState.error,
     eventMinutesItemsDataState.error,
     votesDataState.error,
-    sentencesDataState.error,
   ]);
 
   return (
@@ -211,7 +209,7 @@ const EventPage: FC = () => {
       {eventData && (
         <EventContainer
           {...eventData}
-          sentences={sentencesDataState.data}
+          sentences={sentencesDataState}
           searchQuery={searchQuery}
           initialSession={
             initialSession > 0 && initialSession < eventData.sessions.length ? initialSession : 0
