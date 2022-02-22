@@ -80,7 +80,6 @@ export default function useFetchData<T>(
     const fetch = async () => {
       try {
         dispatch({ type: FetchDataActionType.FETCH_INIT });
-        console.log("fetching", new Date().toISOString());
         const data = await fetchData();
         if (!didCancel) {
           dispatch({ type: FetchDataActionType.FETCH_SUCCESS, payload: data });
