@@ -2,6 +2,7 @@ import React from "react";
 import { Story, Meta } from "@storybook/react";
 
 import EventContainer, { EventContainerProps } from "./EventContainer";
+import { initialFetchDataState } from "../FetchDataContainer/useFetchData";
 
 import { EVENT_MINUTES_ITEM_DECISION, VOTE_DECISION } from "../../models/constants";
 import { ECSentence } from "./types";
@@ -47,7 +48,7 @@ event.args = {
       session_index: 2,
     },
   ],
-  sentences: sentences,
+  sentences: { ...initialFetchDataState, data: sentences },
   eventMinutesItems: [
     {
       id: "test1",
