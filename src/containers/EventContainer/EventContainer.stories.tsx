@@ -5,7 +5,8 @@ import EventContainer, { EventContainerProps } from "./EventContainer";
 import { initialFetchDataState } from "../FetchDataContainer/useFetchData";
 
 import { EVENT_MINUTES_ITEM_DECISION, VOTE_DECISION } from "../../models/constants";
-import { ECSentence } from "./types";
+
+import { mockSentences } from "../../stories/model-mocks/sentence";
 
 export default {
   component: EventContainer,
@@ -13,20 +14,6 @@ export default {
 } as Meta;
 
 const Template: Story<EventContainerProps> = (args) => <EventContainer {...args} />;
-
-const sentences: ECSentence[] = [];
-for (let sessionIndex = 0; sessionIndex < 2; sessionIndex++) {
-  for (let sentenceIndex = 0; sentenceIndex < 10; sentenceIndex++) {
-    sentences.push({
-      session_index: sessionIndex,
-      index: sessionIndex * 10 + sentenceIndex,
-      start_time: sentenceIndex,
-      text: `This is a sentence ${sessionIndex * 10 + sentenceIndex}.`,
-      speaker_index: sentenceIndex,
-      speaker_name: `Speaker ${sentenceIndex}`,
-    });
-  }
-}
 
 export const event = Template.bind({});
 event.args = {
@@ -48,7 +35,7 @@ event.args = {
       session_index: 2,
     },
   ],
-  sentences: { ...initialFetchDataState, data: sentences },
+  sentences: { ...initialFetchDataState, data: mockSentences(2, 10) },
   eventMinutesItems: [
     {
       id: "test1",
