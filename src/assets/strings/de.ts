@@ -82,7 +82,7 @@ const de = {
   alternate: "Wechseln",
   councilmember: "Stadtrat/in",
   member: "Mitglied",
-  councilpresident: "Präsident des Rates",
+  council_president: "Präsident des Rates",
   vice_chair: "Stellvertretender Vorsitzender",
   active: "aktiv",
   inactive: "inaktiv",

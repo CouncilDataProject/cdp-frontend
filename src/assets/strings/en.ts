@@ -81,7 +81,7 @@ const en = {
   alternate: "Alternate",
   councilmember: "Councilmember",
   member: "Member",
-  councilpresident: "Council President",
+  council_president: "Council President",
   vice_chair: "Vice Chair",
   active: "active",
   inactive: "inactive",
