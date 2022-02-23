@@ -19,17 +19,22 @@ export default {
   title: "Library/Containers/Person",
 } as Meta;
 
+import { initialFetchDataState } from "../FetchDataContainer/useFetchData";
+
 const Template: Story<PersonContainerProps> = (args) => <PersonContainer {...args} />;
 
 export const personWithoutVotes = Template.bind({});
 personWithoutVotes.args = {
   person: basicPerson,
-  votes: [],
+  votes: { ...initialFetchDataState, data: [] },
   councilMemberRoles: [ten_years_councilmember],
   roles: [expired_chair, recent_chair],
-  mattersSponsored: [basicMatterSponsor, populatedMatterMatterSponsor],
-  personPictureSrc: mockImageUrl(400, 400, "Avatar Face"),
-  seatPictureSrc: mockImageUrl(1400, 800, "Electoral Seat"),
+  mattersSponsored: {
+    ...initialFetchDataState,
+    data: [basicMatterSponsor, populatedMatterMatterSponsor],
+  },
+  personPictureSrc: { ...initialFetchDataState, data: mockImageUrl(400, 400, "Avatar Face") },
+  seatPictureSrc: { ...initialFetchDataState, data: mockImageUrl(1400, 800, "Electoral Seat") },
 };
 
 export const standardLayout = Template.bind({});
@@ -37,8 +42,8 @@ standardLayout.args = {
   person: basicPerson,
   councilMemberRoles: [ten_years_councilmember],
   roles: [expired_chair, recent_chair],
-  mattersSponsored: [populatedMatterMatterSponsor],
-  votes: [vote],
-  personPictureSrc: mockImageUrl(400, 400, "Avatar Face"),
-  seatPictureSrc: mockImageUrl(1400, 800, "Electoral Seat"),
+  mattersSponsored: { ...initialFetchDataState, data: [populatedMatterMatterSponsor] },
+  votes: { ...initialFetchDataState, data: [vote] },
+  personPictureSrc: { ...initialFetchDataState, data: mockImageUrl(400, 400, "Avatar Face") },
+  seatPictureSrc: { ...initialFetchDataState, data: mockImageUrl(1400, 800, "Electoral Seat") },
 };

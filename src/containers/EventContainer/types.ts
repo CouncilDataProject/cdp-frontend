@@ -8,6 +8,8 @@ import Session from "../../models/Session";
 import Vote from "../../models/Vote";
 import Person from "../../models/Person";
 
+import { FetchDataState } from "../FetchDataContainer/useFetchData";
+
 export interface ECEvent extends Pick<Event, "event_datetime"> {
   body?: Pick<Body, "name">;
 }
@@ -33,7 +35,7 @@ export interface EventData {
   /** Session of the event */
   sessions: ECSession[];
   /** Sentences for the event */
-  sentences?: ECSentence[];
+  sentences: FetchDataState<ECSentence[]>;
   /** Event minutes items of the event */
   eventMinutesItems: ECEventMinutesItem[];
   /** Votes for the event */

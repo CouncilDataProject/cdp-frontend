@@ -2,6 +2,8 @@ import React, { FC, Dispatch, SetStateAction, RefObject, useMemo } from "react";
 
 import { TabProps } from "semantic-ui-react";
 
+import LazyFetchDataContainer from "../FetchDataContainer/LazyFetchDataContainer";
+import { FetchDataState } from "../FetchDataContainer/useFetchData";
 import { TranscriptFull } from "../../components/Details/TranscriptFull";
 import { TranscriptItemRef } from "../../components/Details/TranscriptItem/TranscriptItem";
 import { MinutesItemsList } from "../../components/Details/MinutesItemsList";
@@ -14,7 +16,7 @@ import { strings } from "../../assets/LocalizedStrings";
 interface EventInfoTabsProps {
   currentInfoTab: number;
   setCurrentInfoTab: Dispatch<SetStateAction<number>>;
-  sentences?: ECSentence[];
+  sentences: FetchDataState<ECSentence[]>;
   transcriptItemsRefs: RefObject<TranscriptItemRef>[];
   eventMinutesItems: ECEventMinutesItem[];
   votes: ECVote[];
@@ -106,14 +108,21 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
         menuItem: strings.transcript,
         pane: {
           key: "transcript",
-          content: sentences ? (
-            <TranscriptFull
-              sentences={sentences}
-              transcriptItemsRefs={transcriptItemsRefs}
-              jumpToVideoClip={jumpToVideoClip}
-            />
-          ) : (
-            <div>Fetching transcript...</div>
+          content: (
+            <LazyFetchDataContainer
+              data="transcript"
+              isLoading={sentences.isLoading}
+              error={sentences.error}
+              notFound={!sentences.data || sentences.data.length === 0}
+            >
+              {sentences.data && (
+                <TranscriptFull
+                  sentences={sentences.data}
+                  transcriptItemsRefs={transcriptItemsRefs}
+                  jumpToVideoClip={jumpToVideoClip}
+                />
+              )}
+            </LazyFetchDataContainer>
           ),
         },
       },

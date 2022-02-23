@@ -6,6 +6,8 @@ import { Story, Meta } from "@storybook/react";
 import TranscriptFull, { TranscriptFullProps } from "./TranscriptFull";
 import { TranscriptItemRef } from "../TranscriptItem/TranscriptItem";
 
+import { mockSentences } from "../../../stories/model-mocks/sentence";
+
 export default {
   component: TranscriptFull,
   title: "Library/Details/Transcript Full",
@@ -13,19 +15,11 @@ export default {
 
 const Template: Story<TranscriptFullProps> = (args) => <TranscriptFull {...args} />;
 
+const exampleSentences = mockSentences(2, 10);
+
 export const transcriptFull = Template.bind({});
 transcriptFull.args = {
-  sentences: Array.from({ length: 20 }).map((_, i) => ({
-    session_index: 0,
-    index: i,
-    start_time: i,
-    text: `This is a sentence${i}.`,
-    speaker_index: i,
-    speaker_name: "Lisa Herbold",
-    speaker_id: "lisa-herbold",
-    speaker_pictureSrc:
-      "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-  })),
-  transcriptItemsRefs: Array.from({ length: 20 }).map(() => createRef<TranscriptItemRef>()),
+  sentences: exampleSentences,
+  transcriptItemsRefs: exampleSentences.map(() => createRef<TranscriptItemRef>()),
   jumpToVideoClip: (_, startTime) => action(`jump to video clip at ${startTime}`),
 };

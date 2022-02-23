@@ -4,7 +4,11 @@ import React from "react";
 import { action } from "@storybook/addon-actions";
 import { Story, Meta } from "@storybook/react";
 
+import { initialFetchDataState } from "../../../containers/FetchDataContainer/useFetchData";
+
 import TranscriptSearch, { TranscriptSearchProps } from "./TranscriptSearch";
+
+import { mockSentences } from "../../../stories/model-mocks/sentence";
 
 export default {
   component: TranscriptSearch,
@@ -23,27 +27,10 @@ const Template: Story<TranscriptSearchProps> = (args) => <TranscriptSearch {...a
 export const Default = Template.bind({});
 Default.args = {
   searchQuery: "sentence",
-  sentences: [
-    {
-      session_index: 0,
-      index: 0,
-      start_time: 1.5,
-      text: "This is a sentence.",
-      speaker_index: 0,
-      speaker_name: "Lisa Herbold",
-      speaker_id: "lisa-herbold",
-      speaker_pictureSrc:
-        "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-    },
-    {
-      session_index: 0,
-      index: 1,
-      start_time: 2,
-      text: "This is another sentence.",
-      speaker_name: "Unknown",
-      speaker_index: 1,
-    },
-  ],
+  sentences: {
+    ...initialFetchDataState,
+    data: mockSentences(1, 2),
+  },
   jumpToVideoClip: (sessionIndex, startTime) => action("jump to video clip"),
   jumpToTranscript: (sentenceIndex) => action("jump to transcript"),
 };
@@ -51,17 +38,10 @@ Default.args = {
 export const manySentences = Template.bind({});
 manySentences.args = {
   searchQuery: "sentence",
-  sentences: Array.from({ length: 200 }).map((_, i) => ({
-    session_index: 0,
-    index: i,
-    start_time: i,
-    text: `This is a sentence ${i}.`,
-    speaker_name: "Lisa Herbold",
-    speaker_id: "lisa-herbold",
-    speaker_index: 0,
-    speaker_pictureSrc:
-      "https://www.seattle.gov/images/Council/Members/Herbold/Herbold_225x225.jpg",
-  })),
+  sentences: {
+    ...initialFetchDataState,
+    data: mockSentences(2, 100),
+  },
   jumpToVideoClip: (sessionIndex, startTime) => action("jump to video clip"),
   jumpToTranscript: (sentenceIndex) => action("jump to transcript"),
 };

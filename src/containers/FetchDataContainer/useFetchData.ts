@@ -2,6 +2,12 @@ import { useReducer, useEffect } from "react";
 
 import { createError } from "../../utils/createError";
 
+export const initialFetchDataState = {
+  isLoading: false,
+  error: null,
+  hasFetchRequest: true,
+};
+
 export interface FetchDataState<T> {
   isLoading: boolean;
   data?: T;

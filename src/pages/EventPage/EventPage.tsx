@@ -19,14 +19,9 @@ import { EventContainer } from "../../containers/EventContainer";
 import { ECSentence, ECEventMinutesItem } from "../../containers/EventContainer/types";
 import { FetchDataContainer } from "../../containers/FetchDataContainer";
 import useFetchData, {
+  initialFetchDataState,
   FetchDataActionType,
 } from "../../containers/FetchDataContainer/useFetchData";
-
-const initialFetchDataState = {
-  isLoading: false,
-  error: null,
-  hasFetchRequest: true,
-};
 
 const EventPage: FC = () => {
   // Get the id the the event, provided the route is `events/:id`
@@ -194,7 +189,6 @@ const EventPage: FC = () => {
       sessionsDataState.error,
       eventMinutesItemsDataState.error,
       votesDataState.error,
-      sentencesDataState.error,
     ]
       .map((error) => error?.message || "")
       .filter((errorMsg) => errorMsg.length > 0);
@@ -208,7 +202,6 @@ const EventPage: FC = () => {
     sessionsDataState.error,
     eventMinutesItemsDataState.error,
     votesDataState.error,
-    sentencesDataState.error,
   ]);
 
   return (
@@ -216,7 +209,7 @@ const EventPage: FC = () => {
       {eventData && (
         <EventContainer
           {...eventData}
-          sentences={sentencesDataState.data}
+          sentences={sentencesDataState}
           searchQuery={searchQuery}
           initialSession={
             initialSession > 0 && initialSession < eventData.sessions.length ? initialSession : 0
