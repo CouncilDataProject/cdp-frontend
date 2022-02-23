@@ -32,7 +32,7 @@ const CommitteeMembership: FC<CommitteeMembershipProps> = ({
         <Ul gap={4}>
           {roles.map((role) => (
             <li key={role.id}>
-              <strong>{`${strings[role.title.toLowerCase()]}: `}</strong>
+              <strong>{`${strings[role.title.toLowerCase().replace(" ", "_")]}: `}</strong>
               <Link
                 to={{
                   pathname: "/events",
@@ -99,7 +99,7 @@ const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: Per
                 defaultOpen={isCurrentRole}
                 summaryContent={
                   <span style={{ fontSize: fontSizes.font_size_6 }}>
-                    <strong>{`${role.title}: `}</strong>{" "}
+                    <strong>{`${strings[role.title.toLowerCase().replace(" ", "_")]}: `}</strong>{" "}
                     {`${role.seat?.name} // ${
                       role.seat?.electoral_area
                     } (${role.start_datetime.toLocaleDateString()} - ${
