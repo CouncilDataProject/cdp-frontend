@@ -1,8 +1,8 @@
-import React, { createContext, ReactNode, FC, useContext, SetStateAction, Dispatch } from "react";
+import React, { createContext, ReactNode, FC, useContext } from "react";
 
 export interface LanguageConfig {
   language: string;
-  setLanguage: Dispatch<SetStateAction<string>>;
+  setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const LanguageConfigContext = createContext<LanguageConfig>({
@@ -10,15 +10,15 @@ const LanguageConfigContext = createContext<LanguageConfig>({
   setLanguage: () => undefined,
 });
 
-interface AppConfigProviderProps {
+interface LanguageConfigProviderProps {
   languageConfig: LanguageConfig;
   children: ReactNode;
 }
 
-export const LanguageConfigProvider: FC<AppConfigProviderProps> = ({
+export const LanguageConfigProvider: FC<LanguageConfigProviderProps> = ({
   languageConfig,
   children,
-}: AppConfigProviderProps) => {
+}: LanguageConfigProviderProps) => {
   return (
     <LanguageConfigContext.Provider value={languageConfig}>
       {children}
