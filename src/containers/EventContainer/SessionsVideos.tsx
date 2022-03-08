@@ -1,7 +1,7 @@
-import React, { FC, RefObject, Dispatch, SetStateAction, useRef } from "react";
-
+import React, { FC, RefObject, Dispatch, SetStateAction, useRef, useEffect, useState } from "react";
 import { TabProps } from "semantic-ui-react";
 
+import { useLanguageConfigContext } from "../../app/LanguageConfigContext";
 import EventVideo, { EventVideoRef } from "../../components/Details/EventVideo/EventVideo";
 import ResponsiveTab from "../../components/Shared/ResponsiveTab";
 import { ECSession } from "./types";
@@ -24,6 +24,9 @@ const SessionVideos: FC<SessionVideosProps> = ({
   initialSeconds,
   setCurrentSession,
 }: SessionVideosProps) => {
+  const { language } = useLanguageConfigContext();
+  const [, forceUpdate] = useState("");
+
   const onSessionChange = (_: any, data: TabProps) =>
     setCurrentSession((prevSessionIndex) => {
       // Pause the prev session video player
@@ -49,6 +52,13 @@ const SessionVideos: FC<SessionVideosProps> = ({
       };
     })
   );
+
+  useEffect(() => {
+    for (let i = 0; i < panes.current.length; i++) {
+      panes.current[i].menuItem = `${strings.session} ${i + 1}`;
+    }
+    forceUpdate(language);
+  }, [language]);
 
   const breakpoint = sessions.length > 3 ? screenWidths.largeMobile : screenWidths.smallMobile;
 

@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
-import { useAppConfigContext } from "../../app";
+import { useAppConfigContext, useLanguageConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import EventSearchService from "../../networking/EventSearchService";
 
@@ -28,6 +28,7 @@ import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContainerData) => {
   const { firebaseConfig } = useAppConfigContext();
+  const { language } = useLanguageConfigContext();
 
   const queryRef = useRef(searchState.query);
   const [query, setQuery] = useState(searchState.query);
@@ -99,7 +100,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
       return [];
     }
     return state.data.event.events.map((renderableEvent) => {
-      const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString("en-US", {
+      const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString(language, {
         month: "long",
         day: "numeric",
         year: "numeric",
@@ -120,7 +121,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
         ),
       };
     });
-  }, [state.data?.event]);
+  }, [state.data?.event, language]);
 
   //TODO: add the legislation cards
 

@@ -1,6 +1,7 @@
 import React, { FC, Dispatch, SetStateAction, RefObject, useMemo } from "react";
-
 import { TabProps } from "semantic-ui-react";
+
+import { useLanguageConfigContext } from "../../app/LanguageConfigContext";
 
 import LazyFetchDataContainer from "../FetchDataContainer/LazyFetchDataContainer";
 import { FetchDataState } from "../FetchDataContainer/useFetchData";
@@ -32,6 +33,8 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
   votes,
   jumpToVideoClip,
 }: EventInfoTabsProps) => {
+  const { language } = useLanguageConfigContext();
+
   const onInfoTabChange = (_: any, data: TabProps) => setCurrentInfoTab(data.activeIndex as number);
 
   const minutesItems = useMemo(() => {
@@ -96,6 +99,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
   }, [eventMinutesItems, votesByEventMinutesItem]);
 
   const infoTabPanes = useMemo(() => {
+    console.log(`calculating tabs for language ${language}`);
     return [
       {
         menuItem: strings.agenda,
@@ -131,7 +135,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
         pane: { key: "votes", content: <MeetingVotesTable votesPage={votesPage} /> },
       },
     ];
-  }, [minutesItems, sentences, transcriptItemsRefs, jumpToVideoClip, votesPage]);
+  }, [minutesItems, sentences, transcriptItemsRefs, jumpToVideoClip, votesPage, language]);
 
   return (
     <ResponsiveTab

@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
-import { useAppConfigContext } from "../../app";
+import { useAppConfigContext, useLanguageConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import useSearchCards, { SearchCardsActionType } from "../../hooks/useSearchCards";
 import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
@@ -37,6 +37,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   bodies,
 }: SearchEventsContainerData) => {
   const { firebaseConfig } = useAppConfigContext();
+  const { language } = useLanguageConfigContext();
 
   const searchQueryRef = useRef(searchEventsState.query);
   const [searchQuery, setSearchQuery] = useState(searchEventsState.query);
@@ -155,11 +156,14 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
       return <FetchCardsStatus>{strings.no_results_found}</FetchCardsStatus>;
     } else {
       const cards = state.cards.slice(0, state.visibleCount).map((renderableEvent) => {
-        const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString("en-US", {
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        }) as string;
+        const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString(
+          language,
+          {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          }
+        ) as string;
         return {
           link: `/${SEARCH_TYPE.EVENT}/${renderableEvent.event.id}`,
           jsx: (
@@ -185,7 +189,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         </>
       );
     }
-  }, [state.fetchCards, state.error, state.cards, state.visibleCount]);
+  }, [state.fetchCards, state.error, state.cards, state.visibleCount, language]);
 
   const showMoreEvents = useMemo(() => {
     return state.visibleCount < state.cards.length && !state.fetchCards;

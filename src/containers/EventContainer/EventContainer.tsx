@@ -1,6 +1,7 @@
 import React, { createRef, FC, useState, useRef, useEffect, useMemo, useCallback } from "react";
 import styled from "@emotion/styled";
 
+import { useLanguageConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 import { EventVideoRef } from "../../components/Details/EventVideo/EventVideo";
@@ -70,10 +71,12 @@ const EventContainer: FC<EventContainerProps> = ({
   initialSeconds,
   searchQuery,
 }: EventContainerProps) => {
+  const { language } = useLanguageConfigContext();
+
   useDocumentTitle(
     `${event.body?.name}` +
       `${event.body?.name && event.event_datetime && " -- "}` +
-      `${event.event_datetime?.toLocaleDateString("en-US", {
+      `${event.event_datetime?.toLocaleDateString(language, {
         month: "numeric",
         day: "numeric",
         year: "numeric",
@@ -134,7 +137,7 @@ const EventContainer: FC<EventContainerProps> = ({
       <EventName>
         <h2 className="mzp-u-title-xs">{event.body?.name}</h2>
         <p className="mzp-c-card-desc">
-          {event.event_datetime?.toLocaleDateString("en-US", {
+          {event.event_datetime?.toLocaleDateString(language, {
             month: "long",
             day: "numeric",
             year: "numeric",
