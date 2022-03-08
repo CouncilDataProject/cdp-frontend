@@ -99,7 +99,6 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
   }, [eventMinutesItems, votesByEventMinutesItem]);
 
   const infoTabPanes = useMemo(() => {
-    console.log(`calculating tabs for language ${language}`);
     return [
       {
         menuItem: strings.agenda,
@@ -135,6 +134,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
         pane: { key: "votes", content: <MeetingVotesTable votesPage={votesPage} /> },
       },
     ];
+    // `langugage` is needed as a dependency in order to change the tab labels
   }, [minutesItems, sentences, transcriptItemsRefs, jumpToVideoClip, votesPage, language]);
 
   return (
