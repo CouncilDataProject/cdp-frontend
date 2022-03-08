@@ -12,6 +12,7 @@ import { PersonPageData } from "./types";
 
 import { fontSizes } from "../../styles/fonts";
 import { screenWidths } from "../../styles/mediaBreakpoints";
+import { strings } from "../../assets/LocalizedStrings";
 
 const Person = styled.div({
   display: "grid",
@@ -87,7 +88,7 @@ const PersonContainer = ({
         <span>{person.name}</span>
         {mostRecentCouncilMemberRole && (
           <span className={personIsActive ? "cdp-bg-neon-green" : "cdp-bg-dark-grey"}>
-            {personIsActive ? "active" : "inactive"}
+            {personIsActive ? strings.active : strings.inactive}
           </span>
         )}
         {mostRecentCouncilMemberRole?.seat && (

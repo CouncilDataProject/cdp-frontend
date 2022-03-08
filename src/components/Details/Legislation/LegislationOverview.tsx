@@ -6,6 +6,8 @@ import Event from "../../../models/Event";
 import MatterStatus from "../../../models/MatterStatus";
 import Person from "../../../models/Person";
 
+import { useLanguageConfigContext } from "../../../app";
+
 import { DecisionResult } from "../../Shared";
 import H2 from "../../Shared/H2";
 import ProgressBar from "./ProgressBar";
@@ -74,11 +76,13 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
   sponsors,
   document,
 }: LegislationOverviewProps) => {
+  const { language } = useLanguageConfigContext();
+
   return (
     <div>
       <Title hasBorderBottom={true} className="mzp-u-title-xs">
         <span>Legislation Overview</span>
-        <em>{`Last Updated ${matterStatus.update_datetime.toLocaleDateString("en-US", {
+        <em>{`Last Updated ${matterStatus.update_datetime.toLocaleDateString(language, {
           month: "long",
           day: "numeric",
           year: "numeric",

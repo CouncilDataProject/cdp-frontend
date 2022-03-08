@@ -1,16 +1,11 @@
 import React, { FC, RefObject, useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import videojs, { VideoJsPlayer } from "video.js";
 
+import { useLanguageConfigContext } from "../../../app/LanguageConfigContext";
 import { ShareVideo } from "./ShareVideo";
-
-import { strings } from "../../../assets/LocalizedStrings";
-
-import { initVideoJsLanguages } from "./utils";
 
 import "video.js/dist/video-js.css";
 import "./vjs-theme-cdp.css";
-
-initVideoJsLanguages();
 
 enum KeyBoardKey {
   SPACE = 32,
@@ -46,6 +41,8 @@ const EventVideo: FC<EventVideoProps> = ({
   componentRef,
   initialSeconds,
 }: EventVideoProps) => {
+  const { language } = useLanguageConfigContext();
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoJsPlayerRef = useRef<VideoJsPlayer>();
 
@@ -96,7 +93,7 @@ const EventVideo: FC<EventVideoProps> = ({
           preload: initialSeconds ? "auto" : "metadata",
           aspectRatio: "16:9",
           fluid: true,
-          language: strings.getLanguage(),
+          language: language,
           playbackRates: [2, 1.5, 1, 0.75, 0.5],
           responsive: true,
           sources: [{ src: uri }],
@@ -141,7 +138,7 @@ const EventVideo: FC<EventVideoProps> = ({
         player.dispose();
       }
     };
-  }, [uri, initialSeconds]);
+  }, [uri, initialSeconds, language]);
 
   return <VideoHtml />;
 };

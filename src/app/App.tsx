@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Global, css } from "@emotion/react";
 
 import { useAppConfigContext } from "./AppConfigContext";
+import { LanguageConfigProvider } from "./LanguageConfigContext";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 
 import { Header } from "../components/Layout/Header";
@@ -19,6 +20,7 @@ import { PeoplePage } from "../pages/PeoplePage";
 import { SEARCH_TYPE } from "../pages/SearchPage/types";
 
 import { strings } from "../assets/LocalizedStrings";
+import { SUPPORTED_LANGUAGES } from "../constants/ProjectConstants";
 import { screenWidths } from "../styles/mediaBreakpoints";
 
 import "@councildataproject/cdp-design/dist/images.css";
@@ -54,51 +56,56 @@ function App() {
   useDocumentTitle(strings.council_data_project);
 
   const { municipality } = useAppConfigContext();
+
+  const [language, setLanguage] = useState(SUPPORTED_LANGUAGES[0]);
+
   return (
     <>
-      <Router basename="/">
-        <Global
-          styles={css`
-            html,
-            body {
-              font-size: 100%;
-            }
+      <LanguageConfigProvider languageConfig={{ language, setLanguage }}>
+        <Router basename="/">
+          <Global
+            styles={css`
+              html,
+              body {
+                font-size: 100%;
+              }
 
-            body {
-              font-family: Inter, X-LocaleSpecific, sans-serif;
-            }
-          `}
-        />
-        <FlexContainer>
-          <Header municipalityName={municipality.name} />
-          <Main>
-            <Switch>
-              <Route exact path="/">
-                <HomePage />
-              </Route>
-              {/* <Route exact path="/search">
+              body {
+                font-family: Inter, X-LocaleSpecific, sans-serif;
+              }
+            `}
+          />
+          <FlexContainer>
+            <Header municipalityName={municipality.name} />
+            <Main>
+              <Switch>
+                <Route exact path="/">
+                  <HomePage />
+                </Route>
+                {/* <Route exact path="/search">
                 <SearchPage />
               </Route> */}
-              <Route exact path={`/${SEARCH_TYPE.EVENT}`}>
-                <EventsPage />
-              </Route>
-              <Route exact path={`/${SEARCH_TYPE.EVENT}/search`}>
-                <SearchEventsPage />
-              </Route>
-              <Route exact path={`/${SEARCH_TYPE.EVENT}/:id`}>
-                <EventPage />
-              </Route>
-              <Route exact path="/people">
-                <PeoplePage />
-              </Route>
-              <Route exact path="/people/:id">
-                <PersonPage />
-              </Route>
-            </Switch>
-          </Main>
-          <Footer footerLinksSections={municipality.footerLinksSections} />
-        </FlexContainer>
-      </Router>
+                <Route exact path={`/${SEARCH_TYPE.EVENT}`}>
+                  <EventsPage />
+                </Route>
+                <Route exact path={`/${SEARCH_TYPE.EVENT}/search`}>
+                  <SearchEventsPage />
+                </Route>
+                <Route exact path={`/${SEARCH_TYPE.EVENT}/:id`}>
+                  <EventPage />
+                </Route>
+                <Route exact path="/people">
+                  <PeoplePage />
+                </Route>
+                <Route exact path="/people/:id">
+                  <PersonPage />
+                </Route>
+              </Switch>
+            </Main>
+            <Footer footerLinksSections={municipality.footerLinksSections} />
+          </FlexContainer>
+        </Router>
+      </LanguageConfigProvider>
     </>
   );
 }

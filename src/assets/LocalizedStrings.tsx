@@ -100,6 +100,7 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   latest_vote: string;
 }
 
+// Note: Add languages to video.js in /src/pages/EventPage/utils when adding new languages
 export const strings: MasterStringsList = new LocalizedStrings({
   en: Languages.en,
   de: Languages.de,

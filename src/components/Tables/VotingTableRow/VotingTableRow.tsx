@@ -6,6 +6,7 @@ import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { ReactiveTableRow } from "../ReactiveTableRow";
 import { Link } from "react-router-dom";
+import { useLanguageConfigContext } from "../../../app";
 
 export type VotingTableRowProps = {
   /** the name of the matter that was voted on */
@@ -45,9 +46,15 @@ const VotingTableRow = ({
   columnNames,
   columnDistribution,
 }: VotingTableRowProps) => {
+  const { language } = useLanguageConfigContext();
+
   const legislationTagsString =
     legislationTags && legislationTags.length > 0 ? legislationTags.join(TAG_CONNECTOR) : "";
-  const dateText = meetingDate?.toDateString();
+  const dateText = meetingDate?.toLocaleDateString(language, {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
   const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   return (

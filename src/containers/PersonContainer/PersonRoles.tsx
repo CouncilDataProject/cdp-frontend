@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Role from "../../models/Role";
 import { getUniqueTermRoles, partitionNonTermRoles } from "../../models/util/RoleUtilities";
 
+import { useLanguageConfigContext } from "../../app";
+
 import Details from "../../components/Shared/Details";
 import H2 from "../../components/Shared/H2";
 import Ul from "../../components/Shared/Ul";
@@ -60,6 +62,8 @@ interface PersonRolesProps {
 }
 
 const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: PersonRolesProps) => {
+  const { language } = useLanguageConfigContext();
+
   const [termRoles, partitionedNonTermRoles, nonTermRoles] = useMemo(() => {
     const termRoles = getUniqueTermRoles(councilMemberRoles);
     const [partition, nonTermRoles] = partitionNonTermRoles(allRoles, termRoles);
@@ -102,8 +106,8 @@ const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: Per
                     <strong>{`${strings[role.title.toLowerCase().replace(" ", "_")]}: `}</strong>{" "}
                     {`${role.seat?.name} // ${
                       role.seat?.electoral_area
-                    } (${role.start_datetime.toLocaleDateString()} - ${
-                      role.end_datetime ? role.end_datetime.toLocaleDateString() : ""
+                    } (${role.start_datetime.toLocaleDateString(language)} - ${
+                      role.end_datetime ? role.end_datetime.toLocaleDateString(language) : ""
                     })`}
                   </span>
                 }

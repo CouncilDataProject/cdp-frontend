@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
-import { useAppConfigContext } from "../../app";
+import { useAppConfigContext, useLanguageConfigContext } from "../../app";
 import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
 import EventService from "../../networking/EventService";
 
@@ -40,6 +40,7 @@ const EventsContainer: FC<EventsContainerProps> = ({
   initialSelectedBodies,
 }: EventsContainerProps) => {
   const { firebaseConfig } = useAppConfigContext();
+  const { language } = useLanguageConfigContext();
 
   const dateRangeFilter = useFilter<string>({
     name: strings.date,
@@ -141,7 +142,7 @@ const EventsContainer: FC<EventsContainerProps> = ({
       return <FetchCardsStatus>{strings.no_results_found}</FetchCardsStatus>;
     } else {
       const cards = state.events.map((event) => {
-        const eventDateTimeStr = event.event_datetime?.toLocaleDateString("en-US", {
+        const eventDateTimeStr = event.event_datetime?.toLocaleDateString(language, {
           month: "long",
           day: "numeric",
           year: "numeric",
@@ -162,7 +163,7 @@ const EventsContainer: FC<EventsContainerProps> = ({
       });
       return <CardsContainer cards={cards} />;
     }
-  }, [state.fetchEvents, state.error, state.events]);
+  }, [state.fetchEvents, state.error, state.events, language]);
 
   return (
     <PageContainer>

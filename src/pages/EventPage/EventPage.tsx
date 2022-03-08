@@ -22,6 +22,9 @@ import useFetchData, {
   initialFetchDataState,
   FetchDataActionType,
 } from "../../containers/FetchDataContainer/useFetchData";
+import { initVideoJsLanguages } from "./utils";
+
+initVideoJsLanguages();
 
 const EventPage: FC = () => {
   // Get the id the the event, provided the route is `events/:id`
