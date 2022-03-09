@@ -10,7 +10,6 @@ import {
   populatedMatterMatterSponsor,
 } from "../../stories/model-mocks/matterSponsor";
 import { basicPerson } from "../../stories/model-mocks/person";
-import { vote } from "../../stories/model-mocks/vote";
 import { mockImageUrl } from "../../stories/model-mocks/imageUrl";
 import PersonContainer, { PersonContainerProps } from "./PersonContainer";
 
@@ -26,7 +25,6 @@ const Template: Story<PersonContainerProps> = (args) => <PersonContainer {...arg
 export const personWithoutVotes = Template.bind({});
 personWithoutVotes.args = {
   person: basicPerson,
-  votes: { ...initialFetchDataState, data: [] },
   councilMemberRoles: [ten_years_councilmember],
   roles: [expired_chair, recent_chair],
   mattersSponsored: {
@@ -43,7 +41,6 @@ standardLayout.args = {
   councilMemberRoles: [ten_years_councilmember],
   roles: [expired_chair, recent_chair],
   mattersSponsored: { ...initialFetchDataState, data: [populatedMatterMatterSponsor] },
-  votes: { ...initialFetchDataState, data: [vote] },
   personPictureSrc: { ...initialFetchDataState, data: mockImageUrl(400, 400, "Avatar Face") },
   seatPictureSrc: { ...initialFetchDataState, data: mockImageUrl(1400, 800, "Electoral Seat") },
 };

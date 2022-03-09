@@ -1,15 +1,12 @@
 import MatterSponsor from "../../models/MatterSponsor";
 import Person from "../../models/Person";
 import Role from "../../models/Role";
-import Vote from "../../models/Vote";
 
 import { FetchDataState } from "../FetchDataContainer/useFetchData";
 
 export interface PersonPageData {
   /** The person */
   person: Person;
-  /** Votes */
-  votes: FetchDataState<Vote[]>;
   /** matters sponsored by the person */
   mattersSponsored: FetchDataState<MatterSponsor[]>;
   /** roles held by the person with only body populated */

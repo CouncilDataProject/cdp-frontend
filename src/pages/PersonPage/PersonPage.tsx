@@ -6,13 +6,11 @@ import { useAppConfigContext } from "../../app";
 import MatterSponsor from "../../models/MatterSponsor";
 import Person from "../../models/Person";
 import Role from "../../models/Role";
-import Vote from "../../models/Vote";
 
 import FileService from "../../networking/FileService";
 import MatterSponsorService from "../../networking/MatterSponsorService";
 import PersonService from "../../networking/PersonService";
 import RoleService from "../../networking/RoleService";
-import VoteService from "../../networking/VoteService";
 
 import FetchDataContainer from "../../containers/FetchDataContainer/FetchDataContainer";
 import useFetchData, {
@@ -113,13 +111,6 @@ const PersonPage: FC = () => {
     fetchMatterSponsored
   );
 
-  const fetchVotes = useCallback(async () => {
-    const voteService = new VoteService(firebaseConfig);
-    const votes = await voteService.getFullyPopulatedVotesByPersonId(id);
-    return Promise.resolve(votes);
-  }, [id, firebaseConfig]);
-  const { state: votesDataState } = useFetchData<Vote[]>({ ...initialFetchDataState }, fetchVotes);
-
   const isFetchingPersonData = useMemo(() => {
     return (
       personDataState.isLoading || councilmemberRolesDataState.isLoading || rolesDataState.isLoading
@@ -161,7 +152,6 @@ const PersonPage: FC = () => {
           personPictureSrc={personPictureDataState}
           seatPictureSrc={seatPictureDataState}
           mattersSponsored={mattersSponsoredDataState}
-          votes={votesDataState}
         />
       )}
     </FetchDataContainer>
