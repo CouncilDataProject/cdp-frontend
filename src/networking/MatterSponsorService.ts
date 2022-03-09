@@ -1,4 +1,6 @@
-import { where, doc } from "@firebase/firestore";
+import { where, doc, QueryConstraint, orderBy, getDoc, startAfter } from "@firebase/firestore";
+
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 import { NetworkService } from "./NetworkService";
 import ModelService from "./ModelService";
@@ -8,8 +10,8 @@ import {
   Populate,
   PopulationOptions,
 } from "./PopulationOptions";
-import { WHERE_OPERATOR } from "./constants";
-import { FirebaseConfig } from "../app/AppConfigContext";
+import { ORDER_DIRECTION, WHERE_OPERATOR } from "./constants";
+
 import MatterSponsor from "../models/MatterSponsor";
 
 export default class MatterSponsorService extends ModelService {
@@ -21,21 +23,38 @@ export default class MatterSponsorService extends ModelService {
   @param the id of the person
   @return all MatterSponsors where the sponsor is personId's person
   */
-  async getMattersSponsoredByPersonId(personId: string): Promise<MatterSponsor[]> {
+  async getMattersSponsoredByPersonId(
+    personId: string,
+    batchSize: number,
+    lastVisibleMatterSponsorId?: string
+  ): Promise<MatterSponsor[]> {
     const populateMatter = new Populate(
       COLLECTION_NAME.Matter,
       REF_PROPERTY_NAME.MatterSponsorMatterRef
     );
 
+    const queryConstraints: QueryConstraint[] = [];
+    queryConstraints.push(
+      where(
+        REF_PROPERTY_NAME.MatterSponsorPersonRef,
+        WHERE_OPERATOR.eq,
+        doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
+      )
+    );
+    queryConstraints.push(orderBy(REF_PROPERTY_NAME.MatterSponsorMatterRef, ORDER_DIRECTION.asc));
+    if (lastVisibleMatterSponsorId) {
+      const docRef = doc(
+        NetworkService.getDb(),
+        COLLECTION_NAME.MatterSponsor,
+        lastVisibleMatterSponsorId
+      );
+      const docSnap = await getDoc(docRef);
+      queryConstraints.push(startAfter(docSnap));
+    }
+
     const networkQueryResponse = this.networkService.getDocuments(
       COLLECTION_NAME.MatterSponsor,
-      [
-        where(
-          REF_PROPERTY_NAME.MatterSponsorPersonRef,
-          WHERE_OPERATOR.eq,
-          doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
-        ),
-      ],
+      queryConstraints,
       new PopulationOptions([populateMatter])
     );
     return this.createModels(

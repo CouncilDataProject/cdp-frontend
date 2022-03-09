@@ -1,1 +1,3 @@
 export const FETCH_VOTES_BATCH_SIZE = 25;
+
+export const FETCH_MATTERS_SPONSORED_BATCH_SIZE = 25;

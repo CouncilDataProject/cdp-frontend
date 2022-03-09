@@ -1,4 +1,3 @@
-import MatterSponsor from "../../models/MatterSponsor";
 import Person from "../../models/Person";
 import Role from "../../models/Role";
 
@@ -7,8 +6,6 @@ import { FetchDataState } from "../FetchDataContainer/useFetchData";
 export interface PersonPageData {
   /** The person */
   person: Person;
-  /** matters sponsored by the person */
-  mattersSponsored: FetchDataState<MatterSponsor[]>;
   /** roles held by the person with only body populated */
   roles: Role[];
   /** Councilmember roles with only seat populated */
