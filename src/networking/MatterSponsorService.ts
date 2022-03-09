@@ -1,4 +1,12 @@
-import { where, doc, QueryConstraint, orderBy, getDoc, startAfter } from "@firebase/firestore";
+import {
+  where,
+  doc,
+  QueryConstraint,
+  orderBy,
+  getDoc,
+  startAfter,
+  limit,
+} from "@firebase/firestore";
 
 import { FirebaseConfig } from "../app/AppConfigContext";
 
@@ -19,10 +27,13 @@ export default class MatterSponsorService extends ModelService {
     super(COLLECTION_NAME.MatterSponsor, firebaseConfig);
   }
 
-  /*
-  @param the id of the person
-  @return all MatterSponsors where the sponsor is personId's person
-  */
+  /**
+   *
+   * @param personId The person's id
+   * @param batchSize The max of number of matter sponsors
+   * @param lastVisibleMatterSponsorId The id of the last visible matter sponsor
+   * @returns Matter sponsor of size `batchSize` by the person after the `lastVisibleMatterSponsorId`
+   */
   async getMattersSponsoredByPersonId(
     personId: string,
     batchSize: number,
@@ -51,6 +62,7 @@ export default class MatterSponsorService extends ModelService {
       const docSnap = await getDoc(docRef);
       queryConstraints.push(startAfter(docSnap));
     }
+    queryConstraints.push(limit(batchSize));
 
     const networkQueryResponse = this.networkService.getDocuments(
       COLLECTION_NAME.MatterSponsor,
