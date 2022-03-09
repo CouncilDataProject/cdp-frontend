@@ -59,15 +59,9 @@ export const createFetchModelsReducer =
     }
   };
 
-export default function useFetchModels<StartAfterType, Model>(
+export default function useFetchModels<Model>(
   initialState: FetchModelsState<Model>,
-  getStartAfterValueFunctionCreator: (
-    state: FetchModelsState<Model>
-  ) => () => StartAfterType | undefined,
-  fetchModelsFunctionCreator: (
-    batchSize: number,
-    startAfterValue?: StartAfterType
-  ) => () => Promise<Model[]>
+  fetchModelsFunctionCreator: (state: FetchModelsState<Model>) => () => Promise<Model[]>
 ): { state: FetchModelsState<Model>; dispatch: Dispatch<FetchModelsAction<Model>> } {
   const [state, dispatch] = useReducer(createFetchModelsReducer<Model>(), initialState);
 
@@ -76,9 +70,7 @@ export default function useFetchModels<StartAfterType, Model>(
 
     const fetchModels = async () => {
       try {
-        const startAfterValue = getStartAfterValueFunctionCreator(state)();
-        const fetch = fetchModelsFunctionCreator(state.batchSize, startAfterValue);
-        const models = await fetch();
+        const models = await fetchModelsFunctionCreator(state)();
         if (!didCancel) {
           dispatch({ type: FetchModelsActionType.SUCCESS, payload: models });
         }
@@ -103,7 +95,6 @@ export default function useFetchModels<StartAfterType, Model>(
     state.models,
     state.fetchModels,
     state.showMoreModels,
-    getStartAfterValueFunctionCreator,
     fetchModelsFunctionCreator,
     dispatch,
   ]);

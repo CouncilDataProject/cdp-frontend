@@ -72,20 +72,15 @@ const EventsContainer: FC<EventsContainerProps> = ({
     textRepFunction: getSortingText,
   });
 
-  const getStartAfterDateFunctionCreator = useCallback(
-    (state: FetchModelsState<RenderableEvent>) => () => {
-      return !state.fetchModels && state.models.length > 0
-        ? state.models[state.models.length - 1].event_datetime
-        : undefined;
-    },
-    []
-  );
-
   const fetchEventsFunctionCreator = useCallback(
-    (batchSize: number, startAfterValue?: Date) => async () => {
+    (state: FetchModelsState<RenderableEvent>) => async () => {
+      const lastVisibleEventDate =
+        !state.fetchModels && state.models.length > 0
+          ? state.models[state.models.length - 1].event_datetime
+          : undefined;
       const eventService = new EventService(firebaseConfig);
       const events = await eventService.getEvents(
-        batchSize,
+        state.batchSize,
         getSelectedOptions(committeeFilter.state),
         {
           start: dateRangeFilter.state.start ? new Date(dateRangeFilter.state.start) : undefined,
@@ -95,7 +90,7 @@ const EventsContainer: FC<EventsContainerProps> = ({
           by: sortFilter.state.by,
           order: sortFilter.state.order as ORDER_DIRECTION,
         },
-        startAfterValue
+        lastVisibleEventDate
       );
       const renderableEvents = await Promise.all(
         events.map((event) => {
@@ -117,7 +112,6 @@ const EventsContainer: FC<EventsContainerProps> = ({
       hasMoreModels: false,
       error: null,
     },
-    getStartAfterDateFunctionCreator,
     fetchEventsFunctionCreator
   );
 

@@ -59,7 +59,6 @@ export interface PersonContainerProps extends PersonPageData {
 
 const PersonContainer = ({
   person,
-  votes,
   roles,
   councilMemberRoles,
   mattersSponsored,
@@ -101,7 +100,7 @@ const PersonContainer = ({
       </ContactAndRoles>
       <MattersSponsored mattersSponsored={mattersSponsored} />
       <div>
-        <PersonVotes personName={person.name} votes={votes} />
+        <PersonVotes personId={person.id} personName={person.name} />
       </div>
     </Person>
   );
