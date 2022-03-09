@@ -4,8 +4,12 @@ import { useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
 import { useAppConfigContext, useLanguageConfigContext } from "../../app";
+import useFetchModels, {
+  FetchModelsActionType,
+  FetchModelsState,
+} from "../../hooks/useFetchModels";
 import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
-import EventService from "../../networking/EventService";
+import EventService, { RenderableEvent } from "../../networking/EventService";
 
 import { MeetingCard } from "../../components/Cards/MeetingCard";
 import useFilter from "../../components/Filters/useFilter";
@@ -22,7 +26,6 @@ import SearchBar from "../../components/Shared/SearchBar";
 import SearchPageTitle from "../../components/Shared/SearchPageTitle";
 import ShowMoreCards from "../../components/Shared/ShowMoreCards";
 import { CardsContainer } from "../CardsContainer";
-import useFetchEvents, { FetchEventsActionType } from "./useFetchEvents";
 import { EventsData } from "./types";
 import { SearchEventsState } from "../../pages/SearchEventsPage/types";
 import { SEARCH_TYPE } from "../../pages/SearchPage/types";
@@ -69,8 +72,17 @@ const EventsContainer: FC<EventsContainerProps> = ({
     textRepFunction: getSortingText,
   });
 
+  const getStartAfterDateFunctionCreator = useCallback(
+    (state: FetchModelsState<RenderableEvent>) => () => {
+      return !state.fetchModels && state.models.length > 0
+        ? state.models[state.models.length - 1].event_datetime
+        : undefined;
+    },
+    []
+  );
+
   const fetchEventsFunctionCreator = useCallback(
-    (batchSize: number, startAfterEventDate?: Date) => async () => {
+    (batchSize: number, startAfterValue?: Date) => async () => {
       const eventService = new EventService(firebaseConfig);
       const events = await eventService.getEvents(
         batchSize,
@@ -83,7 +95,7 @@ const EventsContainer: FC<EventsContainerProps> = ({
           by: sortFilter.state.by,
           order: sortFilter.state.order as ORDER_DIRECTION,
         },
-        startAfterEventDate
+        startAfterValue
       );
       const renderableEvents = await Promise.all(
         events.map((event) => {
@@ -96,15 +108,16 @@ const EventsContainer: FC<EventsContainerProps> = ({
   );
 
   const isDesktop = useMediaQuery({ query: `(min-width: ${screenWidths.desktop})` });
-  const [state, dispatch] = useFetchEvents(
+  const { state, dispatch } = useFetchModels(
     {
       batchSize: FETCH_CARDS_BATCH_SIZE - (isDesktop ? 1 : 0),
-      events: [],
-      fetchEvents: true,
-      showMoreEvents: false,
-      hasMoreEvents: false,
+      models: [],
+      fetchModels: true,
+      showMoreModels: false,
+      hasMoreModels: false,
       error: null,
     },
+    getStartAfterDateFunctionCreator,
     fetchEventsFunctionCreator
   );
 
@@ -125,23 +138,23 @@ const EventsContainer: FC<EventsContainerProps> = ({
   };
 
   const handlePopupClose = useCallback(() => {
-    dispatch({ type: FetchEventsActionType.FETCH_EVENTS, payload: true });
+    dispatch({ type: FetchModelsActionType.FETCH_MODELS, payload: true });
   }, [dispatch]);
 
   const handleShowMoreEvents = useCallback(
-    () => dispatch({ type: FetchEventsActionType.FETCH_EVENTS, payload: false }),
+    () => dispatch({ type: FetchModelsActionType.FETCH_MODELS, payload: false }),
     [dispatch]
   );
 
   const fetchEventsResult = useMemo(() => {
-    if (state.fetchEvents) {
+    if (state.fetchModels) {
       return <Loader active size="massive" />;
     } else if (state.error) {
       return <FetchCardsStatus>{state.error.toString()}</FetchCardsStatus>;
-    } else if (state.events.length === 0) {
+    } else if (state.models.length === 0) {
       return <FetchCardsStatus>{strings.no_results_found}</FetchCardsStatus>;
     } else {
-      const cards = state.events.map((event) => {
+      const cards = state.models.map((event) => {
         const eventDateTimeStr = event.event_datetime?.toLocaleDateString(language, {
           month: "long",
           day: "numeric",
@@ -163,7 +176,7 @@ const EventsContainer: FC<EventsContainerProps> = ({
       });
       return <CardsContainer cards={cards} />;
     }
-  }, [state.fetchEvents, state.error, state.events, language]);
+  }, [state.fetchModels, state.error, state.models, language]);
 
   return (
     <PageContainer>
@@ -186,10 +199,10 @@ const EventsContainer: FC<EventsContainerProps> = ({
         handlePopupClose={handlePopupClose}
       />
       {fetchEventsResult}
-      <ShowMoreCards isVisible={state.hasMoreEvents && !state.fetchEvents}>
+      <ShowMoreCards isVisible={state.hasMoreModels && !state.fetchModels}>
         <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
           <span>{strings.show_more}</span>
-          <Loader inline active={state.showMoreEvents} size="tiny" />
+          <Loader inline active={state.showMoreModels} size="tiny" />
         </button>
       </ShowMoreCards>
     </PageContainer>
