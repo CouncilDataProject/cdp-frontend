@@ -1,4 +1,14 @@
-import { where, doc, orderBy } from "@firebase/firestore";
+import {
+  QueryConstraint,
+  where,
+  doc,
+  orderBy,
+  limit,
+  startAfter,
+  getDoc,
+} from "@firebase/firestore";
+
+import { FirebaseConfig } from "../app/AppConfigContext";
 
 import { NetworkService } from "./NetworkService";
 import ModelService from "./ModelService";
@@ -8,10 +18,9 @@ import {
   PopulationOptions,
   REF_PROPERTY_NAME,
 } from "./PopulationOptions";
-import { WHERE_OPERATOR } from "./constants";
+import { ORDER_DIRECTION, WHERE_OPERATOR } from "./constants";
 
 import Vote from "../models/Vote";
-import { FirebaseConfig } from "../app/AppConfigContext";
 
 export default class VoteService extends ModelService {
   constructor(firebaseConfig: FirebaseConfig) {
@@ -38,7 +47,11 @@ export default class VoteService extends ModelService {
     ) as Promise<Vote[]>;
   }
 
-  async getFullyPopulatedVotesByPersonId(personId: string): Promise<Vote[]> {
+  async getFullyPopulatedVotesByPersonId(
+    personId: string,
+    batchSize: number,
+    lastVisibleVoteId?: string
+  ): Promise<Vote[]> {
     const populateMatter = new Populate(COLLECTION_NAME.Matter, REF_PROPERTY_NAME.VoteMatterRef);
 
     const populateEventBody = new Populate(COLLECTION_NAME.Body, REF_PROPERTY_NAME.EventBodyRef);
@@ -55,15 +68,25 @@ export default class VoteService extends ModelService {
       REF_PROPERTY_NAME.VoteEventMinutesItemRef
     );
 
+    const queryConstraints: QueryConstraint[] = [];
+    queryConstraints.push(
+      where(
+        REF_PROPERTY_NAME.VotePersonRef,
+        WHERE_OPERATOR.eq,
+        doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
+      )
+    );
+    queryConstraints.push(orderBy(REF_PROPERTY_NAME.VoteEventRef, ORDER_DIRECTION.asc));
+    if (lastVisibleVoteId) {
+      const docRef = doc(NetworkService.getDb(), COLLECTION_NAME.Vote, lastVisibleVoteId);
+      const docSnap = await getDoc(docRef);
+      queryConstraints.push(startAfter(docSnap));
+    }
+    queryConstraints.push(limit(batchSize));
+
     const networkQueryResponse = this.networkService.getDocuments(
       COLLECTION_NAME.Vote,
-      [
-        where(
-          REF_PROPERTY_NAME.VotePersonRef,
-          WHERE_OPERATOR.eq,
-          doc(NetworkService.getDb(), COLLECTION_NAME.Person, personId)
-        ),
-      ],
+      queryConstraints,
       new PopulationOptions([populateMatter, populateEvent, populateEventMinutesItem])
     );
     return this.createModels(
