@@ -4,7 +4,7 @@
     "node": "12.22.x",
     "npm": "6.x"
   },
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "Front-end tooling library for React components for CDP instance deployments.",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
