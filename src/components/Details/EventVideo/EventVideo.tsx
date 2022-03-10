@@ -1,8 +1,10 @@
 import React, { FC, RefObject, useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import videojs, { VideoJsPlayer } from "video.js";
+import "videojs-youtube/dist/Youtube.min.js";
 
 import { useLanguageConfigContext } from "../../../app/LanguageConfigContext";
 import { ShareVideo } from "./ShareVideo";
+import { getSource } from "./utils";
 
 import "video.js/dist/video-js.css";
 import "./vjs-theme-cdp.css";
@@ -96,7 +98,8 @@ const EventVideo: FC<EventVideoProps> = ({
           language: language,
           playbackRates: [2, 1.5, 1, 0.75, 0.5],
           responsive: true,
-          sources: [{ src: uri }],
+          techOrder: ["youtube", "html5"],
+          sources: [getSource(uri)],
           userActions: {
             hotkeys: (event) => {
               if (event.which === KeyBoardKey.K || event.which === KeyBoardKey.SPACE) {
