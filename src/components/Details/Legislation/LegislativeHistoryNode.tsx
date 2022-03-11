@@ -1,23 +1,20 @@
-import React, { FC, useCallback, useState, useRef, useLayoutEffect } from "react";
-import useFetchData, {
-  initialFetchDataState,
-} from "../../../containers/FetchDataContainer/useFetchData";
+import React, { FC, useCallback, useState, useRef } from "react";
 import { useAppConfigContext, useLanguageConfigContext } from "../../../app";
 
 import VoteService from "../../../networking/VoteService";
 
 import Vote from "../../../models/Vote";
 import EventMinutesItem from "../../../models/EventMinutesItem";
-
-import { FetchDataContainer } from "../../../containers/FetchDataContainer";
+import { EVENT_MINUTES_ITEM_DECISION } from "../../../models/constants";
 import { VoteDistributionGraphic } from "./VoteDistributionGraphic";
 import { Dot, DOT_SIZE } from "../../Shared/Dot";
 
+import useFetchData, {
+  initialFetchDataState,
+} from "../../../containers/FetchDataContainer/useFetchData";
+import { FetchDataContainer } from "../../../containers/FetchDataContainer";
+
 import styled from "@emotion/styled";
-
-import { EVENT_MINUTES_ITEM_DECISION } from "../../../models/constants";
-
-const MARGIN = 12;
 
 export interface LegislativeHistoryNodeProps {
   /** event in the matter's timeline */
@@ -30,16 +27,23 @@ const EVENT_MINUTES_ITEM_DECISION_COLOR = {
   [EVENT_MINUTES_ITEM_DECISION.PASSED]: "cdp-bg-acceptance-green",
   [EVENT_MINUTES_ITEM_DECISION.FAILED]: "cdp-bg-rejected-red",
 };
+const MARGIN = 12;
 
-const ConnectBar = styled.div<{ height: number; top: number; left: number }>((props) => ({
+const ReferenceFrame = styled.div({ position: "relative" });
+const ExpandingContainer = styled.div({ margin: MARGIN });
+const DateContainer = styled.div({ marginLeft: MARGIN });
+const VotingGraphicContainer = styled.div({ flex: 1, marginTop: MARGIN, marginLeft: MARGIN * 2 });
+const TitleBox = styled.div({ display: "flex", flexDirection: "row", cursor: "pointer" });
+
+const ConnectBar = styled.div({
   position: "absolute",
-  top: props.top + DOT_SIZE,
-  left: props.left + DOT_SIZE / 2,
-  height: props.height + MARGIN,
+  top: MARGIN + DOT_SIZE,
+  left: DOT_SIZE / 2 + MARGIN,
+  height: "100%",
   width: 2,
   zIndex: 0,
   backgroundColor: "grey",
-}));
+});
 
 const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
   eventMinutesItem,
@@ -48,16 +52,16 @@ const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
   const { firebaseConfig } = useAppConfigContext();
   const { language } = useLanguageConfigContext();
   const [expanded, setExpanded] = useState(false);
-  const [connectionLineValues, setConnectionLineValues] = useState({
-    top: 0,
-    left: 0,
-    height: 0,
-  });
 
   const divRef = useRef<HTMLDivElement>(null);
   const dotColor = eventMinutesItem.decision
     ? EVENT_MINUTES_ITEM_DECISION_COLOR[eventMinutesItem.decision]
     : "cdp-bg-neutral-grey";
+  const localizedDateString = eventMinutesItem.event?.event_datetime.toLocaleDateString(language, {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
   const fetchVotesForEvent = useCallback(async () => {
     if (eventMinutesItem.decision) {
@@ -67,61 +71,36 @@ const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
     } else {
       return Promise.resolve([]);
     }
-  }, [eventMinutesItem.id, firebaseConfig]);
+  }, [eventMinutesItem.id, eventMinutesItem.decision, firebaseConfig]);
 
   const { state: votesDataState } = useFetchData<Vote[]>(
     { ...initialFetchDataState },
     fetchVotesForEvent
   );
 
-  useLayoutEffect(() => {
-    if (divRef.current?.getBoundingClientRect()) {
-      setConnectionLineValues((prevValues) => {
-        return {
-          ...prevValues,
-          ["top"]: divRef.current?.getBoundingClientRect().top || 0,
-          ["height"]: divRef.current?.getBoundingClientRect().height || 0,
-          ["left"]: divRef.current?.getBoundingClientRect().left || 0,
-        };
-      });
-    }
-  }, [expanded]);
-
   return (
-    <div>
-      <div
-        ref={divRef}
-        style={{ display: "flex", flexDirection: "row", margin: 12, cursor: "pointer" }}
-        onClick={() => {
-          setExpanded(!expanded);
-        }}
-      >
-        <Dot className={dotColor} />
-        <div style={{ marginLeft: 12 }}>
-          {eventMinutesItem.event?.event_datetime.toLocaleDateString(language, {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}
-        </div>
+    <ReferenceFrame ref={divRef}>
+      <ExpandingContainer>
+        <TitleBox
+          onClick={() => {
+            setExpanded((prev) => !prev);
+          }}
+        >
+          <Dot className={dotColor} />
+          <DateContainer>{localizedDateString}</DateContainer>
+        </TitleBox>
         {expanded && (
           <FetchDataContainer isLoading={votesDataState.isLoading} error={votesDataState.error}>
             {votesDataState.data && votesDataState.data.length > 0 && (
-              <div style={{ flex: 1, marginTop: 12 }}>
+              <VotingGraphicContainer>
                 <VoteDistributionGraphic votes={votesDataState.data} />
-              </div>
+              </VotingGraphicContainer>
             )}
           </FetchDataContainer>
         )}
-      </div>
-      {!isLastIndex && (
-        <ConnectBar
-          height={connectionLineValues.height}
-          top={connectionLineValues.top}
-          left={connectionLineValues.left}
-        />
-      )}
-    </div>
+      </ExpandingContainer>
+      {!isLastIndex && <ConnectBar />}
+    </ReferenceFrame>
   );
 };
 

@@ -6,6 +6,11 @@ import Details from "../../Shared/Details";
 import { LegislativeHistoryNode } from "./LegislativeHistoryNode";
 import { strings } from "../../../assets/LocalizedStrings";
 
+import styled from "@emotion/styled";
+
+const SpacerContainer = styled.div({ marginTop: 16 });
+const ColumnMakingContainer = styled.div({ display: "flex", flexDirection: "column" });
+
 export interface LegislationHistoryProps {
   /** the timeline of a matter as represented by an ordered series of EventMinutesItem  */
   eventMinutesItems: EventMinutesItem[];
@@ -15,17 +20,17 @@ const LegislationHistory: FC<LegislationHistoryProps> = ({
   eventMinutesItems,
 }: LegislationHistoryProps) => {
   return (
-    <div style={{ marginTop: 16 }}>
+    <SpacerContainer>
       <Details
         hasBorderBottom={true}
         defaultOpen={false}
         summaryContent={
           <H2 className="mzp-u-title-xs" isInline={true}>
-            History
+            {strings.history}
           </H2>
         }
         hiddenContent={
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <ColumnMakingContainer>
             {eventMinutesItems.map((eventMinutesItem, index) => {
               if (index === eventMinutesItems.length - 1) {
                 return (
@@ -45,10 +50,10 @@ const LegislationHistory: FC<LegislationHistoryProps> = ({
                 );
               }
             })}
-          </div>
+          </ColumnMakingContainer>
         }
       />
-    </div>
+    </SpacerContainer>
   );
 };
 
