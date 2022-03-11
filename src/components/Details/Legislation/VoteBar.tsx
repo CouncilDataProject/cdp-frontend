@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import Vote from "../../../models/Vote";
-import { strings } from "../../../assets/LocalizedStrings";
+import { DecisionResult } from "../../Shared";
+
+const Spacer = styled.div({ flex: 4 });
 
 const ColorBar = styled.div<{ width: string; zIndex: number; height: number }>((props) => ({
   position: "absolute",
@@ -37,22 +39,12 @@ const VoteBar: FC<VoteBarProps> = ({
   const [expanded, setExpanded] = useState(false);
 
   const votesLinks = votes.map((vote, i) => (
-    <div key={`${i}_${vote.id}_vote`} style={{ marginTop: 4 }}>
-      <Link to={`/people/${vote.id}`} style={{ marginLeft: 12 }}>
+    <div key={`${i}_${vote.id}_vote`} style={{ marginTop: 4, display: "flex" }}>
+      <Link to={`/people/${vote.id}`} style={{ marginLeft: 12, flex: 1 }}>
         {vote.person?.name}
       </Link>
-      <b style={{ marginLeft: 8 }}>
-        {
-          strings[
-            vote.decision
-              .toLowerCase()
-              .replace(" ", "_")
-              .replace("-", "_")
-              .replace("(", "")
-              .replace(")", "")
-          ]
-        }
-      </b>
+      <DecisionResult result={vote.decision} />
+      <Spacer style={{ flex: 4 }} />
     </div>
   ));
   const compactForm = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });

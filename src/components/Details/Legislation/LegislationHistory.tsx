@@ -32,23 +32,13 @@ const LegislationHistory: FC<LegislationHistoryProps> = ({
         hiddenContent={
           <ColumnMakingContainer>
             {eventMinutesItems.map((eventMinutesItem, index) => {
-              if (index === eventMinutesItems.length - 1) {
-                return (
-                  <LegislativeHistoryNode
-                    isLastIndex={true}
-                    key={`leg_hist_node_${eventMinutesItem.id}_${index}`}
-                    eventMinutesItem={eventMinutesItem}
-                  />
-                );
-              } else {
-                return (
-                  <LegislativeHistoryNode
-                    isLastIndex={false}
-                    key={`leg_hist_node_${eventMinutesItem.id}_${index}`}
-                    eventMinutesItem={eventMinutesItem}
-                  />
-                );
-              }
+              return (
+                <LegislativeHistoryNode
+                  isLastIndex={index === eventMinutesItems.length - 1}
+                  key={`leg_hist_node_${eventMinutesItem.id}_${index}`}
+                  eventMinutesItem={eventMinutesItem}
+                />
+              );
             })}
           </ColumnMakingContainer>
         }

@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useAppConfigContext, useLanguageConfigContext } from "../../../app";
 
 import VoteService from "../../../networking/VoteService";
@@ -15,7 +16,8 @@ import useFetchData, {
 import { FetchDataContainer } from "../../../containers/FetchDataContainer";
 
 import styled from "@emotion/styled";
-
+import Details from "../../Shared/Details";
+import { strings } from "../../../assets/LocalizedStrings";
 export interface LegislativeHistoryNodeProps {
   /** event in the matter's timeline */
   eventMinutesItem: EventMinutesItem;
@@ -30,8 +32,13 @@ const EVENT_MINUTES_ITEM_DECISION_COLOR = {
 const MARGIN = 12;
 
 const ReferenceFrame = styled.div({ position: "relative" });
-const ExpandingContainer = styled.div({ margin: MARGIN });
-const DateContainer = styled.div({ marginLeft: MARGIN });
+const ExpandingContainer = styled.div({
+  margin: MARGIN,
+  display: "flex",
+  flexDirection: "row",
+  gap: 32,
+});
+const TextContainer = styled.div({ flex: 1 });
 const VotingGraphicContainer = styled.div({ flex: 1, marginTop: MARGIN, marginLeft: MARGIN * 2 });
 const TitleBox = styled.div({ display: "flex", flexDirection: "row", cursor: "pointer" });
 
@@ -79,25 +86,31 @@ const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
   );
 
   return (
-    <ReferenceFrame ref={divRef}>
+    <ReferenceFrame>
       <ExpandingContainer>
-        <TitleBox
-          onClick={() => {
-            setExpanded((prev) => !prev);
-          }}
-        >
-          <Dot className={dotColor} />
-          <DateContainer>{localizedDateString}</DateContainer>
-        </TitleBox>
-        {expanded && (
-          <FetchDataContainer isLoading={votesDataState.isLoading} error={votesDataState.error}>
-            {votesDataState.data && votesDataState.data.length > 0 && (
-              <VotingGraphicContainer>
-                <VoteDistributionGraphic votes={votesDataState.data} />
-              </VotingGraphicContainer>
-            )}
-          </FetchDataContainer>
-        )}
+        <Dot className={dotColor} />
+        <TextContainer>
+          <Link to={`/events/${eventMinutesItem.event?.id}`}>{localizedDateString}</Link>
+          {votesDataState.data && votesDataState.data.length > 0 && (
+            <Details
+              summaryContent={strings.votes}
+              hiddenContent={
+                <FetchDataContainer
+                  isLoading={votesDataState.isLoading}
+                  error={votesDataState.error}
+                >
+                  {votesDataState.data && votesDataState.data.length > 0 && (
+                    <VotingGraphicContainer>
+                      <VoteDistributionGraphic votes={votesDataState.data} />
+                    </VotingGraphicContainer>
+                  )}
+                </FetchDataContainer>
+              }
+              defaultOpen={false}
+              hasBorderBottom={false}
+            />
+          )}
+        </TextContainer>
       </ExpandingContainer>
       {!isLastIndex && <ConnectBar />}
     </ReferenceFrame>
