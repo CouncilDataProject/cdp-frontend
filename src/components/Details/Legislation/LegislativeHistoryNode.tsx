@@ -1,4 +1,5 @@
-import React, { FC, useCallback, useState, useRef } from "react";
+import React, { FC, useCallback } from "react";
+import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { useAppConfigContext, useLanguageConfigContext } from "../../../app";
 
@@ -13,11 +14,12 @@ import { Dot, DOT_SIZE } from "../../Shared/Dot";
 import useFetchData, {
   initialFetchDataState,
 } from "../../../containers/FetchDataContainer/useFetchData";
-import { FetchDataContainer } from "../../../containers/FetchDataContainer";
+import LazyFetchDataContainer from "../../../containers/FetchDataContainer/LazyFetchDataContainer";
 
 import styled from "@emotion/styled";
 import Details from "../../Shared/Details";
 import { strings } from "../../../assets/LocalizedStrings";
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 export interface LegislativeHistoryNodeProps {
   /** event in the matter's timeline */
   eventMinutesItem: EventMinutesItem;
@@ -25,42 +27,44 @@ export interface LegislativeHistoryNodeProps {
   isLastIndex: boolean;
 }
 
-const EVENT_MINUTES_ITEM_DECISION_COLOR = {
-  [EVENT_MINUTES_ITEM_DECISION.PASSED]: "cdp-bg-acceptance-green",
-  [EVENT_MINUTES_ITEM_DECISION.FAILED]: "cdp-bg-rejected-red",
-};
-const MARGIN = 12;
-
-const ReferenceFrame = styled.div({ position: "relative" });
-const ExpandingContainer = styled.div({
-  margin: MARGIN,
-  display: "flex",
-  flexDirection: "row",
-  gap: 32,
-});
-const TextContainer = styled.div({ flex: 1 });
-const VotingGraphicContainer = styled.div({ flex: 1, marginTop: MARGIN, marginLeft: MARGIN * 2 });
-const TitleBox = styled.div({ display: "flex", flexDirection: "row", cursor: "pointer" });
-
-const ConnectBar = styled.div({
-  position: "absolute",
-  top: MARGIN + DOT_SIZE,
-  left: DOT_SIZE / 2 + MARGIN,
-  height: "100%",
-  width: 2,
-  zIndex: 0,
-  backgroundColor: "grey",
-});
-
 const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
   eventMinutesItem,
   isLastIndex,
 }: LegislativeHistoryNodeProps) => {
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
+
+  const EVENT_MINUTES_ITEM_DECISION_COLOR = {
+    [EVENT_MINUTES_ITEM_DECISION.PASSED]: "cdp-bg-acceptance-green",
+    [EVENT_MINUTES_ITEM_DECISION.FAILED]: "cdp-bg-rejected-red",
+  };
+  const MARGIN = isMobile ? 4 : 12;
+
+  const ReferenceFrame = styled.div({ position: "relative" });
+  const ExpandingContainer = styled.div({
+    margin: MARGIN,
+    display: "flex",
+    flexDirection: "row",
+    gap: MARGIN * 3,
+  });
+  const TextContainer = styled.div({ flex: 1 });
+  const VotingGraphicContainer = styled.div<{ marginLeft: number }>((props) => ({
+    flex: 1,
+    marginTop: MARGIN,
+    marginLeft: props.marginLeft,
+  }));
+
+  const ConnectBar = styled.div({
+    position: "absolute",
+    top: MARGIN + DOT_SIZE,
+    left: DOT_SIZE / 2 + MARGIN,
+    height: "100%",
+    width: 2,
+    zIndex: 0,
+    backgroundColor: "grey",
+  });
+
   const { firebaseConfig } = useAppConfigContext();
   const { language } = useLanguageConfigContext();
-  const [expanded, setExpanded] = useState(false);
-
-  const divRef = useRef<HTMLDivElement>(null);
   const dotColor = eventMinutesItem.decision
     ? EVENT_MINUTES_ITEM_DECISION_COLOR[eventMinutesItem.decision]
     : "cdp-bg-neutral-grey";
@@ -95,16 +99,18 @@ const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
             <Details
               summaryContent={strings.votes}
               hiddenContent={
-                <FetchDataContainer
+                <LazyFetchDataContainer
+                  data="votesDataState"
                   isLoading={votesDataState.isLoading}
                   error={votesDataState.error}
+                  notFound={!votesDataState.data || votesDataState.data.length === 0}
                 >
                   {votesDataState.data && votesDataState.data.length > 0 && (
-                    <VotingGraphicContainer>
+                    <VotingGraphicContainer marginLeft={isMobile ? 0 : MARGIN * 2}>
                       <VoteDistributionGraphic votes={votesDataState.data} />
                     </VotingGraphicContainer>
                   )}
-                </FetchDataContainer>
+                </LazyFetchDataContainer>
               }
               defaultOpen={false}
               hasBorderBottom={false}
