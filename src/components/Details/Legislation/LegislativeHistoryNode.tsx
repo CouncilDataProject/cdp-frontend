@@ -51,10 +51,10 @@ const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
   });
   const TextContainer = styled.div({ flex: 1 });
   const SummaryInfo = styled.div({ display: "flex", flexDirection: "row" });
-  const VotingGraphicContainer = styled.div<{ marginLeft: number }>((props) => ({
+  const VotingGraphicContainer = styled.div(() => ({
     flex: 1,
     marginTop: MARGIN,
-    marginLeft: props.marginLeft,
+    marginLeft: isMobile ? 0 : MARGIN * 2,
   }));
 
   const ConnectBar = styled.div({
@@ -124,7 +124,7 @@ const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
             )}
           </SummaryInfo>
           <LazyFetchDataContainer
-            data="legislativeHistoryNodeDataState"
+            data="votes and documents associated with this event"
             isLoading={votesDataState.isLoading}
             error={votesDataState.error}
             notFound={!votesDataState.data}
@@ -133,7 +133,7 @@ const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
               <Details
                 summaryContent={strings.votes}
                 hiddenContent={
-                  <VotingGraphicContainer marginLeft={isMobile ? 0 : MARGIN * 2}>
+                  <VotingGraphicContainer>
                     <VoteDistributionGraphic votes={votesDataState.data?.votes} />
                   </VotingGraphicContainer>
                 }
