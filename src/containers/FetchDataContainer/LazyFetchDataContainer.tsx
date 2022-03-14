@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from "react";
 
 interface LazyFetchDataContainerProps {
+  /* the data prop is used to display message like Fetching <data>...No <data> found. */
   data: string;
   isLoading: boolean;
   error: Error | null;

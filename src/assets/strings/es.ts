@@ -86,6 +86,7 @@ const es = {
   active: "activo/a",
   inactive: "inactivo/a",
   latest_vote: "Último Voto",
+  history: "Historia",
 };
 
 export default es;

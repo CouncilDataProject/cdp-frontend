@@ -1,13 +1,10 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 
 import Vote from "../../../models/Vote";
-import VoteBar from "./VoteBar";
 import H2 from "../../Shared/H2";
 import Details from "../../Shared/Details";
-import { getVoteDistribution } from "../../Shared/util/voteDistribution";
 import { strings } from "../../../assets/LocalizedStrings";
-
-const VOTE_BAR_HEIGHT = 16;
+import { VoteDistributionGraphic } from "./VoteDistributionGraphic";
 export interface LegislationLatestVoteProps {
   /** votes on the matter */
   votes: Vote[];
@@ -16,44 +13,6 @@ export interface LegislationLatestVoteProps {
 const LegislationLatestVote: FC<LegislationLatestVoteProps> = ({
   votes,
 }: LegislationLatestVoteProps) => {
-  const { inFavor, against, abstained } = getVoteDistribution(votes);
-  const votesForLabel: string = strings.number_approved.replace("{number}", `${inFavor.length}`);
-  const votesAgainstLabel: string = strings.number_rejected.replace(
-    "{number}",
-    `${against.length}`
-  );
-  const votesAbstainedLabel: string = strings.number_non_voting.replace(
-    "{number}",
-    `${abstained.length}`
-  );
-
-  const voteBars: ReactNode[] = [
-    <VoteBar
-      key={"inFavorVoteBar"}
-      statusColor={"cdp-bg-acceptance-green"}
-      votes={inFavor}
-      percentage={(inFavor.length / votes.length) * 100}
-      height={VOTE_BAR_HEIGHT}
-      label={votesForLabel}
-    />,
-    <VoteBar
-      key={"againstVoteBar"}
-      statusColor={"cdp-bg-rejected-red"}
-      votes={against}
-      percentage={(against.length / votes.length) * 100}
-      height={VOTE_BAR_HEIGHT}
-      label={votesAgainstLabel}
-    />,
-    <VoteBar
-      key={"abstainedVoteBar"}
-      statusColor={"cdp-bg-light-purple"}
-      votes={abstained}
-      percentage={(abstained.length / votes.length) * 100}
-      height={VOTE_BAR_HEIGHT}
-      label={votesAbstainedLabel}
-    />,
-  ];
-
   return (
     <div style={{ marginTop: 16 }}>
       <Details
@@ -64,7 +23,7 @@ const LegislationLatestVote: FC<LegislationLatestVoteProps> = ({
             {strings.latest_vote}
           </H2>
         }
-        hiddenContent={<div style={{ display: "flex", flexDirection: "column" }}>{voteBars}</div>}
+        hiddenContent={<VoteDistributionGraphic votes={votes} />}
       />
     </div>
   );

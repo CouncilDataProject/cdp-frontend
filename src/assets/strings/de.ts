@@ -87,6 +87,7 @@ const de = {
   active: "aktiv",
   inactive: "inaktiv",
   latest_vote: "Letzte Abstimmung",
+  history: "Geschichte",
 };
 
 export default de;

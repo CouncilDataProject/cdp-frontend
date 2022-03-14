@@ -47,6 +47,25 @@ export default class VoteService extends ModelService {
     ) as Promise<Vote[]>;
   }
 
+  async getVotesByEventMinutesItemId(eventMinutesItemId: string): Promise<Vote[]> {
+    const networkQueryResponse = this.networkService.getDocuments(
+      COLLECTION_NAME.Vote,
+      [
+        where(
+          REF_PROPERTY_NAME.VoteEventMinutesItemRef,
+          WHERE_OPERATOR.eq,
+          doc(NetworkService.getDb(), COLLECTION_NAME.EventMinutesItem, eventMinutesItemId)
+        ),
+      ],
+      new PopulationOptions([new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.VotePersonRef)])
+    );
+    return this.createModels(
+      networkQueryResponse,
+      Vote,
+      `getVotesByEventMinutesItemId(${eventMinutesItemId})`
+    ) as Promise<Vote[]>;
+  }
+
   async getFullyPopulatedVotesByPersonId(
     personId: string,
     batchSize: number,

@@ -2,10 +2,9 @@ import React, { FC } from "react";
 import styled from "@emotion/styled";
 
 import { MATTER_STATUS_DECISION } from "../../../models/constants";
+import { Dot, DOT_SIZE, DOT_MARGIN } from "../../Shared/Dot";
 
 const PROGRESS_BAR_HEIGHT = 29;
-const DOT_SIZE = 20;
-const DOT_MARGIN = 6;
 const MID_POINT = `calc(50% + ${DOT_SIZE / 2}px + ${DOT_MARGIN + 2}px)`;
 
 const Progress = styled.div({
@@ -34,12 +33,6 @@ const Steps = styled.div<{ width: string; zIndex: number }>((props) => ({
     marginRight: DOT_MARGIN,
   },
 }));
-
-const Dot = styled.div({
-  width: DOT_SIZE,
-  height: DOT_SIZE,
-  borderRadius: "50%",
-});
 
 const Checkpoints = styled.div({
   display: "flex",
