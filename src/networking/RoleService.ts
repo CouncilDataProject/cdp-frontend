@@ -1,4 +1,4 @@
-import { where, orderBy, doc } from "@firebase/firestore";
+import { where, orderBy, doc, limit } from "@firebase/firestore";
 
 import { NetworkService } from "./NetworkService";
 import ModelService from "./ModelService";
@@ -65,14 +65,27 @@ export default class RoleService extends ModelService {
     ) as Promise<Role[]>;
   }
 
-  async getCurrentRoles(): Promise<Role[]> {
+  async getMostRecentCouncilMemberRoleBySeat(seatId: string): Promise<Role> {
     const populatePersonRef = new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.RolePersonRef);
 
     const networkQueryResponse = this.networkService.getDocuments(
       COLLECTION_NAME.Role,
-      [where("end_datetime", WHERE_OPERATOR.eq, null)],
+      [
+        where(
+          REF_PROPERTY_NAME.RoleSeatRef,
+          WHERE_OPERATOR.eq,
+          doc(NetworkService.getDb(), COLLECTION_NAME.Seat, seatId)
+        ),
+        limit(1),
+        orderBy("end_datetime", ORDER_DIRECTION.desc),
+      ],
       new PopulationOptions([populatePersonRef])
     );
-    return this.createModels(networkQueryResponse, Role, `getCurrentRoles`) as Promise<Role[]>;
+    const roles = await this.createModels(
+      networkQueryResponse,
+      Role,
+      `getMostRecentCouncilMemberRoleBySeat`
+    );
+    return Promise.resolve(roles[0] as Role);
   }
 }

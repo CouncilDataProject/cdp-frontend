@@ -3,44 +3,47 @@ import { useAppConfigContext } from "../../app";
 import useFetchData from "../../containers/FetchDataContainer/useFetchData";
 import FetchDataContainer from "../../containers/FetchDataContainer/FetchDataContainer";
 import { PeopleContainer } from "../../containers/PeopleContainer";
-import { PeoplePageData } from "../../containers/PeopleContainer/types";
+
+import SeatService from "../../networking/SeatService";
 import RoleService from "../../networking/RoleService";
-import PersonService from "../../networking/PersonService";
+import Role from "../../models/Role";
+import Seat from "../../models/Seat";
+interface PeopleContainerData {
+  roles: Role[];
+  seats: Seat[];
+}
 
 const PeoplePage: FC = () => {
   // Get the app config context
   const { firebaseConfig } = useAppConfigContext();
 
-  const fetchPeopleData = useCallback(async () => {
-    const personService = new PersonService(firebaseConfig);
+  const fetchAllCouncilors = useCallback(async () => {
+    const seatService = new SeatService(firebaseConfig);
     const roleService = new RoleService(firebaseConfig);
 
-    const [currentPeople, allPeople] = await Promise.all([
-      roleService.getCurrentRoles(),
-      personService.getAllPeople(),
-    ]);
-
-    const payload: PeoplePageData = {
-      currentPeople,
-      allPeople,
-    };
-
-    return payload;
+    const seats = await seatService.getAllSeats();
+    const rolePromises = seats.map((seat) => {
+      return roleService.getMostRecentCouncilMemberRoleBySeat(seat.id);
+    });
+    const roles = await Promise.all(rolePromises);
+    return { seats, roles };
   }, [firebaseConfig]);
 
   // Initialize the state of fetching the person's data
-  const { state: peopleDataState } = useFetchData<PeoplePageData>(
+  const { state: peopleDataState } = useFetchData<PeopleContainerData>(
     {
       isLoading: false,
       error: null,
       hasFetchRequest: true,
     },
-    fetchPeopleData
+    fetchAllCouncilors
   );
 
   return (
     <FetchDataContainer isLoading={peopleDataState.isLoading} error={peopleDataState.error}>
-      {peopleDataState.data && <PeopleContainer {...peopleDataState.data} />}
+      {peopleDataState.data && (
+        <PeopleContainer roles={peopleDataState.data.roles} seats={peopleDataState.data.seats} />
+      )}
     </FetchDataContainer>
   );
 };

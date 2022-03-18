@@ -29,10 +29,4 @@ export default class PersonService extends ModelService {
       `getPersonById(${personId})`
     ) as Promise<Person>;
   }
-
-  async getAllPeople(): Promise<Person[]> {
-    const networkResponse = this.networkService.getDocuments(COLLECTION_NAME.Person, []);
-
-    return this.createModels(networkResponse, Person, `getAllPeople`) as Promise<Person[]>;
-  }
 }
