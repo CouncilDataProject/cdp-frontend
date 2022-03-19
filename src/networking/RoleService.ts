@@ -65,7 +65,7 @@ export default class RoleService extends ModelService {
     ) as Promise<Role[]>;
   }
 
-  async getMostRecentCouncilMemberRoleBySeat(seatId: string): Promise<Role> {
+  async getMostRecentCouncilMemberRoleBySeat(seatId: string): Promise<Role | null> {
     const populatePersonRef = new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.RolePersonRef);
 
     const networkQueryResponse = this.networkService.getDocuments(
@@ -86,6 +86,10 @@ export default class RoleService extends ModelService {
       Role,
       `getMostRecentCouncilMemberRoleBySeat`
     );
-    return Promise.resolve(roles[0] as Role);
+    if (roles[0]) {
+      return Promise.resolve(roles[0] as Role);
+    } else {
+      return Promise.resolve(null);
+    }
   }
 }

@@ -50,20 +50,28 @@ const PersonCard: FC<PersonCardProps> = ({ person, seat }: PersonCardProps) => {
   const fetchPictures = useCallback(async () => {
     const fileService = new FileService(firebaseConfig);
     const { networkService } = fileService;
-    const pictures: PictureDataState = {
-      seatPictureSrc: undefined,
-      personPictureSrc: undefined,
-    };
+
+    const srcPromises: Promise<string | undefined>[] = [
+      Promise.resolve(undefined),
+      Promise.resolve(undefined),
+    ];
     if (seat.image_ref) {
-      const seatPicture = await fileService.getFileById(seat.image_ref);
-      pictures.seatPictureSrc = await networkService.getDownloadUrl(seatPicture.uri);
+      srcPromises[0] = fileService
+        .getFileById(seat.image_ref)
+        .then((file) => networkService.getDownloadUrl(file.uri))
+        .catch(() => Promise.resolve(undefined));
     }
     if (person.picture_ref) {
-      const personPicture = await fileService.getFileById(person.picture_ref);
-      pictures.personPictureSrc = await networkService.getDownloadUrl(personPicture.uri);
+      srcPromises[1] = fileService
+        .getFileById(person.picture_ref)
+        .then((file) => networkService.getDownloadUrl(file.uri))
+        .catch(() => Promise.resolve(undefined));
     }
-
-    return Promise.resolve(pictures);
+    const [seatPictureSrc, personPictureSrc] = await Promise.all(srcPromises);
+    return Promise.resolve({
+      seatPictureSrc,
+      personPictureSrc,
+    });
   }, [person.picture_ref, seat.image_ref, firebaseConfig]);
 
   //** initial state for fetching pictures */
@@ -86,7 +94,6 @@ const PersonCard: FC<PersonCardProps> = ({ person, seat }: PersonCardProps) => {
       >
         <FetchDataContainer isLoading={pictureDataState.isLoading} error={pictureDataState.error}>
           <div className="mzp-c-card-media-wrapper">
-            {person.name}
             {pictureDataState.data && (
               <Img
                 className="mzp-c-card-image"
