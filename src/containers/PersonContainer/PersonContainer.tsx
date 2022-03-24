@@ -61,7 +61,6 @@ const PersonContainer = ({
   person,
   roles,
   councilMemberRoles,
-  mattersSponsored,
   personPictureSrc,
   seatPictureSrc,
 }: PersonContainerProps) => {
@@ -98,7 +97,7 @@ const PersonContainer = ({
         <ContactPerson person={person} />
         <PersonRoles councilMemberRoles={councilMemberRoles} allRoles={roles} />
       </ContactAndRoles>
-      <MattersSponsored mattersSponsored={mattersSponsored} />
+      <MattersSponsored personId={person.id} />
       <div>
         <PersonVotes personId={person.id} personName={person.name} />
       </div>

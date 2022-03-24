@@ -5,10 +5,6 @@ import {
   expired_chair,
   recent_chair,
 } from "../../stories/model-mocks/role";
-import {
-  basicMatterSponsor,
-  populatedMatterMatterSponsor,
-} from "../../stories/model-mocks/matterSponsor";
 import { basicPerson } from "../../stories/model-mocks/person";
 import { mockImageUrl } from "../../stories/model-mocks/imageUrl";
 import PersonContainer, { PersonContainerProps } from "./PersonContainer";
@@ -27,10 +23,6 @@ personWithoutVotes.args = {
   person: basicPerson,
   councilMemberRoles: [ten_years_councilmember],
   roles: [expired_chair, recent_chair],
-  mattersSponsored: {
-    ...initialFetchDataState,
-    data: [basicMatterSponsor, populatedMatterMatterSponsor],
-  },
   personPictureSrc: { ...initialFetchDataState, data: mockImageUrl(400, 400, "Avatar Face") },
   seatPictureSrc: { ...initialFetchDataState, data: mockImageUrl(1400, 800, "Electoral Seat") },
 };
@@ -40,7 +32,6 @@ standardLayout.args = {
   person: basicPerson,
   councilMemberRoles: [ten_years_councilmember],
   roles: [expired_chair, recent_chair],
-  mattersSponsored: { ...initialFetchDataState, data: [populatedMatterMatterSponsor] },
   personPictureSrc: { ...initialFetchDataState, data: mockImageUrl(400, 400, "Avatar Face") },
   seatPictureSrc: { ...initialFetchDataState, data: mockImageUrl(1400, 800, "Electoral Seat") },
 };

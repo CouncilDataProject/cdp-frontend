@@ -3,12 +3,10 @@ import { useParams } from "react-router-dom";
 
 import { useAppConfigContext } from "../../app";
 
-import MatterSponsor from "../../models/MatterSponsor";
 import Person from "../../models/Person";
 import Role from "../../models/Role";
 
 import FileService from "../../networking/FileService";
-import MatterSponsorService from "../../networking/MatterSponsorService";
 import PersonService from "../../networking/PersonService";
 import RoleService from "../../networking/RoleService";
 
@@ -101,16 +99,6 @@ const PersonPage: FC = () => {
   }, [id, firebaseConfig]);
   const { state: rolesDataState } = useFetchData<Role[]>({ ...initialFetchDataState }, fetchRoles);
 
-  const fetchMatterSponsored = useCallback(async () => {
-    const matterSponsorService = new MatterSponsorService(firebaseConfig);
-    const mattersSponsored = await matterSponsorService.getMattersSponsoredByPersonId(id);
-    return Promise.resolve(mattersSponsored);
-  }, [id, firebaseConfig]);
-  const { state: mattersSponsoredDataState } = useFetchData<MatterSponsor[]>(
-    { ...initialFetchDataState },
-    fetchMatterSponsored
-  );
-
   const isFetchingPersonData = useMemo(() => {
     return (
       personDataState.isLoading || councilmemberRolesDataState.isLoading || rolesDataState.isLoading
@@ -151,7 +139,6 @@ const PersonPage: FC = () => {
           {...personData}
           personPictureSrc={personPictureDataState}
           seatPictureSrc={seatPictureDataState}
-          mattersSponsored={mattersSponsoredDataState}
         />
       )}
     </FetchDataContainer>
