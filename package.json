@@ -1,8 +1,8 @@
 {
   "name": "@councildataproject/cdp-frontend",
   "engines": {
-    "node": "12.22.x",
-    "npm": "6.x"
+    "node": "16.x",
+    "npm": "8.x"
   },
   "version": "3.0.7",
   "description": "Front-end tooling library for React components for CDP instance deployments.",
