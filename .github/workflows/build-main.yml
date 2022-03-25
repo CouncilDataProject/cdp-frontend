@@ -19,7 +19,7 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
+        node-version: '16.x'
     - name: Install Dependencies
       run: |
         npm i
@@ -35,7 +35,7 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
+        node-version: '16.x'
     - name: Install Dependencies
       run: |
         npm i
@@ -56,7 +56,7 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
+        node-version: '16.x'
         registry-url: 'https://registry.npmjs.org'
     - name: Install Dependencies
       run: |
