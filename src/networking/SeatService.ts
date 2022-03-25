@@ -1,3 +1,4 @@
+import { orderBy } from "firebase/firestore";
 import ModelService from "./ModelService";
 import Seat from "../models/Seat";
 import { COLLECTION_NAME } from "./PopulationOptions";
@@ -9,7 +10,9 @@ export default class SeatService extends ModelService {
   }
 
   async getAllSeats(): Promise<Seat[]> {
-    const networkResponse = this.networkService.getDocuments(COLLECTION_NAME.Seat, []);
+    const networkResponse = this.networkService.getDocuments(COLLECTION_NAME.Seat, [
+      orderBy("name"),
+    ]);
 
     return this.createModels(networkResponse, Seat, `getAllSeats`) as Promise<Seat[]>;
   }
