@@ -67,7 +67,30 @@ export default class RoleService extends ModelService {
 
   async getMostRecentCouncilMemberRoleBySeat(seatId: string): Promise<Role | null> {
     const populatePersonRef = new Populate(COLLECTION_NAME.Person, REF_PROPERTY_NAME.RolePersonRef);
-
+    // it is possible for roles to have null end_datetime, meaning they are likely more recently-elected
+    const openRolesNetworkResponse = this.networkService.getDocuments(
+      COLLECTION_NAME.Role,
+      [
+        where(
+          REF_PROPERTY_NAME.RoleSeatRef,
+          WHERE_OPERATOR.eq,
+          doc(NetworkService.getDb(), COLLECTION_NAME.Seat, seatId)
+        ),
+        where("end_datetime", WHERE_OPERATOR.eq, null),
+        limit(1),
+        orderBy("start_datetime", ORDER_DIRECTION.desc),
+      ],
+      new PopulationOptions([populatePersonRef])
+    );
+    const openEnddateRoles = await this.createModels(
+      openRolesNetworkResponse,
+      Role,
+      `getMostRecentCouncilMemberRoleBySeatWithNullEndDates`
+    );
+    if (openEnddateRoles[0]) {
+      return Promise.resolve(openEnddateRoles[0] as Role); // early return, null end_datetimes take priority
+    }
+    // otherwise, search for the role by ordered end_datetime
     const networkQueryResponse = this.networkService.getDocuments(
       COLLECTION_NAME.Role,
       [
