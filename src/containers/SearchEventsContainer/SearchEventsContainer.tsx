@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
-import { useAppConfigContext, useLanguageConfigContext } from "../../app";
+import { useAppConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import useSearchCards, { SearchCardsActionType } from "../../hooks/useSearchCards";
 import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
@@ -37,7 +37,6 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   bodies,
 }: SearchEventsContainerData) => {
   const { firebaseConfig } = useAppConfigContext();
-  const { language } = useLanguageConfigContext();
 
   const searchQueryRef = useRef(searchEventsState.query);
   const [searchQuery, setSearchQuery] = useState(searchEventsState.query);
@@ -155,33 +154,23 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     } else if (state.cards.length === 0) {
       return <FetchCardsStatus>{strings.no_results_found}</FetchCardsStatus>;
     } else {
-      const cards = state.cards.slice(0, state.visibleCount).map((renderableEvent) => {
-        const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString(
-          language,
-          {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          }
-        ) as string;
-        return {
-          link: `/${SEARCH_TYPE.EVENT}/${renderableEvent.event.id}`,
-          jsx: (
-            <MeetingCard
-              staticImgSrc={renderableEvent.staticThumbnailURL}
-              hoverImgSrc={renderableEvent.hoverThumbnailURL}
-              imgAlt={`${renderableEvent.event.body?.name} - ${eventDateTimeStr}`}
-              meetingDate={eventDateTimeStr}
-              committee={renderableEvent.event.body?.name as string}
-              tags={renderableEvent.keyGrams}
-              excerpt={renderableEvent.selectedContextSpan}
-              gram={renderableEvent.selectedGram}
-              query={searchQueryRef.current}
-            />
-          ),
-          searchQuery: searchQueryRef.current,
-        };
-      });
+      const cards = state.cards
+        .slice(0, state.visibleCount)
+        .map(({ event, keyGrams, selectedContextSpan, selectedGram }) => {
+          return {
+            link: `/${SEARCH_TYPE.EVENT}/${event.id}`,
+            jsx: (
+              <MeetingCard
+                event={event}
+                tags={keyGrams}
+                excerpt={selectedContextSpan}
+                gram={selectedGram}
+                query={searchQueryRef.current}
+              />
+            ),
+            searchQuery: searchQueryRef.current,
+          };
+        });
       return (
         <>
           <FetchCardsStatus>{`${state.cards.length} ${SEARCH_TYPE.EVENT}`}</FetchCardsStatus>
@@ -189,7 +178,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         </>
       );
     }
-  }, [state.fetchCards, state.error, state.cards, state.visibleCount, language]);
+  }, [state.fetchCards, state.error, state.cards, state.visibleCount]);
 
   const showMoreEvents = useMemo(() => {
     return state.visibleCount < state.cards.length && !state.fetchCards;

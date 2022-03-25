@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
-import { useAppConfigContext, useLanguageConfigContext } from "../../app";
+import { useAppConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import EventSearchService from "../../networking/EventSearchService";
 
@@ -28,7 +28,6 @@ import { screenWidths } from "../../styles/mediaBreakpoints";
 
 const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContainerData) => {
   const { firebaseConfig } = useAppConfigContext();
-  const { language } = useLanguageConfigContext();
 
   const queryRef = useRef(searchState.query);
   const [query, setQuery] = useState(searchState.query);
@@ -100,20 +99,11 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
       return [];
     }
     return state.data.event.events.map((renderableEvent) => {
-      const eventDateTimeStr = renderableEvent.event.event_datetime?.toLocaleDateString(language, {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      }) as string;
       return {
         link: `/${SEARCH_TYPE.EVENT}/${renderableEvent.event.id}`,
         jsx: (
           <MeetingCard
-            staticImgSrc={renderableEvent.staticThumbnailURL}
-            hoverImgSrc={renderableEvent.hoverThumbnailURL}
-            imgAlt={`${renderableEvent.event.body?.name} - ${eventDateTimeStr}`}
-            meetingDate={eventDateTimeStr}
-            committee={renderableEvent.event.body?.name as string}
+            event={renderableEvent.event}
             tags={renderableEvent.keyGrams}
             excerpt={renderableEvent.selectedContextSpan}
             //TODO: add the gram and queryRef.current
@@ -121,7 +111,7 @@ const SearchContainer: FC<SearchContainerData> = ({ searchState }: SearchContain
         ),
       };
     });
-  }, [state.data?.event, language]);
+  }, [state.data?.event]);
 
   //TODO: add the legislation cards
 

@@ -48,38 +48,9 @@ class MatchingEvent {
  * Contains all information needed to created paginated requests for full event
  * information, along with minimal information used for display.
  */
-export class RenderableEvent {
+export interface RenderableEvent extends MatchingEvent {
   event: Event;
-  pureRelevance: number;
-  datetimeWeightedRelevance: number;
-  containedGrams: string[];
-  selectedGram: string;
-  selectedContextSpan: string;
   keyGrams: string[];
-  staticThumbnailURL: string;
-  hoverThumbnailURL: string;
-
-  constructor(
-    event: Event,
-    pureRelevance: number,
-    datetimeWeightedRelevance: number,
-    containedGrams: string[],
-    selectedGram: string,
-    selectedContextSpan: string,
-    keyGrams: string[],
-    staticThumbnailURL: string,
-    hoverThumbnailURL: string
-  ) {
-    this.event = event;
-    this.pureRelevance = pureRelevance;
-    this.datetimeWeightedRelevance = datetimeWeightedRelevance;
-    this.containedGrams = containedGrams;
-    this.selectedGram = selectedGram;
-    this.selectedContextSpan = selectedContextSpan;
-    this.keyGrams = keyGrams;
-    this.staticThumbnailURL = staticThumbnailURL;
-    this.hoverThumbnailURL = hoverThumbnailURL;
-  }
 }
 
 export default class EventSearchService {
@@ -232,14 +203,17 @@ export default class EventSearchService {
    */
   async getRenderableEvent(matchingEvent: MatchingEvent): Promise<RenderableEvent> {
     const eventId = matchingEvent.eventRef.split("/")[1];
-    const fullEventPromise = this.eventService.getFullEventById(eventId);
+    const eventWithBodyPromise = this.eventService.getEventById(eventId);
 
     const eventKeyGramsPromise = this.indexedEventGramService.getKeyGramsForEvent(
       matchingEvent.eventRef
     );
 
     try {
-      const [event, eventKeyGrams] = await Promise.all([fullEventPromise, eventKeyGramsPromise]);
+      const [event, eventKeyGrams] = await Promise.all([
+        eventWithBodyPromise,
+        eventKeyGramsPromise,
+      ]);
 
       // Unpack keygrams to get strings
       const keyUnstemmedGrams = eventKeyGrams.reduce((list, gram) => {
@@ -249,30 +223,11 @@ export default class EventSearchService {
         return list;
       }, [] as string[]);
 
-      // Get https storage URLs
-      const [staticThumbnailPathURL, hoverThumbnailPathURL] = await Promise.all(
-        [event.static_thumbnail, event.hover_thumbnail].map((file) => {
-          if (file) {
-            return this.networkService.getDownloadUrl(file.uri);
-          } else {
-            return Promise.resolve("");
-          }
-        })
-      );
-
-      return Promise.resolve(
-        new RenderableEvent(
-          event,
-          matchingEvent.pureRelevance,
-          matchingEvent.datetimeWeightedRelevance,
-          matchingEvent.containedGrams,
-          matchingEvent.selectedGram,
-          matchingEvent.selectedContextSpan,
-          keyUnstemmedGrams,
-          staticThumbnailPathURL,
-          hoverThumbnailPathURL
-        )
-      );
+      return Promise.resolve({
+        ...matchingEvent,
+        event,
+        keyGrams: keyUnstemmedGrams,
+      });
 
       // Handle service error
     } catch (err) {
