@@ -37,20 +37,20 @@ const Meeting = styled.section({
 // first img is static, second img is animated
 const Images = styled.div({
   position: "relative",
-  "& img": {
+  "& > img": {
     position: "absolute",
     inset: 0,
   },
-  "& img:first-of-type": {
+  "& > img:first-of-type": {
     zIndex: 1,
   },
-  "& img:last-of-type": {
+  "& > img:last-of-type": {
     // overlay animated img over static img
     zIndex: 2,
     // initially, animated img is invisible
     opacity: 0,
   },
-  "& img:last-of-type:hover": {
+  "& > img:last-of-type:hover": {
     // on hover, animated img is visible
     opacity: 1,
   },
