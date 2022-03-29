@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
-import { useAppConfigContext } from "../../app";
+import { useAppConfigContext, useLanguageConfigContext } from "../../app";
 import useFetchModels, {
   FetchModelsActionType,
   FetchModelsState,
@@ -33,6 +33,7 @@ import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 import { strings } from "../../assets/LocalizedStrings";
 import { FETCH_CARDS_BATCH_SIZE } from "../../constants/ProjectConstants";
 import { screenWidths } from "../../styles/mediaBreakpoints";
+import getTimeZoneDate from "../../utils/getTimeZoneName";
 
 interface EventsContainerProps extends EventsData {
   initialSelectedBodies: Record<string, boolean>;
@@ -42,13 +43,14 @@ const EventsContainer: FC<EventsContainerProps> = ({
   bodies,
   initialSelectedBodies,
 }: EventsContainerProps) => {
-  const { firebaseConfig } = useAppConfigContext();
+  const { firebaseConfig, municipality } = useAppConfigContext();
+  const { language } = useLanguageConfigContext();
 
   const dateRangeFilter = useFilter<string>({
     name: strings.date,
     initialState: { start: "", end: "" },
     defaultDataValue: "",
-    textRepFunction: getDateText,
+    textRepFunction: getDateText(language, municipality.timeZone),
   });
   const committeeFilter = useFilter<boolean>({
     name: strings.committee,
@@ -82,8 +84,8 @@ const EventsContainer: FC<EventsContainerProps> = ({
         state.batchSize,
         getSelectedOptions(committeeFilter.state),
         {
-          start: dateRangeFilter.state.start ? new Date(dateRangeFilter.state.start) : undefined,
-          end: dateRangeFilter.state.end ? new Date(dateRangeFilter.state.end) : undefined,
+          start: getTimeZoneDate(new Date(dateRangeFilter.state.start), municipality.timeZone),
+          end: getTimeZoneDate(new Date(dateRangeFilter.state.end), municipality.timeZone),
         },
         {
           by: sortFilter.state.by,
@@ -98,7 +100,13 @@ const EventsContainer: FC<EventsContainerProps> = ({
       );
       return Promise.resolve(renderableEvents);
     },
-    [firebaseConfig, committeeFilter.state, dateRangeFilter.state, sortFilter.state]
+    [
+      firebaseConfig,
+      committeeFilter.state,
+      dateRangeFilter.state,
+      sortFilter.state,
+      municipality.timeZone,
+    ]
   );
 
   const isDesktop = useMediaQuery({ query: `(min-width: ${screenWidths.desktop})` });
@@ -147,7 +155,7 @@ const EventsContainer: FC<EventsContainerProps> = ({
     } else if (state.models.length === 0) {
       return <FetchCardsStatus>{strings.no_results_found}</FetchCardsStatus>;
     } else {
-      const cards = state.models.map(({ keyGrams, ...event }) => {
+      const cards = state.models.map(({keyGrams, ...event}) => {
         return {
           link: `/${SEARCH_TYPE.EVENT}/${event.id}`,
           jsx: <MeetingCard event={event} tags={keyGrams} />,

@@ -39,6 +39,8 @@ const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
   eventMinutesItem,
   isLastIndex,
 }: LegislativeHistoryNodeProps) => {
+  const { municipality } = useAppConfigContext();
+
   const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
   const MARGIN = isMobile ? 4 : 12;
 
@@ -70,6 +72,7 @@ const LegislativeHistoryNode: FC<LegislativeHistoryNodeProps> = ({
   const { firebaseConfig } = useAppConfigContext();
   const { language } = useLanguageConfigContext();
   const localizedDateString = eventMinutesItem.event?.event_datetime.toLocaleDateString(language, {
+    timeZone: municipality.timeZone,
     month: "long",
     day: "numeric",
     year: "numeric",
