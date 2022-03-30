@@ -155,7 +155,7 @@ const EventsContainer: FC<EventsContainerProps> = ({
     } else if (state.models.length === 0) {
       return <FetchCardsStatus>{strings.no_results_found}</FetchCardsStatus>;
     } else {
-      const cards = state.models.map(({keyGrams, ...event}) => {
+      const cards = state.models.map(({ keyGrams, ...event }) => {
         return {
           link: `/${SEARCH_TYPE.EVENT}/${event.id}`,
           jsx: <MeetingCard event={event} tags={keyGrams} />,
