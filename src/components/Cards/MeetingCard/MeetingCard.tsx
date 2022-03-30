@@ -58,7 +58,7 @@ const Images = styled.div({
 
 const MeetingCard = ({ event, tags, excerpt, gram, query }: MeetingCardProps) => {
   const { language } = useLanguageConfigContext();
-  const { firebaseConfig } = useAppConfigContext();
+  const { firebaseConfig, municipality } = useAppConfigContext();
 
   const [staticThumbNailIsLoading, setStaticThumbNailIsLoading] = useState(true);
 
@@ -98,6 +98,7 @@ const MeetingCard = ({ event, tags, excerpt, gram, query }: MeetingCardProps) =>
   );
 
   const meetingDate = event.event_datetime?.toLocaleDateString(language, {
+    timeZone: municipality.timeZone,
     month: "long",
     day: "numeric",
     year: "numeric",
