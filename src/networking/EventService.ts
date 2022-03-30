@@ -27,8 +27,6 @@ import { createError } from "../utils/createError";
 
 export interface RenderableEvent extends Event {
   keyGrams: string[];
-  staticThumbnailURL: string;
-  hoverThumbnailURL: string;
 }
 
 export default class EventService extends ModelService {
@@ -110,11 +108,7 @@ export default class EventService extends ModelService {
     const networkResponse = this.networkService.getDocuments(
       COLLECTION_NAME.Event,
       queryConstraints,
-      new PopulationOptions([
-        new Populate(COLLECTION_NAME.Body, REF_PROPERTY_NAME.EventBodyRef),
-        new Populate(COLLECTION_NAME.File, REF_PROPERTY_NAME.EventStaticThumbnailRef),
-        new Populate(COLLECTION_NAME.File, REF_PROPERTY_NAME.EventHoverThumbnailRef),
-      ])
+      new PopulationOptions([new Populate(COLLECTION_NAME.Body, REF_PROPERTY_NAME.EventBodyRef)])
     );
 
     return this.createModels(
@@ -138,21 +132,9 @@ export default class EventService extends ModelService {
         }
         return list;
       }, [] as string[]);
-      // Get https storage URLs
-      const [staticThumbnailURL, hoverThumbnailURL] = await Promise.all(
-        [event.static_thumbnail, event.hover_thumbnail].map((file) => {
-          if (file) {
-            return this.networkService.getDownloadUrl(file.uri);
-          } else {
-            return Promise.resolve("");
-          }
-        })
-      );
       return Promise.resolve({
         ...event,
         keyGrams,
-        staticThumbnailURL,
-        hoverThumbnailURL,
       });
     } catch (err) {
       const error = createError(err);

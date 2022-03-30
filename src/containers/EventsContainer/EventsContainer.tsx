@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { useHistory } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
-import { useAppConfigContext, useLanguageConfigContext } from "../../app";
+import { useAppConfigContext } from "../../app";
 import useFetchModels, {
   FetchModelsActionType,
   FetchModelsState,
@@ -43,7 +43,6 @@ const EventsContainer: FC<EventsContainerProps> = ({
   initialSelectedBodies,
 }: EventsContainerProps) => {
   const { firebaseConfig } = useAppConfigContext();
-  const { language } = useLanguageConfigContext();
 
   const dateRangeFilter = useFilter<string>({
     name: strings.date,
@@ -148,29 +147,15 @@ const EventsContainer: FC<EventsContainerProps> = ({
     } else if (state.models.length === 0) {
       return <FetchCardsStatus>{strings.no_results_found}</FetchCardsStatus>;
     } else {
-      const cards = state.models.map((event) => {
-        const eventDateTimeStr = event.event_datetime?.toLocaleDateString(language, {
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        }) as string;
+      const cards = state.models.map(({ keyGrams, ...event }) => {
         return {
           link: `/${SEARCH_TYPE.EVENT}/${event.id}`,
-          jsx: (
-            <MeetingCard
-              staticImgSrc={event.staticThumbnailURL}
-              hoverImgSrc={event.hoverThumbnailURL}
-              imgAlt={`${event.body?.name} - ${eventDateTimeStr}`}
-              meetingDate={eventDateTimeStr}
-              committee={event.body?.name as string}
-              tags={event.keyGrams}
-            />
-          ),
+          jsx: <MeetingCard event={event} tags={keyGrams} />,
         };
       });
       return <CardsContainer cards={cards} />;
     }
-  }, [state.fetchModels, state.error, state.models, language]);
+  }, [state.fetchModels, state.error, state.models]);
 
   return (
     <PageContainer>
