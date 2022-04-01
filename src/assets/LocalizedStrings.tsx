@@ -99,6 +99,7 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   inactive: string;
   latest_vote: string;
   history: string;
+  minutes: string;
 }
 
 // Note: Add languages to video.js in /src/pages/EventPage/utils when adding new languages

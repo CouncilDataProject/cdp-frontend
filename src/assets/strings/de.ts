@@ -88,6 +88,7 @@ const de = {
   inactive: "inaktiv",
   latest_vote: "Letzte Abstimmung",
   history: "Geschichte",
+  minutes: "Protokoll",
 };
 
 export default de;
