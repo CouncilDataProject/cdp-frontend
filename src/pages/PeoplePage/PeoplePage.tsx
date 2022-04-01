@@ -3,44 +3,66 @@ import { useAppConfigContext } from "../../app";
 import useFetchData from "../../containers/FetchDataContainer/useFetchData";
 import FetchDataContainer from "../../containers/FetchDataContainer/FetchDataContainer";
 import { PeopleContainer } from "../../containers/PeopleContainer";
-import { PeoplePageData } from "../../containers/PeopleContainer/types";
+
+import SeatService from "../../networking/SeatService";
 import RoleService from "../../networking/RoleService";
-import PersonService from "../../networking/PersonService";
+import Role from "../../models/Role";
+import Seat from "../../models/Seat";
+interface PeopleContainerData {
+  roles: Role[];
+  seats: Seat[];
+}
 
 const PeoplePage: FC = () => {
   // Get the app config context
   const { firebaseConfig } = useAppConfigContext();
 
-  const fetchPeopleData = useCallback(async () => {
-    const personService = new PersonService(firebaseConfig);
+  const fetchAllCouncilors = useCallback(async () => {
+    const seatService = new SeatService(firebaseConfig);
     const roleService = new RoleService(firebaseConfig);
 
-    const [currentPeople, allPeople] = await Promise.all([
-      roleService.getCurrentRoles(),
-      personService.getAllPeople(),
-    ]);
+    const seats = await seatService.getAllSeats();
+    const rolePromises = seats.map((seat) => {
+      return roleService.getMostRecentCouncilMemberRoleBySeat(seat.id);
+    });
+    const roles = await Promise.all(rolePromises);
+    // there may be instances where a seat has no Roles, thereby causing errors since Councilors should have Seats
+    const badRoles = roles.reduce((filtered, optional, index) => {
+      if (optional === null) {
+        // there were not ANY roles for this seat, and thus no person to show for it
+        filtered.push(index);
+      }
+      return filtered;
+    }, [] as number[]);
+    const goodRoles: Role[] = roles.reduce((filtered, optional) => {
+      if (optional !== null) {
+        filtered.push(optional);
+      }
+      return filtered;
+    }, [] as Role[]);
+    for (let i = badRoles.length - 1; i >= 0; i--) {
+      // remove the bad, no-Role-having Seats
+      seats.splice(badRoles[i], 1);
+    }
 
-    const payload: PeoplePageData = {
-      currentPeople,
-      allPeople,
-    };
-
-    return payload;
+    return { seats, roles: goodRoles };
   }, [firebaseConfig]);
 
   // Initialize the state of fetching the person's data
-  const { state: peopleDataState } = useFetchData<PeoplePageData>(
+  const { state: peopleDataState } = useFetchData<PeopleContainerData>(
     {
       isLoading: false,
       error: null,
       hasFetchRequest: true,
     },
-    fetchPeopleData
+    fetchAllCouncilors
   );
 
   return (
     <FetchDataContainer isLoading={peopleDataState.isLoading} error={peopleDataState.error}>
-      {peopleDataState.data && <PeopleContainer {...peopleDataState.data} />}
+      {peopleDataState.data && (
+        <PeopleContainer roles={peopleDataState.data.roles} seats={peopleDataState.data.seats} />
+      )}
     </FetchDataContainer>
   );
 };

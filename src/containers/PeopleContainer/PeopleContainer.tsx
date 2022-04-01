@@ -1,35 +1,42 @@
 import React from "react";
-import { PeoplePageData } from "./types";
-import Person from "../../models/Person";
-import { Link } from "react-router-dom";
-export interface PeopleContainerProps extends PeoplePageData {
+
+import Seat from "../../models/Seat";
+import Role from "../../models/Role";
+
+import { PersonCard } from "../../components/Cards/PersonCard";
+import { CardsContainer } from "../CardsContainer";
+import { Card } from "../CardsContainer/types";
+
+export interface PeopleContainerProps {
   /** Any extra info */
   searchQuery?: string;
+  /** all current councilor roles (with Person populated) */
+  roles: Role[];
+  /** the seats associated with the above councilmembers (ordered) */
+  seats: Seat[];
 }
 
-function renderLinkCard(person: Person) {
-  return (
-    <div>
-      <Link to={`/people/${person.id}`}>{person.name}</Link>
-    </div>
-  );
-}
+const PersonContainer = ({ roles, seats }: PeopleContainerProps) => {
+  const cards = roles.reduce((filtered, optionalPersonRole, index) => {
+    if (optionalPersonRole.person) {
+      filtered.push({
+        link: `/people/${optionalPersonRole.person.id}`,
+        jsx: (
+          <PersonCard
+            key={`person-card-${optionalPersonRole.person.name}`}
+            person={optionalPersonRole.person}
+            seat={seats[index]}
+          />
+        ),
+      });
+    }
+    return filtered;
+  }, [] as Card[]);
 
-const PersonContainer = ({ currentPeople, allPeople }: PeopleContainerProps) => {
   return (
     <div>
-      <h3>Currently Elected</h3>
-      {currentPeople &&
-        currentPeople.map((role) => {
-          if (role.person) {
-            return renderLinkCard(role.person);
-          }
-        })}
-      <h3>All</h3>
-      {allPeople &&
-        allPeople.map((person) => {
-          return renderLinkCard(person);
-        })}
+      <h1 className="mzp-u-title-sm">Current Councilmembers</h1>
+      <CardsContainer cards={cards} />
     </div>
   );
 };
