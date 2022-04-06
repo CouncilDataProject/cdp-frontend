@@ -87,6 +87,7 @@ const en = {
   inactive: "inactive",
   latest_vote: "Latest Vote",
   history: "History",
+  minutes: "Minutes",
 };
 
 export default en;

@@ -101,7 +101,7 @@ const EventInfoTabs: FC<EventInfoTabsProps> = ({
   const infoTabPanes = useMemo(() => {
     return [
       {
-        menuItem: strings.agenda,
+        menuItem: strings.minutes,
         pane: {
           key: "agenda",
           content: <MinutesItemsList minutesItems={minutesItems} />,
