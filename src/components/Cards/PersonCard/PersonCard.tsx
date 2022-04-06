@@ -1,16 +1,22 @@
-import React, { FC, useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import React, { FC, useCallback, useState, useEffect } from "react";
+import styled from "@emotion/styled";
+
 import { useAppConfigContext } from "../../../app";
 
 import Person from "../../../models/Person";
 import Seat from "../../../models/Seat";
 import FileService from "../../../networking/FileService";
 
-import { FetchDataContainer } from "../../../containers/FetchDataContainer";
 import useFetchData from "../../../containers/FetchDataContainer/useFetchData";
 
-import styled from "@emotion/styled";
+import AbsoluteBox from "../../Shared/AbsoluteBox";
+import PlaceholderWrapper from "../../Shared/PlaceHolder";
+
 import { strings } from "../../../assets/LocalizedStrings";
+import { EXAMPLE_COVER_VIEWS } from "../../../constants/ProjectConstants";
+
+const EXAMPLE_COVER_VIEW =
+  EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)];
 
 const PersonStatus = styled.div({
   float: "right",
@@ -19,17 +25,18 @@ const PersonStatus = styled.div({
   borderRadius: "10%",
   padding: "0 4px",
 });
+
 interface ImgProps {
   left: string;
   width: string;
 }
-
 const Img = styled.img<ImgProps>((props) => ({
   objectFit: "cover",
   left: `${props.left} !important`,
   width: `${props.width} !important`,
   height: "100%",
 }));
+
 export interface PersonCardProps {
   /** the person represented */
   person: Person;
@@ -44,7 +51,6 @@ interface PictureDataState {
 
 const PersonCard: FC<PersonCardProps> = ({ person, seat }: PersonCardProps) => {
   const { firebaseConfig } = useAppConfigContext();
-  const history = useHistory();
 
   /** Get the images for this card (at the same time so there isn't a double state update) */
   const fetchPictures = useCallback(async () => {
@@ -84,45 +90,57 @@ const PersonCard: FC<PersonCardProps> = ({ person, seat }: PersonCardProps) => {
     fetchPictures
   );
 
+  const [personPictureIsLoading, setPersonPictureIsLoading] = useState(true);
+  const [seatPictureIsLoading, setSeatPictureIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!pictureDataState.isLoading && pictureDataState.data?.personPictureSrc === undefined) {
+      // the visibility of the seat picture is dependent on the visiblity of the person picture
+      // if there's no person picture (it's undefined), allow the seat picture to be visible
+      setPersonPictureIsLoading(false);
+    }
+  }, [pictureDataState]);
+
   return (
     <section className="mzp-c-card mzp-c-card-medium mzp-has-aspect-16-9">
-      <div
-        className="mzp-c-card-block-link"
-        onClick={() => {
-          history.push(`/people/${person.id}`);
-        }}
-      >
-        <FetchDataContainer isLoading={pictureDataState.isLoading} error={pictureDataState.error}>
-          <div className="mzp-c-card-media-wrapper">
-            {pictureDataState.data && (
+      <div className="mzp-c-card-block-link">
+        <div className="mzp-c-card-media-wrapper">
+          <AbsoluteBox>
+            <PlaceholderWrapper contentIsLoading={personPictureIsLoading || seatPictureIsLoading}>
+              {pictureDataState.data?.personPictureSrc && (
+                <Img
+                  className="mzp-c-card-image"
+                  src={pictureDataState.data.personPictureSrc}
+                  width={pictureDataState.data?.seatPictureSrc ? "40%" : "100%"}
+                  left="0"
+                  alt={person.name}
+                  onLoad={() => setPersonPictureIsLoading(false)}
+                />
+              )}
               <Img
                 className="mzp-c-card-image"
-                src={pictureDataState.data.personPictureSrc}
-                width={pictureDataState.data.seatPictureSrc ? "40%" : "100%"}
-                left="0"
-                alt={person.name}
-              />
-            )}
-            {pictureDataState.data?.seatPictureSrc && (
-              <Img
-                className="mzp-c-card-image"
-                src={pictureDataState.data.seatPictureSrc}
-                width="60%"
-                left="40%"
+                src={
+                  !pictureDataState.isLoading && pictureDataState.data?.seatPictureSrc === undefined
+                    ? EXAMPLE_COVER_VIEW
+                    : pictureDataState.data?.seatPictureSrc
+                }
+                width={pictureDataState.data?.personPictureSrc ? "60%" : "100%"}
+                left={pictureDataState.data?.personPictureSrc ? "40%" : "0"}
                 alt={`${seat.name} - ${seat.electoral_area}`}
+                onLoad={() => setSeatPictureIsLoading(false)}
               />
-            )}
-          </div>
-          <div className="mzp-c-card-content">
-            <h2 className="mzp-c-card-title">{person.name}</h2>
-            <PersonStatus className={person.is_active ? "cdp-bg-neon-green" : "cdp-bg-dark-grey"}>
-              {person.is_active ? strings.active : strings.inactive}
-            </PersonStatus>
-            <p className="mzp-c-card-desc">
-              {seat.name} &bull; {seat.electoral_area}
-            </p>
-          </div>
-        </FetchDataContainer>
+            </PlaceholderWrapper>
+          </AbsoluteBox>
+        </div>
+        <div className="mzp-c-card-content">
+          <h2 className="mzp-c-card-title">{person.name}</h2>
+          <PersonStatus className={person.is_active ? "cdp-bg-neon-green" : "cdp-bg-dark-grey"}>
+            {person.is_active ? strings.active : strings.inactive}
+          </PersonStatus>
+          <p className="mzp-c-card-desc">
+            {seat.name} &bull; {seat.electoral_area}
+          </p>
+        </div>
       </div>
     </section>
   );
