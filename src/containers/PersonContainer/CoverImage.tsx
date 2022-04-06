@@ -5,21 +5,9 @@ import { FetchDataState } from "../FetchDataContainer/useFetchData";
 
 import PlaceholderWrapper from "../../components/Shared/PlaceHolder";
 
+import { EXAMPLE_COVER_VIEWS } from "../../constants/ProjectConstants";
+
 import { screenWidths } from "../../styles/mediaBreakpoints";
-
-import exampleCover1 from "../../assets/images/dave-hoefler-reduced-1.jpg";
-import exampleCover2 from "../../assets/images/dave-hoefler-reduced-2.jpg";
-import exampleCover3 from "../../assets/images/dave-hoefler-reduced-3.jpg";
-import exampleCover4 from "../../assets/images/dave-hoefler-reduced-4.jpg";
-import exampleCover5 from "../../assets/images/dave-hoefler-reduced-5.jpg";
-
-const EXAMPLE_COVER_VIEWS = [
-  exampleCover1,
-  exampleCover2,
-  exampleCover3,
-  exampleCover4,
-  exampleCover5,
-];
 
 const EXAMPLE_COVER_VIEW =
   EXAMPLE_COVER_VIEWS[Math.floor(Math.random() * EXAMPLE_COVER_VIEWS.length)];
