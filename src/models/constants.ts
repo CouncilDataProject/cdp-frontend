@@ -5,6 +5,7 @@ export enum ROLE_TITLE {
   MEMBER = "Member",
   COUNCILPRESIDENT = "Council President",
   VICE_CHAIR = "Vice Chair",
+  SUPERVISOR = "Supervisor",
 }
 
 export enum VOTE_DECISION {
