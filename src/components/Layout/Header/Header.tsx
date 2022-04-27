@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import styled from "@emotion/styled";
 
@@ -40,8 +40,21 @@ export interface HeaderProps {
   municipalityName: string;
 }
 
+function currentUnderline(currentPath: string, componentPath: string): React.CSSProperties {
+  const currUnderline: React.CSSProperties = { textDecoration: "underline" };
+  if (currentPath === componentPath) {
+    return currUnderline;
+  } else if (componentPath.length > 1 && currentPath.includes(componentPath)) {
+    return currUnderline;
+  }
+
+  return {};
+}
+
 const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
   const [navigationIsVisible, setNavigationIsVisible] = useState<boolean>(false);
+
+  const location = useLocation().pathname;
 
   return (
     <header>
@@ -75,17 +88,29 @@ const Header: FC<HeaderProps> = ({ municipalityName }: HeaderProps) => {
                 <nav className="mzp-c-menu mzp-is-basic">
                   <ul className="mzp-c-menu-category-list">
                     <li className="mzp-c-menu-category">
-                      <Link to="/" className="mzp-c-menu-title">
+                      <Link
+                        to="/"
+                        className="mzp-c-menu-title"
+                        style={currentUnderline(location, "/")}
+                      >
                         {municipalityName}
                       </Link>
                     </li>
                     <li className="mzp-c-menu-category">
-                      <Link to="/events" className="mzp-c-menu-title">
+                      <Link
+                        to="/events"
+                        className="mzp-c-menu-title"
+                        style={currentUnderline(location, "/events")}
+                      >
                         {strings.events}
                       </Link>
                     </li>
                     <li className="mzp-c-menu-category">
-                      <Link to="/people" className="mzp-c-menu-title">
+                      <Link
+                        to="/people"
+                        className="mzp-c-menu-title"
+                        style={currentUnderline(location, "/people")}
+                      >
                         {strings.people}
                       </Link>
                     </li>
