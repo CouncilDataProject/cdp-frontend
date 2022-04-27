@@ -85,6 +85,7 @@ function App() {
                 {/* <Route exact path="/search">
                 <SearchPage />
               </Route> */}
+
                 <Route exact path={`/${SEARCH_TYPE.EVENT}`}>
                   <EventsPage />
                 </Route>
