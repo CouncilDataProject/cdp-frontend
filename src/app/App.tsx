@@ -16,6 +16,7 @@ import { EventPage } from "../pages/EventPage";
 import { EventsPage } from "../pages/EventsPage";
 import { PersonPage } from "../pages/PersonPage";
 import { PeoplePage } from "../pages/PeoplePage";
+import { MatterPage } from "../pages/MatterPage";
 
 import { SEARCH_TYPE } from "../pages/SearchPage/types";
 
@@ -100,6 +101,9 @@ function App() {
                 </Route>
                 <Route exact path="/people/:id">
                   <PersonPage />
+                </Route>
+                <Route exact path="/matter/:id">
+                  <MatterPage />
                 </Route>
               </Switch>
             </Main>

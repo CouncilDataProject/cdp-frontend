@@ -63,11 +63,11 @@ export interface LegislationOverviewProps {
   /** The latest matter status of the matter */
   matterStatus: MatterStatus;
   /** The latest event where the matter was a minutes item */
-  event: Event;
+  event?: Event;
   /** The persons who sponsored the matter */
   sponsors: Person[];
   /** The latest document of  the matter */
-  document: { name: string; url: string };
+  document?: { name: string; url: string };
 }
 
 const LegislationOverview: FC<LegislationOverviewProps> = ({
@@ -104,23 +104,27 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
         <div>
           <dt>Latest Meeting:</dt>
           <dd>
-            <Link to={`/events/${event.id}`}>
-              {event.event_datetime.toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </Link>
+            {event && (
+              <Link to={`/events/${event.id}`}>
+                {event.event_datetime.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </Link>
+            )}
           </dd>
         </div>
-        <div>
-          <dt>Latest Document:</dt>
-          <dd>
-            <a target="_blank" rel="noopener noreferrer" href={document.url}>
-              {document.name}
-            </a>
-          </dd>
-        </div>
+        {document && (
+          <div>
+            <dt>Latest Document:</dt>
+            <dd>
+              <a target="_blank" rel="noopener noreferrer" href={document.url}>
+                {document.name}
+              </a>
+            </dd>
+          </div>
+        )}
         <div>
           <dt>Sponsored by:</dt>
           <dd>
