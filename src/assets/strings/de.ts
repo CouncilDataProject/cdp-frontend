@@ -89,6 +89,7 @@ const de = {
   latest_vote: "Letzte Abstimmung",
   history: "Geschichte",
   minutes: "Protokoll",
+  go_to_matter_details: "Gehen Sie zu den vollständigen Rechtsvorschriften",
 };
 
 export default de;

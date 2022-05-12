@@ -88,6 +88,7 @@ const es = {
   latest_vote: "Último Voto",
   history: "Historia",
   minutes: "Protocolo",
+  go_to_matter_details: "Ir a los detalles completos de la legislación",
 };
 
 export default es;

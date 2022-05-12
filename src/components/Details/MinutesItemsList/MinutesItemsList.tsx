@@ -1,11 +1,12 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
-/* import { Link } from "react-router-dom"; */
+import { Link } from "react-router-dom";
 
 import DocumentsList from "./DocumentsList";
-/* import ChevronDownIcon from "../../Shared/ChevronDownIcon"; */
+import ChevronDownIcon from "../../Shared/ChevronDownIcon";
 
 import { Item } from "./types";
+import { strings } from "../../../assets/LocalizedStrings";
 
 const ListItem = styled.li({
   "& > div:first-of-type": {
@@ -37,11 +38,11 @@ const MinutesItemsList: FC<MinutesItemsListProps> = ({ minutesItems }: MinutesIt
         return (
           <ListItem key={elem.name}>
             <div>{elem.name}</div>
-            {/* {elem.matter_ref && (
+            {elem.matter_ref && (
               <Link to={`/matters/${elem.matter_ref}`}>
-                {"Go to Full Legislation Details"} <ChevronDownIcon />
+                {strings.go_to_matter_details} <ChevronDownIcon />
               </Link>
-            )} */}
+            )}
             {elem.description && <div>{elem.description}</div>}
             <DocumentsList documents={elem.documents} />
           </ListItem>

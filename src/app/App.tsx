@@ -102,7 +102,7 @@ function App() {
                 <Route exact path="/people/:id">
                   <PersonPage />
                 </Route>
-                <Route exact path="/matter/:id">
+                <Route exact path="/matters/:id">
                   <MatterPage />
                 </Route>
               </Switch>
