@@ -6,8 +6,8 @@ interface ErrorPageProps {
 }
 
 const ErrorPage: FC<ErrorPageProps> = ({ error }: ErrorPageProps) => {
-  let history = useHistory();
-  let errorText = error ? error.toString() : "Sorry, we can’t find that page.";
+  const history = useHistory();
+  const errorText = error ? error.toString() : "Sorry, we can’t find that page.";
 
   return (
     <div>
