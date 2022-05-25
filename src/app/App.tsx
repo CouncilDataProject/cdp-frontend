@@ -16,6 +16,7 @@ import { EventPage } from "../pages/EventPage";
 import { EventsPage } from "../pages/EventsPage";
 import { PersonPage } from "../pages/PersonPage";
 import { PeoplePage } from "../pages/PeoplePage";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 import { SEARCH_TYPE } from "../pages/SearchPage/types";
 
@@ -101,6 +102,7 @@ function App() {
                 <Route exact path="/people/:id">
                   <PersonPage />
                 </Route>
+                <Route component={ErrorPage} />
               </Switch>
             </Main>
             <Footer footerLinksSections={municipality.footerLinksSections} />
