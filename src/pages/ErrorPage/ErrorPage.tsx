@@ -7,12 +7,15 @@ interface ErrorPageProps {
 
 const ErrorPage: FC<ErrorPageProps> = ({ error }: ErrorPageProps) => {
   const history = useHistory();
-  const errorText = error ? error.toString() : "Sorry, we can’t find that page.";
+  const errorText = error ? error.toString() : "";
 
   return (
     <div>
-      <h1>{errorText}</h1>
-      <button onClick={() => history.goBack()}>Back</button>
+      <h1 className="mzp-u-title-sm">"Sorry, we can’t find that page."</h1>
+      <p>{errorText}</p>
+      <button className="mzp-c-button mzp-t-secondary mzp-t-md" onClick={() => history.goBack()}>
+        Back
+      </button>
     </div>
   );
 };
