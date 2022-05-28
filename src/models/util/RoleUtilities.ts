@@ -104,14 +104,14 @@ function partitionNonTermRoles(
   roles: Role[],
   termRoles: Role[]
 ): [Record<string, Role[][]>, Role[]] {
-  const nonTermRoles = roles.filter(
-    (role) => ![ROLE_TITLE.COUNCILMEMBER, ROLE_TITLE.COUNCILPRESIDENT].includes(role.title)
-  );
+  const nonTermRoles = roles.filter((role) => role.title !== ROLE_TITLE.COUNCILMEMBER);
 
   // sort by `nonTermRoleTitles`
   const nonTermRoleTitles = [
+    ROLE_TITLE.COUNCILPRESIDENT,
     ROLE_TITLE.CHAIR,
     ROLE_TITLE.VICE_CHAIR,
+    ROLE_TITLE.SUPERVISOR,
     ROLE_TITLE.MEMBER,
     ROLE_TITLE.ALTERNATE,
   ];

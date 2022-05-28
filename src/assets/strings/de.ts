@@ -84,6 +84,7 @@ const de = {
   member: "Mitglied",
   council_president: "Präsident des Rates",
   vice_chair: "Stellvertretender Vorsitzender",
+  supervisor: "Supervisor/in",
   active: "aktiv",
   inactive: "inaktiv",
   latest_vote: "Letzte Abstimmung",
