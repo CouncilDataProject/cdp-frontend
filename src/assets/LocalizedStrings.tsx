@@ -95,6 +95,7 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   member: string;
   council_president: string;
   vice_chair: string;
+  supervisor: string;
   active: string;
   inactive: string;
   latest_vote: string;
