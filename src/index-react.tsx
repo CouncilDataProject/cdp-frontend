@@ -14,6 +14,7 @@ ReactDOM.render(
         },
         municipality: {
           name: "Seattle Staging",
+          timeZone: "America/Los_Angeles",
           footerLinksSections: [],
         },
       }}

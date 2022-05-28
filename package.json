@@ -105,7 +105,6 @@
     "@mozilla-protocol/core": "^13.0.1",
     "firebase": "^9.5.0",
     "lodash": "^4.17.21",
-    "moment": "^2.24.0",
     "n-gram": "^2.0.1",
     "query-string": "^7.0.1",
     "react-highlight-words": "^0.17.0",

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Role from "../../models/Role";
 import { getUniqueTermRoles, partitionNonTermRoles } from "../../models/util/RoleUtilities";
 
-import { useLanguageConfigContext } from "../../app";
+import { useAppConfigContext, useLanguageConfigContext } from "../../app";
 
 import Details from "../../components/Shared/Details";
 import H2 from "../../components/Shared/H2";
@@ -62,6 +62,7 @@ interface PersonRolesProps {
 }
 
 const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: PersonRolesProps) => {
+  const { municipality } = useAppConfigContext();
   const { language } = useLanguageConfigContext();
 
   const [termRoles, partitionedNonTermRoles, nonTermRoles] = useMemo(() => {
@@ -106,8 +107,14 @@ const PersonRoles: FC<PersonRolesProps> = ({ councilMemberRoles, allRoles }: Per
                     <strong>{`${strings[role.title.toLowerCase().replace(" ", "_")]}: `}</strong>{" "}
                     {`${role.seat?.name} // ${
                       role.seat?.electoral_area
-                    } (${role.start_datetime.toLocaleDateString(language)} - ${
-                      role.end_datetime ? role.end_datetime.toLocaleDateString(language) : ""
+                    } (${role.start_datetime.toLocaleDateString(language, {
+                      timeZone: municipality.timeZone,
+                    })} - ${
+                      role.end_datetime
+                        ? role.end_datetime.toLocaleDateString(language, {
+                            timeZone: municipality.timeZone,
+                          })
+                        : ""
                     })`}
                   </span>
                 }

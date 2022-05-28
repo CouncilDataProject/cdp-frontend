@@ -6,7 +6,7 @@ import Event from "../../../models/Event";
 import MatterStatus from "../../../models/MatterStatus";
 import Person from "../../../models/Person";
 
-import { useLanguageConfigContext } from "../../../app";
+import { useAppConfigContext, useLanguageConfigContext } from "../../../app";
 
 import { DecisionResult } from "../../Shared";
 import H2 from "../../Shared/H2";
@@ -76,6 +76,7 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
   sponsors,
   document,
 }: LegislationOverviewProps) => {
+  const { municipality } = useAppConfigContext();
   const { language } = useLanguageConfigContext();
 
   return (
@@ -83,6 +84,7 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
       <Title hasBorderBottom={true} className="mzp-u-title-xs">
         <span>Legislation Overview</span>
         <em>{`Last Updated ${matterStatus.update_datetime.toLocaleDateString(language, {
+          timeZone: municipality.timeZone,
           month: "long",
           day: "numeric",
           year: "numeric",
@@ -105,7 +107,8 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
           <dt>Latest Meeting:</dt>
           <dd>
             <Link to={`/events/${event.id}`}>
-              {event.event_datetime.toLocaleDateString("en-US", {
+              {event.event_datetime.toLocaleDateString(language, {
+                timeZone: municipality.timeZone,
                 month: "short",
                 day: "numeric",
                 year: "numeric",

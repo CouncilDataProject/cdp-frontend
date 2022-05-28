@@ -6,7 +6,7 @@ import { useMediaQuery } from "react-responsive";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import { ReactiveTableRow } from "../ReactiveTableRow";
 import { Link } from "react-router-dom";
-import { useLanguageConfigContext } from "../../../app";
+import { useAppConfigContext, useLanguageConfigContext } from "../../../app";
 
 export type VotingTableRowProps = {
   /** the name of the matter that was voted on */
@@ -46,11 +46,13 @@ const VotingTableRow = ({
   columnNames,
   columnDistribution,
 }: VotingTableRowProps) => {
+  const { municipality } = useAppConfigContext();
   const { language } = useLanguageConfigContext();
 
   const legislationTagsString =
     legislationTags && legislationTags.length > 0 ? legislationTags.join(TAG_CONNECTOR) : "";
   const dateText = meetingDate?.toLocaleDateString(language, {
+    timeZone: municipality.timeZone,
     month: "long",
     day: "numeric",
     year: "numeric",
