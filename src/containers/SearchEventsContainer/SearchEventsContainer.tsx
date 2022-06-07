@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
-import { useAppConfigContext } from "../../app";
+import { useAppConfigContext, useLanguageConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import useSearchCards, { SearchCardsActionType } from "../../hooks/useSearchCards";
 import { ORDER_DIRECTION, OR_QUERY_LIMIT_NUM } from "../../networking/constants";
@@ -31,12 +31,14 @@ import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 import { strings } from "../../assets/LocalizedStrings";
 import { FETCH_CARDS_BATCH_SIZE } from "../../constants/ProjectConstants";
 import { screenWidths } from "../../styles/mediaBreakpoints";
+import getTimeZoneDate from "../../utils/getTimeZoneName";
 
 const SearchEventsContainer: FC<SearchEventsContainerData> = ({
   searchEventsState,
   bodies,
 }: SearchEventsContainerData) => {
-  const { firebaseConfig } = useAppConfigContext();
+  const { firebaseConfig, municipality } = useAppConfigContext();
+  const { language } = useLanguageConfigContext();
 
   const searchQueryRef = useRef(searchEventsState.query);
   const [searchQuery, setSearchQuery] = useState(searchEventsState.query);
@@ -48,7 +50,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
     name: strings.date,
     initialState: searchEventsState.dateRange,
     defaultDataValue: "",
-    textRepFunction: getDateText,
+    textRepFunction: getDateText(language, municipality.timeZone),
   });
   const committeeFilter = useFilter<boolean>({
     name: strings.committee,
@@ -87,22 +89,28 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         }
       }
 
-      if (dateRangeFilter.state.start || dateRangeFilter.state.end) {
+      const timeZoneStartDate = getTimeZoneDate(
+        new Date(dateRangeFilter.state.start),
+        municipality.timeZone
+      );
+      const timeZoneEndDate = getTimeZoneDate(
+        new Date(dateRangeFilter.state.end),
+        municipality.timeZone
+      );
+
+      if (timeZoneStartDate || timeZoneEndDate) {
         if (!event.event_datetime) {
           //exclude events without a event_datetime
           return false;
         }
-        if (
-          dateRangeFilter.state.start &&
-          event.event_datetime < new Date(dateRangeFilter.state.start)
-        ) {
+        if (timeZoneStartDate && event.event_datetime < timeZoneStartDate) {
           //exclude events before start date
           return false;
         }
-        if (dateRangeFilter.state.end) {
+        if (timeZoneEndDate) {
           //exclude events after end date
-          const endDate = new Date(dateRangeFilter.state.end);
-          endDate.setDate(endDate.getDate() + 1);
+          const endDate = new Date(timeZoneEndDate);
+          endDate.setUTCDate(endDate.getUTCDate() + 1);
           if (event.event_datetime > endDate) {
             return false;
           }
@@ -118,7 +126,14 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
       [sortFilter.state.order as ORDER_DIRECTION]
     );
     return Promise.resolve(filteredEvents);
-  }, [searchQuery, committeeFilter.state, dateRangeFilter.state, sortFilter.state, firebaseConfig]);
+  }, [
+    searchQuery,
+    committeeFilter.state,
+    dateRangeFilter.state,
+    sortFilter.state,
+    firebaseConfig,
+    municipality.timeZone,
+  ]);
 
   const isDesktop = useMediaQuery({ query: `(min-width: ${screenWidths.desktop})` });
   const [state, dispatch] = useSearchCards<RenderableEvent>(

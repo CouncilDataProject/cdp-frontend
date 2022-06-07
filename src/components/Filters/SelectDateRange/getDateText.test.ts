@@ -1,7 +1,8 @@
-import getDateText from "./getDateText";
+import getDateTextFunctionCreator from "./getDateText";
 
 describe("getDateText", () => {
   const defaultText = "Date";
+  const getDateText = getDateTextFunctionCreator("en-US", "America/Los_Angeles");
 
   test("Returns defaultText", () => {
     const textRep = getDateText({ start: "", end: "" }, defaultText);
@@ -20,7 +21,7 @@ describe("getDateText", () => {
 
   test("Returns start and end date with same year and month", () => {
     const textRep = getDateText({ start: "2020/01/01", end: "2020/01/02" }, defaultText);
-    expect(textRep).toEqual("Jan 1 - 2, 2020");
+    expect(textRep).toEqual("Jan 1 - Jan 2, 2020");
   });
 
   test("Returns start and end date with same year only", () => {

@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from "react";
 
 import { Loader } from "semantic-ui-react";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 interface FetchDataContainerProps {
   isLoading: boolean;
@@ -17,9 +18,7 @@ const FetchDataContainer: FC<FetchDataContainerProps> = ({
     return <Loader active size="massive" />;
   }
   if (error) {
-    // Display the error for now.
-    // TODO: throw the error and catch it with a general error boundary that displays the error page.
-    return <span>{error.toString()}</span>;
+    return <ErrorPage error={error} />;
   }
   return <>{children}</>;
 };

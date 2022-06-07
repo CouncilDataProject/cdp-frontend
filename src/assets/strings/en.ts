@@ -83,6 +83,7 @@ const en = {
   member: "Member",
   council_president: "Council President",
   vice_chair: "Vice Chair",
+  supervisor: "Supervisor",
   active: "active",
   inactive: "inactive",
   latest_vote: "Latest Vote",

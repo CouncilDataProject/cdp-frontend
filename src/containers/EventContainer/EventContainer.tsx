@@ -1,7 +1,7 @@
 import React, { createRef, FC, useState, useRef, useEffect, useMemo, useCallback } from "react";
 import styled from "@emotion/styled";
 
-import { useLanguageConfigContext } from "../../app";
+import { useAppConfigContext, useLanguageConfigContext } from "../../app";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 import { EventVideoRef } from "../../components/Details/EventVideo/EventVideo";
@@ -26,7 +26,7 @@ const Container = styled.div({
 });
 
 const EventName = styled.div({
-  "& > h2": {
+  "& > h1": {
     // Remove mozilla protocol margin on h2
     margin: 0,
   },
@@ -71,15 +71,14 @@ const EventContainer: FC<EventContainerProps> = ({
   initialSeconds,
   searchQuery,
 }: EventContainerProps) => {
+  const { municipality } = useAppConfigContext();
   const { language } = useLanguageConfigContext();
 
   useDocumentTitle(
     `${event.body?.name}` +
       `${event.body?.name && event.event_datetime && " -- "}` +
       `${event.event_datetime?.toLocaleDateString(language, {
-        month: "numeric",
-        day: "numeric",
-        year: "numeric",
+        timeZone: municipality.timeZone,
       })}`
   );
 
@@ -135,12 +134,17 @@ const EventContainer: FC<EventContainerProps> = ({
   return (
     <Container>
       <EventName>
-        <h2 className="mzp-u-title-xs">{event.body?.name}</h2>
+        <h1 className="mzp-u-title-sm">{event.body?.name}</h1>
         <p className="mzp-c-card-desc">
-          {event.event_datetime?.toLocaleDateString(language, {
+          {event.event_datetime?.toLocaleString(language, {
+            timeZone: municipality.timeZone,
+            timeZoneName: "short",
             month: "long",
             day: "numeric",
             year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
           })}
         </p>
       </EventName>

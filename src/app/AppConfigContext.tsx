@@ -13,6 +13,7 @@ export interface AppConfig {
   firebaseConfig: FirebaseConfig;
   municipality: {
     name: string;
+    timeZone: string;
     footerLinksSections: {
       footerLinksSectionName: string;
       links: {
@@ -40,6 +41,7 @@ const AppConfigContext = createContext<AppConfig>({
   },
   municipality: {
     name: "Seattle Staging",
+    timeZone: "America/Los_Angeles",
     footerLinksSections: [],
   },
 });

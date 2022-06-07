@@ -91,7 +91,7 @@ export default class EventService extends ModelService {
     }
     if (dateRange.end) {
       const endDate = new Date(dateRange.end);
-      endDate.setDate(endDate.getDate() + 1);
+      endDate.setUTCDate(endDate.getUTCDate() + 1);
       const end = Timestamp.fromDate(endDate);
       queryConstraints.push(where("event_datetime", WHERE_OPERATOR.lteq, end));
     }

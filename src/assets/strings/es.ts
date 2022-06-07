@@ -83,6 +83,7 @@ const es = {
   member: "Miembro",
   council_president: "Presidente/a del Consejo",
   vice_chair: "Vicepresidente/a",
+  supervisor: "Supervisor/a",
   active: "activo/a",
   inactive: "inactivo/a",
   latest_vote: "Último Voto",
