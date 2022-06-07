@@ -38,12 +38,13 @@ const LegislationIntroduction: FC<LegislationIntroductionProps> = ({
             flex: 1,
           }}
         >
-          {indexedMatterGrams.map((indexedMatterGram) => (
-            <div key={indexedMatterGram.id}>
-              <p style={{ display: "inline", paddingLeft: 11, paddingRight: 11 }}>•</p>
-              <p style={{ display: "inline" }}>{indexedMatterGram.unstemmed_gram}</p>
-            </div>
-          ))}
+          {indexedMatterGrams &&
+            indexedMatterGrams.map((indexedMatterGram) => (
+              <div key={indexedMatterGram.id}>
+                <p style={{ display: "inline", paddingLeft: 11, paddingRight: 11 }}>•</p>
+                <p style={{ display: "inline" }}>{indexedMatterGram.unstemmed_gram}</p>
+              </div>
+            ))}
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React, { FC, useMemo, useCallback } from "react";
 import { Loader } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 import { useAppConfigContext } from "../../app";
 import useFetchModels, {
@@ -74,7 +75,12 @@ const MattersSponsored: FC<MattersSponsoredProps> = ({ personId }: MattersSponso
             <li key={matterSponsored.id}>
               <dl>
                 <dt>
-                  <strong>{matterSponsored.matter?.name}</strong>
+                  <Link
+                    key={matterSponsored.matter?.id}
+                    to={`/matters/${matterSponsored.matter?.id}`}
+                  >
+                    <strong>{matterSponsored.matter?.name}</strong>
+                  </Link>
                 </dt>
                 <dd>{matterSponsored.matter?.title}</dd>
               </dl>

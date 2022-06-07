@@ -98,7 +98,7 @@ function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[], isMobile:
 
 const MeetingVotesTableRow = ({
   index,
-  /* legislationLink, */
+  legislationLink,
   legislationName,
   legislationDescription,
   councilDecision,
@@ -120,10 +120,11 @@ const MeetingVotesTableRow = ({
       }}
     >
       <div>
-        {/* <Link to={legislationLink}>{legislationName}</Link> */}
-        <p className="mzp-c-card-desc" style={{ fontWeight: 600, marginBottom: 0 }}>
-          {legislationName}
-        </p>
+        <Link to={legislationLink}>
+          <p className="mzp-c-card-desc" style={{ fontWeight: 600, marginBottom: 0 }}>
+            {legislationName}
+          </p>
+        </Link>
         {!isMobile && <p>{legislationDescription}</p>}
       </div>
       <DecisionResult result={councilDecision} />

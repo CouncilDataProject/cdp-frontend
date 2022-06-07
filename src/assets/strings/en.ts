@@ -89,6 +89,7 @@ const en = {
   latest_vote: "Latest Vote",
   history: "History",
   minutes: "Minutes",
+  go_to_matter_details: "Go to Full Legislation Details",
 };
 
 export default en;

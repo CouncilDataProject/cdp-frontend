@@ -27,6 +27,29 @@ export default class MatterSponsorService extends ModelService {
     super(COLLECTION_NAME.MatterSponsor, firebaseConfig);
   }
 
+  async getMatterSponsorByMatterId(matterId: string): Promise<MatterSponsor[]> {
+    const populatePerson = new Populate(
+      COLLECTION_NAME.MatterSponsor,
+      REF_PROPERTY_NAME.MatterSponsorPersonRef
+    );
+    const networkQueryResponse = this.networkService.getDocuments(
+      COLLECTION_NAME.MatterSponsor,
+      [
+        where(
+          REF_PROPERTY_NAME.MatterSponsorMatterRef,
+          WHERE_OPERATOR.eq,
+          doc(NetworkService.getDb(), COLLECTION_NAME.Matter, matterId)
+        ),
+      ],
+      new PopulationOptions([populatePerson])
+    );
+    return this.createModels(
+      networkQueryResponse,
+      MatterSponsor,
+      `getMatterSponsorByMatterId(${matterId})`
+    ) as Promise<MatterSponsor[]>;
+  }
+
   /**
    *
    * @param personId The person's id
