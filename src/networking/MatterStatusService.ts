@@ -18,10 +18,6 @@ export default class MatterStatusService extends ModelService {
   }
 
   async getMatterStatusesByMatterId(matterId: string): Promise<MatterStatus[]> {
-    const populateMatter = new Populate(
-      COLLECTION_NAME.MatterStatus,
-      REF_PROPERTY_NAME.MatterStatusMatterRef
-    );
     const populateEventMinutesItems = new Populate(
       COLLECTION_NAME.MatterStatus,
       REF_PROPERTY_NAME.MatterStatusEventMinutesItemRef
@@ -37,7 +33,7 @@ export default class MatterStatusService extends ModelService {
         ),
         orderBy("update_datetime", ORDER_DIRECTION.desc),
       ],
-      new PopulationOptions([populateMatter, populateEventMinutesItems])
+      new PopulationOptions([populateEventMinutesItems])
     );
     return this.createModels(
       networkQueryResponse,

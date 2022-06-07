@@ -74,14 +74,14 @@ const MattersSponsored: FC<MattersSponsoredProps> = ({ personId }: MattersSponso
           {state.models.map((matterSponsored) => (
             <li key={matterSponsored.id}>
               <dl>
-                <Link
-                  key={matterSponsored.matter?.id}
-                  to={`/matters/${matterSponsored.matter?.id}`}
-                >
-                  <dt>
+                <dt>
+                  <Link
+                    key={matterSponsored.matter?.id}
+                    to={`/matters/${matterSponsored.matter?.id}`}
+                  >
                     <strong>{matterSponsored.matter?.name}</strong>
-                  </dt>
-                </Link>
+                  </Link>
+                </dt>
                 <dd>{matterSponsored.matter?.title}</dd>
               </dl>
             </li>

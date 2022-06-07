@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import MatterStatus from "../../models/MatterStatus";
 import Event from "../../models/Event";
@@ -12,6 +13,11 @@ import LegislationOverview from "../../components/Details/Legislation/Legislatio
 import { LegislationLatestVote } from "../../components/Details/Legislation/LegislationLatestVote";
 import { LegislationHistory } from "../../components/Details/Legislation/LegislationHistory";
 
+const Matter = styled.div({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  rowGap: 64,
+});
 interface MatterContainerProps {
   matterStatus: MatterStatus;
   indexedMatterGrams: IndexedMatterGram[];
@@ -30,7 +36,7 @@ const MatterContainer = ({
   legislationHistory,
 }: MatterContainerProps) => {
   return (
-    <div>
+    <Matter>
       <LegislationIntroduction
         matterStatus={matterStatus}
         indexedMatterGrams={indexedMatterGrams}
@@ -38,7 +44,7 @@ const MatterContainer = ({
       <LegislationOverview matterStatus={matterStatus} event={event} sponsors={sponsors} />
       {votes && <LegislationLatestVote votes={votes} />}
       {legislationHistory && <LegislationHistory eventMinutesItems={legislationHistory} />}
-    </div>
+    </Matter>
   );
 };
 

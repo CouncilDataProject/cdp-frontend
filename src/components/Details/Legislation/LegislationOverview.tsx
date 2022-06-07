@@ -101,10 +101,10 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
             <ProgressBar status={matterStatus.status} />
           </dd>
         </div>
-        <div>
-          <dt>Latest Meeting:</dt>
-          <dd>
-            {event && (
+        {event && (
+          <div>
+            <dt>Latest Meeting:</dt>
+            <dd>
               <Link to={`/events/${event.id}`}>
                 {event.event_datetime.toLocaleDateString("en-US", {
                   month: "short",
@@ -112,9 +112,9 @@ const LegislationOverview: FC<LegislationOverviewProps> = ({
                   year: "numeric",
                 })}
               </Link>
-            )}
-          </dd>
-        </div>
+            </dd>
+          </div>
+        )}
         {document && (
           <div>
             <dt>Latest Document:</dt>
