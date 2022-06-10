@@ -12,6 +12,7 @@ import Event from "../../models/Event";
 import Person from "../../models/Person";
 import Vote from "../../models/Vote";
 
+import MatterService from "../../networking/MatterService";
 import MatterStatusService from "../../networking/MatterStatusService";
 import EventService from "../../networking/EventService";
 import MatterSponsorService from "../../networking/MatterSponsorService";
@@ -33,14 +34,20 @@ const MatterPage: FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const fetchMatterDetails = useCallback(async () => {
+    const matterService = new MatterService(firebaseConfig);
     const matterStatusService = new MatterStatusService(firebaseConfig);
     const matterSponsorService = new MatterSponsorService(firebaseConfig);
     const eventService = new EventService(firebaseConfig);
 
-    const matterSponsorPromises = matterSponsorService.getMatterSponsorByMatterId(id);
-    const matterStatusPromises = matterStatusService.getMatterStatusesByMatterId(id);
-    const responses = await Promise.all([matterSponsorPromises, matterStatusPromises]);
-    const [matterSponsors, matterStatuses] = responses; // javascript array destructuring shorthand
+    const matterPromise = matterService.getMatterById(id);
+    const matterSponsorsPromise = matterSponsorService.getMatterSponsorByMatterId(id);
+    const matterStatusesPromise = matterStatusService.getMatterStatusesByMatterId(id);
+    const responses = await Promise.all([
+      matterPromise,
+      matterSponsorsPromise,
+      matterStatusesPromise,
+    ]);
+    const [matter, matterSponsors, matterStatuses] = responses; // javascript array destructuring shorthand
     const sponsors = matterSponsors
       .filter((matterSponsor) => {
         return matterSponsor.person;
@@ -56,6 +63,7 @@ const MatterPage: FC = () => {
     }, [] as EventMinutesItem[]);
 
     const latestStatus = matterStatuses[0];
+    latestStatus.matter = matter;
     const matterContainerData: MatterContainerType = {
       matterStatus: latestStatus,
       indexedMatterGrams: [],
