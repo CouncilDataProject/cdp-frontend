@@ -18,9 +18,14 @@ export default class MatterStatusService extends ModelService {
   }
 
   async getMatterStatusesByMatterId(matterId: string): Promise<MatterStatus[]> {
+    const populateEvent = new Populate(
+      COLLECTION_NAME.EventMinutesItem,
+      REF_PROPERTY_NAME.EventMinutesItemEventRef
+    );
     const populateEventMinutesItems = new Populate(
       COLLECTION_NAME.MatterStatus,
-      REF_PROPERTY_NAME.MatterStatusEventMinutesItemRef
+      REF_PROPERTY_NAME.MatterStatusEventMinutesItemRef,
+      new PopulationOptions([populateEvent])
     );
 
     const networkQueryResponse = this.networkService.getDocuments(
