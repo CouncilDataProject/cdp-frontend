@@ -102,6 +102,10 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   history: string;
   minutes: string;
   go_to_matter_details: string;
+  disclaimer_start: string;
+  disclaimer_end: string;
+  disclaimer_footer_start: string;
+  disclaimer_footer_end: string;
 }
 
 // Note: Add languages to video.js in /src/pages/EventPage/utils when adding new languages

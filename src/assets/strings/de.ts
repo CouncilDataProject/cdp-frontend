@@ -91,6 +91,12 @@ const de = {
   history: "Geschichte",
   minutes: "Protokoll",
   go_to_matter_details: "Gehen Sie zu den vollständigen Rechtsvorschriften",
+  disclaimer_start:
+    "Um Transkripte von Veranstaltungen kostengünstig bereitzustellen, verwendet Council Data Project",
+  disclaimer_end: "für die Transkription. Ereignisprotokolle können Fehler enthalten.",
+  disclaimer_footer_start: "In vielen Fällen verwendet Council Data Project ein fein abgestimmtes",
+  disclaimer_footer_end:
+    "Modell zur Generierung von Ereignisprotokollen. Wir verstehen, dass Transkripte Fehler enthalten können. Wenn Sie ein Experte für maschinelles Lernen sind und dabei helfen möchten, unser System zum Generieren von Transkripten zu verbessern, kontaktieren Sie uns bitte auf GitHub.",
 };
 
 export default de;

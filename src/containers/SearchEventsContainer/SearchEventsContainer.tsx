@@ -31,6 +31,7 @@ import { SEARCH_TYPE } from "../../pages/SearchPage/types";
 import { strings } from "../../assets/LocalizedStrings";
 import { FETCH_CARDS_BATCH_SIZE } from "../../constants/ProjectConstants";
 import { screenWidths } from "../../styles/mediaBreakpoints";
+import { fontSizes } from "../../styles/fonts";
 import getTimeZoneDate from "../../utils/getTimeZoneName";
 
 const SearchEventsContainer: FC<SearchEventsContainerData> = ({
@@ -225,6 +226,15 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         ]}
         handlePopupClose={handleSearch}
       />
+      <p
+        style={{
+          fontSize: fontSizes.font_size_5,
+        }}
+      >
+        {strings.disclaimer_start}{" "}
+        <a href="https://cloud.google.com/speech-to-text">Google Speech-to-Text</a>{" "}
+        {strings.disclaimer_end}
+      </p>
       {fetchEventsResult}
       <ShowMoreCards isVisible={showMoreEvents}>
         <button className="mzp-c-button mzp-t-secondary mzp-t-lg" onClick={handleShowMoreEvents}>
