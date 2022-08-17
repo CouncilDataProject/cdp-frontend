@@ -232,7 +232,13 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         }}
       >
         {strings.disclaimer_start}{" "}
-        <a href="https://cloud.google.com/speech-to-text">Google Speech-to-Text</a>{" "}
+        <a
+          rel="noopener noreferrer license external"
+          href="https://cloud.google.com/speech-to-text"
+          target="_blank"
+        >
+          Google Speech-to-Text
+        </a>{" "}
         {strings.disclaimer_end}
       </p>
       {fetchEventsResult}
