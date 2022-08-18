@@ -65,6 +65,18 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
         </nav>
 
         <nav className="mzp-c-footer-secondary">
+          <p>
+            {strings.disclaimer_footer_start}{" "}
+            <a
+              rel="noopener noreferrer license external"
+              target="_blank"
+              href="https://cloud.google.com/speech-to-text"
+            >
+              Google Speech-to-Text
+            </a>{" "}
+            {strings.disclaimer_footer_end}
+          </p>
+
           <div className="mzp-c-footer-legal mzp-c-footer-license">
             <p>{strings.copyright_notice.replace("{date_range}", "2017-2021")}</p>
             <p>
