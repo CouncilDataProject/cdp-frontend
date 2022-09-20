@@ -42,7 +42,7 @@ const DocumentsList: FC<DocumentsListProps> = ({ documents }: DocumentsListProps
         {strings.see_documents}
         {isExpanded ? <MinusIcon /> : <PlusIcon />}
       </Summary>
-      <ul>
+      <ul className="mzp-u-list-styled">
         {documents.map((doc) => {
           return (
             <li key={doc.label}>
