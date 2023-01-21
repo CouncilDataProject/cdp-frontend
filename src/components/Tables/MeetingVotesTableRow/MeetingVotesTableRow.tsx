@@ -28,7 +28,8 @@ type MeetingVotesTableRowProps = {
   columnDistribution: string[];
 };
 
-function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[], isMobile: boolean) {
+function VoteCell(votes: IndividualMeetingVote[], isMobile: boolean) {
+  const [expanded, setExpanded] = useState(false);
   let votesFor = 0;
   let votesAgainst = 0;
   let nonVotes = 0;
@@ -110,9 +111,6 @@ const MeetingVotesTableRow = ({
       index={index}
       columnNames={columnNames}
       columnDistribution={columnDistribution}
-      onClick={() => {
-        setExpanded(!expanded);
-      }}
     >
       <div>
         <Link to={legislationLink}>
@@ -123,7 +121,7 @@ const MeetingVotesTableRow = ({
         {!isMobile && <p>{legislationDescription}</p>}
       </div>
       <DecisionResult result={councilDecision} />
-      {VoteCell(expanded, votes, isMobile)}
+      {VoteCell(votes, isMobile)}
     </ReactiveTableRow>
   );
 };
