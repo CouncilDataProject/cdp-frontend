@@ -29,6 +29,41 @@ type MeetingVotesTableRowProps = {
 };
 
 function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[], isMobile: boolean) {
+  let votesFor = 0;
+  let votesAgainst = 0;
+  let nonVotes = 0;
+  votes.forEach((vote) => {
+    if (
+      [VOTE_DECISION.ABSENT_APPROVE, VOTE_DECISION.ABSTAIN_APPROVE, VOTE_DECISION.APPROVE].includes(
+        vote.decision
+      )
+    )
+      votesFor++;
+    if (
+      [VOTE_DECISION.ABSENT_REJECT, VOTE_DECISION.ABSTAIN_REJECT, VOTE_DECISION.REJECT].includes(
+        vote.decision
+      )
+    )
+      votesAgainst++;
+    if ([VOTE_DECISION.ABSENT_NON_VOTING, VOTE_DECISION.ABSTAIN_NON_VOTING].includes(vote.decision))
+      nonVotes++;
+  });
+  const votesForLabel = strings.number_approved.replace("{number}", `${votesFor}`);
+  const votesAgainstLabel = strings.number_rejected.replace("{number}", `${votesAgainst}`);
+  const votesAbstainedLabel = strings.number_non_voting.replace("{number}", `${nonVotes}`);
+  if (isMobile) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <p>{votesForLabel}</p>
+        <p>{votesAgainstLabel}</p>
+        <p>{votesAbstainedLabel}</p>
+      </div>
+    );
+  } else {
+    return (
+      <p>{`${votesForLabel} ${TAG_CONNECTOR} ${votesAgainstLabel} ${TAG_CONNECTOR} ${votesAbstainedLabel}`}</p>
+    );
+  }
   if (isExpanded) {
     return (
       <React.Fragment>
@@ -53,46 +88,6 @@ function VoteCell(isExpanded: boolean, votes: IndividualMeetingVote[], isMobile:
         })}
       </React.Fragment>
     );
-  } else {
-    let votesFor = 0;
-    let votesAgainst = 0;
-    let nonVotes = 0;
-    votes.forEach((vote) => {
-      if (
-        [
-          VOTE_DECISION.ABSENT_APPROVE,
-          VOTE_DECISION.ABSTAIN_APPROVE,
-          VOTE_DECISION.APPROVE,
-        ].includes(vote.decision)
-      )
-        votesFor++;
-      if (
-        [VOTE_DECISION.ABSENT_REJECT, VOTE_DECISION.ABSTAIN_REJECT, VOTE_DECISION.REJECT].includes(
-          vote.decision
-        )
-      )
-        votesAgainst++;
-      if (
-        [VOTE_DECISION.ABSENT_NON_VOTING, VOTE_DECISION.ABSTAIN_NON_VOTING].includes(vote.decision)
-      )
-        nonVotes++;
-    });
-    const votesForLabel = strings.number_approved.replace("{number}", `${votesFor}`);
-    const votesAgainstLabel = strings.number_rejected.replace("{number}", `${votesAgainst}`);
-    const votesAbstainedLabel = strings.number_non_voting.replace("{number}", `${nonVotes}`);
-    if (isMobile) {
-      return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <p>{votesForLabel}</p>
-          <p>{votesAgainstLabel}</p>
-          <p>{votesAbstainedLabel}</p>
-        </div>
-      );
-    } else {
-      return (
-        <p>{`${votesForLabel} ${TAG_CONNECTOR} ${votesAgainstLabel} ${TAG_CONNECTOR} ${votesAbstainedLabel}`}</p>
-      );
-    }
   }
 }
 
