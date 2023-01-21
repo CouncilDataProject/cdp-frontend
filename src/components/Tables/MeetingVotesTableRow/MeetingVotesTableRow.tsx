@@ -52,44 +52,50 @@ function VoteCell(votes: IndividualMeetingVote[], isMobile: boolean) {
   const votesForLabel = strings.number_approved.replace("{number}", `${votesFor}`);
   const votesAgainstLabel = strings.number_rejected.replace("{number}", `${votesAgainst}`);
   const votesAbstainedLabel = strings.number_non_voting.replace("{number}", `${nonVotes}`);
-  if (isMobile) {
-    return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <p>{votesForLabel}</p>
-        <p>{votesAgainstLabel}</p>
-        <p>{votesAbstainedLabel}</p>
-      </div>
-    );
-  } else {
-    return (
-      <p>{`${votesForLabel} ${TAG_CONNECTOR} ${votesAgainstLabel} ${TAG_CONNECTOR} ${votesAbstainedLabel}`}</p>
-    );
-  }
-  if (isExpanded) {
-    return (
-      <React.Fragment>
-        {votes.map((vote, index) => {
-          const personLink = `/people/${vote.personId}`;
-          return (
-            <div
-              key={`individual-vote-${index}-${vote.id}`}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Link style={{ flex: 1 }} to={personLink}>
-                {vote.name}
-              </Link>
-              <DecisionResult result={vote.decision} />
-            </div>
-          );
-        })}
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      {isMobile ? (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <p>{votesForLabel}</p>
+          <p>{votesAgainstLabel}</p>
+          <p>{votesAbstainedLabel}</p>
+        </div>
+      ) : (
+        <p>{`${votesForLabel} ${TAG_CONNECTOR} ${votesAgainstLabel} ${TAG_CONNECTOR} ${votesAbstainedLabel}`}</p>
+      )}
+      {votes.map((vote, index) => {
+        if (!expanded && index > 4) {
+          return;
+        }
+        const personLink = `/people/${vote.personId}`;
+        return (
+          <div
+            key={`individual-vote-${index}-${vote.id}`}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Link style={{ flex: 1 }} to={personLink}>
+              {vote.name}
+            </Link>
+            <DecisionResult result={vote.decision} />
+          </div>
+        );
+      })}
+      {votes.length > 5 && (
+        <button
+          onClick={() => {
+            setExpanded(!expanded);
+          }}
+        >
+          {expanded ? "Show Less" : "Show All Votes for Matter "}
+        </button>
+      )}
+    </React.Fragment>
+  );
 }
 
 const MeetingVotesTableRow = ({
