@@ -88,6 +88,9 @@ function VoteCell(votes: IndividualMeetingVote[], isMobile: boolean) {
       {votes.length > 5 && (
         <button
           className="mzp-c-button mzp-t-product mzp-t-secondary mzp-t-sm"
+          style={{
+            marginTop: 10,
+          }}
           onClick={() => {
             setExpanded(!expanded);
           }}
