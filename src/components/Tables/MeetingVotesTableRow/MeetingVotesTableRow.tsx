@@ -61,42 +61,44 @@ function VoteCell(votes: IndividualMeetingVote[], isMobile: boolean) {
           <p>{votesAbstainedLabel}</p>
         </div>
       ) : (
-        <p>{`${votesForLabel} ${TAG_CONNECTOR} ${votesAgainstLabel} ${TAG_CONNECTOR} ${votesAbstainedLabel}`}</p>
-      )}
-      {votes.map((vote, index) => {
-        if (!expanded && index > 4) {
-          return;
-        }
-        const personLink = `/people/${vote.personId}`;
-        return (
-          <div
-            key={`individual-vote-${index}-${vote.id}`}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Link style={{ flex: 1 }} to={personLink}>
-              {vote.name}
-            </Link>
-            <DecisionResult result={vote.decision} />
-          </div>
-        );
-      })}
-      {votes.length > 5 && (
-        <button
-          className="mzp-c-button mzp-t-product mzp-t-secondary mzp-t-sm"
-          style={{
-            marginTop: 10,
-          }}
-          onClick={() => {
-            setExpanded(!expanded);
-          }}
-        >
-          {expanded ? "Show Less" : "Show All Votes for Matter "}
-        </button>
+        <>
+          <p>{`${votesForLabel} ${TAG_CONNECTOR} ${votesAgainstLabel} ${TAG_CONNECTOR} ${votesAbstainedLabel}`}</p>
+          {votes.map((vote, index) => {
+            if (!expanded && index > 4) {
+              return;
+            }
+            const personLink = `/people/${vote.personId}`;
+            return (
+              <div
+                key={`individual-vote-${index}-${vote.id}`}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Link style={{ flex: 1 }} to={personLink}>
+                  {vote.name}
+                </Link>
+                <DecisionResult result={vote.decision} />
+              </div>
+            );
+          })}
+          {votes.length > 5 && (
+            <button
+              className="mzp-c-button mzp-t-product mzp-t-secondary mzp-t-sm"
+              style={{
+                marginTop: 10,
+              }}
+              onClick={() => {
+                setExpanded(!expanded);
+              }}
+            >
+              {expanded ? "Show Less" : "Show All Votes for Matter "}
+            </button>
+          )}
+        </>
       )}
     </React.Fragment>
   );
