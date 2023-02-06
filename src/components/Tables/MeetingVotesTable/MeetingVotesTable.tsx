@@ -42,7 +42,6 @@ const MeetingVotesTable = ({ votesPage }: MeetingVotesTableProps) => {
 
   return (
     <>
-      {<p>{strings.meeting_votes_caption}</p>}
       <ReactiveTable
         data={votesPage}
         columnDistribution={COLUMN_DISTRIBUTION}
