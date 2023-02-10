@@ -92,7 +92,7 @@ export function getCollectionForReference(reference: string): COLLECTION_NAME | 
     case REF_PROPERTY_NAME.TranscriptSessionRef:
       return COLLECTION_NAME.Session;
     case REF_PROPERTY_NAME.VoteEventMinutesItemRef:
-      return COLLECTION_NAME.MinutesItem;
+      return COLLECTION_NAME.EventMinutesItem;
     case REF_PROPERTY_NAME.VoteEventRef:
       return COLLECTION_NAME.Event;
     case REF_PROPERTY_NAME.VoteMatterRef:
