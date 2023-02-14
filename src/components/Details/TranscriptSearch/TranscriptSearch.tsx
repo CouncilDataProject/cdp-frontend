@@ -87,7 +87,7 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
       return sentences.data.map(({ text }) => {
         const cleanedText = cleanText(text);
         const tokens = removeStopwords(cleanedText.split(" "));
-        const stems = tokens.map((token) => stem(token).toLowerCase());
+        const stems = tokens.map((token) => stem(token.toLowerCase()));
         return new Set(stems);
       });
     }
@@ -106,7 +106,7 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
         // empty query or no valid tokens to search
         return [];
       }
-      const stemmedQuery = tokenizedQuery.map((token) => stem(token).toLowerCase());
+      const stemmedQuery = tokenizedQuery.map((token) => stem(token.toLowerCase()));
       return sentences.data.filter((_, i) => stemmedQuery.some((q) => stemmedSentences[i].has(q)));
     }
     return [];
