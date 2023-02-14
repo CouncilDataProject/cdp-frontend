@@ -154,7 +154,7 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
       // no query or valid tokens to highlight
       return [];
     }
-    const stemmedQuery = tokenizedQuery.map((token) => stem(token));
+    const stemmedQuery = tokenizedQuery.map((token) => stem(token.toLowerCase()));
     // highlight the token or the stem
     const regExps = tokenizedQuery.map(
       (token, i) => new RegExp(`\\b(${token}|${stemmedQuery[i]})`, "g")
