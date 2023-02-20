@@ -13,6 +13,14 @@ import { fontSizes } from "../../../styles/fonts";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import cleanText from "../../../utils/cleanText";
 
+import Fuse from "fuse.js";
+
+const searchOptions = {
+  includeScore: true,
+  useExtendedSearch: true,
+  keys: ["text"],
+};
+
 const Container = styled.div({
   display: "flex",
   flexDirection: "column",
@@ -97,17 +105,8 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
   //Update the visible sentences as the searched query changes
   const visibleSentences = useMemo(() => {
     if (sentences.data) {
-      if (!searchedTerm.trim()) {
-        return sentences.data;
-      }
-      const cleanedQuery = cleanText(searchedTerm);
-      const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
-      if (!cleanedQuery || tokenizedQuery.length === 0) {
-        // empty query or no valid tokens to search
-        return [];
-      }
-      const stemmedQuery = tokenizedQuery.map((token) => stem(token).toLowerCase());
-      return sentences.data.filter((_, i) => stemmedQuery.some((q) => stemmedSentences[i].has(q)));
+      const fuse = new Fuse(sentences.data, searchOptions);
+      return fuse.search(searchedTerm).map((x) => x.item);
     }
     return [];
   }, [sentences.data, stemmedSentences, searchedTerm]);
