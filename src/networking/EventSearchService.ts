@@ -96,10 +96,9 @@ export default class EventSearchService {
         stemmedGrams.push(
           gramSet
             .map((gram) => {
-              return stem(gram);
+              return stem(gram.toLowerCase());
             })
             .join(" ")
-            .toLowerCase()
         );
       });
     });
