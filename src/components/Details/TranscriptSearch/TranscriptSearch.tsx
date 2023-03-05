@@ -13,14 +13,6 @@ import { fontSizes } from "../../../styles/fonts";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import cleanText from "../../../utils/cleanText";
 
-import Fuse from "fuse.js";
-
-const searchOptions = {
-  includeScore: true,
-  useExtendedSearch: true,
-  keys: ["text"],
-};
-
 const Container = styled.div({
   display: "flex",
   flexDirection: "column",
@@ -105,8 +97,48 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
   //Update the visible sentences as the searched query changes
   const visibleSentences = useMemo(() => {
     if (sentences.data) {
-      const fuse = new Fuse(sentences.data, searchOptions);
-      return fuse.search(searchedTerm).map((x) => x.item);
+      if (!searchedTerm.trim()) {
+        return sentences.data;
+      }
+
+      // get all indices of double quotes
+      var regex = /"/gi,
+        result,
+        indices = [],
+        required = [];
+      while ((result = regex.exec(searchedTerm))) {
+        indices.push(result.index);
+      }
+
+      // find everything inside these double quotes and remove them
+      let newTerm = searchedTerm;
+      for (let i = Math.floor(indices.length / 2) - 1; i >= 0; i--) {
+        required.push(newTerm.substring(indices[i * 2] + 1, indices[i * 2 + 1]));
+        newTerm =
+          newTerm.substring(0, indices[i * 2]) +
+          newTerm.substring(indices[i * 2 + 1] + 1, newTerm.length);
+      }
+
+      let ans = [];
+      const cleanedQuery = cleanText(newTerm);
+      const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
+      if (!cleanedQuery || tokenizedQuery.length === 0) {
+        // empty query or no valid tokens to search
+        ans = sentences.data;
+      } else {
+        const stemmedQuery = tokenizedQuery.map((token) => stem(token.toLowerCase()));
+        // the list without filtering out entries without the required words
+        ans = sentences.data.filter((_, i) => stemmedQuery.some((q) => stemmedSentences[i].has(q)));
+      }
+      // filter out everything in prevAns that doesn't have all the required terms
+      for (let i = ans.length - 1; i >= 0; i--) {
+        for (let j = 0; j < required.length; j++) {
+          if (!ans[i].text.includes(required[j])) {
+            ans.splice(i, 1);
+          }
+        }
+      }
+      return ans;
     }
     return [];
   }, [sentences.data, stemmedSentences, searchedTerm]);
