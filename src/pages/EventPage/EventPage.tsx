@@ -113,6 +113,7 @@ const EventPage: FC = () => {
       // Create transcript items from the transcripts
       const transcriptJsons = await Promise.all(
         transcripts.map((transcript) => {
+          console.log("Transcript JSON Data", transcript[0]);
           return transcriptJsonService.download(transcript[0].file?.uri as string);
         })
       );

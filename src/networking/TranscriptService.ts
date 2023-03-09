@@ -27,7 +27,7 @@ export default class TranscriptService extends ModelService {
           WHERE_OPERATOR.eq,
           doc(NetworkService.getDb(), COLLECTION_NAME.Session, sessionId)
         ),
-        orderBy("confidence", ORDER_DIRECTION.desc),
+        orderBy("created", ORDER_DIRECTION.desc),
         limit(1),
       ],
       new PopulationOptions([
