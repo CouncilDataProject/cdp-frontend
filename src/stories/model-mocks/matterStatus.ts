@@ -1,6 +1,6 @@
 import MatterStatus from "../../models/MatterStatus";
 import { MATTER_STATUS_DECISION } from "../../models/constants";
-import { basicMatter } from "./matter";
+import { basicMatter, matterWithInordinatelyLongTitle } from "./matter";
 import { basicPassEventMinutesItem } from "./eventMinutesItem";
 
 const adoptedMatterStatus: MatterStatus = {
@@ -36,4 +36,15 @@ const inProgressMatterStatus: MatterStatus = {
   update_datetime: new Date(),
 };
 
-export { adoptedMatterStatus, rejectedMatterStatus, inProgressMatterStatus };
+const longTitleMatterStatus: MatterStatus = {
+  id: "longTitleMatterStatus-test",
+  event_minutes_item_ref: "event_minutes_item_ref",
+  event_minutes_item: basicPassEventMinutesItem,
+  external_source_id: "external_source_id",
+  matter_ref: "matter_ref",
+  matter: matterWithInordinatelyLongTitle,
+  status: MATTER_STATUS_DECISION.ADOPTED,
+  update_datetime: new Date(),
+};
+
+export { adoptedMatterStatus, rejectedMatterStatus, inProgressMatterStatus, longTitleMatterStatus };
