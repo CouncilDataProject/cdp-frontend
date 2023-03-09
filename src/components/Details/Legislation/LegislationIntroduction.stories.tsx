@@ -10,6 +10,7 @@ import {
   adoptedMatterStatus,
   rejectedMatterStatus,
   inProgressMatterStatus,
+  longTitleMatterStatus,
 } from "../../../stories/model-mocks/matterStatus";
 
 import LegislationIntroduction, { LegislationIntroductionProps } from "./LegislationIntroduction";
@@ -34,6 +35,11 @@ const inProgressProps: LegislationIntroductionProps = {
   indexedMatterGrams: [basicIndexMatterGram, rentBasicMatterGram],
 };
 
+const longTitleProps: LegislationIntroductionProps = {
+  matterStatus: longTitleMatterStatus,
+  indexedMatterGrams: [basicIndexMatterGram, rentBasicMatterGram],
+};
+
 const Template: Story<LegislationIntroductionProps> = (args) => (
   <LegislationIntroduction {...args} />
 );
@@ -46,3 +52,6 @@ rejectedStory.args = rejectedProps;
 
 export const inProgressStory = Template.bind({});
 inProgressStory.args = inProgressProps;
+
+export const longTitleStory = Template.bind({});
+longTitleStory.args = longTitleProps;

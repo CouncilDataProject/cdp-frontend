@@ -1,21 +1,48 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
+import styled from "@emotion/styled";
+import { useMediaQuery } from "react-responsive";
+
 import MatterStatus from "../../../models/MatterStatus";
 import IndexedMatterGram from "../../../models/IndexedMatterGram";
 import { DecisionResult } from "../../Shared";
-
+import { screenWidths } from "../../../styles/mediaBreakpoints";
 export interface LegislationIntroductionProps {
   matterStatus: MatterStatus;
   indexedMatterGrams: IndexedMatterGram[];
 }
 
+const Title = styled.b<{ minified: boolean; linesToShow: number }>((props) => ({
+  overflow: "hidden",
+  "text-overflow": "ellipsis",
+  display: "-webkit-box",
+  "-webkit-line-clamp": props.minified
+    ? `${props.linesToShow}`
+    : "none" /* number of lines to show, 'none' means no limit */,
+  "line-clamp": props.minified ? `${props.linesToShow}` : "none",
+  "-webkit-box-orient": "vertical",
+}));
+
 const LegislationIntroduction: FC<LegislationIntroductionProps> = ({
   matterStatus,
   indexedMatterGrams,
 }: LegislationIntroductionProps) => {
+  const [fullTitleVisible, setFullTitleVisible] = useState(true);
+
+  const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
+  const linesToShow = isMobile ? 4 : 2;
+
   return (
     <div>
       <h1 className="mzp-u-title-sm">{matterStatus.matter?.name}</h1>
-      <b>{matterStatus.matter?.title}</b>
+      <Title
+        onClick={() => {
+          setFullTitleVisible(!fullTitleVisible);
+        }}
+        minified={fullTitleVisible}
+        linesToShow={linesToShow}
+      >
+        {matterStatus.matter?.title}
+      </Title>
       <div
         style={{
           display: "flex",
