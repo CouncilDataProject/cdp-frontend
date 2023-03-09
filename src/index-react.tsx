@@ -8,7 +8,7 @@ ReactDOM.render(
       appConfig={{
         firebaseConfig: {
           options: {
-            projectId: "cdp-seattle-staging-dbengvtn",
+            projectId: "cdp-seattle-21723dcf",
           },
           settings: {},
         },
