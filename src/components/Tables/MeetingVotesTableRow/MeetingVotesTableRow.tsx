@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import styled from "@emotion/styled";
+
 import DecisionResult from "../../Shared/DecisionResult";
 import { EVENT_MINUTES_ITEM_DECISION, VOTE_DECISION } from "../../../models/constants";
 import { TAG_CONNECTOR } from "../../../constants/StyleConstants";
@@ -27,6 +29,17 @@ type MeetingVotesTableRowProps = {
   /** sizes of each column from left to right */
   columnDistribution: string[];
 };
+
+const DescriptionBlock = styled.p<{ minified: boolean; linesToShow: number }>((props) => ({
+  overflow: "hidden",
+  "text-overflow": "ellipsis",
+  display: "-webkit-box",
+  "-webkit-line-clamp": props.minified
+    ? `${props.linesToShow}`
+    : "none" /* number of lines to show, 'none' means no limit */,
+  "line-clamp": props.minified ? `${props.linesToShow}` : "none",
+  "-webkit-box-orient": "vertical",
+}));
 
 function VoteCell(votes: IndividualMeetingVote[], isMobile: boolean) {
   const [expanded, setExpanded] = useState(false);
@@ -114,6 +127,7 @@ const MeetingVotesTableRow = ({
   columnNames,
   columnDistribution,
 }: MeetingVotesTableRowProps) => {
+  const [minified, setMinified] = useState(true);
   const isMobile = useMediaQuery({ query: `(max-width: ${screenWidths.tablet})` });
 
   return (
@@ -129,7 +143,17 @@ const MeetingVotesTableRow = ({
             {legislationName}
           </p>
         </Link>
-        {!isMobile && <p>{legislationDescription}</p>}
+        {!isMobile && (
+          <DescriptionBlock
+            onClick={() => {
+              setMinified(!minified);
+            }}
+            minified={minified}
+            linesToShow={3}
+          >
+            {legislationDescription}
+          </DescriptionBlock>
+        )}
       </div>
       <DecisionResult result={councilDecision} />
       {VoteCell(votes, isMobile)}
