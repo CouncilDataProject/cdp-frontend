@@ -96,6 +96,7 @@ const es = {
   disclaimer_footer_start: "En muchos casos, Council Data Project utiliza un",
   disclaimer_footer_end:
     "modelo perfeccionado para la generación de transcripciones de eventos. Entendemos que las transcripciones pueden incluir errores. Si es un experto en aprendizaje automático y desea ayudar a mejorar nuestro sistema para generar transcripciones, comuníquese con nosotros en GitHub.",
+  copy_button: "Copiar Texto",
 };
 
 export default es;

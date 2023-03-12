@@ -97,6 +97,7 @@ const de = {
   disclaimer_footer_start: "In vielen Fällen verwendet Council Data Project ein fein abgestimmtes",
   disclaimer_footer_end:
     "Modell zur Generierung von Ereignisprotokollen. Wir verstehen, dass Transkripte Fehler enthalten können. Wenn Sie ein Experte für maschinelles Lernen sind und dabei helfen möchten, unser System zum Generieren von Transkripten zu verbessern, kontaktieren Sie uns bitte auf GitHub.",
+  copy_button: "Kopieer Tekst",
 };
 
 export default de;

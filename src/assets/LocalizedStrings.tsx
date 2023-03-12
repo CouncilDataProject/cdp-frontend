@@ -106,6 +106,7 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   disclaimer_end: string;
   disclaimer_footer_start: string;
   disclaimer_footer_end: string;
+  copy_button: string;
 }
 
 // Note: Add languages to video.js in /src/pages/EventPage/utils when adding new languages
