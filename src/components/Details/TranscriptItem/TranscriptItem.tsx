@@ -17,6 +17,7 @@ import styled from "@emotion/styled";
 import { strings } from "../../../assets/LocalizedStrings";
 import DefaultAvatar from "../../Shared/DefaultAvatar";
 import DocumentTextIcon from "../../Shared/DocumentTextIcon";
+import CopyIcon from "../../Shared/CopyIcon";
 import PlayIcon from "../../Shared/PlayIcon";
 
 import colors from "../../../styles/colors";
@@ -42,7 +43,7 @@ interface ContainerProps {
 const Container = styled.div<ContainerProps>((props) => ({
   display: "grid",
   columnGap: 4,
-  gridTemplateColumns: props.hasMultipleActions ? "1fr auto auto" : "1fr auto",
+  gridTemplateColumns: props.hasMultipleActions ? "1fr auto auto auto" : "1fr auto auto",
   justifyContent: "start",
   alignItems: "center",
 }));
@@ -147,6 +148,10 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
     </DefaultAvatarContainer>
   );
 
+  const copySentence = () => {
+    navigator.clipboard.writeText(text);
+  };
+
   const searchWords = useMemo(() => {
     const cleanedQuery = cleanText(searchQuery || "");
     const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
@@ -214,6 +219,22 @@ const TranscriptItem: FC<TranscriptItemProps> = ({
             />
           </div>
         )}
+        <div>
+          <Popup
+            position="top right"
+            content={strings.copy_button}
+            size="mini"
+            trigger={
+              <Button
+                aria-label={strings.copy_button}
+                className="mzp-c-button mzp-t-neutral"
+                onClick={copySentence}
+              >
+                <CopyIcon />
+              </Button>
+            }
+          />
+        </div>
       </Container>
     </Item>
   );
