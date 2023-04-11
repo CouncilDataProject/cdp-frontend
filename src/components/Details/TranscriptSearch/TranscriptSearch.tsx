@@ -105,29 +105,29 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
       let newTerm = searchedTerm;
 
       // get beginning restricter
-      let beginIndStart = newTerm.indexOf('^"');
+      const beginIndStart = newTerm.indexOf('^"');
       let beginRestriction = "";
       if (beginIndStart !== -1) {
-        let beginIndFinal = newTerm.substring(beginIndStart + 2).indexOf('"') + beginIndStart + 2;
+        const beginIndFinal = newTerm.substring(beginIndStart + 2).indexOf('"') + beginIndStart + 2;
         beginRestriction = newTerm.substring(beginIndStart + 2, beginIndFinal);
         newTerm = newTerm.substring(0, beginIndStart) + newTerm.substring(beginIndFinal + 1);
       }
 
       // get ending restricter
-      let endIndStart = newTerm.indexOf('$"');
+      const endIndStart = newTerm.indexOf('$"');
       let endRestriction = "";
       if (endIndStart !== -1) {
-        let endIndFinal = newTerm.substring(endIndStart + 2).indexOf('"') + endIndStart + 2;
+        const endIndFinal = newTerm.substring(endIndStart + 2).indexOf('"') + endIndStart + 2;
         endRestriction = newTerm.substring(endIndStart + 2, endIndFinal);
         newTerm = newTerm.substring(0, endIndStart) + newTerm.substring(endIndFinal + 1);
       }
 
       // get all indices of double quotes
-      let regex = /"/gi,
-        result,
+      const regex = /"/gi,
         indices = [],
         required = [],
         banned = [];
+      let result;
       while ((result = regex.exec(newTerm))) {
         indices.push(result.index);
       }
@@ -146,16 +146,16 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
 
       let ans = [];
       console.log("1");
-      let cleanedQuery = cleanText(newTerm);
+      const cleanedQuery = cleanText(newTerm);
       console.log("2");
-      let tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
+      const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
       console.log("3");
       if (!cleanedQuery || tokenizedQuery.length === 0) {
         // empty query or no valid tokens to search
         ans = [...sentences.data];
         console.log("4");
       } else {
-        let stemmedQuery = tokenizedQuery.map((token) => stem(token.toLowerCase()));
+        const stemmedQuery = tokenizedQuery.map((token) => stem(token.toLowerCase()));
         // the list before filtering out entries according to double quote rules
         ans = sentences.data.filter((_, i) => stemmedQuery.some((q) => stemmedSentences[i].has(q)));
         console.log("5");
