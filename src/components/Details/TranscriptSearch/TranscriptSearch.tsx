@@ -12,6 +12,7 @@ import { strings } from "../../../assets/LocalizedStrings";
 import { fontSizes } from "../../../styles/fonts";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import cleanText from "../../../utils/cleanText";
+import { varietyRoles } from "../../../stories/model-mocks/role";
 
 const Container = styled.div({
   display: "flex",
@@ -100,14 +101,97 @@ const TranscriptSearch: FC<TranscriptSearchProps> = ({
       if (!searchedTerm.trim()) {
         return sentences.data;
       }
-      const cleanedQuery = cleanText(searchedTerm);
-      const tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
+
+      let newTerm = searchedTerm;
+
+      // get beginning restricter
+      let beginIndStart = newTerm.indexOf('^"');
+      let beginRestriction = "";
+      if (beginIndStart !== -1) {
+        let beginIndFinal = newTerm.substring(beginIndStart + 2).indexOf('"') + beginIndStart + 2;
+        beginRestriction = newTerm.substring(beginIndStart + 2, beginIndFinal);
+        newTerm = newTerm.substring(0, beginIndStart) + newTerm.substring(beginIndFinal + 1);
+      }
+
+      // get ending restricter
+      let endIndStart = newTerm.indexOf('$"');
+      let endRestriction = "";
+      if (endIndStart !== -1) {
+        let endIndFinal = newTerm.substring(endIndStart + 2).indexOf('"') + endIndStart + 2;
+        endRestriction = newTerm.substring(endIndStart + 2, endIndFinal);
+        newTerm = newTerm.substring(0, endIndStart) + newTerm.substring(endIndFinal + 1);
+      }
+
+      // get all indices of double quotes
+      let regex = /"/gi,
+        result,
+        indices = [],
+        required = [],
+        banned = [];
+      while ((result = regex.exec(newTerm))) {
+        indices.push(result.index);
+      }
+
+      // find everything inside these double quotes and remove them
+      for (let i = Math.floor(indices.length / 2) - 1; i >= 0; i--) {
+        if (newTerm.substring(indices[i * 2] - 1, indices[i * 2]) === "!") {
+          banned.push(newTerm.substring(indices[i * 2] + 1, indices[i * 2 + 1]));
+        } else {
+          required.push(newTerm.substring(indices[i * 2] + 1, indices[i * 2 + 1]));
+        }
+        newTerm =
+          newTerm.substring(0, indices[i * 2]) +
+          newTerm.substring(indices[i * 2 + 1] + 1, newTerm.length);
+      }
+
+      let ans = [];
+      console.log("1");
+      let cleanedQuery = cleanText(newTerm);
+      console.log("2");
+      let tokenizedQuery = removeStopwords(cleanedQuery.split(" "));
+      console.log("3");
       if (!cleanedQuery || tokenizedQuery.length === 0) {
         // empty query or no valid tokens to search
-        return [];
+        ans = [...sentences.data];
+        console.log("4");
+      } else {
+        let stemmedQuery = tokenizedQuery.map((token) => stem(token.toLowerCase()));
+        // the list before filtering out entries according to double quote rules
+        ans = sentences.data.filter((_, i) => stemmedQuery.some((q) => stemmedSentences[i].has(q)));
+        console.log("5");
       }
-      const stemmedQuery = tokenizedQuery.map((token) => stem(token.toLowerCase()));
-      return sentences.data.filter((_, i) => stemmedQuery.some((q) => stemmedSentences[i].has(q)));
+      console.log("6");
+      // filter out everything in prevAns that doesn't follow the double quote rules
+      for (let i = ans.length - 1; i >= 0; i--) {
+        console.log("7");
+        if (
+          beginRestriction !== "" &&
+          ans[i].text.substring(0, beginRestriction.length) !== beginRestriction
+        ) {
+          ans.splice(i, 1);
+          continue;
+        }
+        if (
+          endRestriction !== "" &&
+          ans[i].text.substring(ans[i].text.length - endRestriction.length) !== endRestriction
+        ) {
+          ans.splice(i, 1);
+          continue;
+        }
+        for (let j = 0; j < required.length; j++) {
+          if (!ans[i].text.includes(required[j])) {
+            ans.splice(i, 1);
+            continue;
+          }
+        }
+        for (let j = 0; j < banned.length; j++) {
+          if (ans[i].text.includes(banned[j])) {
+            ans.splice(i, 1);
+            continue;
+          }
+        }
+      }
+      return ans;
     }
     return [];
   }, [sentences.data, stemmedSentences, searchedTerm]);
