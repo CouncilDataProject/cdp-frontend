@@ -56,6 +56,9 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
                 <li>
                   <a href="https://github.com/CouncilDataProject">GitHub</a>
                 </li>
+                <li>
+                  <a href="https://opencollective.com/council-data-project">Donate</a>
+                </li>
               </ul>
             </section>
             {footerLinksSections.map((footerLinksSection: FooterLinksSection) => {
