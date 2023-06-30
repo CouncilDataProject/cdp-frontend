@@ -245,7 +245,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
           href="https://cdn.openai.com/papers/whisper.pdf"
           target="_blank"
         >
-          include errors.
+          {strings.disclaimer_include_errors}
         </a>
       </p>
       {fetchEventsResult}

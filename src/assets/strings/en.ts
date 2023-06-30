@@ -92,6 +92,7 @@ const en = {
   go_to_matter_details: "Go to Full Legislation Details",
   disclaimer_start: "Council Data Project utilizes",
   disclaimer_end: "model for generation of event transcripts. The produced transcripts may",
+  disclaimer_include_errors: "include errors",
   disclaimer_footer_start: "In many cases, Council Data Project utilizes a fine-tuned",
   disclaimer_footer_end:
     "model for generation of event transcripts. We understand that transcripts may include errors. If you are a machine learning expert and wish to help improve our system for generating transcripts, please reach out to us on GitHub.",
