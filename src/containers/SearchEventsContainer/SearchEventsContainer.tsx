@@ -237,7 +237,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
           href="https://openai.com/research/whisper"
           target="_blank"
         >
-          OpenAI's Whisper Speech-to-Text Model
+          OpenAI&apos;s Whisper Speech-to-Text Model
         </a>{" "}
         {strings.disclaimer_end}{" "}
         <a
