@@ -247,6 +247,7 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         >
           {strings.disclaimer_include_errors}
         </a>
+        .
       </p>
       {fetchEventsResult}
       <ShowMoreCards isVisible={showMoreEvents}>
