@@ -75,7 +75,7 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
               target="_blank"
               href="https://openai.com/research/whisper"
             >
-              OpenAi's Whisper Speech-to-Text model
+              OpenAi's Whisper Speech-to-Text Model
             </a>{" "}
             {strings.disclaimer_end}{" "}
             <a
