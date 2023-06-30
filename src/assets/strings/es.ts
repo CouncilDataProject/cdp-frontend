@@ -96,7 +96,7 @@ const es = {
   disclaimer_include_errors: "incluir errores",
   disclaimer_footer_start: "En muchos casos, Council Data Project utiliza un",
   disclaimer_footer_end:
-    "modelo perfeccionado para la generación de transcripciones de eventos. Entendemos que las transcripciones pueden incluir errores. Si es un experto en aprendizaje automático y desea ayudar a mejorar nuestro sistema para generar transcripciones, comuníquese con nosotros en GitHub.",
+    "Si es un experto en aprendizaje automático y desea ayudar a mejorar nuestros sistemas para generar transcripciones (¡o algo más!), comuníquese con nosotros en GitHub.",
   copy_button: "Copiar texto",
   donate: "Donar",
 };
