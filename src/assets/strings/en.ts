@@ -93,7 +93,6 @@ const en = {
   disclaimer_start: "Council Data Project utilizes",
   disclaimer_end: "model for generation of event transcripts. The produced transcripts may",
   disclaimer_include_errors: "include errors",
-  disclaimer_footer_start: "In many cases, Council Data Project utilizes a fine-tuned",
   disclaimer_footer_end:
     "If you are a machine learning expert and wish to help improve our systems for generating transcripts (or something else!), please reach out to us on GitHub.",
   copy_button: "Copy text",

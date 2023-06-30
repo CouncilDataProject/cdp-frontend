@@ -95,7 +95,6 @@ const de = {
   disclaimer_end:
     "Modell zur Generierung von Ereignistranskripten. Die erstellten Transkripte können",
   disclaimer_include_errors: "Fehler enthalten",
-  disclaimer_footer_start: "In vielen Fällen verwendet Council Data Project ein fein abgestimmtes",
   disclaimer_footer_end:
     "Wenn Sie ein Experte für maschinelles Lernen sind und dabei helfen möchten, unsere Systeme zur Generierung von Transkripten (oder etwas anderem!) zu verbessern, wenden Sie sich bitte über GitHub an uns.",
   copy_button: "Text kopieren",

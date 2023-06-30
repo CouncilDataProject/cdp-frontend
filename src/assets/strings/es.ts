@@ -94,7 +94,6 @@ const es = {
   disclaimer_end:
     "modelo para la generación de transcripciones de eventos. Las transcripciones producidas pueden",
   disclaimer_include_errors: "incluir errores",
-  disclaimer_footer_start: "En muchos casos, Council Data Project utiliza un",
   disclaimer_footer_end:
     "Si es un experto en aprendizaje automático y desea ayudar a mejorar nuestros sistemas para generar transcripciones (¡o algo más!), comuníquese con nosotros en GitHub.",
   copy_button: "Copiar texto",
