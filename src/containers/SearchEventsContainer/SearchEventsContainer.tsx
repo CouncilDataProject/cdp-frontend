@@ -234,12 +234,20 @@ const SearchEventsContainer: FC<SearchEventsContainerData> = ({
         {strings.disclaimer_start}{" "}
         <a
           rel="noopener noreferrer license external"
-          href="https://cloud.google.com/speech-to-text"
+          href="https://openai.com/research/whisper"
           target="_blank"
         >
-          Google Speech-to-Text
+          OpenAI&apos;s Whisper Speech-to-Text Model
         </a>{" "}
-        {strings.disclaimer_end}
+        {strings.disclaimer_end}{" "}
+        <a
+          rel="noopener noreferrer license external"
+          href="https://cdn.openai.com/papers/whisper.pdf"
+          target="_blank"
+        >
+          {strings.disclaimer_include_errors}
+        </a>
+        .
       </p>
       {fetchEventsResult}
       <ShowMoreCards isVisible={showMoreEvents}>

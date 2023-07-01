@@ -90,11 +90,11 @@ const en = {
   history: "History",
   minutes: "Minutes",
   go_to_matter_details: "Go to Full Legislation Details",
-  disclaimer_start: "To provide event transcripts at low-cost, Council Data Project uses",
-  disclaimer_end: "for transcription. Event transcripts may include errors.",
-  disclaimer_footer_start: "In many cases, Council Data Project utilizes a fine-tuned",
+  disclaimer_start: "Council Data Project utilizes",
+  disclaimer_end: "model for generation of event transcripts. The produced transcripts may",
+  disclaimer_include_errors: "include errors",
   disclaimer_footer_end:
-    "model for generation of event transcripts. We understand that transcripts may include errors. If you are a machine learning expert and wish to help improve our system for generating transcripts, please reach out to us on GitHub.",
+    "If you are a machine learning expert and wish to help improve our systems for generating transcripts (or something else!), please reach out to us on GitHub.",
   copy_button: "Copy text",
   donate: "Donate",
 };

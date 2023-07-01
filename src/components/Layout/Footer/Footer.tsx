@@ -69,15 +69,23 @@ const Footer: FC<FooterProps> = ({ footerLinksSections }: FooterProps) => {
 
         <nav className="mzp-c-footer-secondary">
           <p>
-            {strings.disclaimer_footer_start}{" "}
+            {strings.disclaimer_start}{" "}
             <a
               rel="noopener noreferrer license external"
               target="_blank"
-              href="https://cloud.google.com/speech-to-text"
+              href="https://openai.com/research/whisper"
             >
-              Google Speech-to-Text
+              OpenAI&apos;s Whisper Speech-to-Text Model
             </a>{" "}
-            {strings.disclaimer_footer_end}
+            {strings.disclaimer_end}{" "}
+            <a
+              rel="noopener noreferrer license external"
+              href="https://cdn.openai.com/papers/whisper.pdf"
+              target="_blank"
+            >
+              {strings.disclaimer_include_errors}
+            </a>
+            . {strings.disclaimer_footer_end}
           </p>
 
           <div className="mzp-c-footer-legal mzp-c-footer-license">

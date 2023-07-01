@@ -104,7 +104,7 @@ export interface MasterStringsList extends LocalizedStringsMethods {
   go_to_matter_details: string;
   disclaimer_start: string;
   disclaimer_end: string;
-  disclaimer_footer_start: string;
+  disclaimer_include_errors: string;
   disclaimer_footer_end: string;
   copy_button: string;
   donate: string;
