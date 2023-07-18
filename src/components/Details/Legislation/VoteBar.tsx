@@ -41,7 +41,7 @@ const VoteBar: FC<VoteBarProps> = ({
 
   const votesLinks = votes.map((vote, i) => (
     <div key={`${i}_${vote.id}_vote`} style={{ marginTop: 4, display: "flex" }}>
-      <Link to={`/people/${vote.id}`} style={{ marginLeft: 12, flex: 1 }}>
+      <Link to={`/people/${vote.person?.id}`} style={{ marginLeft: 12, flex: 1 }}>
         {vote.person?.name}
       </Link>
       <DecisionResult result={vote.decision} />
