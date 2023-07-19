@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import { screenWidths } from "../../../styles/mediaBreakpoints";
 import Vote from "../../../models/Vote";
 import { DecisionResult } from "../../Shared";
+import ExpandIcon from "../../Shared/ExpandIcon";
+import CollapseIcon from "../../Shared/CollapseIcon";
+import { compact } from "lodash";
 
 const Spacer = styled.div({ flex: 4 });
 
@@ -50,22 +53,39 @@ const VoteBar: FC<VoteBarProps> = ({
   ));
   const directionality = compactForm ? "column" : "row";
   const barSize = compactForm ? "100%" : "80%";
-  const textSize = compactForm ? "100%" : "20%";
+  const alignedCenter = compactForm ? "normal" : "center";
   return (
-    <div style={{ display: "flex", flexDirection: "column", marginTop: 16 }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", marginTop: 16, cursor: "pointer" }}
+      onClick={() => {
+        setExpanded(!expanded);
+      }}
+    >
       <div
-        style={{ display: "flex", flexDirection: directionality, flex: 1, alignItems: "center" }}
+        style={{
+          display: "flex",
+          flexDirection: directionality,
+          flex: 1,
+          alignItems: alignedCenter,
+        }}
       >
-        <div
-          style={{ height, position: "relative", width: barSize, cursor: "pointer" }}
-          onClick={() => {
-            setExpanded(!expanded);
-          }}
-        >
+        <div style={{ height, position: "relative", width: barSize }}>
           <ColorBar className={statusColor} width={`${percentage}%`} height={height} zIndex={2} />
           <ColorBar className="cdp-bg-neutral-grey" width={`100%`} height={height} zIndex={1} />
         </div>
-        <b style={{ marginLeft: 16, width: textSize }}>{label}</b>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            flex: "flex-grow",
+            alignItems: "center",
+            justifyContent: "start",
+          }}
+        >
+          <b style={{ marginLeft: 16, marginRight: 8 }}>{label}</b>
+          {!expanded && <ExpandIcon />}
+          {expanded && <CollapseIcon />}
+        </div>
       </div>
       {expanded && votesLinks}
     </div>
