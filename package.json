@@ -48,7 +48,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "To Huynh, Brian Ledbetter, Hawk Ticehurst, Nic Weber, Jackson Maxfield Brown",
+  "author": "To Huynh, Brian Ledbetter, Hawk Ticehurst, Nic Weber, Eva Maxfield Brown",
   "license": "MIT",
   "devDependencies": {
     "@storybook/addon-a11y": "^6.4.4",
